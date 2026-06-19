@@ -1,0 +1,15 @@
+# Cloudflare Pages _headers file
+# Docs: https://developers.cloudflare.com/pages/configuration/headers/
+
+# ── Prevent indexing of *.pages.dev preview deployments ──────────────────────
+# This stops Google from indexing your staging/preview URLs.
+# Your production domain (set via Custom Domain in Cloudflare Pages) is unaffected.
+https://*.pages.dev/*
+  X-Robots-Tag: noindex
+
+# ── Security headers for all pages ───────────────────────────────────────────
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: SAMEORIGIN
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()

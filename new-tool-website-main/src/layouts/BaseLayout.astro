@@ -1,0 +1,117 @@
+---
+/**
+ * BaseLayout — shared shell for every page.
+ *
+ * Props:
+ *   title          — <title> tag content (include primary keyword)
+ *   description    — meta description, keep under 160 chars
+ *   canonical      — canonical URL (defaults to current page URL)
+ *   ogImage        — absolute URL to OG image (optional)
+ *   structuredData — JSON-LD object or array (optional)
+ *   noindex        — set true to add noindex meta (e.g. 404)
+ */
+
+import '@fontsource/geist-sans/400.css';
+import '@fontsource/geist-sans/500.css';
+import '@fontsource/geist-sans/600.css';
+import '@fontsource/geist-mono/400.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  canonical?: string;
+  ogImage?: string;
+  structuredData?: object | object[];
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description,
+  canonical = Astro.url.href,
+  ogImage = '/og-default.png',
+  structuredData,
+  noindex = false,
+} = Astro.props;
+
+const siteName = 'GST HSN Lookup';
+const fullTitle = title.includes(siteName) ? title : `${title} | ${siteName}`;
+
+// Serialise JSON-LD safely
+const jsonLd = structuredData ? JSON.stringify(structuredData) : null;
+---
+
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Primary SEO -->
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:locale" content="en_IN" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <!-- Fonts are now imported in BaseLayout setup script via @fontsource -->
+
+    <!-- JSON-LD Structured Data -->
+    {jsonLd && <script type="application/ld+json" set:html={jsonLd} />}
+
+    <!-- ─── Google Analytics 4 ────────────────────────────────────────────────
+         TODO: Replace G-XXXXXXXXXX with your real GA4 Measurement ID.
+         You can find it in Google Analytics → Admin → Data Streams.
+    ──────────────────────────────────────────────────────────────────────── -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      // @ts-nocheck
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX');
+    </script>
+
+    <!-- Dark mode: read preference before paint to avoid flash -->
+    <script is:inline>
+      (function () {
+        const stored = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (stored === 'dark' || (!stored && prefersDark)) {
+          document.documentElement.classList.add('dark');
+        }
+      })();
+    </script>
+  </head>
+
+  <body class="min-h-screen flex flex-col bg-surface text-base antialiased">
+    <Header />
+
+    <main class="flex-1">
+      <slot />
+    </main>
+
+    <Footer />
+  </body>
+</html>

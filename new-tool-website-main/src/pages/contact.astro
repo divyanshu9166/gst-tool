@@ -1,0 +1,156 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'Contact Us | GST HSN Lookup';
+const description = 'Contact the GST HSN Lookup team — report errors, suggest HSN codes, or ask questions about our free GST tools.';
+
+// TODO: Replace this with your actual contact email address
+const CONTACT_EMAIL = 'contact@example.com';
+---
+
+<BaseLayout {title} {description}>
+  <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-12">
+    <div class="mb-10">
+      <h1 class="text-3xl sm:text-4xl font-bold text-base mb-3">Contact Us</h1>
+      <p class="text-muted">
+        Have a question, found an error, or want to suggest an HSN code? We'd love to hear from you.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-5 gap-10">
+
+      <!-- Contact form -->
+      <div class="lg:col-span-3">
+        <form
+          id="contact-form"
+          action={`mailto:${CONTACT_EMAIL}`}
+          method="post"
+          enctype="text/plain"
+          class="space-y-5"
+          novalidate
+        >
+          <div>
+            <label for="name" class="block text-sm font-medium text-base mb-1.5">
+              Your Name <span class="text-red-500" aria-hidden="true">*</span>
+            </label>
+            <input
+              id="name"
+              name="name"
+              type="text"
+              required
+              autocomplete="name"
+              placeholder="Rahul Sharma"
+              class="w-full rounded-lg border border-base bg-subtle px-4 py-3 text-sm focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 transition-colors"
+            />
+          </div>
+
+          <div>
+            <label for="email" class="block text-sm font-medium text-base mb-1.5">
+              Email Address <span class="text-red-500" aria-hidden="true">*</span>
+            </label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              required
+              autocomplete="email"
+              placeholder="rahul@example.com"
+              class="w-full rounded-lg border border-base bg-subtle px-4 py-3 text-sm focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 transition-colors"
+            />
+          </div>
+
+          <div>
+            <label for="subject" class="block text-sm font-medium text-base mb-1.5">
+              Subject
+            </label>
+            <select
+              id="subject"
+              name="subject"
+              class="w-full rounded-lg border border-base bg-subtle px-4 py-3 text-sm focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 transition-colors"
+            >
+              <option value="">Select a topic…</option>
+              <option value="error-report">Report an error / incorrect data</option>
+              <option value="hsn-suggestion">Suggest an HSN/SAC code</option>
+              <option value="feature-request">Feature request</option>
+              <option value="general">General enquiry</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="message" class="block text-sm font-medium text-base mb-1.5">
+              Message <span class="text-red-500" aria-hidden="true">*</span>
+            </label>
+            <textarea
+              id="message"
+              name="message"
+              required
+              rows="5"
+              placeholder="Describe your question or feedback…"
+              class="w-full rounded-lg border border-base bg-subtle px-4 py-3 text-sm focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 transition-colors resize-y"
+            ></textarea>
+          </div>
+
+          <button
+            type="submit"
+            class="w-full rounded-lg bg-accent px-6 py-3 text-sm font-semibold text-white hover:opacity-90 transition-opacity"
+          >
+            Send Message
+          </button>
+
+          <p class="text-xs text-muted text-center">
+            This form opens your email client. Alternatively, email us directly at
+            <a href={`mailto:${CONTACT_EMAIL}`} class="text-accent hover:underline">{CONTACT_EMAIL}</a>.
+          </p>
+        </form>
+      </div>
+
+      <!-- Contact info sidebar -->
+      <div class="lg:col-span-2 space-y-6">
+        <div class="rounded-xl border border-base bg-subtle p-5">
+          <h2 class="font-semibold text-base mb-4">Other Ways to Reach Us</h2>
+          <div class="space-y-3 text-sm text-muted">
+            <div class="flex gap-3">
+              <span class="text-lg" aria-hidden="true">📧</span>
+              <div>
+                <div class="font-medium text-base">Email</div>
+                <a href={`mailto:${CONTACT_EMAIL}`} class="text-accent hover:underline">{CONTACT_EMAIL}</a>
+              </div>
+            </div>
+            <div class="flex gap-3">
+              <span class="text-lg" aria-hidden="true">⏱️</span>
+              <div>
+                <div class="font-medium text-base">Response Time</div>
+                <div>We aim to respond within 2–3 business days.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="rounded-xl border border-base bg-subtle p-5">
+          <h2 class="font-semibold text-base mb-3">Common Questions</h2>
+          <ul class="space-y-2 text-sm text-muted">
+            <li>
+              <a href="/faq" class="text-accent hover:underline">→ View our FAQ page</a>
+            </li>
+            <li>
+              <a href="/gst-calculator" class="text-accent hover:underline">→ Use the GST Calculator</a>
+            </li>
+            <li>
+              <a href="/hsn-code-lookup" class="text-accent hover:underline">→ Search HSN Codes</a>
+            </li>
+            <li>
+              <a href="/gstin-validator" class="text-accent hover:underline">→ Validate a GSTIN</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="rounded-xl border border-base bg-subtle p-5 text-sm text-muted">
+          <p>
+            <strong>Note:</strong> We cannot provide personalised tax advice. For specific GST queries, please consult a qualified Chartered Accountant or GST practitioner.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

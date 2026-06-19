@@ -1,0 +1,116 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'GST Return Due Dates Calendar 2025 — Deadlines & Penalties';
+const description = 'Track GST return due dates for GSTR-1, GSTR-3B, GSTR-9, and CMP-08. Avoid late fees and penalties by filing before the deadline.';
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: 'GST Return Due Dates Calendar',
+  url: `${Astro.site?.toString() ?? 'https://example.com'}/gst-due-dates`,
+  description: 'Track all important GST return filing due dates. Never miss a deadline.',
+};
+
+const dueDates = [
+  {
+    form: 'GSTR-1',
+    description: 'Details of outward supplies of goods and services.',
+    frequency: 'Monthly',
+    deadline: '11th of the next month',
+    applicableTo: 'Turnover > ₹5 Crore (or not opted for QRMP)',
+  },
+  {
+    form: 'GSTR-1 (IFF)',
+    description: 'Invoice Furnishing Facility for QRMP scheme.',
+    frequency: 'Monthly (M1, M2)',
+    deadline: '13th of the next month',
+    applicableTo: 'Opted for QRMP scheme',
+  },
+  {
+    form: 'GSTR-3B',
+    description: 'Summary return and tax payment.',
+    frequency: 'Monthly',
+    deadline: '20th of the next month',
+    applicableTo: 'Turnover > ₹5 Crore (or not opted for QRMP)',
+  },
+  {
+    form: 'GSTR-3B (QRMP)',
+    description: 'Summary return for QRMP scheme.',
+    frequency: 'Quarterly',
+    deadline: '22nd or 24th of the month succeeding the quarter',
+    applicableTo: 'Opted for QRMP scheme',
+  },
+  {
+    form: 'CMP-08',
+    description: 'Statement for payment of self-assessed tax.',
+    frequency: 'Quarterly',
+    deadline: '18th of the month succeeding the quarter',
+    applicableTo: 'Composition Scheme Taxpayers',
+  },
+  {
+    form: 'GSTR-9',
+    description: 'Annual Return.',
+    frequency: 'Annually',
+    deadline: '31st December of the next financial year',
+    applicableTo: 'Regular Taxpayers (Turnover > ₹2 Crore)',
+  },
+];
+---
+
+<BaseLayout {title} {description} {structuredData}>
+  <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-12 sm:py-20">
+    <div class="mb-12 text-center">
+      <h1 class="text-4xl sm:text-5xl font-semibold tracking-[-1.28px] text-base mb-4">GST Due Dates Calendar</h1>
+      <p class="text-[16px] text-muted max-w-2xl mx-auto leading-relaxed">
+        Stay compliant. Track the statutory due dates for all major GST returns. Missing deadlines attracts a late fee of up to ₹50 per day and 18% p.a. interest.
+      </p>
+    </div>
+
+    <!-- Due Dates Table/Cards -->
+    <div class="rounded-[8px] border border-base bg-surface shadow-[0_2px_2px_#0000000a,0_8px_8px_-8px_#0000000a] overflow-hidden">
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="bg-subtle border-b border-base text-[12px] font-mono text-muted uppercase tracking-wider">
+              <th class="px-6 py-4 font-medium">Return Form</th>
+              <th class="px-6 py-4 font-medium">Frequency</th>
+              <th class="px-6 py-4 font-medium">Due Date</th>
+              <th class="px-6 py-4 font-medium">Applicable To</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-base">
+            {dueDates.map((item) => (
+              <tr class="hover:bg-subtle/50 transition-colors">
+                <td class="px-6 py-5">
+                  <div class="font-semibold text-base text-[16px] tracking-[-0.28px]">{item.form}</div>
+                  <div class="text-[13px] text-muted mt-1">{item.description}</div>
+                </td>
+                <td class="px-6 py-5 text-[14px] text-base">
+                  <span class="inline-flex items-center rounded-full bg-accent/10 px-2.5 py-0.5 text-[12px] font-medium text-accent">
+                    {item.frequency}
+                  </span>
+                </td>
+                <td class="px-6 py-5 text-[14px] font-medium text-base">
+                  {item.deadline}
+                </td>
+                <td class="px-6 py-5 text-[14px] text-muted">
+                  {item.applicableTo}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="mt-8 flex justify-center">
+      <a
+        href="/late-fee-calculator"
+        class="inline-flex items-center justify-center rounded-full border border-base bg-surface px-6 py-3 text-[14px] font-medium text-base hover:bg-subtle active:scale-95 transition-all shadow-sm"
+      >
+        Missed a deadline? Use the Late Fee Calculator →
+      </a>
+    </div>
+  </div>
+</BaseLayout>

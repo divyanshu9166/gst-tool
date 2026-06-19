@@ -1,0 +1,423 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'GST HSN Code Finder 2026 | HSN & SAC Code Lookup India';
+const description = 'Search HSN codes for goods and SAC codes for services with their GST rates. Instant offline search by code or description. Free GST tool for India.';
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'HSN / SAC Code Lookup',
+    url: `${Astro.site?.toString() ?? 'https://example.com'}/hsn-code-lookup`,
+    description: 'Search HSN codes for goods and SAC codes for services with GST rates. Instant offline filtering.',
+    applicationCategory: 'FinanceApplication',
+    operatingSystem: 'Any',
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'INR',
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'How to find HSN code 2026?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'You can find the HSN code for any product by searching its name or description in an HSN lookup tool. The tool will instantly return the 4, 6, or 8-digit HSN code along with the applicable GST rate.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'What is the difference between HSN and SAC?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'HSN (Harmonized System of Nomenclature) is used to classify goods, whereas SAC (Services Accounting Code) is used exclusively to classify services under the GST regime in India.',
+        },
+      }
+    ]
+  }
+];
+
+const categories = [
+  "All Categories",
+  "Live Animals; Animal Products",
+  "Vegetable Products",
+  "Animal or Vegetable Fats and Oils",
+  "Prepared Foodstuffs; Beverages; Tobacco",
+  "Mineral Products",
+  "Chemical Industries",
+  "Plastics and Rubber",
+  "Hides, Skins, and Leather",
+  "Wood and Wood Products",
+  "Paper and Paperboard",
+  "Textiles and Textile Articles",
+  "Footwear and Headgear",
+  "Stone, Plaster, Cement, Ceramic, Glass",
+  "Precious Metals and Stones",
+  "Base Metals and Articles",
+  "Machinery and Electrical Equipment",
+  "Vehicles and Transport Equipment",
+  "Optical, Medical, Musical Instruments",
+  "Arms and Ammunition",
+  "Miscellaneous Manufactured Articles",
+  "Works of Art and Antiques",
+  "Services (SAC)",
+  "Other"
+];
+---
+
+<BaseLayout {title} {description} {structuredData}>
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Page header -->
+    <div class="mb-10 text-center">
+      <h1 class="text-3xl sm:text-4xl font-bold text-base mb-3">GST HSN Code Finder</h1>
+      <p class="text-[16px] text-muted max-w-2xl mx-auto leading-relaxed">
+        <strong>What is an HSN Code?</strong> An HSN (Harmonized System of Nomenclature) code is a 6-digit uniform code that classifies over 12,000 products for taxation purposes. Use our free tool to instantly search by code or description and find the exact GST slab.
+      </p>
+    </div>
+
+    <!-- Main Layout: Sidebar + Content -->
+    <div class="flex flex-col lg:flex-row gap-8">
+      
+      <!-- Sidebar Categories -->
+      <aside class="w-full lg:w-72 shrink-0">
+        <h3 class="text-xs font-bold text-muted uppercase tracking-wider mb-4 px-2 hidden lg:block">Browse by Topics</h3>
+        
+        <!-- Mobile Dropdown -->
+        <div class="block lg:hidden mb-4">
+          <label for="category-select" class="sr-only">Select Category</label>
+          <select id="category-select" class="w-full rounded-xl border border-base bg-surface px-4 py-3 text-[15px] focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20">
+            {categories.map(cat => (
+              <option value={cat}>{cat}</option>
+            ))}
+          </select>
+        </div>
+
+        <!-- Desktop List -->
+        <div class="hidden lg:block space-y-1" id="category-list">
+          {categories.map(cat => (
+            <button 
+              data-cat={cat} 
+              class="category-btn w-full text-left px-3 py-2.5 rounded-lg text-[14px] transition-colors border border-transparent aria-[pressed=true]:bg-accent/10 aria-[pressed=true]:text-accent aria-[pressed=true]:border-accent/20 aria-[pressed=true]:font-medium hover:bg-subtle text-muted hover:text-base"
+              aria-pressed={cat === 'All Categories' ? 'true' : 'false'}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+      </aside>
+
+      <!-- Content Area -->
+      <div class="flex-1 min-w-0">
+        
+        <!-- Loading State -->
+        <div id="loading-state" class="py-12 text-center border border-base rounded-xl bg-surface">
+            <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-subtle border-t-accent mb-4"></div>
+            <p class="font-medium text-base">Loading 12,000+ Codes...</p>
+            <p class="text-sm text-muted">This will only take a second.</p>
+        </div>
+
+        <!-- Tool Container -->
+        <div id="tool-container" class="hidden">
+          <!-- Search & Filters -->
+          <div class="mb-6 flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+            <div class="relative w-full max-w-lg">
+              <svg
+                class="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted pointer-events-none"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+                aria-hidden="true"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" />
+              </svg>
+              <input
+                id="hsn-search"
+                type="search"
+                placeholder="Search by code (e.g. 7108) or description..."
+                class="w-full rounded-xl border border-base bg-surface pl-12 pr-4 py-3 text-[15px] focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 transition-all shadow-sm"
+                autocomplete="off"
+              />
+            </div>
+
+            <!-- Filter tabs -->
+            <div class="flex gap-2 shrink-0 bg-surface p-1 border border-base rounded-lg" role="group" aria-label="Filter by type">
+              <button
+                data-filter="all"
+                class="type-btn rounded-md px-3 py-1.5 text-sm font-medium transition-colors bg-accent text-white shadow-sm"
+              >All</button>
+              <button
+                data-filter="HSN"
+                class="type-btn rounded-md px-3 py-1.5 text-sm font-medium transition-colors text-muted hover:text-base"
+              >HSN</button>
+              <button
+                data-filter="SAC"
+                class="type-btn rounded-md px-3 py-1.5 text-sm font-medium transition-colors text-muted hover:text-base"
+              >SAC</button>
+            </div>
+          </div>
+
+          <p class="mt-[-10px] mb-4 text-xs text-muted">
+            Showing <span id="result-count">0</span> codes
+          </p>
+
+          <!-- Results table -->
+          <div
+            id="hsn-results"
+            class="rounded-xl border border-base overflow-hidden shadow-sm bg-surface"
+            role="region"
+            aria-label="HSN/SAC code search results"
+          >
+            <!-- Table header -->
+            <div class="hidden sm:grid grid-cols-12 gap-4 px-5 py-3 bg-subtle border-b border-base text-xs font-semibold text-muted uppercase tracking-wide">
+              <div class="col-span-2">Code</div>
+              <div class="col-span-2">Type</div>
+              <div class="col-span-6">Description</div>
+              <div class="col-span-2 text-right">GST Rate</div>
+            </div>
+
+            <!-- Rows rendered by JS -->
+            <div id="hsn-rows" class="divide-y divide-base">
+              <!-- Populated by JS -->
+            </div>
+
+            <!-- Empty state -->
+            <div id="hsn-empty" class="hidden py-16 text-center">
+              <div class="text-4xl mb-3" aria-hidden="true">🔍</div>
+              <p class="font-medium text-base">No codes found</p>
+              <p class="text-sm text-muted mt-1">Try a different search term or clear the filters.</p>
+            </div>
+          </div>
+          
+          <!-- Load More Button -->
+          <div class="mt-6 text-center">
+            <button id="load-more-btn" class="hidden rounded-xl border border-base bg-surface px-6 py-2.5 text-sm font-medium hover:border-accent/50 hover:text-base transition-colors shadow-sm">
+              Load More
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Info section & Semantic Content -->
+    <div class="mx-auto max-w-5xl mt-16 border-t border-base pt-12">
+      <h2 class="text-[28px] tracking-[-1px] font-semibold text-base mb-6">Complete Guide to HSN and SAC Codes in 2026</h2>
+      
+      <div class="prose prose-neutral dark:prose-invert max-w-none text-[16px] leading-[24px]">
+        <p>
+          Proper classification of goods and services is the backbone of GST compliance. When you generate an e-way bill or an e-invoice, entering the correct code ensures you charge the right tax rate and avoids penalties from the tax authorities.
+        </p>
+
+        <h3 class="text-[20px] font-semibold text-base mt-8 mb-4 tracking-[-0.6px]">What is the Mandatory HSN Code limit?</h3>
+        <p>
+          The CBIC (Central Board of Indirect Taxes and Customs) mandates the number of digits you must mention on your tax invoices based on your Annual Aggregate Turnover (AATO) in the preceding financial year:
+        </p>
+        <ul class="list-disc pl-5 mt-2 space-y-1">
+          <li><strong>Turnover up to ₹5 Crore:</strong> 4-digit HSN code is mandatory for B2B tax invoices. It is optional for B2C invoices.</li>
+          <li><strong>Turnover above ₹5 Crore:</strong> 6-digit HSN code is mandatory for all invoices (B2B and B2C).</li>
+        </ul>
+
+        <h3 class="text-[20px] font-semibold text-base mt-8 mb-4 tracking-[-0.6px]">How to use the GST HSN Code Finder</h3>
+        <p>
+          Our <strong>GST HSN code finder 2026</strong> makes it incredibly easy. You can browse by over 20 categories or start typing in the search bar. You can search using the numeric code (e.g., <code>8517</code>) or by simply describing the item (e.g., <code>mobile phone</code>). The tool instantly filters the entire Indian tariff schedule locally on your device, without sending your search data to any server.
+        </p>
+
+        <div class="mt-8 rounded-[8px] bg-subtle border border-base p-5 text-[14px] text-muted">
+          <p><strong>Disclaimer:</strong> While we strive to keep our database of 12,000+ codes current for 2026, GST rates and classifications are frequently updated during GST Council meetings. Always verify against official CBIC notifications before raising a high-value tax invoice.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  // ── Client-side logic for massive HSN dataset ──────────────────────────────
+  let allCodes = [];
+  
+  const searchInput = document.getElementById('hsn-search');
+  const rowsContainer = document.getElementById('hsn-rows');
+  const emptyState = document.getElementById('hsn-empty');
+  const resultCount = document.getElementById('result-count');
+  const loadMoreBtn = document.getElementById('load-more-btn');
+  const loadingState = document.getElementById('loading-state');
+  const toolContainer = document.getElementById('tool-container');
+  
+  const typeBtns = document.querySelectorAll('.type-btn');
+  const categoryBtns = document.querySelectorAll('.category-btn');
+  const categorySelect = document.getElementById('category-select');
+
+  let currentTypeFilter = 'all';
+  let currentCategory = 'All Categories';
+  let debounceTimer = null;
+  
+  let currentFilteredCodes = [];
+  let displayLimit = 100;
+
+  // Initialize and fetch data
+  async function init() {
+    try {
+      const res = await fetch('/data/hsn_full.json');
+      allCodes = await res.json();
+      
+      loadingState.classList.add('hidden');
+      toolContainer.classList.remove('hidden');
+      
+      applyFilter();
+    } catch (err) {
+      loadingState.innerHTML = '<p class="text-red-500 py-8">Failed to load dataset. Please check your connection and refresh.</p>';
+      console.error(err);
+    }
+  }
+
+  function rateBadgeClass(rate) {
+    if (rate === 0) return 'badge-rate-0';
+    if (rate <= 5) return 'badge-rate-5';
+    if (rate <= 12) return 'badge-rate-12';
+    if (rate <= 18) return 'badge-rate-18';
+    return 'badge-rate-28';
+  }
+
+  function renderRows() {
+    if (!rowsContainer || !emptyState || !resultCount) return;
+
+    resultCount.textContent = String(currentFilteredCodes.length);
+    
+    // Virtualization / Dom Limit to prevent freeze
+    const sliced = currentFilteredCodes.slice(0, displayLimit);
+    
+    if (currentFilteredCodes.length > displayLimit) {
+        if(loadMoreBtn) loadMoreBtn.classList.remove('hidden');
+    } else {
+        if(loadMoreBtn) loadMoreBtn.classList.add('hidden');
+    }
+
+    if (currentFilteredCodes.length === 0) {
+      rowsContainer.innerHTML = '';
+      emptyState.classList.remove('hidden');
+      return;
+    }
+
+    emptyState.classList.add('hidden');
+
+    rowsContainer.innerHTML = sliced.map((entry) => `
+      <div class="grid grid-cols-1 sm:grid-cols-12 gap-1 sm:gap-4 px-5 py-3 hover:bg-subtle transition-colors items-center">
+        <div class="sm:col-span-2 flex items-center gap-2">
+          <code class="font-mono text-sm font-semibold text-base">${entry.c}</code>
+        </div>
+        <div class="sm:col-span-2 flex items-center">
+          <span class="rounded-full px-2 py-0.5 text-xs font-medium ${entry.t === 'HSN' ? 'badge-hsn' : 'badge-sac'}">
+            ${entry.t}
+          </span>
+          <span class="text-[10px] ml-1 text-muted sm:hidden">Ch: ${entry.ch}</span>
+        </div>
+        <div class="sm:col-span-6 flex items-center text-sm text-base leading-snug break-words">
+          <div>
+            ${entry.d}
+            <div class="text-[11px] text-muted mt-0.5 hidden sm:block">${entry.cat} (Chapter ${entry.ch})</div>
+          </div>
+        </div>
+        <div class="sm:col-span-2 flex sm:justify-end items-center mt-2 sm:mt-0">
+          <span class="rounded-full px-2.5 py-0.5 text-xs font-semibold ${rateBadgeClass(entry.r)}">
+            ${entry.r}% GST
+          </span>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function applyFilter() {
+    const query = (searchInput?.value ?? '').trim().toLowerCase();
+    let filtered = allCodes;
+
+    // Type filter
+    if (currentTypeFilter !== 'all') {
+      filtered = filtered.filter((e) => e.t === currentTypeFilter);
+    }
+    
+    // Category filter
+    if (currentCategory !== 'All Categories') {
+      filtered = filtered.filter((e) => e.cat === currentCategory);
+    }
+
+    // Text search
+    if (query.length > 0) {
+      filtered = filtered.filter(
+        (e) =>
+          e.c.toLowerCase().includes(query) ||
+          e.d.toLowerCase().includes(query)
+      );
+    }
+
+    currentFilteredCodes = filtered;
+    displayLimit = 100; // Reset limit on new filter
+    renderRows();
+  }
+
+
+
+  // ── Event listeners ───────────────────────────────────────────────────────
+  
+  if (loadMoreBtn) {
+    loadMoreBtn.addEventListener('click', () => {
+        displayLimit += 100;
+        renderRows();
+    });
+  }
+  
+  searchInput?.addEventListener('input', () => {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(applyFilter, 200);
+  });
+
+  typeBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      currentTypeFilter = btn.dataset.filter ?? 'all';
+      
+      typeBtns.forEach((b) => {
+        const isActive = b === btn;
+        b.classList.toggle('bg-accent', isActive);
+        b.classList.toggle('text-white', isActive);
+        b.classList.toggle('shadow-sm', isActive);
+        b.classList.toggle('text-muted', !isActive);
+        b.classList.toggle('hover:text-base', !isActive);
+      });
+      applyFilter();
+    });
+  });
+
+  // Desktop Categories
+  categoryBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      currentCategory = btn.dataset.cat;
+      
+      categoryBtns.forEach((b) => {
+        const isActive = b === btn;
+        b.setAttribute('aria-pressed', String(isActive));
+      });
+      
+      if(categorySelect) categorySelect.value = currentCategory;
+      applyFilter();
+    });
+  });
+  
+  // Mobile Categories
+  categorySelect?.addEventListener('change', (e) => {
+      currentCategory = e.target.value;
+      
+      categoryBtns.forEach((b) => {
+        const isActive = b.dataset.cat === currentCategory;
+        b.setAttribute('aria-pressed', String(isActive));
+      });
+      
+      applyFilter();
+  });
+
+  // Start!
+  init();
+</script>

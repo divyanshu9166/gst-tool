@@ -1,0 +1,346 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'GST Composition Scheme Limit & Tax Calculator 2026';
+const description = 'Check your eligibility for the GST Composition Scheme and instantly calculate your flat tax liability (1%, 5%, 6%) for small businesses in India.';
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Composition Scheme Calculator',
+    url: Astro.site?.toString() ? `${Astro.site}composition-scheme-calculator` : 'https://example.com/composition-scheme-calculator',
+    description: 'Calculate GST Composition Scheme eligibility and flat tax liability.',
+    applicationCategory: 'FinanceApplication',
+    operatingSystem: 'Any',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What is the turnover limit for the GST Composition Scheme in 2026?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'For normal states, the turnover limit is ₹1.5 Crore for manufacturers and traders. For special category states (North Eastern states and hill states), the limit is ₹75 Lakhs. For pure service providers across India, the limit is strictly ₹50 Lakhs.',
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'What are the GST rates under the Composition Scheme?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'The flat tax rates are: 1% for Manufacturers and Traders, 5% for Restaurants not serving alcohol, and 6% for Service Providers.',
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Can a composition dealer issue a Tax Invoice?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'No. A composition dealer cannot issue a Tax Invoice or collect GST from customers. They must issue a "Bill of Supply" and pay the flat tax out of their own pocket.',
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Can a Composition Dealer claim Input Tax Credit (ITC)?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'No. A dealer registered under the composition scheme is strictly prohibited from claiming any Input Tax Credit (ITC) on the purchases they make.',
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Can a composition dealer make inter-state sales?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'No. A composition dealer can purchase goods from other states (inter-state purchases), but they are strictly prohibited from selling goods to other states (inter-state sales).',
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Can I sell on Amazon/Flipkart under the Composition Scheme?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'No. Businesses that supply goods through an e-commerce operator who is required to collect Tax Collected at Source (TCS) cannot opt for the Composition Scheme.',
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'What returns does a composition dealer need to file?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Unlike normal taxpayers who file monthly returns, a composition dealer must file a quarterly statement called CMP-08 to pay the tax, and an annual return called GSTR-4.',
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'What happens if my turnover crosses ₹1.5 Crore mid-year?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'The moment your turnover crosses the ₹1.5 Crore limit (or ₹75 Lakh limit in special states) during the financial year, you must immediately transition to the normal GST scheme and start issuing Tax Invoices.',
+        }
+      }
+    ]
+  }
+];
+
+const businessTypes = [
+  { id: 'trader', name: 'Trader / Retailer', rate: 1, limit: 15000000, splLimit: 7500000 },
+  { id: 'manufacturer', name: 'Manufacturer', rate: 1, limit: 15000000, splLimit: 7500000 },
+  { id: 'restaurant', name: 'Restaurant (Non-Alcoholic)', rate: 5, limit: 15000000, splLimit: 7500000 },
+  { id: 'service', name: 'Service Provider / Freelancer', rate: 6, limit: 5000000, splLimit: 5000000 },
+];
+---
+
+<BaseLayout {title} {description} {structuredData}>
+  <div class="mx-auto max-w-3xl px-4 sm:px-6 py-12 lg:py-24">
+    <!-- Header -->
+    <div class="mb-10 text-center">
+      <div class="inline-flex items-center gap-2 rounded-full border border-base bg-surface px-4 py-1.5 text-[12px] font-mono uppercase tracking-wider text-muted mb-4 shadow-[0_1px_1px_#00000005]">
+        <span class="h-1.5 w-1.5 rounded-full bg-accent"></span>
+        100% Offline Tool
+      </div>
+      <h1 class="text-4xl sm:text-5xl font-bold tracking-tight text-base mb-4">
+        Composition Scheme Calculator
+      </h1>
+      <p class="text-[16px] text-muted max-w-xl mx-auto leading-relaxed">
+        Instantly check your eligibility for the GST Composition Scheme and calculate your flat quarterly tax liability.
+      </p>
+    </div>
+
+    <!-- Main Tool Container -->
+    <div class="rounded-[12px] border border-base bg-surface p-6 sm:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] mb-12">
+      <div class="flex flex-col gap-6">
+        
+        <div class="grid grid-cols-1 gap-6">
+          <div class="flex flex-col gap-2">
+            <label for="biz-type" class="text-sm font-semibold text-base">Business Category</label>
+            <select 
+              id="biz-type" 
+              class="w-full rounded-md border border-base bg-surface px-4 py-3 text-[16px] font-medium focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent transition-colors"
+            >
+              <option value="" disabled selected>Select Business Type...</option>
+              {businessTypes.map(b => <option value={b.id}>{b.name} ({b.rate}%)</option>)}
+            </select>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <input type="checkbox" id="spl-category" class="w-5 h-5 rounded border-base text-accent focus:ring-accent" />
+            <label for="spl-category" class="text-sm font-medium text-base cursor-pointer">
+              My business is located in a Special Category State (e.g. North East, Uttarakhand, etc.)
+            </label>
+          </div>
+
+          <div class="flex flex-col gap-2">
+            <label for="turnover" class="text-sm font-semibold text-base">Annual Aggregate Turnover (₹)</label>
+            <input 
+              type="number" 
+              id="turnover" 
+              class="w-full rounded-md border border-base bg-surface px-4 py-3 text-[16px] font-mono focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent transition-colors"
+              placeholder="e.g. 4500000"
+              min="0"
+            />
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Result Card -->
+      <div id="result-card" class="mt-8 hidden overflow-hidden rounded-[8px] border border-base bg-subtle transition-all duration-300">
+        
+        <div id="status-eligible" class="hidden">
+          <div class="p-6">
+            <div class="flex items-center gap-3 mb-4">
+              <span class="flex h-8 w-8 items-center justify-center rounded-full bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400">
+                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+              </span>
+              <h3 class="text-lg font-bold text-green-700 dark:text-green-400">You are Eligible!</h3>
+            </div>
+            
+            <p class="text-sm text-muted mb-6">Based on your turnover, you are eligible to opt for the Composition Scheme.</p>
+            
+            <div class="space-y-4">
+              <div class="flex justify-between items-center text-muted">
+                <span>Applicable Flat Rate:</span>
+                <span class="text-lg font-bold text-base" id="res-rate">0%</span>
+              </div>
+              <div class="flex justify-between items-center pt-4 border-t border-base/50">
+                <span class="text-lg font-bold text-accent">Total Flat Tax Payable:</span>
+                <span class="text-3xl font-mono font-bold text-accent" id="res-tax">₹0</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="border-t border-green-200/50 bg-green-50 dark:bg-green-900/10 dark:border-green-900/30 p-4">
+            <p class="text-sm text-green-700 dark:text-green-400 font-medium">
+              💡 You must pay this out of your own pocket. You cannot collect this tax from your customers or claim any Input Tax Credit (ITC).
+            </p>
+          </div>
+        </div>
+
+        <div id="status-ineligible" class="hidden">
+          <div class="p-6 bg-red-50 dark:bg-red-900/10">
+            <div class="flex items-center gap-3 mb-4">
+              <span class="flex h-8 w-8 items-center justify-center rounded-full bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400">
+                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/></svg>
+              </span>
+              <h3 class="text-lg font-bold text-red-700 dark:text-red-400">Not Eligible</h3>
+            </div>
+            <p class="text-sm text-red-700 dark:text-red-400 font-medium leading-relaxed" id="ineligible-reason"></p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- SEO Content -->
+    <article class="prose prose-neutral dark:prose-invert max-w-none text-[15px] leading-relaxed">
+      <h2 class="text-2xl font-semibold mb-4">Understanding the GST Composition Scheme</h2>
+      <p>
+        The GST Composition Scheme is a simplified, alternate tax payment mechanism designed by the Central Board of Indirect Taxes and Customs (CBIC) specifically for small taxpayers. The primary objective of the scheme is to bring simplicity and reduce the compliance cost for small businesses, startups, and local retailers in India. 
+      </p>
+      <p>
+        Under the normal GST scheme, a business must maintain meticulous records of every purchase and sale, calculate Input Tax Credit (ITC) for hundreds of invoices, and file complex monthly returns (GSTR-1, GSTR-3B). By opting into the Composition Scheme, small businesses can bypass all of this. Instead, they simply calculate their total aggregate turnover for the quarter and pay a small, flat percentage of it directly to the government. Use our <strong>GST Composition Scheme Calculator</strong> to find your exact liability instantly.
+      </p>
+      
+      <h3>Who is Eligible for the Composition Scheme?</h3>
+      <p>
+        Eligibility is determined by your aggregate annual turnover from the preceding financial year and the state in which your principal place of business is located.
+      </p>
+      <ul>
+        <li><strong>Manufacturers and Traders (Goods):</strong> Eligible if the turnover is up to ₹1.5 Crore. However, if the business is located in Special Category States (like Arunachal Pradesh, Assam, Manipur, Meghalaya, Mizoram, Nagaland, Sikkim, Tripura, Himachal Pradesh), the limit is heavily reduced to ₹75 Lakhs.</li>
+        <li><strong>Restaurants:</strong> Eligible if the turnover is up to ₹1.5 Crore. Note: The restaurant must not serve alcohol, as alcoholic liquor for human consumption is outside the purview of GST.</li>
+        <li><strong>Service Providers:</strong> Initially, service providers were excluded from the scheme. However, a dedicated composition scheme was later introduced for pure service providers (like freelancers, consultants, salons) with a strict turnover limit of ₹50 Lakhs.</li>
+      </ul>
+
+      <h3>The Tax Rates (1%, 5%, 6%)</h3>
+      <p>Under the composition scheme, the tax rates are drastically lower than normal GST rates (which range from 5% to 28%). However, the dealer must pay this out of their own pocket:</p>
+      <ul>
+        <li><strong>Manufacturers:</strong> 1% (0.5% CGST + 0.5% SGST) on total turnover.</li>
+        <li><strong>Traders & Retailers:</strong> 1% (0.5% CGST + 0.5% SGST) on the turnover of <em>taxable supplies</em> only.</li>
+        <li><strong>Restaurants:</strong> 5% (2.5% CGST + 2.5% SGST) on total turnover.</li>
+        <li><strong>Service Providers:</strong> 6% (3% CGST + 3% SGST) on total turnover.</li>
+      </ul>
+
+      <h3>Strict Limitations and Disadvantages</h3>
+      <p>
+        While it heavily reduces paperwork, the Composition Scheme comes with severe, non-negotiable limitations. Before using the <strong>Composition Scheme Calculator</strong> to opt-in, you must understand the drawbacks:
+      </p>
+      <ol>
+        <li><strong>No Input Tax Credit (ITC):</strong> You cannot claim ITC on your purchases. If you buy inventory worth ₹1,00,000 and pay ₹18,000 in GST, that ₹18,000 becomes a sunk cost. You cannot use it to offset your tax liability.</li>
+        <li><strong>No Tax Collection:</strong> You cannot collect GST from your buyers. You must issue a "Bill of Supply" instead of a "Tax Invoice". You must explicitly print the words <em>"Composition taxable person, not eligible to collect tax on supplies"</em> at the top of the bill.</li>
+        <li><strong>No Inter-State Sales:</strong> You are strictly forbidden from making inter-state outbound sales. You can buy goods from other states, but your sales must remain strictly intra-state.</li>
+        <li><strong>No E-Commerce Sales:</strong> You cannot sell goods through e-commerce operators (like Amazon, Flipkart, Myntra) who are required to collect TCS.</li>
+        <li><strong>Non-Taxable Goods:</strong> You cannot manufacture or trade goods that are not covered under GST (e.g., petrol, alcohol). Furthermore, manufacturers of specific notified goods like Ice cream, Pan Masala, Tobacco, and Aerated Waters cannot opt for the scheme.</li>
+      </ol>
+
+      <h3>Return Filing under Composition Scheme</h3>
+      <p>The compliance burden is significantly lower. Instead of filing 36 returns a year, a composition dealer only files:</p>
+      <ul>
+        <li><strong>CMP-08:</strong> A simple quarterly statement used to declare the turnover and pay the flat tax. It must be filed by the 18th of the month following the quarter.</li>
+        <li><strong>GSTR-4:</strong> The annual return for composition dealers, which must be filed by the 30th of April following the financial year.</li>
+      </ul>
+    </article>
+
+    <!-- FAQ Section -->
+    <section class="mt-16 pt-12 border-t border-base" aria-labelledby="faq-heading">
+      <h2 id="faq-heading" class="text-2xl sm:text-3xl font-bold text-base mb-8">
+        Frequently Asked Questions
+      </h2>
+      <div class="space-y-4">
+        
+        <details class="group rounded-xl border border-base bg-surface overflow-hidden">
+          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+            <span>What is the turnover limit for the GST Composition Scheme in 2026?</span>
+            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-muted leading-relaxed border-t border-base pt-4">
+            For normal states, the turnover limit is ₹1.5 Crore for manufacturers and traders. For special category states (North Eastern states and hill states), the limit is ₹75 Lakhs. For pure service providers across India, the limit is strictly ₹50 Lakhs.
+          </div>
+        </details>
+
+        <details class="group rounded-xl border border-base bg-surface overflow-hidden">
+          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+            <span>What are the GST rates under the Composition Scheme?</span>
+            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-muted leading-relaxed border-t border-base pt-4">
+            The flat tax rates are: 1% for Manufacturers and Traders, 5% for Restaurants not serving alcohol, and 6% for Service Providers.
+          </div>
+        </details>
+
+        <details class="group rounded-xl border border-base bg-surface overflow-hidden">
+          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+            <span>Can a composition dealer issue a Tax Invoice?</span>
+            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-muted leading-relaxed border-t border-base pt-4">
+            No. A composition dealer cannot issue a Tax Invoice or collect GST from customers. They must issue a "Bill of Supply" and mention "Composition taxable person, not eligible to collect tax on supplies" at the top. They must pay the flat tax out of their own pocket.
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    const bizData = {
+      trader: { rate: 1, limit: 15000000, splLimit: 7500000 },
+      manufacturer: { rate: 1, limit: 15000000, splLimit: 7500000 },
+      restaurant: { rate: 5, limit: 15000000, splLimit: 7500000 },
+      service: { rate: 6, limit: 5000000, splLimit: 5000000 }
+    };
+
+    const typeSelect = document.getElementById('biz-type') as HTMLSelectElement;
+    const splCheck = document.getElementById('spl-category') as HTMLInputElement;
+    const toInput = document.getElementById('turnover') as HTMLInputElement;
+
+    const resultCard = document.getElementById('result-card')!;
+    const statusEligible = document.getElementById('status-eligible')!;
+    const statusIneligible = document.getElementById('status-ineligible')!;
+    const resRate = document.getElementById('res-rate')!;
+    const resTax = document.getElementById('res-tax')!;
+    const ineligibleReason = document.getElementById('ineligible-reason')!;
+
+    function formatCur(num: number) {
+      return '₹' + num.toLocaleString('en-IN', { maximumFractionDigits: 0 });
+    }
+
+    function calculate() {
+      const type = typeSelect.value;
+      const to = parseFloat(toInput.value) || 0;
+      const isSpl = splCheck.checked;
+
+      if (!type || to === 0) {
+        resultCard.classList.add('hidden');
+        return;
+      }
+
+      resultCard.classList.remove('hidden');
+
+      const config = bizData[type as keyof typeof bizData];
+      const maxLimit = isSpl ? config.splLimit : config.limit;
+
+      if (to > maxLimit) {
+        // Ineligible
+        statusEligible.classList.add('hidden');
+        statusIneligible.classList.remove('hidden');
+        ineligibleReason.innerHTML = `Your aggregate turnover of <strong>${formatCur(to)}</strong> exceeds the legally permissible limit of <strong>${formatCur(maxLimit)}</strong> for your business category and state classification. You must register under the normal GST scheme.`;
+      } else {
+        // Eligible
+        statusIneligible.classList.add('hidden');
+        statusEligible.classList.remove('hidden');
+
+        resRate.textContent = `${config.rate}%`;
+        const flatTax = to * (config.rate / 100);
+        resTax.textContent = formatCur(flatTax);
+      }
+    }
+
+    [typeSelect, splCheck, toInput].forEach(el => el.addEventListener('input', calculate));
+    
+  </script>
+</BaseLayout>

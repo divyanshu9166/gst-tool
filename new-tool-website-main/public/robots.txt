@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+
+# Block crawling of the Cloudflare Pages preview domain (handled via _headers X-Robots-Tag)
+# Sitemap location — update 'example.com' to your production domain
+Sitemap: https://example.com/sitemap-index.xml

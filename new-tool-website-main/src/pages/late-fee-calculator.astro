@@ -1,0 +1,315 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'GST Late Fee Calculator & Interest Calculator 2026';
+const description = 'Calculate GST late fees and 18% interest for delayed filing of GSTR-1 and GSTR-3B. Accurate, offline, and free GST tool for India.';
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'GST Late Fee Calculator',
+    url: `${Astro.site?.toString() ?? 'https://example.com'}/late-fee-calculator`,
+    description: 'Free online GST late fee and interest calculator for delayed returns.',
+    applicationCategory: 'FinanceApplication',
+    operatingSystem: 'Any',
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'INR',
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'How much is the GST late fee per day?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'The GST late fee is ₹50 per day for normal returns and ₹20 per day for NIL returns under the CGST and SGST acts combined.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'What is the interest rate for late payment of GST?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'The interest rate for late payment of GST is 18% per annum. It is calculated only on the net tax liability paid in cash, not on the input tax credit utilized.',
+        },
+      }
+    ]
+  }
+];
+---
+
+<BaseLayout {title} {description} {structuredData}>
+  <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Page header -->
+    <div class="mb-12 text-center">
+      <h1 class="text-4xl sm:text-5xl font-semibold tracking-[-1.28px] text-base mb-4">GST Late Fee Calculator</h1>
+      <p class="text-[16px] text-muted max-w-2xl mx-auto leading-relaxed">
+        <strong>What is it?</strong> The GST late fee is ₹50 per day for normal returns and ₹20 per day for NIL returns. Additionally, an 18% per annum interest is charged on the outstanding tax liability paid via the electronic cash ledger. Use our calculator to find your exact penalty.
+      </p>
+    </div>
+
+    <!-- Calculator layout -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
+      
+      <!-- Input Section -->
+      <div class="rounded-[8px] border border-base bg-surface p-[24px] shadow-[0_2px_2px_#0000000a,0_8px_8px_-8px_#0000000a]">
+        
+        <div class="space-y-6">
+          <div>
+            <label class="block text-[14px] font-medium text-base mb-2">Type of Return</label>
+            <div class="grid grid-cols-2 gap-3" role="group" aria-label="Return type selection">
+              <button
+                type="button"
+                id="btn-normal"
+                class="return-type-btn rounded-[8px] border border-accent bg-accent text-white py-3 text-[14px] font-medium transition-colors active:scale-95 shadow-sm"
+                data-type="normal"
+                aria-pressed="true"
+              >
+                Normal Return
+              </button>
+              <button
+                type="button"
+                id="btn-nil"
+                class="return-type-btn rounded-[8px] border border-base bg-subtle text-muted hover:border-accent hover:text-base py-3 text-[14px] font-medium transition-colors active:scale-95"
+                data-type="nil"
+                aria-pressed="false"
+              >
+                NIL Return
+              </button>
+            </div>
+            <p class="mt-3 text-[12px] text-muted">
+              Normal: ₹50/day. NIL: ₹20/day. Max capping applies based on turnover.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label for="due-date" class="block text-[14px] font-medium text-base mb-2">Due Date</label>
+              <input
+                id="due-date"
+                type="date"
+                class="w-full rounded-[8px] border border-base bg-subtle px-4 py-3 text-[16px] focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 transition-all shadow-inner"
+              />
+            </div>
+            <div>
+              <label for="filing-date" class="block text-[14px] font-medium text-base mb-2">Actual Filing Date</label>
+              <input
+                id="filing-date"
+                type="date"
+                class="w-full rounded-[8px] border border-base bg-subtle px-4 py-3 text-[16px] focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 transition-all shadow-inner"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label for="tax-liability" class="block text-[14px] font-medium text-base mb-2">
+              Net Tax Liability (₹) <span class="font-normal text-muted">— paid in cash</span>
+            </label>
+            <div class="relative">
+              <span class="absolute left-4 top-1/2 -translate-y-1/2 text-muted font-medium select-none" aria-hidden="true">₹</span>
+              <input
+                id="tax-liability"
+                type="number"
+                inputmode="decimal"
+                min="0"
+                placeholder="0"
+                class="w-full rounded-[8px] border border-base bg-subtle pl-9 pr-4 py-3 text-[16px] focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 transition-all shadow-inner"
+              />
+            </div>
+            <p class="mt-3 text-[12px] text-muted">
+              Interest @ 18% p.a. is calculated only on the tax amount paid through electronic cash ledger.
+            </p>
+          </div>
+
+          <button
+            id="btn-reset"
+            type="button"
+            class="w-full rounded-[8px] border border-base py-3 text-[14px] font-medium text-muted hover:text-base hover:bg-subtle transition-all active:scale-95 mt-2"
+          >
+            Reset Fields
+          </button>
+        </div>
+      </div>
+
+      <!-- Results Section -->
+      <div class="rounded-[8px] border border-base bg-subtle p-[24px] space-y-6">
+        <h2 class="text-[20px] font-semibold text-base tracking-[-0.6px]">Calculation Results</h2>
+        
+        <div class="space-y-4">
+          <div class="flex justify-between items-center text-[14px] border-b border-base pb-3">
+            <span class="text-muted">Days Delayed</span>
+            <span class="font-semibold text-base" id="result-days">0 Days</span>
+          </div>
+
+          <div class="pt-2">
+            <div class="flex justify-between items-center text-[14px] mb-2">
+              <span class="text-muted">Late Fee (CGST + SGST)</span>
+              <span class="font-semibold text-base" id="result-late-fee">₹0</span>
+            </div>
+            <div class="flex justify-between items-center text-[12px] pl-4 border-l-2 border-base">
+              <span class="text-muted">CGST</span>
+              <span class="text-muted" id="result-cgst">₹0</span>
+            </div>
+            <div class="flex justify-between items-center text-[12px] pl-4 border-l-2 border-base mt-1">
+              <span class="text-muted">SGST</span>
+              <span class="text-muted" id="result-sgst">₹0</span>
+            </div>
+          </div>
+
+          <div class="flex justify-between items-center text-[14px] border-y border-base py-3">
+            <span class="text-muted">Interest @ 18% p.a.</span>
+            <span class="font-semibold text-base" id="result-interest">₹0</span>
+          </div>
+
+          <div class="flex justify-between items-center pt-2">
+            <span class="font-semibold text-[16px]">Total Payable</span>
+            <span class="text-[24px] font-bold text-accent" id="result-total">₹0</span>
+          </div>
+        </div>
+
+        <div class="mt-6 rounded-[6px] bg-[#d3e5ff]/20 dark:bg-[#d3e5ff]/5 border border-[#d3e5ff]/50 p-4 text-[12px] text-muted">
+          <p><strong>Disclaimer:</strong> Late fee is subject to maximum capping based on your turnover. This calculator provides standard un-capped estimates for general guidance. Always consult the GST portal for exact liability.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Semantic Content Guide -->
+    <div class="mx-auto max-w-5xl mt-16 border-t border-base pt-12">
+      <h2 class="text-[28px] tracking-[-1px] font-semibold text-base mb-6">Understanding GST Late Fees and Interest in 2026</h2>
+      
+      <div class="prose prose-neutral dark:prose-invert max-w-none text-[16px] leading-[24px]">
+        <p>
+          Missing a GST return deadline happens. Whether it's GSTR-1, GSTR-3B, or GSTR-9, the GST portal automatically calculates a late fee. Our <strong>GST late fee calculator</strong> allows you to estimate this penalty offline before you log into the portal.
+        </p>
+
+        <h3 class="text-[20px] font-semibold text-base mt-8 mb-4 tracking-[-0.6px]">1. Late Fee Calculation Rules</h3>
+        <p>
+          Under the CGST Act, if a registered taxpayer fails to furnish returns by the due date, they must pay a late fee. The standard rate is:
+        </p>
+        <ul class="list-disc pl-5 mt-2 space-y-1">
+          <li><strong>Normal Returns (Tax Liability Exists):</strong> ₹50 per day (₹25 CGST + ₹25 SGST) of delay.</li>
+          <li><strong>NIL Returns (Zero Tax Liability):</strong> ₹20 per day (₹10 CGST + ₹10 SGST) of delay.</li>
+        </ul>
+        <p class="mt-4">
+          <em>Note on Capping:</em> To provide relief to small businesses, the CBIC has introduced maximum capping on late fees based on the taxpayer's Annual Aggregate Turnover (AATO). For example, taxpayers with a turnover up to ₹1.5 crore have a maximum late fee capping of ₹2,000 per return.
+        </p>
+
+        <h3 class="text-[20px] font-semibold text-base mt-8 mb-4 tracking-[-0.6px]">2. 18% Interest on Delayed Payment</h3>
+        <p>
+          Unlike the late fee, which is a flat daily charge, interest is charged as a percentage of your outstanding tax liability. Key things to remember:
+        </p>
+        <ul class="list-disc pl-5 mt-2 space-y-1">
+          <li>Interest is strictly charged at <strong>18% per annum</strong>.</li>
+          <li>It is calculated <strong>only on the net cash tax liability</strong>. This means if you offset your tax using the Input Tax Credit (ITC) balance in your electronic credit ledger, no interest is charged on that portion. Interest only applies to the amount deposited in cash.</li>
+        </ul>
+
+        <h3 class="text-[20px] font-semibold text-base mt-8 mb-4 tracking-[-0.6px]">3. How to use this tool</h3>
+        <p>
+          Select whether your return is Normal or NIL. Enter the original statutory Due Date and the Actual Filing Date. If you have an outstanding cash liability, enter it to calculate the 18% interest. Our offline calculator will instantly split the penalty into CGST and SGST.
+        </p>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  // Client-side calculation logic
+  const btnNormal = document.getElementById('btn-normal') as HTMLButtonElement;
+  const btnNil = document.getElementById('btn-nil') as HTMLButtonElement;
+  const dueDateInput = document.getElementById('due-date') as HTMLInputElement;
+  const filingDateInput = document.getElementById('filing-date') as HTMLInputElement;
+  const liabilityInput = document.getElementById('tax-liability') as HTMLInputElement;
+  const btnReset = document.getElementById('btn-reset') as HTMLButtonElement;
+
+  const resDays = document.getElementById('result-days')!;
+  const resLateFee = document.getElementById('result-late-fee')!;
+  const resCgst = document.getElementById('result-cgst')!;
+  const resSgst = document.getElementById('result-sgst')!;
+  const resInterest = document.getElementById('result-interest')!;
+  const resTotal = document.getElementById('result-total')!;
+
+  let isNil = false;
+
+  function formatINR(value: number): string {
+    return '₹' + Math.round(value).toLocaleString('en-IN');
+  }
+
+  function calculate() {
+    let days = 0;
+    if (dueDateInput.value && filingDateInput.value) {
+      const start = new Date(dueDateInput.value).getTime();
+      const end = new Date(filingDateInput.value).getTime();
+      if (end > start) {
+        days = Math.floor((end - start) / (1000 * 60 * 60 * 24));
+      }
+    }
+
+    const feePerDay = isNil ? 20 : 50;
+    const lateFee = days * feePerDay;
+    const cgstSgst = lateFee / 2;
+
+    const liability = parseFloat(liabilityInput.value) || 0;
+    let interest = 0;
+    if (liability > 0 && days > 0) {
+      interest = (liability * 18 * days) / (100 * 365);
+    }
+
+    const total = lateFee + interest;
+
+    resDays.textContent = `${days} Days`;
+    resLateFee.textContent = formatINR(lateFee);
+    resCgst.textContent = formatINR(cgstSgst);
+    resSgst.textContent = formatINR(cgstSgst);
+    resInterest.textContent = formatINR(interest);
+    resTotal.textContent = formatINR(total);
+  }
+
+  function toggleType(type: 'normal' | 'nil') {
+    isNil = type === 'nil';
+    
+    btnNormal.classList.toggle('border-accent', !isNil);
+    btnNormal.classList.toggle('bg-accent', !isNil);
+    btnNormal.classList.toggle('text-white', !isNil);
+    btnNormal.classList.toggle('border-base', isNil);
+    btnNormal.classList.toggle('bg-subtle', isNil);
+    btnNormal.classList.toggle('text-muted', isNil);
+    btnNormal.setAttribute('aria-pressed', String(!isNil));
+
+    btnNil.classList.toggle('border-accent', isNil);
+    btnNil.classList.toggle('bg-accent', isNil);
+    btnNil.classList.toggle('text-white', isNil);
+    btnNil.classList.toggle('border-base', !isNil);
+    btnNil.classList.toggle('bg-subtle', !isNil);
+    btnNil.classList.toggle('text-muted', !isNil);
+    btnNil.setAttribute('aria-pressed', String(isNil));
+
+    calculate();
+  }
+
+  btnNormal.addEventListener('click', () => toggleType('normal'));
+  btnNil.addEventListener('click', () => toggleType('nil'));
+  dueDateInput.addEventListener('change', calculate);
+  filingDateInput.addEventListener('change', calculate);
+  liabilityInput.addEventListener('input', calculate);
+
+  btnReset.addEventListener('click', () => {
+    dueDateInput.value = '';
+    filingDateInput.value = '';
+    liabilityInput.value = '';
+    toggleType('normal');
+  });
+
+  // Init dates to today and 20th of last month to show something
+  const today = new Date();
+  const lastMonth = new Date(today.getFullYear(), today.getMonth() - 1, 20);
+  dueDateInput.value = lastMonth.toISOString().split('T')[0];
+  filingDateInput.value = today.toISOString().split('T')[0];
+  calculate();
+</script>

@@ -1,0 +1,342 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'E-Way Bill Validity Calculator 2026 | Check Expiry Limit';
+const description = 'Calculate the exact validity period of your E-Way bill based on the transport distance and cargo type (Regular vs Over Dimensional Cargo) as per new GST rules.';
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'E-Way Bill Validity Calculator',
+    url: Astro.site?.toString() ? `${Astro.site}eway-bill-validity` : 'https://example.com/eway-bill-validity',
+    description: 'Calculate E-Way Bill validity in days based on transport distance.',
+    applicationCategory: 'LogisticsApplication',
+    operatingSystem: 'Any',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What is the validity of an E-Way bill for normal cargo?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'For regular cargo, the E-Way bill is valid for 1 day for a distance up to 200 km. For every additional 200 km or part thereof, the validity is extended by 1 additional day.',
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'What is the validity for Over Dimensional Cargo (ODC)?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'For Over Dimensional Cargo, or multimodal transport where at least one leg involves transportation by ship, the validity is 1 day for a distance up to 20 km, and 1 additional day for every 20 km thereafter.',
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'When does the validity period start?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'The validity period starts from the time of generation of the E-way bill. Each "day" is counted as a 24-hour period ending at midnight of the following day.',
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Can the validity of an E-way bill be extended?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Yes, the validity can be extended on the GST portal. However, the extension must be done either within 8 hours before the expiry time, or within 8 hours after the expiry time.',
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'What happens if goods are caught with an expired E-way bill?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Moving goods with an expired E-way bill is treated as moving goods without an E-way bill. The tax officer can confiscate the goods and vehicle, and impose a penalty equal to 200% of the tax payable.',
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'What does "part thereof" mean in the calculation?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: '"Part thereof" means that even if the additional distance is less than 200 km, it will be treated as a full 200 km block for validity calculation, granting 1 full additional day.',
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Are weekends or public holidays excluded from validity?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'No. The E-way bill validity calculation is absolute. Weekends, bank holidays, and national holidays are all counted as normal days. The clock does not stop.',
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Who can extend the validity of the E-way bill?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Only the current transporter (the person who is currently assigned to the E-way bill) can extend its validity, provided the goods are in transit or in a transshipment hub.',
+        }
+      }
+    ]
+  }
+];
+---
+
+<BaseLayout {title} {description} {structuredData}>
+  <div class="mx-auto max-w-3xl px-4 sm:px-6 py-12 lg:py-24">
+    <!-- Header -->
+    <div class="mb-10 text-center">
+      <div class="inline-flex items-center gap-2 rounded-full border border-base bg-surface px-4 py-1.5 text-[12px] font-mono uppercase tracking-wider text-muted mb-4 shadow-[0_1px_1px_#00000005]">
+        <span class="h-1.5 w-1.5 rounded-full bg-accent"></span>
+        100% Offline Tool
+      </div>
+      <h1 class="text-4xl sm:text-5xl font-bold tracking-tight text-base mb-4">
+        E-Way Bill Validity Calculator
+      </h1>
+      <p class="text-[16px] text-muted max-w-xl mx-auto leading-relaxed">
+        Calculate exactly how many days your E-way bill is legally valid based on the transport distance and cargo type.
+      </p>
+    </div>
+
+    <!-- Main Tool Container -->
+    <div class="rounded-[12px] border border-base bg-surface p-6 sm:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] mb-12">
+      <div class="flex flex-col gap-6">
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="flex flex-col gap-2">
+            <label for="distance" class="text-sm font-semibold text-base">Transport Distance (in KM)</label>
+            <input 
+              type="number" 
+              id="distance" 
+              class="w-full rounded-md border border-base bg-surface px-4 py-3 text-[16px] font-mono focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent transition-colors"
+              placeholder="e.g. 450"
+              min="1"
+            />
+          </div>
+
+          <div class="flex flex-col gap-2">
+            <label for="cargo-type" class="text-sm font-semibold text-base">Cargo Category</label>
+            <select 
+              id="cargo-type" 
+              class="w-full rounded-md border border-base bg-surface px-4 py-3 text-[16px] font-medium focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent transition-colors"
+            >
+              <option value="normal">Normal Cargo (Other than ODC)</option>
+              <option value="odc">Over Dimensional Cargo (ODC) / Ship transport</option>
+            </select>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Result Card -->
+      <div id="result-card" class="mt-8 hidden overflow-hidden rounded-[8px] border border-base bg-subtle transition-all duration-300">
+        <div class="p-6">
+          <h3 class="text-[14px] font-medium text-muted mb-4 uppercase tracking-wider">Legal Validity Period</h3>
+          
+          <div class="flex justify-between items-center">
+            <span class="text-lg font-bold text-base">Total Validity:</span>
+            <span class="text-4xl font-mono font-bold text-accent"><span id="res-days">0</span> <span class="text-xl">Days</span></span>
+          </div>
+          
+          <p class="text-sm text-muted mt-4 leading-relaxed" id="res-desc"></p>
+        </div>
+        
+        <div class="border-t border-blue-200/50 bg-blue-50 dark:bg-blue-900/10 dark:border-blue-900/30 p-4">
+          <p class="text-sm text-blue-700 dark:text-blue-400 font-medium">
+            ⏳ If the validity expires, the goods cannot be moved. You can extend the validity of the E-Way bill on the official portal within 8 hours before or after the time of expiry.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEO Content -->
+    <article class="prose prose-neutral dark:prose-invert max-w-none text-[15px] leading-relaxed">
+      <h2 class="text-2xl font-semibold mb-4">Understanding E-Way Bill Validity Rules in India</h2>
+      <p>
+        An E-way bill (Electronic Way Bill) is a mandatory compliance document under the Goods and Services Tax (GST) regime for the movement of goods worth more than ₹50,000 (or ₹1,00,000 depending on state thresholds). However, merely generating an E-way bill is not enough. The CBIC has strictly defined how long an E-way bill remains legally valid once generated.
+      </p>
+      <p>
+        If a vehicle is intercepted by tax authorities and the E-way bill is found to be expired—even by a few hours—it is legally treated as moving goods <em>without</em> an E-way bill. This can result in the seizure of the truck, confiscation of the goods, and massive penalties under Section 129 of the CGST Act. Our <strong>E-Way Bill Validity Calculator</strong> helps transporters and consignors perfectly calculate the expiry time to avoid these disastrous penalties.
+      </p>
+      
+      <h3>The 2021 Amendment: Faster Transport Required</h3>
+      <p>
+        Prior to January 1, 2021, the rule for normal cargo was 1 day for every 100 km. However, to curb tax evasion and account for improved highway infrastructure in India, the government amended the rule, effectively doubling the required transport speed. Currently, for normal cargo (anything that is not an Over Dimensional Cargo):
+      </p>
+      <ul>
+        <li>For distances up to <strong>200 km</strong>, the validity is <strong>1 Day</strong>.</li>
+        <li>For every additional <strong>200 km or part thereof</strong>, the validity is extended by <strong>1 Day</strong>.</li>
+      </ul>
+      <p>
+        <em>Example Calculation: If your transport distance is 450 km. The first 200km gives 1 day. The next 200km gives 1 day. The remaining 50km is considered a "part thereof" and gives 1 full additional day. Total validity = 3 Days.</em>
+      </p>
+
+      <h3>Rules for Over Dimensional Cargo (ODC)</h3>
+      <p>
+        Over Dimensional Cargo (ODC) refers to cargo carried as a single indivisible unit, which exceeds the dimensional limits prescribed in the Motor Vehicles Act, 1988. Because these large vehicles must move extremely slowly to prevent highway accidents and often travel only at night, the validity period is much more generous:
+      </p>
+      <ul>
+        <li>For distances up to <strong>20 km</strong>, the validity is <strong>1 Day</strong>.</li>
+        <li>For every additional <strong>20 km or part thereof</strong>, the validity is extended by <strong>1 Day</strong>.</li>
+      </ul>
+      <p>
+        <em>Note on Multimodal Transport: This generous 20km limit also applies to multimodal transport where at least one leg of the journey involves transport by ship.</em>
+      </p>
+
+      <h3>How is a "Day" Calculated?</h3>
+      <p>
+        The calculation of a "day" is a frequent point of confusion. Under E-way bill rules, a day does not mean a strict 24-hour window from the exact minute of generation. Instead, the validity period starts from the time of generation, and each "day" is counted as a 24-hour period <strong>ending at midnight of the following day</strong>.
+      </p>
+      <p>
+        For instance, if you generate an E-way bill at 2:00 PM on Monday for a distance of 150 km (valid for 1 day), the validity does not end at 2:00 PM on Tuesday. It ends at 11:59 PM (midnight) on Tuesday night. This actually gives transporters slightly more time than exactly 24 hours.
+      </p>
+
+      <h3>How to Extend the Validity of an E-Way Bill</h3>
+      <p>
+        Truck breakdowns, strikes, or extreme weather can delay shipments. Recognizing this, the GST portal allows for the extension of an E-way bill's validity. However, the timing is extremely strict:
+      </p>
+      <ul>
+        <li>The extension must be requested <strong>within 8 hours before the expiry time</strong>, OR</li>
+        <li>It must be requested <strong>within 8 hours after the expiry time</strong>.</li>
+      </ul>
+      <p>
+        If you miss this 16-hour window, the E-way bill cannot be extended. You must generate a completely new E-way bill if the goods have not yet been delivered. Also, only the <em>current transporter</em> assigned to the bill has the authority to extend its validity.
+      </p>
+    </article>
+
+    <!-- FAQ Section -->
+    <section class="mt-16 pt-12 border-t border-base" aria-labelledby="faq-heading">
+      <h2 id="faq-heading" class="text-2xl sm:text-3xl font-bold text-base mb-8">
+        Frequently Asked Questions
+      </h2>
+      <div class="space-y-4">
+        
+        <details class="group rounded-xl border border-base bg-surface overflow-hidden">
+          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+            <span>What is the validity of an E-Way bill for normal cargo?</span>
+            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-muted leading-relaxed border-t border-base pt-4">
+            For regular cargo, the E-Way bill is valid for 1 day for a distance up to 200 km. For every additional 200 km or part thereof, the validity is extended by 1 additional day.
+          </div>
+        </details>
+
+        <details class="group rounded-xl border border-base bg-surface overflow-hidden">
+          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+            <span>What is the validity for Over Dimensional Cargo (ODC)?</span>
+            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-muted leading-relaxed border-t border-base pt-4">
+            For Over Dimensional Cargo, or multimodal transport where at least one leg involves transportation by ship, the validity is 1 day for a distance up to 20 km, and 1 additional day for every 20 km thereafter.
+          </div>
+        </details>
+
+        <details class="group rounded-xl border border-base bg-surface overflow-hidden">
+          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+            <span>When does the validity period start?</span>
+            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-muted leading-relaxed border-t border-base pt-4">
+            The validity period starts from the time of generation of the E-way bill. Each "day" is counted as a 24-hour period ending at midnight of the following day.
+          </div>
+        </details>
+
+        <details class="group rounded-xl border border-base bg-surface overflow-hidden">
+          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+            <span>Can the validity of an E-way bill be extended?</span>
+            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-muted leading-relaxed border-t border-base pt-4">
+            Yes, the validity can be extended on the GST portal. However, the extension must be done either within 8 hours before the expiry time, or within 8 hours after the expiry time.
+          </div>
+        </details>
+
+        <details class="group rounded-xl border border-base bg-surface overflow-hidden">
+          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+            <span>What happens if goods are caught with an expired E-way bill?</span>
+            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-muted leading-relaxed border-t border-base pt-4">
+            Moving goods with an expired E-way bill is treated as moving goods without an E-way bill. The tax officer can confiscate the goods and vehicle, and impose a penalty equal to 200% of the tax payable.
+          </div>
+        </details>
+
+        <details class="group rounded-xl border border-base bg-surface overflow-hidden">
+          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+            <span>What does "part thereof" mean in the calculation?</span>
+            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-muted leading-relaxed border-t border-base pt-4">
+            "Part thereof" means that even if the additional distance is less than 200 km, it will be treated as a full 200 km block for validity calculation, granting 1 full additional day.
+          </div>
+        </details>
+
+        <details class="group rounded-xl border border-base bg-surface overflow-hidden">
+          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+            <span>Are weekends or public holidays excluded from validity?</span>
+            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-muted leading-relaxed border-t border-base pt-4">
+            No. The E-way bill validity calculation is absolute. Weekends, bank holidays, and national holidays are all counted as normal days. The clock does not stop.
+          </div>
+        </details>
+
+        <details class="group rounded-xl border border-base bg-surface overflow-hidden">
+          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+            <span>Who can extend the validity of the E-way bill?</span>
+            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-muted leading-relaxed border-t border-base pt-4">
+            Only the current transporter (the person who is currently assigned to the E-way bill) can extend its validity, provided the goods are in transit or in a transshipment hub.
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    const distInput = document.getElementById('distance') as HTMLInputElement;
+    const typeSelect = document.getElementById('cargo-type') as HTMLSelectElement;
+
+    const resultCard = document.getElementById('result-card')!;
+    const resDays = document.getElementById('res-days')!;
+    const resDesc = document.getElementById('res-desc')!;
+
+    function calculate() {
+      const dist = parseFloat(distInput.value) || 0;
+      const type = typeSelect.value;
+
+      if (dist <= 0) {
+        resultCard.classList.add('hidden');
+        return;
+      }
+
+      resultCard.classList.remove('hidden');
+
+      let days = 0;
+      let divisor = type === 'normal' ? 200 : 20;
+
+      // Math.ceil correctly handles "part thereof" logic
+      days = Math.ceil(dist / divisor);
+
+      resDays.textContent = days.toString();
+      
+      if (type === 'normal') {
+        resDesc.innerHTML = `Under normal cargo rules, the first 200km grants 1 day of validity. Every subsequent 200km (or part thereof) grants an additional day.`;
+      } else {
+        resDesc.innerHTML = `Because this is an Over Dimensional Cargo (ODC) or transported by ship, the vehicle moves slower. The first 20km grants 1 day, and every subsequent 20km (or part thereof) grants an additional day.`;
+      }
+    }
+
+    distInput.addEventListener('input', calculate);
+    typeSelect.addEventListener('change', calculate);
+    
+  </script>
+</BaseLayout>

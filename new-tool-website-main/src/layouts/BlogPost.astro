@@ -1,0 +1,114 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from './BaseLayout.astro';
+
+type Props = CollectionEntry<'blog'>['data'];
+
+const { title, description, pubDate, updatedDate, heroImage, tags } = Astro.props;
+
+// JSON-LD: Article Schema
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description: description,
+  datePublished: pubDate.toISOString(),
+  dateModified: updatedDate ? updatedDate.toISOString() : pubDate.toISOString(),
+  author: {
+    '@type': 'Person',
+    name: 'Tax Expert',
+    url: `${Astro.site?.toString() ?? 'https://example.com'}/about`
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'GST Tools India',
+    logo: {
+      '@type': 'ImageObject',
+      url: `${Astro.site?.toString() ?? 'https://example.com'}/favicon.svg`
+    }
+  }
+};
+---
+
+<BaseLayout {title} {description} {structuredData}>
+  <article class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+    <!-- Article Header -->
+    <header class="mb-12 text-center">
+      {tags && tags.length > 0 && (
+        <div class="mb-6 flex flex-wrap justify-center gap-2">
+          {tags.map((tag) => (
+            <span class="rounded-full bg-subtle border border-base px-3 py-1 text-[12px] font-mono text-muted uppercase tracking-wider">
+              {tag}
+            </span>
+          ))}
+        </div>
+      )}
+      <h1 class="text-4xl sm:text-5xl font-semibold tracking-[-1.28px] text-base mb-6 leading-tight">
+        {title}
+      </h1>
+      <p class="text-[18px] text-muted leading-relaxed max-w-2xl mx-auto">
+        {description}
+      </p>
+      <div class="mt-8 flex items-center justify-center gap-4 text-[14px] text-muted">
+        <time datetime={pubDate.toISOString()}>
+          {pubDate.toLocaleDateString('en-IN', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+          })}
+        </time>
+        {updatedDate && (
+          <>
+            <span aria-hidden="true">&middot;</span>
+            <span>
+              Updated on{' '}
+              <time datetime={updatedDate.toISOString()}>
+                {updatedDate.toLocaleDateString('en-IN', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                })}
+              </time>
+            </span>
+          </>
+        )}
+      </div>
+    </header>
+
+    <!-- Hero Image (optional) -->
+    {heroImage && (
+      <div class="mb-16 overflow-hidden rounded-[8px] border border-base shadow-[0_2px_2px_#0000000a,0_8px_8px_-8px_#0000000a]">
+        <img class="w-full object-cover" src={heroImage} alt={title} />
+      </div>
+    )}
+
+    <!-- Markdown Content -->
+    <div class="prose prose-neutral dark:prose-invert max-w-none text-[16px] leading-[1.8] prose-headings:font-semibold prose-headings:tracking-[-0.6px] prose-a:text-accent hover:prose-a:underline prose-img:rounded-[8px] prose-img:border prose-img:border-base prose-img:shadow-sm">
+      <slot />
+    </div>
+
+    <!-- E-E-A-T Author Bio -->
+    <div class="mt-16 border-t border-base pt-10 flex flex-col sm:flex-row gap-6 items-start">
+      <div class="h-16 w-16 rounded-full bg-accent text-white flex items-center justify-center text-xl font-bold flex-shrink-0">
+        TE
+      </div>
+      <div>
+        <h3 class="text-[18px] font-semibold text-base tracking-[-0.6px] mb-1">Written by Tax Expert</h3>
+        <p class="text-[14px] text-muted leading-relaxed mb-3">
+          Our editorial team consists of taxation professionals and certified experts dedicated to simplifying GST compliance for small businesses across India.
+        </p>
+        <a href="/about" class="text-[14px] font-medium text-accent hover:underline">Read our editorial guidelines →</a>
+      </div>
+    </div>
+
+    <!-- CTA Footer -->
+    <div class="mt-12 border-t border-base pt-10 text-center">
+      <h3 class="text-[20px] font-semibold text-base mb-4 tracking-[-0.6px]">Need to calculate or verify GST?</h3>
+      <p class="text-[16px] text-muted mb-6">Use our free, offline tools instantly in your browser.</p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/gst-calculator" class="rounded-full bg-accent px-6 py-2.5 text-[14px] font-medium text-white hover:opacity-90">GST Calculator</a>
+        <a href="/gstin-validator" class="rounded-full border border-base bg-surface px-6 py-2.5 text-[14px] font-medium text-base hover:bg-subtle">GSTIN Validator</a>
+      </div>
+    </div>
+  </article>
+</BaseLayout>

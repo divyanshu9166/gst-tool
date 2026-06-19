@@ -1,0 +1,103 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'About Us | GST HSN Lookup — Free GST Tools for India';
+const description = 'About GST HSN Lookup — our mission to provide free, accurate, and easy-to-use GST tools for Indian businesses, CAs, and taxpayers.';
+---
+
+<BaseLayout {title} {description}>
+  <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-12">
+    <div class="mb-10">
+      <h1 class="text-3xl sm:text-4xl font-bold text-base mb-3">About Us</h1>
+      <p class="text-muted text-lg">
+        Making GST compliance simpler for every Indian business.
+      </p>
+    </div>
+
+    <div class="space-y-8 text-base leading-relaxed text-muted">
+
+      <section>
+        <h2 class="text-xl font-semibold text-base mb-3">Our Mission</h2>
+        <p>
+          GST HSN Lookup was built with a simple goal: to give every Indian business owner, accountant, and taxpayer access to <strong>free, accurate, and instant GST tools</strong> — without requiring a login, subscription, or internet connection for calculations.
+        </p>
+        <p class="mt-3">
+          India's GST system, while transformative, can be complex. With multiple tax slabs, thousands of HSN/SAC codes, and strict GSTIN format requirements, even experienced professionals sometimes need a quick reference. We built these tools to be that reference.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-semibold text-base mb-3">What We Offer</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4">
+          {[
+            {
+              icon: '🧮',
+              title: 'GST Calculator',
+              desc: 'Add or remove GST with CGST/SGST split. Supports all slabs and custom rates.',
+              href: '/gst-calculator',
+            },
+            {
+              icon: '🔍',
+              title: 'HSN Code Lookup',
+              desc: 'Search 100+ HSN and SAC codes with GST rates. Instant offline filtering.',
+              href: '/hsn-code-lookup',
+            },
+            {
+              icon: '✅',
+              title: 'GSTIN Validator',
+              desc: 'Validate GSTIN format and checksum. Decodes state and PAN offline.',
+              href: '/gstin-validator',
+            },
+          ].map((tool) => (
+            <a
+              href={tool.href}
+              class="rounded-xl border border-base bg-surface p-5 hover:border-accent/50 hover:shadow-md transition-all group"
+            >
+              <div class="text-2xl mb-2" aria-hidden="true">{tool.icon}</div>
+              <h3 class="font-semibold text-base mb-1 group-hover:text-accent transition-colors">{tool.title}</h3>
+              <p class="text-sm text-muted">{tool.desc}</p>
+            </a>
+          ))}
+        </div>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-semibold text-base mb-3">Our Principles</h2>
+        <ul class="space-y-3">
+          {[
+            { icon: '🔒', title: 'Privacy First', desc: 'All calculations happen in your browser. No data is sent to our servers.' },
+            { icon: '⚡', title: 'Instant Results', desc: 'No loading spinners, no API calls. Results appear as you type.' },
+            { icon: '📱', title: 'Mobile Friendly', desc: 'Fully responsive design that works on any device.' },
+            { icon: '♿', title: 'Accessible', desc: 'Built with WCAG accessibility guidelines in mind.' },
+            { icon: '🆓', title: 'Always Free', desc: 'No paywalls, no premium tiers. All tools are free forever.' },
+          ].map(({ icon, title, desc }) => (
+            <li class="flex gap-3">
+              <span class="text-xl flex-shrink-0" aria-hidden="true">{icon}</span>
+              <div>
+                <span class="font-medium text-base">{title}:</span>{' '}
+                <span>{desc}</span>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-semibold text-base mb-3">Disclaimer</h2>
+        <p>
+          GST HSN Lookup is an independent informational website. We are not affiliated with, endorsed by, or connected to the Government of India, CBIC, or the GST Council. All GST rates and information are provided for reference only and may not reflect the latest government notifications.
+        </p>
+        <p class="mt-3">
+          For official GST information, always refer to <a href="https://www.gst.gov.in" target="_blank" rel="noopener noreferrer" class="text-accent hover:underline">gst.gov.in</a> and <a href="https://www.cbic.gov.in" target="_blank" rel="noopener noreferrer" class="text-accent hover:underline">cbic.gov.in</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-semibold text-base mb-3">Get in Touch</h2>
+        <p>
+          Have a suggestion, found an error, or want to contribute to our HSN dataset? We'd love to hear from you. <a href="/contact" class="text-accent hover:underline font-medium">Contact us here</a>.
+        </p>
+      </section>
+    </div>
+  </div>
+</BaseLayout>

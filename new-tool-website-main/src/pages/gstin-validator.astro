@@ -1,0 +1,406 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'GST Number Search By Name & Verify GSTIN Online | Free Tool';
+const description = 'Validate any 15-digit GSTIN offline. Verifies format, official checksum, decodes state name and embedded PAN. Free GST number check tool for India.';
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'GSTIN Validator',
+    url: `${Astro.site?.toString() ?? 'https://example.com'}/gstin-validator`,
+    description: 'Validate GSTIN format and checksum offline. Decodes state code and embedded PAN from any Indian GST number.',
+    applicationCategory: 'FinanceApplication',
+    operatingSystem: 'Any',
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'INR',
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'How to do a GST number search by name?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'To do a GST number search by name, you must use the official GST portal. However, if you already have the 15-digit GSTIN, you can use our offline validator to instantly check its validity and decode the business PAN and state.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'How to verify GSTIN offline?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Our offline GSTIN validator uses the official government checksum algorithm to verify the mathematical validity of a GST number without needing an API call or internet connection.',
+        },
+      }
+    ]
+  }
+];
+---
+
+<BaseLayout {title} {description} {structuredData}>
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Page header -->
+    <div class="mb-10 text-center">
+      <h1 class="text-3xl sm:text-4xl font-bold text-base mb-3">GSTIN Validator</h1>
+      <p class="text-[16px] text-muted max-w-2xl mx-auto leading-relaxed">
+        <strong>What is a GST Number check?</strong> A GST number search allows you to verify the 15-digit Goods and Services Tax Identification Number (GSTIN) of any business. Use our tool to instantly validate the format, state code, and PAN offline.
+      </p>
+    </div>
+
+    <!-- Validator card -->
+    <div class="mx-auto max-w-xl">
+      <div class="rounded-2xl border border-base bg-surface p-6 sm:p-8 shadow-sm">
+
+        <!-- Input -->
+        <div class="mb-5">
+          <label for="gstin-input" class="block text-sm font-medium text-base mb-1.5">
+            Enter GSTIN
+          </label>
+          <input
+            id="gstin-input"
+            type="text"
+            maxlength="15"
+            placeholder="e.g. 27AABCU9603R1ZX"
+            class="w-full rounded-lg border border-base bg-subtle px-4 py-3 text-base font-mono tracking-widest uppercase focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 transition-colors"
+            aria-label="GSTIN to validate"
+            aria-describedby="gstin-hint"
+            autocomplete="off"
+            spellcheck="false"
+          />
+          <p id="gstin-hint" class="mt-1 text-xs text-muted">
+            15-character alphanumeric code (e.g. 27AABCU9603R1ZX)
+          </p>
+        </div>
+
+        <!-- Validate button -->
+        <button
+          id="btn-validate"
+          type="button"
+          class="w-full rounded-lg bg-accent px-6 py-3 text-sm font-semibold text-white hover:opacity-90 transition-opacity mb-5"
+        >
+          Validate GSTIN
+        </button>
+
+        <!-- Result panel (hidden until validated) -->
+        <div id="result-panel" class="hidden" aria-live="polite" role="status">
+
+          <!-- Valid result -->
+          <div id="result-valid" class="hidden rounded-xl border border-green-200 bg-green-50 dark:border-green-800 dark:bg-green-900/20 p-5">
+            <div class="flex items-center gap-2 mb-4">
+              <svg class="h-5 w-5 text-green-600 dark:text-green-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0z" />
+              </svg>
+              <span class="font-semibold text-green-700 dark:text-green-400">Valid GSTIN</span>
+            </div>
+            <dl class="space-y-2.5 text-sm">
+              <div class="flex justify-between gap-4">
+                <dt class="text-muted">GSTIN</dt>
+                <dd class="font-mono font-semibold text-base" id="decoded-gstin">—</dd>
+              </div>
+              <div class="flex justify-between gap-4">
+                <dt class="text-muted">State Code</dt>
+                <dd class="font-semibold text-base" id="decoded-state-code">—</dd>
+              </div>
+              <div class="flex justify-between gap-4">
+                <dt class="text-muted">State / UT</dt>
+                <dd class="font-semibold text-base" id="decoded-state">—</dd>
+              </div>
+              <div class="flex justify-between gap-4">
+                <dt class="text-muted">PAN</dt>
+                <dd class="font-mono font-semibold text-base" id="decoded-pan">—</dd>
+              </div>
+              <div class="flex justify-between gap-4">
+                <dt class="text-muted">Entity Number</dt>
+                <dd class="font-semibold text-base" id="decoded-entity">—</dd>
+              </div>
+              <div class="flex justify-between gap-4">
+                <dt class="text-muted">Checksum Digit</dt>
+                <dd class="font-semibold text-base" id="decoded-checksum">—</dd>
+              </div>
+            </dl>
+          </div>
+
+          <!-- Invalid result -->
+          <div id="result-invalid" class="hidden rounded-xl border border-red-200 bg-red-50 dark:border-red-800 dark:bg-red-900/20 p-5">
+            <div class="flex items-center gap-2 mb-2">
+              <svg class="h-5 w-5 text-red-600 dark:text-red-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 1 1-18 0 9 9 0 0 1 18 0z" />
+              </svg>
+              <span class="font-semibold text-red-700 dark:text-red-400">Invalid GSTIN</span>
+            </div>
+            <p class="text-sm text-red-600 dark:text-red-400" id="error-message">—</p>
+          </div>
+        </div>
+
+        <!-- Reset -->
+        <button
+          id="btn-clear"
+          type="button"
+          class="mt-4 w-full rounded-lg border border-base py-2.5 text-sm font-medium text-muted hover:text-base hover:bg-subtle transition-colors"
+        >
+          Clear
+        </button>
+      </div>
+
+      <!-- GSTIN format explainer -->
+      <div class="mt-6 rounded-xl border border-base bg-subtle p-5 text-sm text-muted space-y-3">
+        <h2 class="font-semibold text-base text-sm">GSTIN Format Explained</h2>
+        <div class="font-mono text-base text-center text-lg tracking-widest select-all">
+          <span class="text-blue-600 dark:text-blue-400">27</span><span class="text-green-600 dark:text-green-400">AABCU9603R</span><span class="text-orange-600 dark:text-orange-400">1</span><span class="text-purple-600 dark:text-purple-400">Z</span><span class="text-red-600 dark:text-red-400">X</span>
+        </div>
+        <div class="grid grid-cols-1 gap-1.5 text-xs">
+          <div class="flex gap-2"><span class="font-semibold text-blue-600 dark:text-blue-400 w-20 flex-shrink-0">Chars 1–2</span><span>State code (27 = Maharashtra)</span></div>
+          <div class="flex gap-2"><span class="font-semibold text-green-600 dark:text-green-400 w-20 flex-shrink-0">Chars 3–12</span><span>PAN of the taxpayer (10 characters)</span></div>
+          <div class="flex gap-2"><span class="font-semibold text-orange-600 dark:text-orange-400 w-20 flex-shrink-0">Char 13</span><span>Entity number (1–9 or A–Z for multiple registrations)</span></div>
+          <div class="flex gap-2"><span class="font-semibold text-purple-600 dark:text-purple-400 w-20 flex-shrink-0">Char 14</span><span>Always "Z" (reserved)</span></div>
+          <div class="flex gap-2"><span class="font-semibold text-red-600 dark:text-red-400 w-20 flex-shrink-0">Char 15</span><span>Checksum digit (0–9 or A–Z)</span></div>
+        </div>
+        <p class="text-xs">
+          <strong>Note:</strong> This tool validates the GSTIN format and checksum offline. For real-time registration status, visit the official GST portal at <a href="https://www.gst.gov.in" target="_blank" rel="noopener noreferrer" class="text-accent hover:underline">gst.gov.in</a>.
+        </p>
+      </div>
+      </div>
+
+      <!-- Semantic Content Guide -->
+      <div class="mt-16 border-t border-base pt-12">
+        <h2 class="text-[28px] tracking-[-1px] font-semibold text-base mb-6">Why Verify a GST Number?</h2>
+        
+        <div class="prose prose-neutral dark:prose-invert max-w-none text-[16px] leading-[24px]">
+          <p>
+            Doing a quick <strong>GST number check</strong> before entering into a transaction is crucial for businesses in India. Fake GST invoices are a common form of tax fraud, where unregistered entities collect tax without depositing it to the government. If you claim Input Tax Credit (ITC) on a fake GST bill, you will face penalties and ITC reversal.
+          </p>
+
+          <h3 class="text-[20px] font-semibold text-base mt-8 mb-4 tracking-[-0.6px]">Decoding the GSTIN Structure</h3>
+          <p>
+            The GSTIN is a mathematically structured 15-character alphanumeric code. It contains hidden data about the business:
+          </p>
+          <ul class="list-disc pl-5 mt-2 space-y-1">
+            <li><strong>First 2 digits:</strong> Represent the state code (e.g., 27 for Maharashtra, 07 for Delhi).</li>
+            <li><strong>Next 10 characters:</strong> This is the exact PAN (Permanent Account Number) of the registered taxpayer.</li>
+            <li><strong>13th character:</strong> Indicates the entity number of the same PAN holder within the state.</li>
+            <li><strong>14th character:</strong> Always the letter 'Z' by default.</li>
+            <li><strong>15th character:</strong> The checksum digit. This is mathematically generated using a complex algorithm to ensure the previous 14 characters haven't been typed incorrectly.</li>
+          </ul>
+
+          <h3 class="text-[20px] font-semibold text-base mt-8 mb-4 tracking-[-0.6px]">GST Number Search By Name vs Offline Validation</h3>
+          <p>
+            If you want to do a <strong>GST number search by name</strong> to find an unknown GSTIN, you must use the official GST portal's taxpayer search function. However, if a supplier has given you their GST number on an invoice, our offline validator instantly checks its mathematical authenticity without sending any data over the internet.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  // ── GSTIN Validator — 100% client-side, no API ────────────────────────────
+  //
+  // Official GSTIN format:
+  //   Pos 1–2  : 2-digit state code (01–38)
+  //   Pos 3–12 : 10-char PAN (AAAAA9999A pattern)
+  //   Pos 13   : Entity number (1–9 or A–Z)
+  //   Pos 14   : Always 'Z'
+  //   Pos 15   : Checksum (computed via GSTIN checksum algorithm)
+
+  const STATE_CODES: Record<string, string> = {
+    '01': 'Jammu & Kashmir',
+    '02': 'Himachal Pradesh',
+    '03': 'Punjab',
+    '04': 'Chandigarh',
+    '05': 'Uttarakhand',
+    '06': 'Haryana',
+    '07': 'Delhi',
+    '08': 'Rajasthan',
+    '09': 'Uttar Pradesh',
+    '10': 'Bihar',
+    '11': 'Sikkim',
+    '12': 'Arunachal Pradesh',
+    '13': 'Nagaland',
+    '14': 'Manipur',
+    '15': 'Mizoram',
+    '16': 'Tripura',
+    '17': 'Meghalaya',
+    '18': 'Assam',
+    '19': 'West Bengal',
+    '20': 'Jharkhand',
+    '21': 'Odisha',
+    '22': 'Chhattisgarh',
+    '23': 'Madhya Pradesh',
+    '24': 'Gujarat',
+    '25': 'Daman & Diu (merged with Dadra & Nagar Haveli)',
+    '26': 'Dadra & Nagar Haveli and Daman & Diu',
+    '27': 'Maharashtra',
+    '28': 'Andhra Pradesh (old)',
+    '29': 'Karnataka',
+    '30': 'Goa',
+    '31': 'Lakshadweep',
+    '32': 'Kerala',
+    '33': 'Tamil Nadu',
+    '34': 'Puducherry',
+    '35': 'Andaman & Nicobar Islands',
+    '36': 'Telangana',
+    '37': 'Andhra Pradesh',
+    '38': 'Ladakh',
+    '97': 'Other Territory',
+    '99': 'Centre Jurisdiction',
+  };
+
+  /**
+   * Compute the GSTIN checksum digit using the official algorithm.
+   * Returns the expected checksum character.
+   */
+  function computeChecksum(gstin: string): string {
+    // Character set used in GSTIN
+    const CHARS = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    let sum = 0;
+    for (let i = 0; i < 14; i++) {
+      const charVal = CHARS.indexOf(gstin[i]);
+      if (charVal === -1) return '';
+      // Alternate multiply by 1 and 2
+      const product = charVal * (i % 2 === 0 ? 1 : 2);
+      // Add digit-sum of product
+      sum += Math.floor(product / 36) + (product % 36);
+    }
+    const remainder = sum % 36;
+    return CHARS[(36 - remainder) % 36];
+  }
+
+  interface ValidationResult {
+    valid: boolean;
+    error?: string;
+    stateCode?: string;
+    stateName?: string;
+    pan?: string;
+    entityNumber?: string;
+    checksumDigit?: string;
+  }
+
+  function validateGSTIN(raw: string): ValidationResult {
+    const gstin = raw.trim().toUpperCase();
+
+    if (gstin.length === 0) {
+      return { valid: false, error: 'Please enter a GSTIN.' };
+    }
+    if (gstin.length !== 15) {
+      return { valid: false, error: `GSTIN must be exactly 15 characters. You entered ${gstin.length}.` };
+    }
+
+    // Overall pattern check
+    const pattern = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/;
+    if (!pattern.test(gstin)) {
+      return {
+        valid: false,
+        error: 'GSTIN format is invalid. Expected: 2-digit state code + 10-char PAN + entity number + "Z" + checksum.',
+      };
+    }
+
+    const stateCode = gstin.substring(0, 2);
+    const pan = gstin.substring(2, 12);
+    const entityNumber = gstin[12];
+    const zChar = gstin[13];
+    const checksumDigit = gstin[14];
+
+    // State code check
+    if (!STATE_CODES[stateCode]) {
+      return { valid: false, error: `Unknown state code "${stateCode}". Valid codes are 01–38, 97, 99.` };
+    }
+
+    // Char 14 must be 'Z'
+    if (zChar !== 'Z') {
+      return { valid: false, error: `Character 14 must be "Z", but found "${zChar}".` };
+    }
+
+    // Checksum verification
+    const expectedChecksum = computeChecksum(gstin);
+    if (!expectedChecksum) {
+      return { valid: false, error: 'Could not compute checksum — GSTIN contains invalid characters.' };
+    }
+    if (checksumDigit !== expectedChecksum) {
+      return {
+        valid: false,
+        error: `Checksum mismatch. Expected "${expectedChecksum}", found "${checksumDigit}". The GSTIN may be incorrect or fabricated.`,
+      };
+    }
+
+    return {
+      valid: true,
+      stateCode,
+      stateName: STATE_CODES[stateCode],
+      pan,
+      entityNumber,
+      checksumDigit,
+    };
+  }
+
+  // ── DOM wiring ────────────────────────────────────────────────────────────
+  const gstinInput = document.getElementById('gstin-input') as HTMLInputElement;
+  const btnValidate = document.getElementById('btn-validate') as HTMLButtonElement;
+  const btnClear = document.getElementById('btn-clear') as HTMLButtonElement;
+  const resultPanel = document.getElementById('result-panel')!;
+  const resultValid = document.getElementById('result-valid')!;
+  const resultInvalid = document.getElementById('result-invalid')!;
+  const errorMessage = document.getElementById('error-message')!;
+
+  // Decoded fields
+  const decodedGstin = document.getElementById('decoded-gstin')!;
+  const decodedStateCode = document.getElementById('decoded-state-code')!;
+  const decodedState = document.getElementById('decoded-state')!;
+  const decodedPan = document.getElementById('decoded-pan')!;
+  const decodedEntity = document.getElementById('decoded-entity')!;
+  const decodedChecksum = document.getElementById('decoded-checksum')!;
+
+  function showResult(result: ValidationResult, rawInput: string) {
+    resultPanel.classList.remove('hidden');
+
+    if (result.valid) {
+      resultValid.classList.remove('hidden');
+      resultInvalid.classList.add('hidden');
+
+      decodedGstin.textContent = rawInput.trim().toUpperCase();
+      decodedStateCode.textContent = result.stateCode ?? '—';
+      decodedState.textContent = result.stateName ?? '—';
+      decodedPan.textContent = result.pan ?? '—';
+      decodedEntity.textContent = result.entityNumber ?? '—';
+      decodedChecksum.textContent = result.checksumDigit ?? '—';
+    } else {
+      resultValid.classList.add('hidden');
+      resultInvalid.classList.remove('hidden');
+      errorMessage.textContent = result.error ?? 'Unknown error.';
+    }
+  }
+
+  btnValidate.addEventListener('click', () => {
+    const result = validateGSTIN(gstinInput.value);
+    showResult(result, gstinInput.value);
+  });
+
+  // Also validate on Enter key
+  gstinInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      const result = validateGSTIN(gstinInput.value);
+      showResult(result, gstinInput.value);
+    }
+  });
+
+  // Auto-uppercase as user types
+  gstinInput.addEventListener('input', () => {
+    const pos = gstinInput.selectionStart ?? 0;
+    gstinInput.value = gstinInput.value.toUpperCase();
+    gstinInput.setSelectionRange(pos, pos);
+    // Hide result panel when input changes
+    resultPanel.classList.add('hidden');
+  });
+
+  btnClear.addEventListener('click', () => {
+    gstinInput.value = '';
+    resultPanel.classList.add('hidden');
+    gstinInput.focus();
+  });
+</script>

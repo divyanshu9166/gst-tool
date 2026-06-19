@@ -1,0 +1,577 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'Free GST Invoice Generator Online | Create Tax Invoices';
+const description = 'Use our free GST invoice generator online to create perfectly formatted tax invoices. Auto-calculates CGST, SGST, IGST. Download PDF instantly. 100% free and offline.';
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Free GST Invoice Generator',
+    url: Astro.site?.toString() ? `${Astro.site}invoice-generator` : 'https://example.com/invoice-generator',
+    description: 'Free online GST invoice generator to create tax compliant invoices in seconds. Download as PDF instantly.',
+    applicationCategory: 'BusinessApplication',
+    operatingSystem: 'Any',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'Is this GST invoice generator completely free?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Yes! Our online GST invoice generator is 100% free to use. There are no hidden charges, no watermarks, and no sign-up required. You can generate unlimited tax invoices.',
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Does this tool automatically calculate CGST, SGST, and IGST?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Yes. The invoice generator automatically detects the transaction type based on the Biller and Client state. If they are in the same state, it splits the tax into CGST and SGST. If they are in different states, it calculates IGST.',
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Is my financial data secure?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Absolutely. This tool runs entirely in your web browser (offline). No invoice data, client details, or pricing information is ever sent to our servers. Your privacy is 100% guaranteed.',
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'How do I save the invoice as a PDF?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Simply fill out the form and click the "Download PDF" button. This will trigger your browser\'s native print dialog. Select "Save as PDF" as the destination, and your perfectly formatted A4 invoice will be downloaded.',
+        }
+      }
+    ]
+  }
+];
+
+const states = [
+  "Andaman and Nicobar Islands", "Andhra Pradesh", "Arunachal Pradesh", "Assam", 
+  "Bihar", "Chandigarh", "Chhattisgarh", "Dadra and Nagar Haveli", "Daman and Diu", 
+  "Delhi", "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jammu and Kashmir", 
+  "Jharkhand", "Karnataka", "Kerala", "Ladakh", "Lakshadweep", "Madhya Pradesh", 
+  "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Odisha", 
+  "Puducherry", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", 
+  "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal"
+];
+---
+
+<BaseLayout {title} {description} {structuredData}>
+  
+  <style>
+    /* Print specific styles */
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      #invoice-preview, #invoice-preview * {
+        visibility: visible;
+      }
+      #invoice-preview {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        border: none;
+        box-shadow: none;
+      }
+      .no-print {
+        display: none !important;
+      }
+      @page {
+        margin: 0.5cm;
+      }
+    }
+  </style>
+
+  <div class="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8 py-12 print:hidden">
+    <!-- Header -->
+    <div class="mb-10 text-center">
+      <div class="inline-flex items-center gap-2 rounded-full border border-base bg-surface px-4 py-1.5 text-[12px] font-mono uppercase tracking-wider text-muted mb-4 shadow-[0_1px_1px_#00000005]">
+        <span class="h-1.5 w-1.5 rounded-full bg-accent"></span>
+        100% Free • Offline Tool
+      </div>
+      <h1 class="text-4xl sm:text-5xl font-bold tracking-tight text-base mb-4">
+        Free GST Invoice Generator
+      </h1>
+      <p class="text-[16px] text-muted max-w-xl mx-auto leading-relaxed">
+        Generate professional, tax-compliant GST invoices instantly. Auto-calculates CGST, SGST, and IGST. Download as a PDF in seconds.
+      </p>
+    </div>
+
+    <!-- Layout: Left Form, Right Preview -->
+    <div class="flex flex-col xl:flex-row gap-8">
+      
+      <!-- LEFT: Editor Form -->
+      <div class="w-full xl:w-5/12 flex flex-col gap-6">
+        
+        <!-- Metadata -->
+        <div class="rounded-xl border border-base bg-surface p-6 shadow-sm">
+          <h2 class="text-lg font-semibold mb-4">Invoice Details</h2>
+          <div class="grid grid-cols-2 gap-4">
+            <div class="flex flex-col gap-1.5">
+              <label class="text-xs font-semibold text-muted uppercase">Invoice No</label>
+              <input type="text" id="inv-no" value="INV-001" class="w-full rounded-md border border-base bg-surface px-3 py-2 text-sm focus:border-accent focus:ring-1 focus:ring-accent outline-none" />
+            </div>
+            <div class="flex flex-col gap-1.5">
+              <label class="text-xs font-semibold text-muted uppercase">Date</label>
+              <input type="date" id="inv-date" class="w-full rounded-md border border-base bg-surface px-3 py-2 text-sm focus:border-accent focus:ring-1 focus:ring-accent outline-none" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Biller & Client -->
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-1 gap-6">
+          <div class="rounded-xl border border-base bg-surface p-6 shadow-sm">
+            <h2 class="text-lg font-semibold mb-4">Billed By (Your Details)</h2>
+            <div class="flex flex-col gap-3">
+              <input type="text" id="biller-name" placeholder="Business Name" class="w-full rounded-md border border-base bg-surface px-3 py-2 text-sm focus:border-accent focus:ring-1 outline-none" />
+              <input type="text" id="biller-gstin" placeholder="GSTIN (Optional)" class="w-full rounded-md border border-base bg-surface px-3 py-2 text-sm focus:border-accent focus:ring-1 outline-none uppercase font-mono" maxlength="15" />
+              <textarea id="biller-address" placeholder="Business Address" rows="2" class="w-full rounded-md border border-base bg-surface px-3 py-2 text-sm focus:border-accent focus:ring-1 outline-none resize-none"></textarea>
+              <select id="biller-state" class="w-full rounded-md border border-base bg-surface px-3 py-2 text-sm focus:border-accent focus:ring-1 outline-none">
+                <option value="">Select State</option>
+                {states.map(state => <option value={state}>{state}</option>)}
+              </select>
+            </div>
+          </div>
+
+          <div class="rounded-xl border border-base bg-surface p-6 shadow-sm">
+            <h2 class="text-lg font-semibold mb-4">Billed To (Client Details)</h2>
+            <div class="flex flex-col gap-3">
+              <input type="text" id="client-name" placeholder="Client Name" class="w-full rounded-md border border-base bg-surface px-3 py-2 text-sm focus:border-accent focus:ring-1 outline-none" />
+              <input type="text" id="client-gstin" placeholder="Client GSTIN (Optional)" class="w-full rounded-md border border-base bg-surface px-3 py-2 text-sm focus:border-accent focus:ring-1 outline-none uppercase font-mono" maxlength="15" />
+              <textarea id="client-address" placeholder="Client Address" rows="2" class="w-full rounded-md border border-base bg-surface px-3 py-2 text-sm focus:border-accent focus:ring-1 outline-none resize-none"></textarea>
+              <select id="client-state" class="w-full rounded-md border border-base bg-surface px-3 py-2 text-sm focus:border-accent focus:ring-1 outline-none">
+                <option value="">Select State</option>
+                {states.map(state => <option value={state}>{state}</option>)}
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Line Items -->
+        <div class="rounded-xl border border-base bg-surface p-6 shadow-sm">
+          <div class="flex justify-between items-center mb-4">
+            <h2 class="text-lg font-semibold">Line Items</h2>
+            <button id="add-item-btn" class="text-xs bg-accent text-white px-3 py-1.5 rounded-md hover:opacity-90 transition-opacity font-medium">+ Add Item</button>
+          </div>
+          
+          <div id="items-container" class="flex flex-col gap-4">
+            <!-- Items injected by JS -->
+          </div>
+        </div>
+
+        <!-- Bank Details & Notes -->
+        <div class="rounded-xl border border-base bg-surface p-6 shadow-sm">
+          <h2 class="text-lg font-semibold mb-4">Bank Details & Notes</h2>
+          <div class="flex flex-col gap-3">
+            <textarea id="bank-details" placeholder="Bank Name: &#10;Account No: &#10;IFSC Code: " rows="3" class="w-full rounded-md border border-base bg-surface px-3 py-2 text-sm focus:border-accent focus:ring-1 outline-none resize-none"></textarea>
+            <textarea id="notes" placeholder="Terms & Conditions (e.g. Please pay within 15 days)" rows="2" class="w-full rounded-md border border-base bg-surface px-3 py-2 text-sm focus:border-accent focus:ring-1 outline-none resize-none"></textarea>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- RIGHT: Invoice Preview (A4 Ratio) -->
+      <div class="w-full xl:w-7/12 flex flex-col gap-4">
+        <div class="flex justify-end no-print">
+          <button id="print-btn" class="bg-accent text-white px-6 py-2.5 rounded-full shadow hover:-translate-y-0.5 transition-transform font-medium flex items-center gap-2">
+            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" /></svg>
+            Download PDF
+          </button>
+        </div>
+
+        <!-- The Printable Container -->
+        <!-- Fixed aspect ratio roughly A4 (210 x 297) -->
+        <div class="bg-white dark:bg-white text-black border border-gray-200 shadow-xl overflow-hidden" style="aspect-ratio: 1 / 1.414;" id="invoice-preview-container">
+          <div id="invoice-preview" class="w-full h-full p-8 sm:p-12 flex flex-col font-sans text-sm">
+            
+            <!-- Header Row -->
+            <div class="flex justify-between items-start border-b border-gray-200 pb-6 mb-6">
+              <div>
+                <h1 class="text-3xl font-bold text-gray-800 tracking-tight" id="prev-biller-name">Business Name</h1>
+                <p class="text-gray-500 mt-1 whitespace-pre-wrap" id="prev-biller-address">Address Line 1&#10;City, State Pincode</p>
+                <p class="text-gray-600 mt-2 font-medium">GSTIN: <span class="font-mono text-gray-800" id="prev-biller-gstin"></span></p>
+                <p class="text-gray-600 font-medium">State: <span class="text-gray-800" id="prev-biller-state"></span></p>
+              </div>
+              <div class="text-right">
+                <h2 class="text-4xl font-black text-gray-200 uppercase tracking-widest">Tax Invoice</h2>
+                <div class="mt-4 flex flex-col items-end gap-1">
+                  <div class="flex gap-4"><span class="text-gray-500 w-16 text-left">Invoice:</span> <strong class="text-gray-800" id="prev-inv-no">INV-001</strong></div>
+                  <div class="flex gap-4"><span class="text-gray-500 w-16 text-left">Date:</span> <strong class="text-gray-800" id="prev-inv-date"></strong></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Billed To Row -->
+            <div class="mb-8">
+              <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Billed To:</h3>
+              <p class="text-lg font-bold text-gray-800" id="prev-client-name">Client Name</p>
+              <p class="text-gray-600 mt-1 whitespace-pre-wrap" id="prev-client-address">Client Address</p>
+              <p class="text-gray-600 mt-1 font-medium">GSTIN: <span class="font-mono text-gray-800" id="prev-client-gstin"></span></p>
+              <p class="text-gray-600 font-medium">State: <span class="text-gray-800" id="prev-client-state"></span></p>
+            </div>
+
+            <!-- Items Table -->
+            <div class="flex-1">
+              <table class="w-full text-left border-collapse">
+                <thead>
+                  <tr class="border-y border-gray-300 bg-gray-50">
+                    <th class="py-3 px-2 font-bold text-gray-600 w-12">#</th>
+                    <th class="py-3 px-2 font-bold text-gray-600">Item Description</th>
+                    <th class="py-3 px-2 font-bold text-gray-600 text-right">Qty</th>
+                    <th class="py-3 px-2 font-bold text-gray-600 text-right">Rate</th>
+                    <th class="py-3 px-2 font-bold text-gray-600 text-right">GST %</th>
+                    <th class="py-3 px-2 font-bold text-gray-600 text-right">Amount</th>
+                  </tr>
+                </thead>
+                <tbody id="prev-items-body" class="border-b border-gray-200 divide-y divide-gray-100">
+                  <!-- JS Injected rows -->
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Totals Row -->
+            <div class="flex justify-between items-start mt-6">
+              <!-- Left: Bank Details -->
+              <div class="w-1/2 pr-8">
+                <div id="prev-bank-container">
+                  <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Payment / Bank Details:</h3>
+                  <p class="text-gray-600 whitespace-pre-wrap text-xs leading-relaxed" id="prev-bank-details"></p>
+                </div>
+                <div id="prev-notes-container" class="mt-4">
+                  <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Terms & Conditions:</h3>
+                  <p class="text-gray-600 whitespace-pre-wrap text-xs leading-relaxed" id="prev-notes"></p>
+                </div>
+              </div>
+
+              <!-- Right: Calculations -->
+              <div class="w-1/2 max-w-sm">
+                <table class="w-full text-right text-gray-600">
+                  <tbody>
+                    <tr>
+                      <td class="py-1">Subtotal:</td>
+                      <td class="py-1 font-mono font-medium text-gray-800" id="prev-subtotal">₹0.00</td>
+                    </tr>
+                    <tr id="row-cgst" class="hidden">
+                      <td class="py-1">CGST:</td>
+                      <td class="py-1 font-mono font-medium text-gray-800" id="prev-cgst">₹0.00</td>
+                    </tr>
+                    <tr id="row-sgst" class="hidden">
+                      <td class="py-1">SGST:</td>
+                      <td class="py-1 font-mono font-medium text-gray-800" id="prev-sgst">₹0.00</td>
+                    </tr>
+                    <tr id="row-igst" class="hidden">
+                      <td class="py-1">IGST:</td>
+                      <td class="py-1 font-mono font-medium text-gray-800" id="prev-igst">₹0.00</td>
+                    </tr>
+                    <tr class="border-t border-gray-300 font-bold text-gray-800 text-lg">
+                      <td class="py-3">Grand Total:</td>
+                      <td class="py-3 font-mono" id="prev-total">₹0.00</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <p class="text-xs text-gray-400 text-right mt-2">Amount in words: <br/><span class="text-gray-600 italic" id="prev-words"></span></p>
+                
+                <div class="mt-12 text-center border-t border-gray-300 pt-2 w-48 ml-auto">
+                  <p class="text-xs font-semibold text-gray-800" id="prev-auth-name"></p>
+                  <p class="text-xs text-gray-400">Authorized Signatory</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- SEO Content Section -->
+    <article class="prose prose-neutral dark:prose-invert max-w-none text-[15px] leading-relaxed mt-24 pt-12 border-t border-base print:hidden">
+      <h2 class="text-2xl font-semibold mb-4">Why Use an Online GST Invoice Generator?</h2>
+      <p>
+        Creating a tax invoice manually using Excel templates or Word documents is time-consuming and prone to mathematical errors. As a small business owner in India, compliance with the Goods and Services Tax (GST) framework requires you to issue a perfectly formatted invoice containing specific details like HSN/SAC codes, GSTINs, and an accurate split of CGST, SGST, or IGST. 
+      </p>
+      <p>
+        Our <strong>free gst invoice generator</strong> solves this problem instantly. By automatically detecting the State of the supplier and the State of the buyer, the tool intelligently decides whether to apply intra-state tax (CGST + SGST) or inter-state tax (IGST). It performs all complex percentage calculations for you in real time.
+      </p>
+
+      <h3>100% Free and Offline</h3>
+      <p>
+        Most <strong>online gst invoice generator free</strong> tools available today are lead-generation traps. They force you to create an account, hide features behind paywalls, or store your sensitive client data on their servers. 
+      </p>
+      <p>
+        We built this tool differently. Our <strong>gst invoice generator online</strong> runs entirely within your web browser. When you click "Download PDF", your browser generates the PDF locally. No data is ever sent to a database. This guarantees 100% privacy, maximum security, and lightning-fast performance even on slow internet connections.
+      </p>
+
+      <h3>Mandatory Fields on a Tax Invoice</h3>
+      <p>Under GST rules, a valid tax invoice must contain:</p>
+      <ul>
+        <li>A unique, sequential Invoice Number (max 16 characters).</li>
+        <li>Date of issue.</li>
+        <li>Name, address, and GSTIN of the supplier.</li>
+        <li>Name, address, and GSTIN of the recipient (if registered).</li>
+        <li>HSN Code for goods or SAC for services.</li>
+        <li>Item description, quantity, and value.</li>
+        <li>Applicable rate of GST (0%, 5%, 12%, 18%, or 28%).</li>
+        <li>Total tax amount broken down into CGST, SGST, and IGST.</li>
+        <li>Signature or digital signature of the authorized supplier.</li>
+      </ul>
+      <p>Our generator automatically structures your data to meet every single one of these CBIC requirements.</p>
+    </article>
+
+    <!-- FAQ Section -->
+    <section class="mt-16 pt-12 border-t border-base print:hidden" aria-labelledby="faq-heading">
+      <h2 id="faq-heading" class="text-2xl sm:text-3xl font-bold text-base mb-8">
+        Frequently Asked Questions
+      </h2>
+      <div class="space-y-4">
+        
+        <details class="group rounded-xl border border-base bg-surface overflow-hidden">
+          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+            <span>Is this GST invoice generator completely free?</span>
+            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-muted leading-relaxed border-t border-base pt-4">
+            Yes! Our online GST invoice generator is 100% free to use. There are no hidden charges, no watermarks, and no sign-up required. You can generate unlimited tax invoices forever.
+          </div>
+        </details>
+
+        <details class="group rounded-xl border border-base bg-surface overflow-hidden">
+          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+            <span>Does this tool automatically calculate CGST, SGST, and IGST?</span>
+            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-muted leading-relaxed border-t border-base pt-4">
+            Yes. The invoice generator automatically detects the transaction type based on the Biller and Client state. If they are in the same state, it splits the tax equally into CGST and SGST. If they are in different states, it calculates it as IGST.
+          </div>
+        </details>
+
+        <details class="group rounded-xl border border-base bg-surface overflow-hidden">
+          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+            <span>Is my financial data secure?</span>
+            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-muted leading-relaxed border-t border-base pt-4">
+            Absolutely. This tool runs entirely in your web browser (offline mode). No invoice data, client details, or pricing information is ever sent to our servers. Your privacy is 100% guaranteed.
+          </div>
+        </details>
+
+        <details class="group rounded-xl border border-base bg-surface overflow-hidden">
+          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+            <span>How do I save the invoice as a PDF?</span>
+            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-muted leading-relaxed border-t border-base pt-4">
+            Simply fill out the form and click the "Download PDF" button. This will trigger your browser's native print dialog. Select "Save as PDF" as the destination, and your perfectly formatted A4 invoice will be downloaded to your computer or phone.
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    // Utility: Number to Words for Indian Rupees
+    function numberToWords(num: number): string {
+      const a = ['','One ','Two ','Three ','Four ', 'Five ','Six ','Seven ','Eight ','Nine ','Ten ','Eleven ','Twelve ','Thirteen ','Fourteen ','Fifteen ','Sixteen ','Seventeen ','Eighteen ','Nineteen '];
+      const b = ['', '', 'Twenty','Thirty','Forty','Fifty', 'Sixty','Seventy','Eighty','Ninety'];
+      
+      if ((num = num.toString()).length > 9) return 'Overflow';
+      let n = ('000000000' + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
+      if (!n) return '';
+      
+      let str = '';
+      str += (n[1] != '00') ? (a[Number(n[1])] || b[n[1][0]] + ' ' + a[n[1][1]]) + 'Crore ' : '';
+      str += (n[2] != '00') ? (a[Number(n[2])] || b[n[2][0]] + ' ' + a[n[2][1]]) + 'Lakh ' : '';
+      str += (n[3] != '00') ? (a[Number(n[3])] || b[n[3][0]] + ' ' + a[n[3][1]]) + 'Thousand ' : '';
+      str += (n[4] != '0') ? (a[Number(n[4])] || b[n[4][0]] + ' ' + a[n[4][1]]) + 'Hundred ' : '';
+      str += (n[5] != '00') ? ((str != '') ? 'and ' : '') + (a[Number(n[5])] || b[n[5][0]] + ' ' + a[n[5][1]]) : '';
+      return str ? str + 'Rupees Only' : 'Zero Rupees Only';
+    }
+
+    // State
+    let items = [
+      { id: Date.now(), desc: '', qty: 1, rate: 0, gst: 18 }
+    ];
+
+    // Form Elements
+    const getEl = (id: string) => document.getElementById(id) as HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
+    
+    // Binding metadata
+    ['inv-no', 'inv-date', 'biller-name', 'biller-gstin', 'biller-address', 'biller-state', 
+     'client-name', 'client-gstin', 'client-address', 'client-state', 'bank-details', 'notes'].forEach(id => {
+      getEl(id)?.addEventListener('input', renderInvoice);
+    });
+
+    // Default Date
+    getEl('inv-date').valueAsDate = new Date();
+
+    // Add Item
+    document.getElementById('add-item-btn')?.addEventListener('click', () => {
+      items.push({ id: Date.now(), desc: '', qty: 1, rate: 0, gst: 18 });
+      renderFormItems();
+      renderInvoice();
+    });
+
+    // Render the Form items
+    function renderFormItems() {
+      const container = document.getElementById('items-container');
+      if (!container) return;
+      
+      container.innerHTML = items.map((item, index) => `
+        <div class="relative grid grid-cols-12 gap-3 p-4 border border-base rounded-md bg-subtle/50">
+          <div class="col-span-12 md:col-span-5 flex flex-col gap-1">
+            <label class="text-[10px] font-bold uppercase text-muted">Description</label>
+            <input type="text" placeholder="Item Name" value="${item.desc}" oninput="updateItem(${item.id}, 'desc', this.value)" class="w-full rounded border border-base px-2 py-1.5 text-sm focus:border-accent focus:ring-1 outline-none" />
+          </div>
+          <div class="col-span-4 md:col-span-2 flex flex-col gap-1">
+            <label class="text-[10px] font-bold uppercase text-muted">Qty</label>
+            <input type="number" min="1" value="${item.qty}" oninput="updateItem(${item.id}, 'qty', this.value)" class="w-full rounded border border-base px-2 py-1.5 text-sm focus:border-accent focus:ring-1 outline-none" />
+          </div>
+          <div class="col-span-4 md:col-span-2 flex flex-col gap-1">
+            <label class="text-[10px] font-bold uppercase text-muted">Rate (₹)</label>
+            <input type="number" min="0" value="${item.rate}" oninput="updateItem(${item.id}, 'rate', this.value)" class="w-full rounded border border-base px-2 py-1.5 text-sm focus:border-accent focus:ring-1 outline-none" />
+          </div>
+          <div class="col-span-4 md:col-span-2 flex flex-col gap-1">
+            <label class="text-[10px] font-bold uppercase text-muted">GST %</label>
+            <select onchange="updateItem(${item.id}, 'gst', this.value)" class="w-full rounded border border-base px-2 py-1.5 text-sm focus:border-accent focus:ring-1 outline-none">
+              <option value="0" ${item.gst == 0 ? 'selected' : ''}>0%</option>
+              <option value="5" ${item.gst == 5 ? 'selected' : ''}>5%</option>
+              <option value="12" ${item.gst == 12 ? 'selected' : ''}>12%</option>
+              <option value="18" ${item.gst == 18 ? 'selected' : ''}>18%</option>
+              <option value="28" ${item.gst == 28 ? 'selected' : ''}>28%</option>
+            </select>
+          </div>
+          <div class="col-span-12 md:col-span-1 flex items-end justify-end">
+            <button onclick="removeItem(${item.id})" class="text-red-500 hover:bg-red-50 p-1.5 rounded" title="Remove Row">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Global hooks for inline handlers
+    (window as any).updateItem = (id: number, field: string, val: string) => {
+      const item = items.find(i => i.id === id);
+      if (item) {
+        if (field === 'desc') item.desc = val;
+        else (item as any)[field] = Number(val);
+        renderInvoice();
+      }
+    };
+
+    (window as any).removeItem = (id: number) => {
+      if (items.length > 1) {
+        items = items.filter(i => i.id !== id);
+        renderFormItems();
+        renderInvoice();
+      }
+    };
+
+    // Core Render Engine
+    function renderInvoice() {
+      // 1. Text Fields
+      document.getElementById('prev-biller-name')!.textContent = getEl('biller-name').value || 'Business Name';
+      document.getElementById('prev-auth-name')!.textContent = getEl('biller-name').value || 'Business Name';
+      document.getElementById('prev-biller-address')!.textContent = getEl('biller-address').value || '';
+      document.getElementById('prev-biller-gstin')!.textContent = getEl('biller-gstin').value || 'N/A';
+      document.getElementById('prev-biller-state')!.textContent = getEl('biller-state').value || 'N/A';
+      
+      document.getElementById('prev-client-name')!.textContent = getEl('client-name').value || 'Client Name';
+      document.getElementById('prev-client-address')!.textContent = getEl('client-address').value || '';
+      document.getElementById('prev-client-gstin')!.textContent = getEl('client-gstin').value || 'N/A';
+      document.getElementById('prev-client-state')!.textContent = getEl('client-state').value || 'N/A';
+      
+      document.getElementById('prev-inv-no')!.textContent = getEl('inv-no').value;
+      const dateVal = getEl('inv-date').value;
+      document.getElementById('prev-inv-date')!.textContent = dateVal ? new Date(dateVal).toLocaleDateString('en-IN') : '';
+
+      // Notes & Bank
+      document.getElementById('prev-bank-details')!.textContent = getEl('bank-details').value;
+      document.getElementById('prev-notes')!.textContent = getEl('notes').value;
+      
+      document.getElementById('prev-bank-container')!.style.display = getEl('bank-details').value ? 'block' : 'none';
+      document.getElementById('prev-notes-container')!.style.display = getEl('notes').value ? 'block' : 'none';
+
+      // 2. Calculations
+      const isInterState = (getEl('biller-state').value && getEl('client-state').value) 
+        ? getEl('biller-state').value !== getEl('client-state').value 
+        : false; // Default to Intra (CGST/SGST) if unknown
+
+      let subtotal = 0;
+      let totalGst = 0;
+
+      const tbody = document.getElementById('prev-items-body')!;
+      tbody.innerHTML = '';
+
+      items.forEach((item, index) => {
+        const amt = item.qty * item.rate;
+        const gstAmt = amt * (item.gst / 100);
+        
+        subtotal += amt;
+        totalGst += gstAmt;
+
+        tbody.innerHTML += `
+          <tr>
+            <td class="py-3 px-2 text-gray-700">${index + 1}</td>
+            <td class="py-3 px-2 text-gray-800 font-medium">${item.desc || '-'}</td>
+            <td class="py-3 px-2 text-gray-700 text-right">${item.qty}</td>
+            <td class="py-3 px-2 text-gray-700 text-right font-mono">₹${item.rate.toFixed(2)}</td>
+            <td class="py-3 px-2 text-gray-700 text-right">${item.gst}%</td>
+            <td class="py-3 px-2 text-gray-800 text-right font-mono font-medium">₹${amt.toFixed(2)}</td>
+          </tr>
+        `;
+      });
+
+      const grandTotal = subtotal + totalGst;
+
+      // Update Total Table
+      document.getElementById('prev-subtotal')!.textContent = `₹${subtotal.toFixed(2)}`;
+      document.getElementById('prev-total')!.textContent = `₹${Math.round(grandTotal).toFixed(2)}`; // Govt rounds off invoice total
+      
+      document.getElementById('prev-words')!.textContent = numberToWords(Math.round(grandTotal));
+
+      // Toggle GST Rows
+      const rCGST = document.getElementById('row-cgst')!;
+      const rSGST = document.getElementById('row-sgst')!;
+      const rIGST = document.getElementById('row-igst')!;
+
+      if (isInterState) {
+        rCGST.classList.add('hidden');
+        rSGST.classList.add('hidden');
+        rIGST.classList.remove('hidden');
+        document.getElementById('prev-igst')!.textContent = `₹${totalGst.toFixed(2)}`;
+      } else {
+        rIGST.classList.add('hidden');
+        rCGST.classList.remove('hidden');
+        rSGST.classList.remove('hidden');
+        document.getElementById('prev-cgst')!.textContent = `₹${(totalGst / 2).toFixed(2)}`;
+        document.getElementById('prev-sgst')!.textContent = `₹${(totalGst / 2).toFixed(2)}`;
+      }
+    }
+
+    // Initial Render
+    renderFormItems();
+    renderInvoice();
+
+    // Print Handler
+    document.getElementById('print-btn')?.addEventListener('click', () => {
+      window.print();
+    });
+
+  </script>
+</BaseLayout>

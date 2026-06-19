@@ -1,0 +1,422 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'Reverse Charge Mechanism (RCM) Calculator | GST India 2026';
+const description = 'Free offline RCM Calculator to instantly compute your reverse charge GST liability for GTA, Legal Services, Security, and Sponsorship under Indian GST laws.';
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'RCM Calculator',
+    url: Astro.site?.toString() ? `${Astro.site}rcm-calculator` : 'https://example.com/rcm-calculator',
+    description: 'Calculate Reverse Charge Mechanism (RCM) GST liability instantly.',
+    applicationCategory: 'FinanceApplication',
+    operatingSystem: 'Any',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What is Reverse Charge Mechanism (RCM) under GST?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Under normal circumstances, the supplier of goods or services collects GST from the buyer and pays it to the government. Under RCM, the liability to pay GST is reversed—the receiver of the goods/services must pay the tax directly to the government.',
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Which services fall under RCM?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Common services under RCM include Goods Transport Agency (GTA) services (5%), Legal services by advocates (18%), Sponsorship services (18%), Security services (18%), and Renting of Motor Vehicles (5%).',
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Can I claim Input Tax Credit (ITC) on RCM payments?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Yes, the recipient who pays GST under RCM can claim Input Tax Credit (ITC) for the tax paid, provided the goods or services are used for business purposes.',
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Do I need to pay RCM in cash or can I use ITC?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'You must pay your RCM liability entirely in cash through a GST challan. You cannot use your existing Input Tax Credit (ITC) balance to offset an RCM liability.',
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'When can I claim ITC on the RCM paid?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'You can claim the ITC in the same month you pay the RCM liability in cash. Simply declare the liability in table 3.1(d) of GSTR-3B and claim the corresponding ITC in table 4(A)(3).',
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Are unregistered dealers liable for RCM?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'If a person is required to pay tax under RCM, they must compulsorily register for GST, regardless of their turnover. The normal threshold limit of ₹20 Lakhs / ₹40 Lakhs does not apply to them.',
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'What is the RCM rate for Goods Transport Agency (GTA)?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'If the GTA does not opt to pay forward charge at 12%, the recipient of the GTA services must pay RCM at the rate of 5% (2.5% CGST + 2.5% SGST or 5% IGST).',
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'What happens if I forget to pay RCM?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Failing to pay RCM attracts interest at the rate of 18% per annum from the due date of payment until the actual date of payment, along with potential penalties under Section 122.',
+        }
+      }
+    ]
+  }
+];
+
+const rcmServices = [
+  { name: 'Goods Transport Agency (GTA)', rate: 5 },
+  { name: 'Legal Services by Advocates/Firm', rate: 18 },
+  { name: 'Sponsorship Services', rate: 18 },
+  { name: 'Security Services', rate: 18 },
+  { name: 'Renting of Motor Vehicle', rate: 5 },
+  { name: 'Import of Service', rate: 18 },
+  { name: 'Copyright/Music Composer Services', rate: 12 },
+  { name: 'Custom (Enter own rate)', rate: 0 }
+];
+---
+
+<BaseLayout {title} {description} {structuredData}>
+  <div class="mx-auto max-w-3xl px-4 sm:px-6 py-12 lg:py-24">
+    <!-- Header -->
+    <div class="mb-10 text-center">
+      <div class="inline-flex items-center gap-2 rounded-full border border-base bg-surface px-4 py-1.5 text-[12px] font-mono uppercase tracking-wider text-muted mb-4 shadow-[0_1px_1px_#00000005]">
+        <span class="h-1.5 w-1.5 rounded-full bg-accent"></span>
+        100% Offline Tool
+      </div>
+      <h1 class="text-4xl sm:text-5xl font-bold tracking-tight text-base mb-4">
+        RCM Calculator
+      </h1>
+      <p class="text-[16px] text-muted max-w-xl mx-auto leading-relaxed">
+        Calculate your Reverse Charge Mechanism GST liability instantly. Select the service category and get an accurate tax breakdown.
+      </p>
+    </div>
+
+    <!-- Main Tool Container -->
+    <div class="rounded-[12px] border border-base bg-surface p-6 sm:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] mb-12">
+      <div class="flex flex-col gap-6">
+        
+        <!-- Inputs -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="flex flex-col gap-2">
+            <label for="service-value" class="text-sm font-semibold text-base">Service Value (₹)</label>
+            <input 
+              type="number" 
+              id="service-value" 
+              class="w-full rounded-md border border-base bg-surface px-4 py-3 text-[16px] font-mono focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent transition-colors"
+              placeholder="e.g. 50000"
+              min="0"
+            />
+          </div>
+
+          <div class="flex flex-col gap-2">
+            <label for="transaction-type" class="text-sm font-semibold text-base">Transaction Type</label>
+            <select 
+              id="transaction-type" 
+              class="w-full rounded-md border border-base bg-surface px-4 py-3 text-[16px] font-medium focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent transition-colors"
+            >
+              <option value="intra">Intra-State (CGST + SGST)</option>
+              <option value="inter">Inter-State (IGST)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-[2fr_1fr] gap-6">
+          <div class="flex flex-col gap-2">
+            <label for="service-type" class="text-sm font-semibold text-base">Service Category</label>
+            <select 
+              id="service-type" 
+              class="w-full rounded-md border border-base bg-surface px-4 py-3 text-[16px] font-medium focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent transition-colors"
+            >
+              {rcmServices.map(s => <option value={s.rate}>{s.name} ({s.rate}%)</option>)}
+            </select>
+          </div>
+
+          <div class="flex flex-col gap-2">
+            <label for="custom-rate" class="text-sm font-semibold text-base">GST Rate (%)</label>
+            <input 
+              type="number" 
+              id="custom-rate" 
+              class="w-full rounded-md border border-base bg-subtle px-4 py-3 text-[16px] font-mono focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent transition-colors"
+              value="5"
+              readonly
+            />
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Result Card -->
+      <div class="mt-8 overflow-hidden rounded-[8px] border border-base bg-subtle transition-all duration-300">
+        <div class="p-6">
+          <h3 class="text-[14px] font-medium text-muted mb-4 uppercase tracking-wider">Your RCM Liability</h3>
+          
+          <div class="space-y-4">
+            <div class="flex justify-between items-center pb-4 border-b border-base/50">
+              <span class="text-base font-medium">Service Value:</span>
+              <span class="text-xl font-mono text-base" id="res-val">₹0</span>
+            </div>
+
+            <div id="res-cgst-box" class="flex justify-between items-center text-muted">
+              <span>CGST Liability:</span>
+              <span class="text-lg font-mono" id="res-cgst">₹0</span>
+            </div>
+            
+            <div id="res-sgst-box" class="flex justify-between items-center text-muted">
+              <span>SGST Liability:</span>
+              <span class="text-lg font-mono" id="res-sgst">₹0</span>
+            </div>
+
+            <div id="res-igst-box" class="hidden justify-between items-center text-muted">
+              <span>IGST Liability:</span>
+              <span class="text-lg font-mono" id="res-igst">₹0</span>
+            </div>
+
+            <div class="flex justify-between items-center pt-4 border-t border-base/50">
+              <span class="text-lg font-bold text-accent">Total GST Payable:</span>
+              <span class="text-3xl font-mono font-bold text-accent" id="res-total">₹0</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="border-t border-blue-200/50 bg-blue-50 dark:bg-blue-900/10 dark:border-blue-900/30 p-4">
+          <p class="text-sm text-blue-700 dark:text-blue-400 font-medium">
+            💡 Note: You must pay this tax in cash. You cannot use existing ITC to pay RCM liabilities. However, once paid, you can claim it as ITC in the same month.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEO Content -->
+    <article class="prose prose-neutral dark:prose-invert max-w-none text-[15px] leading-relaxed">
+      <h2 class="text-2xl font-semibold mb-4">Understanding Reverse Charge Mechanism (RCM)</h2>
+      <p>
+        The Indian Goods and Services Tax (GST) system operates primarily on a forward charge basis. This means the supplier of goods or services issues an invoice, collects the tax from the buyer, and remits it to the government. However, to widen the tax net and ensure compliance in unorganized sectors, the Central Board of Indirect Taxes and Customs (CBIC) introduced the <strong>Reverse Charge Mechanism (RCM)</strong>.
+      </p>
+      <p>
+        Under RCM, the liability to pay tax is completely inverted. The recipient (buyer) of the goods or services is legally obligated to self-assess the tax, pay it directly to the government, and then claim it back as Input Tax Credit (ITC). Our <strong>RCM Calculator Online</strong> is built to help accountants and business owners accurately determine this liability without complex manual math.
+      </p>
+      
+      <h3>Why was RCM Introduced?</h3>
+      <p>The government implemented the Reverse Charge Mechanism for three main reasons:</p>
+      <ul>
+        <li><strong>Taxing the Unorganized Sector:</strong> Certain sectors, like Goods Transport Agencies (GTAs) or freelance security providers, are largely unorganized. It is easier for the government to collect tax from the organized corporate recipient than from thousands of small, unregistered suppliers.</li>
+        <li><strong>Import of Services:</strong> When you import a service from outside India (e.g., buying server space from a US company), the foreign supplier isn't registered under Indian GST. Therefore, the Indian recipient must pay the GST via RCM.</li>
+        <li><strong>Legal and Specialized Services:</strong> For services like legal advocacy, the burden of tax compliance is shifted to the business receiving the service rather than the lawyers themselves.</li>
+      </ul>
+
+      <h3>Key Compliance Rules for RCM</h3>
+      <p>Failing to comply with RCM rules can lead to heavy penalties and 18% interest. Here are the iron-clad rules you must follow:</p>
+      <ol>
+        <li><strong>Compulsory Registration:</strong> If you purchase goods or services that fall under RCM, you must obtain GST registration immediately. The standard turnover threshold limits (₹20 Lakhs or ₹40 Lakhs) <em>do not apply</em> to you. Section 24 of the CGST Act mandates compulsory registration for persons required to pay tax under reverse charge.</li>
+        <li><strong>Cash Payment Only:</strong> You cannot use your existing Input Tax Credit (ITC) balance to pay your RCM liability. Your electronic credit ledger cannot be touched for this. You must generate a challan and pay the RCM liability in hard cash via your bank account.</li>
+        <li><strong>Instant ITC Claim:</strong> The silver lining is that once you pay the RCM in cash, you can immediately claim that exact amount as Input Tax Credit in the same month's GSTR-3B return (provided the expense is used for the furtherance of business).</li>
+        <li><strong>Self-Invoicing:</strong> If you buy from an unregistered supplier and the transaction falls under RCM, you must issue an "Invoice" to yourself (Self-Invoicing) on the date of receipt of goods/services. You must also issue a "Payment Voucher" at the time of making payment to the supplier.</li>
+      </ol>
+
+      <h3>Complete List of Common RCM Services (2026)</h3>
+      <p>
+        While our calculator automates the rates, it is crucial to understand which services trigger RCM:
+      </p>
+      <ul>
+        <li><strong>Goods Transport Agency (GTA):</strong> If the GTA does not charge 12% forward charge, the recipient must pay 5% RCM.</li>
+        <li><strong>Legal Services:</strong> Services provided by an individual advocate or senior advocate to a business entity (18% RCM).</li>
+        <li><strong>Sponsorship Services:</strong> Provided to a body corporate or partnership firm (18% RCM).</li>
+        <li><strong>Security Services:</strong> Personnel provided by any person (other than a body corporate) to a registered person (18% RCM).</li>
+        <li><strong>Renting of Motor Vehicle:</strong> Where the cost of fuel is included, provided to a body corporate (5% RCM).</li>
+        <li><strong>Import of Services:</strong> Any service imported into India for business purposes (18% RCM).</li>
+        <li><strong>Director Services:</strong> Services supplied by a director of a company to the said company (18% RCM).</li>
+        <li><strong>Copyright Services:</strong> Services by an author, music composer, or photographer (12% or 18% RCM depending on the specific copyright).</li>
+      </ul>
+
+      <h3>How to Report RCM in GSTR-3B</h3>
+      <p>Reporting RCM correctly in your monthly GSTR-3B return is vital to avoid notices from the GST department. It involves a two-step entry:</p>
+      <ol>
+        <li><strong>Declare Liability:</strong> Enter the taxable value and the tax amount in <strong>Table 3.1(d)</strong> — <em>Inward supplies (liable to reverse charge)</em>. This will increase your total tax liability, which you must pay via cash challan.</li>
+        <li><strong>Claim ITC:</strong> In the exact same return, go to <strong>Table 4(A)(3)</strong> — <em>ITC Available (Inward supplies liable to reverse charge)</em> and enter the identical tax amount. This adds the money back into your electronic credit ledger for future use against your normal outbound sales.</li>
+      </ol>
+    </article>
+
+    <!-- FAQ Section -->
+    <section class="mt-16 pt-12 border-t border-base" aria-labelledby="faq-heading">
+      <h2 id="faq-heading" class="text-2xl sm:text-3xl font-bold text-base mb-8">
+        Frequently Asked Questions
+      </h2>
+      <div class="space-y-4">
+        
+        <details class="group rounded-xl border border-base bg-surface overflow-hidden">
+          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+            <span>What is Reverse Charge Mechanism (RCM) under GST?</span>
+            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-muted leading-relaxed border-t border-base pt-4">
+            Under normal circumstances, the supplier of goods or services collects GST from the buyer and pays it to the government. Under RCM, the liability to pay GST is reversed—the receiver of the goods/services must pay the tax directly to the government.
+          </div>
+        </details>
+
+        <details class="group rounded-xl border border-base bg-surface overflow-hidden">
+          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+            <span>Which services fall under RCM?</span>
+            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-muted leading-relaxed border-t border-base pt-4">
+            Common services under RCM include Goods Transport Agency (GTA) services (5%), Legal services by advocates (18%), Sponsorship services (18%), Security services (18%), and Renting of Motor Vehicles (5%).
+          </div>
+        </details>
+
+        <details class="group rounded-xl border border-base bg-surface overflow-hidden">
+          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+            <span>Can I claim Input Tax Credit (ITC) on RCM payments?</span>
+            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-muted leading-relaxed border-t border-base pt-4">
+            Yes, the recipient who pays GST under RCM can claim Input Tax Credit (ITC) for the tax paid, provided the goods or services are used for business purposes. The ITC can be claimed in the same month's GSTR-3B return.
+          </div>
+        </details>
+
+        <details class="group rounded-xl border border-base bg-surface overflow-hidden">
+          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+            <span>Do I need to pay RCM in cash or can I use ITC?</span>
+            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-muted leading-relaxed border-t border-base pt-4">
+            You must pay your RCM liability entirely in cash through a GST challan. You cannot use your existing Input Tax Credit (ITC) balance in the electronic credit ledger to offset an RCM liability.
+          </div>
+        </details>
+
+        <details class="group rounded-xl border border-base bg-surface overflow-hidden">
+          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+            <span>When can I claim ITC on the RCM paid?</span>
+            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-muted leading-relaxed border-t border-base pt-4">
+            You can claim the ITC in the exact same month you pay the RCM liability in cash. Simply declare the liability in table 3.1(d) of GSTR-3B and claim the corresponding ITC in table 4(A)(3).
+          </div>
+        </details>
+
+        <details class="group rounded-xl border border-base bg-surface overflow-hidden">
+          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+            <span>Are unregistered dealers liable for RCM?</span>
+            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-muted leading-relaxed border-t border-base pt-4">
+            If an unregistered person is legally required to pay tax under reverse charge (for example, by importing a service for business), they must compulsorily register for GST immediately. The ₹20 Lakh / ₹40 Lakh threshold limit does not apply to them.
+          </div>
+        </details>
+
+        <details class="group rounded-xl border border-base bg-surface overflow-hidden">
+          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+            <span>What is the RCM rate for Goods Transport Agency (GTA)?</span>
+            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-muted leading-relaxed border-t border-base pt-4">
+            If the GTA does not opt to pay forward charge at 12%, the recipient of the GTA services (if they belong to the specified category of persons like a factory, society, or registered business) must pay RCM at the rate of 5%.
+          </div>
+        </details>
+
+        <details class="group rounded-xl border border-base bg-surface overflow-hidden">
+          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+            <span>What happens if I forget to pay RCM?</span>
+            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-muted leading-relaxed border-t border-base pt-4">
+            Failing to pay RCM attracts interest at the rate of 18% per annum from the original due date of payment until the actual date of payment. Furthermore, the GST department can levy penalties under Section 122 for non-payment of tax.
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    const valInput = document.getElementById('service-value') as HTMLInputElement;
+    const typeSelect = document.getElementById('transaction-type') as HTMLSelectElement;
+    const catSelect = document.getElementById('service-type') as HTMLSelectElement;
+    const rateInput = document.getElementById('custom-rate') as HTMLInputElement;
+
+    const resVal = document.getElementById('res-val')!;
+    const resCgstBox = document.getElementById('res-cgst-box')!;
+    const resCgst = document.getElementById('res-cgst')!;
+    const resSgstBox = document.getElementById('res-sgst-box')!;
+    const resSgst = document.getElementById('res-sgst')!;
+    const resIgstBox = document.getElementById('res-igst-box')!;
+    const resIgst = document.getElementById('res-igst')!;
+    const resTotal = document.getElementById('res-total')!;
+
+    function formatCur(num: number) {
+      return '₹' + num.toLocaleString('en-IN', { maximumFractionDigits: 2, minimumFractionDigits: 2 });
+    }
+
+    function calculate() {
+      const val = parseFloat(valInput.value) || 0;
+      const type = typeSelect.value;
+      const rate = parseFloat(rateInput.value) || 0;
+
+      const totalGst = val * (rate / 100);
+
+      resVal.textContent = formatCur(val);
+      resTotal.textContent = formatCur(totalGst);
+
+      if (type === 'intra') {
+        resCgstBox.classList.remove('hidden');
+        resCgstBox.classList.add('flex');
+        resSgstBox.classList.remove('hidden');
+        resSgstBox.classList.add('flex');
+        resIgstBox.classList.remove('flex');
+        resIgstBox.classList.add('hidden');
+
+        resCgst.textContent = formatCur(totalGst / 2);
+        resSgst.textContent = formatCur(totalGst / 2);
+      } else {
+        resCgstBox.classList.remove('flex');
+        resCgstBox.classList.add('hidden');
+        resSgstBox.classList.remove('flex');
+        resSgstBox.classList.add('hidden');
+        resIgstBox.classList.remove('hidden');
+        resIgstBox.classList.add('flex');
+
+        resIgst.textContent = formatCur(totalGst);
+      }
+    }
+
+    catSelect.addEventListener('change', () => {
+      if (catSelect.options[catSelect.selectedIndex].text.includes('Custom')) {
+        rateInput.readOnly = false;
+        rateInput.classList.remove('bg-subtle');
+        rateInput.classList.add('bg-surface');
+      } else {
+        rateInput.value = catSelect.value;
+        rateInput.readOnly = true;
+        rateInput.classList.add('bg-subtle');
+        rateInput.classList.remove('bg-surface');
+      }
+      calculate();
+    });
+
+    [valInput, typeSelect, rateInput].forEach(el => el.addEventListener('input', calculate));
+    
+  </script>
+</BaseLayout>

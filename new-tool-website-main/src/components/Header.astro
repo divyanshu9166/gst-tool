@@ -1,0 +1,186 @@
+---
+/**
+ * Header — sticky top navigation with mobile hamburger menu and dark mode toggle.
+ */
+const navLinks = [
+  { href: '/', label: 'Home' },
+  { href: '/gst-calculator', label: 'GST Calculator' },
+  { href: '/invoice-generator', label: 'Invoice Generator' },
+  { href: '/rcm-calculator', label: 'RCM Calculator' },
+  { href: '/composition-scheme-calculator', label: 'Composition Scheme' },
+  { href: '/itc-calculator', label: 'ITC Calculator' },
+  { href: '/gst-interest-calculator', label: 'Interest Calculator' },
+  { href: '/tds-gst-calculator', label: 'TDS Calculator' },
+  { href: '/tcs-gst-calculator', label: 'TCS Calculator' },
+  { href: '/gst-penalty-calculator', label: 'Penalty Calculator' },
+  { href: '/hsn-code-lookup', label: 'HSN Lookup' },
+  { href: '/eway-bill-validity', label: 'E-Way Validity' },
+  { href: '/blog', label: 'Blog' },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<header
+  class="sticky top-0 z-50 w-full border-b border-base bg-white/90 dark:bg-[#0a0a0a]/90 backdrop-blur-md"
+  role="banner"
+>
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="flex h-16 items-center justify-between">
+
+      <!-- Logo / Brand -->
+      <a
+        href="/"
+        class="flex items-center gap-2 font-semibold text-base hover:text-accent transition-colors"
+        aria-label="GST HSN Lookup — Home"
+      >
+        <!-- Simple SVG logo mark -->
+        <svg
+          width="28"
+          height="28"
+          viewBox="0 0 28 28"
+          fill="none"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <rect width="28" height="28" rx="6" fill="rgb(var(--accent))" />
+          <text
+            x="14"
+            y="19"
+            text-anchor="middle"
+            font-family="Inter, sans-serif"
+            font-size="13"
+            font-weight="700"
+            fill="white"
+          >GST</text>
+        </svg>
+        <span class="text-lg tracking-tight">GST<span class="text-accent">Tools</span></span>
+      </a>
+
+      <!-- Desktop nav -->
+      <nav class="hidden md:flex items-center gap-1" aria-label="Main navigation">
+        {navLinks.map(({ href, label }) => (
+          <a
+            href={href}
+            class={[
+              'px-3 py-2 rounded-md text-sm font-medium transition-colors',
+              currentPath === href
+                ? 'bg-subtle text-accent'
+                : 'text-muted hover:text-base hover:bg-subtle',
+            ].join(' ')}
+            aria-current={currentPath === href ? 'page' : undefined}
+          >
+            {label}
+          </a>
+        ))}
+      </nav>
+
+      <!-- Right side: dark mode toggle + mobile menu button -->
+      <div class="flex items-center gap-2">
+        <!-- Dark mode toggle -->
+        <button
+          id="theme-toggle"
+          type="button"
+          aria-label="Toggle dark mode"
+          class="rounded-md p-2 text-muted hover:text-base hover:bg-subtle transition-colors"
+        >
+          <!-- Sun icon (shown in dark mode) -->
+          <svg id="icon-sun" class="hidden h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707M17.657 17.657l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8z" />
+          </svg>
+          <!-- Moon icon (shown in light mode) -->
+          <svg id="icon-moon" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+          </svg>
+        </button>
+
+        <!-- Mobile hamburger -->
+        <button
+          id="mobile-menu-btn"
+          type="button"
+          aria-label="Open navigation menu"
+          aria-expanded="false"
+          aria-controls="mobile-menu"
+          class="md:hidden rounded-md p-2 text-muted hover:text-base hover:bg-subtle transition-colors"
+        >
+          <svg id="icon-menu" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          <svg id="icon-close" class="hidden h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile menu (hidden by default) -->
+  <div
+    id="mobile-menu"
+    class="hidden md:hidden border-b border-base bg-white/95 dark:bg-[#0a0a0a]/95 backdrop-blur-xl absolute w-full shadow-xl z-50"
+    role="navigation"
+    aria-label="Mobile navigation"
+  >
+    <div class="px-4 py-4 space-y-2">
+      {navLinks.map(({ href, label }) => (
+        <a
+          href={href}
+          class={[
+            'block px-4 py-3 rounded-md text-[16px] font-medium transition-colors',
+            currentPath === href
+              ? 'bg-subtle text-accent'
+              : 'text-muted hover:text-base hover:bg-subtle',
+          ].join(' ')}
+          aria-current={currentPath === href ? 'page' : undefined}
+        >
+          {label}
+        </a>
+      ))}
+    </div>
+  </div>
+</header>
+
+<script>
+  // ── Dark mode toggle ──────────────────────────────────────────────────────
+  const html = document.documentElement;
+  const themeBtn = document.getElementById('theme-toggle');
+  const iconSun = document.getElementById('icon-sun');
+  const iconMoon = document.getElementById('icon-moon');
+
+  function applyTheme(dark: boolean) {
+    html.classList.toggle('dark', dark);
+    iconSun?.classList.toggle('hidden', !dark);
+    iconMoon?.classList.toggle('hidden', dark);
+    localStorage.setItem('theme', dark ? 'dark' : 'light');
+  }
+
+  // Initialise icons based on current state
+  applyTheme(html.classList.contains('dark'));
+
+  themeBtn?.addEventListener('click', () => {
+    applyTheme(!html.classList.contains('dark'));
+  });
+
+  // ── Mobile menu toggle ────────────────────────────────────────────────────
+  const mobileBtn = document.getElementById('mobile-menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const iconMenuEl = document.getElementById('icon-menu');
+  const iconCloseEl = document.getElementById('icon-close');
+
+  mobileBtn?.addEventListener('click', () => {
+    const isOpen = mobileMenu?.classList.toggle('hidden') === false;
+    mobileBtn.setAttribute('aria-expanded', String(isOpen));
+    iconMenuEl?.classList.toggle('hidden', isOpen);
+    iconCloseEl?.classList.toggle('hidden', !isOpen);
+  });
+
+  // Close mobile menu on nav link click
+  mobileMenu?.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => {
+      mobileMenu.classList.add('hidden');
+      mobileBtn?.setAttribute('aria-expanded', 'false');
+      iconMenuEl?.classList.remove('hidden');
+      iconCloseEl?.classList.add('hidden');
+    });
+  });
+</script>

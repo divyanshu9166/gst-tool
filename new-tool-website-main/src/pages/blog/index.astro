@@ -1,0 +1,75 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const title = 'GST Tools India Blog — Latest GST Updates & Guides';
+const description = 'Read our latest guides, tutorials, and updates on GST rules, return filing, HSN codes, and compliance for Indian businesses.';
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Blog',
+  name: title,
+  description: description,
+  url: `${Astro.site?.toString() ?? 'https://example.com'}/blog`,
+};
+---
+
+<BaseLayout {title} {description} {structuredData}>
+  <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+    <div class="mb-16 text-center">
+      <h1 class="text-4xl sm:text-5xl font-semibold tracking-[-1.28px] text-base mb-6">Latest from the Blog</h1>
+      <p class="text-[18px] text-muted max-w-2xl mx-auto leading-relaxed">
+        Expert guides on GST registration, calculating taxes, finding HSN codes, and staying compliant with Indian tax laws.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      {posts.map((post) => (
+        <a href={`/blog/${post.slug}/`} class="group flex flex-col rounded-[8px] border border-base bg-surface overflow-hidden transition-all duration-200 hover:border-accent hover:shadow-[0_2px_2px_#0000000a,0_8px_8px_-8px_#0000000a]">
+          {post.data.heroImage ? (
+            <div class="aspect-[16/9] w-full overflow-hidden border-b border-base">
+              <img src={post.data.heroImage} alt={post.data.title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+            </div>
+          ) : (
+            <div class="aspect-[16/9] w-full bg-subtle border-b border-base flex items-center justify-center">
+              <span class="text-muted text-[14px]">GST Guide</span>
+            </div>
+          )}
+          <div class="p-6 flex flex-col flex-1">
+            <div class="text-[13px] font-mono text-muted mb-3 flex items-center gap-2">
+              <time datetime={post.data.pubDate.toISOString()}>
+                {post.data.pubDate.toLocaleDateString('en-IN', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                })}
+              </time>
+              {post.data.tags && post.data.tags.length > 0 && (
+                <>
+                  <span aria-hidden="true">&middot;</span>
+                  <span class="text-accent">{post.data.tags[0]}</span>
+                </>
+              )}
+            </div>
+            <h2 class="text-[20px] font-semibold tracking-[-0.6px] text-base mb-3 group-hover:text-accent transition-colors">
+              {post.data.title}
+            </h2>
+            <p class="text-[14px] text-muted leading-relaxed flex-1">
+              {post.data.description}
+            </p>
+            <div class="mt-6 flex items-center gap-1 text-[14px] font-medium text-accent">
+              Read article
+              <svg class="h-4 w-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+            </div>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</BaseLayout>

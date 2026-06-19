@@ -1,0 +1,57 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = '404 — Page Not Found | GST HSN Lookup';
+const description = 'The page you are looking for could not be found. Return to GST HSN Lookup for free GST tools.';
+---
+
+<BaseLayout {title} {description} noindex={true}>
+  <div class="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8 py-24 text-center">
+    <!-- Large 404 -->
+    <div class="text-8xl sm:text-9xl font-bold text-accent/20 select-none mb-4" aria-hidden="true">
+      404
+    </div>
+
+    <h1 class="text-2xl sm:text-3xl font-bold text-base mb-3">
+      Page Not Found
+    </h1>
+    <p class="text-muted mb-8 max-w-md mx-auto">
+      Sorry, we couldn't find the page you're looking for. It may have been moved, deleted, or the URL might be incorrect.
+    </p>
+
+    <!-- Quick links -->
+    <div class="flex flex-col sm:flex-row gap-3 justify-center mb-12">
+      <a
+        href="/"
+        class="inline-flex items-center justify-center gap-2 rounded-lg bg-accent px-5 py-2.5 text-sm font-semibold text-white hover:opacity-90 transition-opacity"
+      >
+        ← Back to Home
+      </a>
+      <a
+        href="/gst-calculator"
+        class="inline-flex items-center justify-center gap-2 rounded-lg border border-base bg-surface px-5 py-2.5 text-sm font-semibold text-base hover:bg-subtle transition-colors"
+      >
+        🧮 GST Calculator
+      </a>
+    </div>
+
+    <!-- Popular pages -->
+    <div class="rounded-xl border border-base bg-subtle p-6 text-left">
+      <h2 class="text-sm font-semibold text-base mb-4">Popular Pages</h2>
+      <ul class="space-y-2">
+        {[
+          { href: '/gst-calculator', label: 'GST Calculator — Add or remove GST instantly' },
+          { href: '/hsn-code-lookup', label: 'HSN Code Lookup — Search HSN/SAC codes with GST rates' },
+          { href: '/gstin-validator', label: 'GSTIN Validator — Validate any GST number offline' },
+          { href: '/faq', label: 'FAQ — Common GST questions answered' },
+        ].map(({ href, label }) => (
+          <li>
+            <a href={href} class="text-sm text-accent hover:underline">
+              {label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</BaseLayout>

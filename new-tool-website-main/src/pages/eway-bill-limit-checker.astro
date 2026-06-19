@@ -1,0 +1,392 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'E-Way Bill Limit State Wise Checker 2026 | GST India';
+const description = 'Instantly check the mandatory E-Way Bill threshold limits for intra-state and inter-state movement of goods across all Indian states in 2026.';
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'E-Way Bill Limit Checker',
+    url: Astro.site?.toString() ? `${Astro.site}eway-bill-limit-checker` : 'https://example.com/eway-bill-limit-checker',
+    description: 'Offline tool to calculate E-Way bill threshold limits across Indian states (Rs. 50,000 vs Rs. 1,00,000).',
+    applicationCategory: 'FinanceApplication',
+    operatingSystem: 'Any',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What is the minimum limit for an E-Way bill?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'For inter-state movement, the minimum limit is strictly ₹50,000 across India. However, for intra-state movement (within the same state), the limit varies. Many states like Maharashtra, Delhi, and Gujarat have increased it to ₹1,00,000, while others remain at ₹50,000.',
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Is an E-Way bill required for transport under 50 km?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Yes, if the consignment value exceeds the threshold limit, an E-way bill is required regardless of the distance. However, for movement within 50 km (intra-state) from the consignor to a transporter for further transportation, Part-B (vehicle details) of the E-Way bill is not mandatory to update.',
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Who is responsible for generating the E-Way bill?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'The registered consignor (seller) or consignee (buyer) who causes the movement of goods is primarily responsible. If they fail to generate it and hand the goods to a transporter, the transporter (GTA) becomes legally responsible for generating it before moving the vehicle.',
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Are there any exemptions where the threshold limit does not apply?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Yes. The ₹50k or ₹1 Lakh threshold limits do NOT apply to the inter-state movement of goods sent for Job Work, or the inter-state transport of handicraft goods by persons exempted from GST registration. In these specific cases, an E-Way bill must be generated even if the consignment value is zero.',
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Can I modify an E-Way bill after it is generated?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'No, you cannot edit or modify Part-A of an E-Way bill once generated. If there is a mistake in the invoice details, you must cancel the E-Way bill within 24 hours and generate a fresh one. However, you can update Part-B (vehicle details) multiple times if the vehicle breaks down or goods are transshipped.',
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'What happens if I transport goods without an E-Way bill?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Transporting goods without a mandatory E-Way bill can lead to detention and seizure of the goods and vehicle. A heavy penalty equal to 200% of the tax payable will be levied under Section 129.',
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Do I need an E-Way bill for exempt goods?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'No. The E-way bill generation is not required for the movement of goods that are entirely exempt from GST, regardless of the value of the consignment.',
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Does the consignment value include GST?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Yes. For the purpose of checking the ₹50,000 or ₹1 Lakh threshold, the consignment value is the total invoice value, which includes the taxable value plus the applicable CGST, SGST, IGST, and Cess.',
+        }
+      }
+    ]
+  }
+];
+
+const states = [
+  "Andaman and Nicobar Islands", "Andhra Pradesh", "Arunachal Pradesh", "Assam", 
+  "Bihar", "Chandigarh", "Chhattisgarh", "Dadra and Nagar Haveli", "Daman and Diu", 
+  "Delhi", "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jammu and Kashmir", 
+  "Jharkhand", "Karnataka", "Kerala", "Ladakh", "Lakshadweep", "Madhya Pradesh", 
+  "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Odisha", 
+  "Puducherry", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", 
+  "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal"
+];
+---
+
+<BaseLayout {title} {description} {structuredData}>
+  <div class="mx-auto max-w-3xl px-4 sm:px-6 py-12 lg:py-24">
+    <!-- Header -->
+    <div class="mb-10 text-center">
+      <div class="inline-flex items-center gap-2 rounded-full border border-base bg-surface px-4 py-1.5 text-[12px] font-mono uppercase tracking-wider text-muted mb-4 shadow-[0_1px_1px_#00000005]">
+        <span class="h-1.5 w-1.5 rounded-full bg-accent"></span>
+        Offline Tool
+      </div>
+      <h1 class="text-4xl sm:text-5xl font-bold tracking-tight text-base mb-4">
+        E-Way Bill Limit Checker
+      </h1>
+      <p class="text-[16px] text-muted max-w-xl mx-auto leading-relaxed">
+        Select your dispatch and destination states to instantly determine the mandatory E-Way bill threshold value for your consignment.
+      </p>
+    </div>
+
+    <!-- Main Tool Container -->
+    <div class="rounded-[12px] border border-base bg-surface p-6 sm:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] mb-12">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Source State -->
+        <div class="flex flex-col gap-2">
+          <label for="source-state" class="text-sm font-semibold text-base">Dispatch State (From)</label>
+          <select 
+            id="source-state" 
+            class="w-full rounded-md border border-base bg-surface px-4 py-3 text-[16px] font-medium focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent transition-colors"
+          >
+            <option value="" disabled selected>Select Origin State...</option>
+            {states.map(state => <option value={state}>{state}</option>)}
+          </select>
+        </div>
+
+        <!-- Destination State -->
+        <div class="flex flex-col gap-2">
+          <label for="dest-state" class="text-sm font-semibold text-base">Destination State (To)</label>
+          <select 
+            id="dest-state" 
+            class="w-full rounded-md border border-base bg-surface px-4 py-3 text-[16px] font-medium focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent transition-colors"
+          >
+            <option value="" disabled selected>Select Destination State...</option>
+            {states.map(state => <option value={state}>{state}</option>)}
+          </select>
+        </div>
+      </div>
+
+      <!-- Result Card -->
+      <div id="result-card" class="mt-8 hidden overflow-hidden rounded-[8px] border border-base bg-subtle transition-all duration-300">
+        <div class="p-6">
+          <div class="flex items-center gap-3 mb-2">
+            <span id="movement-type-badge" class="rounded-full px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider"></span>
+            <span class="text-sm font-medium text-muted" id="route-text"></span>
+          </div>
+          
+          <h3 class="text-[14px] font-medium text-muted mt-4">Mandatory Threshold Limit:</h3>
+          <div class="flex items-baseline gap-2 mt-1">
+            <span class="text-4xl sm:text-5xl font-bold tracking-tight text-accent" id="threshold-amount"></span>
+          </div>
+          <p class="text-sm text-muted mt-3 leading-relaxed" id="threshold-desc"></p>
+        </div>
+        
+        <!-- Exceptions / Note Block -->
+        <div id="exceptions-block" class="hidden border-t border-yellow-200/50 bg-yellow-50 dark:bg-yellow-900/10 dark:border-yellow-900/30 p-4 sm:px-6">
+          <div class="flex items-start gap-3">
+            <div class="mt-0.5 text-yellow-600 dark:text-yellow-500">
+              <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <div>
+              <h4 class="text-sm font-bold text-yellow-800 dark:text-yellow-400">Important State Exception</h4>
+              <p class="text-sm text-yellow-700 dark:text-yellow-500/80 mt-1" id="exception-text"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Empty State -->
+      <div id="empty-state" class="mt-8 text-center p-8 border border-dashed border-base rounded-[8px] bg-subtle/50">
+        <p class="text-muted text-sm">Select both states above to view the E-Way bill threshold limits.</p>
+      </div>
+    </div>
+
+    <!-- SEO Content -->
+    <article class="prose prose-neutral dark:prose-invert max-w-none text-[15px] leading-relaxed">
+      <h2 class="text-2xl font-semibold mb-4">Understanding E-Way Bill Limits & Rules in 2026</h2>
+      <p>
+        An <strong>Electronic Way Bill (E-Way Bill)</strong> is a critical compliance document mandated under the GST regime for the movement of goods in a motorized conveyance. If your consignment value exceeds the prescribed threshold limit, generating an E-way bill on the official NIC portal is mandatory before the dispatch of goods. 
+      </p>
+      
+      <h3>1. Inter-State Movement (Between Two Different States)</h3>
+      <p>
+        When goods are transported across state borders (e.g., from Maharashtra to Karnataka), it is legally classified as inter-state movement. The threshold limit for inter-state movement is universally fixed at <strong>₹50,000</strong> across India. If your total invoice value (including GST) exceeds this amount, generating an E-way bill is compulsory. Failure to do so can result in the detention of your vehicle and a massive penalty under Section 129 of the CGST Act.
+      </p>
+
+      <h3>2. Intra-State Movement (State-Wise Variances)</h3>
+      <p>
+        When goods are moved entirely within the boundaries of a single state, the threshold limit is decided by the respective State Government. To ease compliance for local MSMEs and small traders, the GST council allowed states to raise this limit. Currently, many states have increased this limit to <strong>₹1,00,000</strong>.
+      </p>
+      <ul>
+        <li><strong>States with ₹1,00,000 limit:</strong> Maharashtra, Gujarat, Delhi, Tamil Nadu, Bihar, Rajasthan, Punjab, and Haryana.</li>
+        <li><strong>States with ₹50,000 limit:</strong> Karnataka, Kerala, Uttar Pradesh, Telangana, Andhra Pradesh, West Bengal, and Odisha.</li>
+      </ul>
+
+      <div class="p-4 bg-red-50 dark:bg-red-900/10 border-l-4 border-red-500 rounded-r-md my-6">
+        <h4 class="text-red-800 dark:text-red-400 font-semibold m-0 mb-2">Mandatory Exceptions (No Minimum Limit)</h4>
+        <p class="text-red-700 dark:text-red-300 text-sm m-0">
+          Regardless of the ₹50,000 or ₹1 Lakh threshold, an E-Way Bill must be generated <strong>even if the value is zero</strong> in two highly specific cases:<br/>
+          1. Inter-state movement of goods sent for <strong>Job Work</strong> by a principal.<br/>
+          2. Inter-state transport of <strong>Handicraft goods</strong> by a person exempted from GST registration.
+        </p>
+      </div>
+
+      <h3>Validity of an E-Way Bill</h3>
+      <p>
+        An E-way bill is not valid forever. The validity depends entirely on the distance the goods must travel. For regular cargo, the rule is <strong>1 day for every 200 kilometers</strong>. For Over Dimensional Cargo (ODC), the validity is restricted to <strong>1 day for every 20 kilometers</strong>. You must ensure the goods reach their destination before the bill expires, or you must extend the validity on the portal before the deadline passes.
+      </p>
+    </article>
+
+    <!-- FAQ Section -->
+    <section class="mt-16 pt-12 border-t border-base" aria-labelledby="faq-heading">
+      <h2 id="faq-heading" class="text-2xl sm:text-3xl font-bold text-base mb-8">
+        Frequently Asked Questions
+      </h2>
+      <div class="space-y-4">
+        
+        <details class="group rounded-xl border border-base bg-surface overflow-hidden">
+          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+            <span>What is the minimum limit for an E-Way bill?</span>
+            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-muted leading-relaxed border-t border-base pt-4">
+            For inter-state movement, the minimum limit is strictly ₹50,000 across India. However, for intra-state movement (within the same state), the limit varies. Many states like Maharashtra, Delhi, and Gujarat have increased it to ₹1,00,000, while others remain at ₹50,000.
+          </div>
+        </details>
+
+        <details class="group rounded-xl border border-base bg-surface overflow-hidden">
+          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+            <span>Is an E-Way bill required for transport under 50 km?</span>
+            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-muted leading-relaxed border-t border-base pt-4">
+            Yes, if the consignment value exceeds the threshold limit, an E-way bill is required regardless of the distance. However, for movement within 50 km (intra-state) from the consignor to a transporter for further transportation, Part-B (vehicle details) of the E-Way bill is not mandatory to update.
+          </div>
+        </details>
+
+        <details class="group rounded-xl border border-base bg-surface overflow-hidden">
+          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+            <span>Who is responsible for generating the E-Way bill?</span>
+            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-muted leading-relaxed border-t border-base pt-4">
+            The registered consignor (seller) or consignee (buyer) who causes the movement of goods is primarily responsible. If they fail to generate it and hand the goods to a transporter, the transporter (GTA) becomes legally responsible for generating it before moving the vehicle.
+          </div>
+        </details>
+
+        <details class="group rounded-xl border border-base bg-surface overflow-hidden">
+          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+            <span>Are there any exemptions where the threshold limit does not apply?</span>
+            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-muted leading-relaxed border-t border-base pt-4">
+            Yes. The ₹50k or ₹1 Lakh threshold limits do NOT apply to the inter-state movement of goods sent for Job Work, or the inter-state transport of handicraft goods by persons exempted from GST registration. In these specific cases, an E-Way bill must be generated even if the consignment value is zero.
+          </div>
+        </details>
+
+        <details class="group rounded-xl border border-base bg-surface overflow-hidden">
+          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+            <span>Can I modify an E-Way bill after it is generated?</span>
+            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-muted leading-relaxed border-t border-base pt-4">
+            No, you cannot edit or modify Part-A of an E-Way bill once generated. If there is a mistake in the invoice details, you must cancel the E-Way bill within 24 hours and generate a fresh one. However, you can update Part-B (vehicle details) multiple times if the vehicle breaks down or goods are transshipped.
+          </div>
+        </details>
+
+        <details class="group rounded-xl border border-base bg-surface overflow-hidden">
+          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+            <span>What happens if I transport goods without an E-Way bill?</span>
+            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-muted leading-relaxed border-t border-base pt-4">
+            Transporting goods without a mandatory E-Way bill can lead to detention and seizure of the goods and vehicle. A heavy penalty equal to 200% of the tax payable will be levied under Section 129.
+          </div>
+        </details>
+
+        <details class="group rounded-xl border border-base bg-surface overflow-hidden">
+          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+            <span>Do I need an E-Way bill for exempt goods?</span>
+            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-muted leading-relaxed border-t border-base pt-4">
+            No. The E-way bill generation is not required for the movement of goods that are entirely exempt from GST, regardless of the value of the consignment.
+          </div>
+        </details>
+
+        <details class="group rounded-xl border border-base bg-surface overflow-hidden">
+          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+            <span>Does the consignment value include GST?</span>
+            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-muted leading-relaxed border-t border-base pt-4">
+            Yes. For the purpose of checking the ₹50,000 or ₹1 Lakh threshold, the consignment value is the total invoice value, which includes the taxable value plus the applicable CGST, SGST, IGST, and Cess.
+          </div>
+        </details>
+
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const sourceSelect = document.getElementById('source-state') as HTMLSelectElement;
+    const destSelect = document.getElementById('dest-state') as HTMLSelectElement;
+    
+    const resultCard = document.getElementById('result-card');
+    const emptyState = document.getElementById('empty-state');
+    
+    const movementBadge = document.getElementById('movement-type-badge');
+    const routeText = document.getElementById('route-text');
+    const thresholdAmount = document.getElementById('threshold-amount');
+    const thresholdDesc = document.getElementById('threshold-desc');
+    
+    const exceptionsBlock = document.getElementById('exceptions-block');
+    const exceptionText = document.getElementById('exception-text');
+
+    // States that have officially raised their intra-state limit to 1 Lakh (as of 2026 data)
+    const statesWith1LakhLimit = [
+      "Bihar", "Delhi", "Gujarat", "Haryana", "Himachal Pradesh", 
+      "Jharkhand", "Madhya Pradesh", "Maharashtra", "Punjab", 
+      "Rajasthan", "Tamil Nadu", "Uttarakhand"
+    ];
+
+    function calculateLimit() {
+      const source = sourceSelect?.value;
+      const dest = destSelect?.value;
+
+      if (!source || !dest) {
+        resultCard?.classList.add('hidden');
+        emptyState?.classList.remove('hidden');
+        return;
+      }
+
+      emptyState?.classList.add('hidden');
+      resultCard?.classList.remove('hidden');
+
+      const isIntraState = source === dest;
+      
+      routeText!.textContent = `${source} ➔ ${dest}`;
+
+      // Reset exceptions
+      exceptionsBlock?.classList.add('hidden');
+      exceptionText!.textContent = '';
+
+      if (!isIntraState) {
+        // INTER-STATE Movement
+        movementBadge!.textContent = 'INTER-STATE';
+        movementBadge!.className = 'rounded-full px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-400 border border-blue-200 dark:border-blue-800';
+        
+        thresholdAmount!.textContent = '₹50,000';
+        thresholdDesc!.textContent = 'Under CGST rules, any inter-state movement of goods exceeding ₹50,000 requires an E-Way Bill to be generated prior to dispatch.';
+        
+      } else {
+        // INTRA-STATE Movement
+        movementBadge!.textContent = 'INTRA-STATE';
+        movementBadge!.className = 'rounded-full px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-400 border border-green-200 dark:border-green-800';
+        
+        if (statesWith1LakhLimit.includes(source)) {
+          thresholdAmount!.textContent = '₹1,00,000';
+          thresholdDesc!.textContent = `The state government of ${source} has officially increased the intra-state threshold. You only need an E-Way bill if the invoice value exceeds One Lakh Rupees.`;
+          
+          // Specific Exceptions overrides
+          if (source === 'Rajasthan') {
+            exceptionsBlock?.classList.remove('hidden');
+            exceptionText!.textContent = "In Rajasthan, if the goods are being transported within the SAME CITY boundaries without crossing city limits, the E-Way bill threshold is uniquely raised to ₹2,00,000.";
+          }
+          if (source === 'Madhya Pradesh') {
+            exceptionsBlock?.classList.remove('hidden');
+            exceptionText!.textContent = "In Madhya Pradesh, specific exemptions exist for movement of goods within the SAME DISTRICT borders depending on the item classification.";
+          }
+        } else {
+          thresholdAmount!.textContent = '₹50,000';
+          thresholdDesc!.textContent = `The state of ${source} follows the standard national threshold for movement within the state.`;
+          
+          if (source === 'Kerala') {
+            exceptionsBlock?.classList.remove('hidden');
+            exceptionText!.textContent = "Kerala enforces a strict rule: For the movement of Gold and Precious Stones within the state, the threshold is uniquely set at ₹10,00,000.";
+          }
+        }
+      }
+    }
+
+    sourceSelect?.addEventListener('change', calculateLimit);
+    destSelect?.addEventListener('change', calculateLimit);
+  </script>
+</BaseLayout>

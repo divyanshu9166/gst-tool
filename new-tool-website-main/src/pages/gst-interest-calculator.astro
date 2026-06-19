@@ -1,0 +1,360 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'GST Interest Calculator | Late Payment Interest @ 18%';
+const description = 'Accurately calculate the exact interest payable on late GST payments under Section 50 of the CGST Act. Offline calculator for 18% p.a. interest.';
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'GST Interest Calculator',
+    url: Astro.site?.toString() ? `${Astro.site}gst-interest-calculator` : 'https://example.com/gst-interest-calculator',
+    description: 'Calculate interest on delayed GST payments at 18% p.a.',
+    applicationCategory: 'FinanceApplication',
+    operatingSystem: 'Any',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What is the interest rate for late payment of GST?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Under Section 50 of the CGST Act, interest is charged at 18% per annum for the delayed payment of tax.',
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Is interest calculated on gross liability or net liability?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Interest is calculated only on the net tax liability paid in cash. It is not calculated on the portion of tax paid using available Input Tax Credit (ITC), provided the return is filed late.',
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'What happens if I claim excess ITC by mistake?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'If you claim excess Input Tax Credit and utilize it, the interest rate jumps to a punitive 24% per annum under Section 50(3).',
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'How are the number of delayed days calculated?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'The delay is calculated from the day immediately following the due date, up to the actual date of payment. For example, if due date is 20th and payment is on 25th, the delay is 5 days.',
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Is there any maximum cap on the interest amount?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'No. Unlike Late Fees which are capped at a maximum amount (e.g. ₹500 or ₹10000), there is absolutely no maximum cap on interest. It will accrue daily until the tax is paid.',
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Can interest be waived off by the GST officer?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'No. Interest under Section 50 is statutory and automatic. A GST officer does not have the discretionary power to waive off or reduce the interest liability.',
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Do I have to pay interest if I have a huge ITC balance?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'If your entire output liability can be covered by your existing ITC balance, and you just forgot to file the return on time, you do not need to pay any interest. Interest is only on the cash portion.',
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'How do I pay the interest amount?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Interest must be paid in cash via a GST challan. It is automatically auto-populated in Table 5.1 of your next month’s GSTR-3B return.',
+        }
+      }
+    ]
+  }
+];
+---
+
+<BaseLayout {title} {description} {structuredData}>
+  <div class="mx-auto max-w-3xl px-4 sm:px-6 py-12 lg:py-24">
+    <!-- Header -->
+    <div class="mb-10 text-center">
+      <div class="inline-flex items-center gap-2 rounded-full border border-base bg-surface px-4 py-1.5 text-[12px] font-mono uppercase tracking-wider text-muted mb-4 shadow-[0_1px_1px_#00000005]">
+        <span class="h-1.5 w-1.5 rounded-full bg-accent"></span>
+        100% Offline Tool
+      </div>
+      <h1 class="text-4xl sm:text-5xl font-bold tracking-tight text-base mb-4">
+        GST Interest Calculator
+      </h1>
+      <p class="text-[16px] text-muted max-w-xl mx-auto leading-relaxed">
+        Calculate the exact interest payable on delayed GST payments. Automatically computes daily interest at 18% p.a.
+      </p>
+    </div>
+
+    <!-- Main Tool Container -->
+    <div class="rounded-[12px] border border-base bg-surface p-6 sm:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] mb-12">
+      <div class="flex flex-col gap-6">
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="flex flex-col gap-2">
+            <label for="tax-amount" class="text-sm font-semibold text-base">Net Tax Paid in Cash (₹)</label>
+            <input 
+              type="number" 
+              id="tax-amount" 
+              class="w-full rounded-md border border-base bg-surface px-4 py-3 text-[16px] font-mono focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent transition-colors"
+              placeholder="e.g. 50000"
+              min="0"
+            />
+          </div>
+
+          <div class="flex flex-col gap-2">
+            <label for="interest-rate" class="text-sm font-semibold text-base">Interest Rate (% p.a.)</label>
+            <select 
+              id="interest-rate" 
+              class="w-full rounded-md border border-base bg-surface px-4 py-3 text-[16px] font-medium focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent transition-colors"
+            >
+              <option value="18">18% (Late Payment)</option>
+              <option value="24">24% (Excess ITC Claimed)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="flex flex-col gap-2">
+            <label for="due-date" class="text-sm font-semibold text-base">Actual Due Date</label>
+            <input 
+              type="date" 
+              id="due-date" 
+              class="w-full rounded-md border border-base bg-surface px-4 py-3 text-[16px] font-medium focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent transition-colors"
+            />
+          </div>
+
+          <div class="flex flex-col gap-2">
+            <label for="payment-date" class="text-sm font-semibold text-base">Actual Payment Date</label>
+            <input 
+              type="date" 
+              id="payment-date" 
+              class="w-full rounded-md border border-base bg-surface px-4 py-3 text-[16px] font-medium focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent transition-colors"
+            />
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Result Card -->
+      <div id="result-card" class="mt-8 hidden overflow-hidden rounded-[8px] border border-base bg-subtle transition-all duration-300">
+        <div class="p-6">
+          <h3 class="text-[14px] font-medium text-muted mb-4 uppercase tracking-wider">Interest Calculation</h3>
+          
+          <div class="space-y-4">
+            <div class="flex justify-between items-center pb-4 border-b border-base/50">
+              <span class="text-base font-medium">Days Delayed:</span>
+              <span class="text-xl font-mono text-base" id="res-days">0 Days</span>
+            </div>
+
+            <div class="flex justify-between items-center pt-2">
+              <span class="text-lg font-bold text-accent">Total Interest Payable:</span>
+              <span class="text-3xl font-mono font-bold text-accent" id="res-interest">₹0</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="border-t border-red-200/50 bg-red-50 dark:bg-red-900/10 dark:border-red-900/30 p-4">
+          <p class="text-sm text-red-700 dark:text-red-400 font-medium">
+            ⚠️ Note: This interest is over and above any Late Fees applicable for delayed filing of GSTR-3B.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEO Content -->
+    <article class="prose prose-neutral dark:prose-invert max-w-none text-[15px] leading-relaxed">
+      <h2 class="text-2xl font-semibold mb-4">How is GST Interest Calculated?</h2>
+      <p>
+        If you fail to pay your GST liability on time, the government strictly enforces an interest penalty under Section 50 of the Central Goods and Services Tax (CGST) Act. Unlike Late Fees (which are capped at a specific maximum amount), interest has absolutely no maximum cap. It accrues daily, compounding the financial burden on the business until the exact tax amount is paid in full.
+      </p>
+      <p>
+        Calculating this manually can be tedious, which is why our <strong>GST Interest Calculator Online</strong> is built to automatically compute the exact daily interest payable so you can accurately file your next GSTR-3B return without receiving notices from the tax department.
+      </p>
+      
+      <h3>The 18% vs 24% Rule</h3>
+      <p>The GST law prescribes two different interest rates depending on the severity of the default:</p>
+      <ul>
+        <li><strong>18% per annum:</strong> This is the standard interest rate applied to any late payment of GST. If you simply missed the due date (usually the 20th of the following month) and filed your GSTR-3B late, this rate applies.</li>
+        <li><strong>24% per annum:</strong> This is a highly punitive interest rate. It only applies if you have wrongly claimed excess Input Tax Credit (ITC) and actually utilized it to reduce your output tax liability, or if you have declared excess output tax reduction.</li>
+      </ul>
+
+      <h3>Net Liability vs Gross Liability: A Major Relief</h3>
+      <p>
+        Historically, the GST department demanded interest on the "Gross Liability" (the total tax generated by your sales, regardless of how much ITC you had in your ledger). This caused massive uproar among businesses.
+      </p>
+      <p>
+        Fortunately, the government amended Section 50 retrospectively (from July 1, 2017). Today, interest is calculated <strong>only on the net cash liability</strong>. 
+      </p>
+      <p>
+        <strong>Example Scenario:</strong> Your total output tax for the month is ₹1,00,000. You have an existing ITC balance of ₹80,000. Your "Net Cash Liability" is therefore only ₹20,000. If you forget to file your return and pay the tax 10 days late, the 18% interest will <em>only</em> be calculated on the ₹20,000 paid via the cash ledger. You will not pay any interest on the ₹80,000 covered by your ITC.
+      </p>
+
+      <h3>The Official Formula</h3>
+      <p>
+        Our offline calculator uses the exact mathematical formula prescribed by the CBIC:<br/>
+        <code class="block bg-surface p-4 mt-2 rounded-md border border-base font-mono text-sm text-accent text-center">Interest = (Net Tax Liability × Interest Rate × Number of Days Delayed) / (100 × 365)</code>
+      </p>
+
+      <h3>How to Pay GST Interest</h3>
+      <ol>
+        <li><strong>Auto-Population:</strong> The GST portal has become increasingly automated. If you filed last month's return late, the system will automatically calculate the interest and auto-populate it in <strong>Table 5.1</strong> of your current month's GSTR-3B return.</li>
+        <li><strong>Cash Payment Only:</strong> You cannot use your Input Tax Credit (ITC) ledger to pay off interest liabilities. Interest must be paid in pure cash by generating a PMT-06 challan.</li>
+        <li><strong>No Waivers:</strong> Under the GST framework, the levy of interest is statutory and automatic. Tax officers do not possess the discretionary power to waive off or reduce the interest liability, making it crucial to calculate and pay it accurately to avoid litigation.</li>
+      </ol>
+    </article>
+
+    <!-- FAQ Section -->
+    <section class="mt-16 pt-12 border-t border-base" aria-labelledby="faq-heading">
+      <h2 id="faq-heading" class="text-2xl sm:text-3xl font-bold text-base mb-8">
+        Frequently Asked Questions
+      </h2>
+      <div class="space-y-4">
+        
+        <details class="group rounded-xl border border-base bg-surface overflow-hidden">
+          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+            <span>What is the interest rate for late payment of GST?</span>
+            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-muted leading-relaxed border-t border-base pt-4">
+            Under Section 50 of the CGST Act, interest is charged at 18% per annum for the delayed payment of tax.
+          </div>
+        </details>
+
+        <details class="group rounded-xl border border-base bg-surface overflow-hidden">
+          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+            <span>Is interest calculated on gross liability or net liability?</span>
+            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-muted leading-relaxed border-t border-base pt-4">
+            Interest is calculated only on the net tax liability paid in cash. It is not calculated on the portion of tax paid using available Input Tax Credit (ITC), provided the return is filed late.
+          </div>
+        </details>
+
+        <details class="group rounded-xl border border-base bg-surface overflow-hidden">
+          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+            <span>What happens if I claim excess ITC by mistake?</span>
+            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-muted leading-relaxed border-t border-base pt-4">
+            If you claim excess Input Tax Credit and utilize it, the interest rate jumps to a punitive 24% per annum under Section 50(3).
+          </div>
+        </details>
+
+        <details class="group rounded-xl border border-base bg-surface overflow-hidden">
+          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+            <span>How are the number of delayed days calculated?</span>
+            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-muted leading-relaxed border-t border-base pt-4">
+            The delay is calculated from the day immediately following the due date, up to the actual date of payment. For example, if due date is 20th and payment is on 25th, the delay is 5 days.
+          </div>
+        </details>
+
+        <details class="group rounded-xl border border-base bg-surface overflow-hidden">
+          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+            <span>Is there any maximum cap on the interest amount?</span>
+            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-muted leading-relaxed border-t border-base pt-4">
+            No. Unlike Late Fees which are capped at a maximum amount (e.g. ₹500 or ₹10000), there is absolutely no maximum cap on interest. It will accrue daily until the tax is paid.
+          </div>
+        </details>
+
+        <details class="group rounded-xl border border-base bg-surface overflow-hidden">
+          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+            <span>Can interest be waived off by the GST officer?</span>
+            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-muted leading-relaxed border-t border-base pt-4">
+            No. Interest under Section 50 is statutory and automatic. A GST officer does not have the discretionary power to waive off or reduce the interest liability.
+          </div>
+        </details>
+
+        <details class="group rounded-xl border border-base bg-surface overflow-hidden">
+          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+            <span>Do I have to pay interest if I have a huge ITC balance?</span>
+            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-muted leading-relaxed border-t border-base pt-4">
+            If your entire output liability can be covered by your existing ITC balance, and you just forgot to file the return on time, you do not need to pay any interest. Interest is only on the cash portion.
+          </div>
+        </details>
+
+        <details class="group rounded-xl border border-base bg-surface overflow-hidden">
+          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+            <span>How do I pay the interest amount?</span>
+            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-muted leading-relaxed border-t border-base pt-4">
+            Interest must be paid in cash via a GST challan. It is automatically auto-populated in Table 5.1 of your next month’s GSTR-3B return.
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    const taxInput = document.getElementById('tax-amount') as HTMLInputElement;
+    const rateSelect = document.getElementById('interest-rate') as HTMLSelectElement;
+    const dueInput = document.getElementById('due-date') as HTMLInputElement;
+    const payInput = document.getElementById('payment-date') as HTMLInputElement;
+
+    const resultCard = document.getElementById('result-card')!;
+    const resDays = document.getElementById('res-days')!;
+    const resInterest = document.getElementById('res-interest')!;
+
+    function calculate() {
+      const tax = parseFloat(taxInput.value) || 0;
+      const rate = parseFloat(rateSelect.value) || 18;
+      
+      const due = new Date(dueInput.value);
+      const pay = new Date(payInput.value);
+
+      if (tax <= 0 || isNaN(due.getTime()) || isNaN(pay.getTime())) {
+        resultCard.classList.add('hidden');
+        return;
+      }
+
+      const diffTime = pay.getTime() - due.getTime();
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+      if (diffDays <= 0) {
+        // No delay
+        resultCard.classList.remove('hidden');
+        resDays.textContent = `0 Days`;
+        resInterest.textContent = `₹0`;
+        return;
+      }
+
+      resultCard.classList.remove('hidden');
+      
+      const interest = (tax * rate * diffDays) / (100 * 365);
+
+      resDays.textContent = `${diffDays} Days`;
+      resInterest.textContent = `₹${Math.round(interest).toLocaleString('en-IN')}`;
+    }
+
+    [taxInput, rateSelect, dueInput, payInput].forEach(el => el.addEventListener('input', calculate));
+    
+  </script>
+</BaseLayout>
