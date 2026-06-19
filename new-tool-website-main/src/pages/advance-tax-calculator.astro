@@ -1,0 +1,304 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'Advance Tax Calculator FY 2025-26 | Due Dates & Installment Calculator India';
+const description = 'Calculate your advance tax liability for FY 2025-26. Find due dates for all four installments (June, September, December, March) and avoid Section 234B/234C interest.';
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Advance Tax Calculator India',
+    description: 'Calculate advance tax installments for FY 2025-26 with due dates and interest implications.',
+    applicationCategory: 'FinanceApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR' }
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What is advance tax?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Advance tax is income tax paid in installments during the financial year rather than as a lump sum at the end. It is required when your estimated tax liability for the year (after TDS) exceeds ₹10,000.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'What are the advance tax due dates for FY 2025-26?',
+        acceptedAnswer: { '@type': 'Answer', text: 'For FY 2025-26: 1st installment (15%) by 15th June 2025, 2nd installment (45%) by 15th September 2025, 3rd installment (75%) by 15th December 2025, 4th installment (100%) by 15th March 2026.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Who is exempt from paying advance tax?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Senior citizens (aged 60 years or above) who do NOT have any income from business or profession are exempt from paying advance tax. They can pay the entire tax as self-assessment tax after the year ends.' }
+      }
+    ]
+  }
+];
+
+const installments = [
+  { label: '1st Installment', dueDate: '15 June 2025', cumPercent: 15, pct: 15 },
+  { label: '2nd Installment', dueDate: '15 September 2025', cumPercent: 45, pct: 30 },
+  { label: '3rd Installment', dueDate: '15 December 2025', cumPercent: 75, pct: 30 },
+  { label: '4th Installment', dueDate: '15 March 2026', cumPercent: 100, pct: 25 },
+];
+---
+
+<BaseLayout {title} {description} {structuredData}>
+  <div class="mx-auto max-w-3xl px-4 sm:px-6 py-12 lg:py-24">
+
+    <!-- Header -->
+    <div class="mb-10 text-center">
+      <div class="inline-flex items-center gap-2 rounded-full border border-base bg-surface px-4 py-1.5 text-[12px] font-mono uppercase tracking-wider text-muted mb-4">
+        <span class="h-1.5 w-1.5 rounded-full bg-accent"></span>
+        FY 2025-26
+      </div>
+      <h1 class="text-4xl sm:text-5xl font-bold tracking-tight text-base mb-4">
+        Advance Tax Calculator
+      </h1>
+      <p class="text-[16px] text-muted max-w-lg mx-auto leading-relaxed">
+        Calculate your advance tax installments for FY 2025-26, view due dates, and avoid costly interest under Sections 234B & 234C.
+      </p>
+    </div>
+
+    <!-- Tool -->
+    <div class="rounded-[12px] border border-base bg-surface p-6 sm:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] mb-12">
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-6">
+        <div>
+          <label for="est-income" class="block text-sm font-semibold text-base mb-2">Estimated Total Annual Income (₹)</label>
+          <input type="number" id="est-income" placeholder="e.g., 1200000" min="0"
+            class="w-full rounded-xl border border-base bg-subtle px-4 py-3 font-mono text-[15px] focus:border-accent focus:outline-none transition-all" />
+        </div>
+        <div>
+          <label for="tds-deducted" class="block text-sm font-semibold text-base mb-2">Total TDS Already Deducted (₹)</label>
+          <input type="number" id="tds-deducted" placeholder="e.g., 50000" min="0"
+            class="w-full rounded-xl border border-base bg-subtle px-4 py-3 font-mono text-[15px] focus:border-accent focus:outline-none transition-all" />
+        </div>
+        <div>
+          <label for="tax-regime" class="block text-sm font-semibold text-base mb-2">Tax Regime</label>
+          <select id="tax-regime"
+            class="w-full rounded-xl border border-base bg-subtle px-4 py-3 text-[15px] focus:border-accent focus:outline-none transition-all">
+            <option value="new">New Tax Regime (Default 2025-26)</option>
+            <option value="old">Old Tax Regime</option>
+          </select>
+        </div>
+        <div>
+          <label for="taxpayer-type" class="block text-sm font-semibold text-base mb-2">Taxpayer Type</label>
+          <select id="taxpayer-type"
+            class="w-full rounded-xl border border-base bg-subtle px-4 py-3 text-[15px] focus:border-accent focus:outline-none transition-all">
+            <option value="individual">Individual (Below 60)</option>
+            <option value="senior">Senior Citizen (60-79)</option>
+            <option value="verysenior">Super Senior (80+)</option>
+          </select>
+        </div>
+      </div>
+
+      <button id="calc-btn" type="button"
+        class="w-full rounded-xl bg-accent py-4 text-[16px] font-bold text-white hover:opacity-90 active:scale-[0.98] transition-all mb-6">
+        Calculate Advance Tax →
+      </button>
+
+      <!-- Results -->
+      <div id="results" class="hidden">
+        <div class="mb-6 grid grid-cols-2 gap-4">
+          <div class="rounded-xl bg-subtle border border-base p-4 text-center">
+            <div class="text-xs text-muted uppercase tracking-wide mb-1">Total Tax Liability</div>
+            <div id="res-total-tax" class="text-2xl font-mono font-bold text-base">₹0</div>
+          </div>
+          <div class="rounded-xl bg-subtle border border-base p-4 text-center">
+            <div class="text-xs text-muted uppercase tracking-wide mb-1">Advance Tax Payable</div>
+            <div id="res-advance-tax" class="text-2xl font-mono font-bold text-accent">₹0</div>
+          </div>
+        </div>
+
+        <div id="no-advance-tax" class="hidden text-center py-6 rounded-xl bg-green-50 dark:bg-green-950/20 border-2 border-green-400 text-green-700 dark:text-green-400 font-semibold">
+          ✅ Advance Tax NOT Required — Your tax liability after TDS is below ₹10,000
+        </div>
+
+        <div id="installments-section" class="hidden">
+          <h3 class="text-lg font-bold text-base mb-4">Your Installment Schedule</h3>
+          <div class="space-y-3" id="installments-list"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEO Content -->
+    <article class="prose prose-neutral dark:prose-invert max-w-none text-[15px] leading-relaxed">
+      <h2 class="text-3xl font-bold mb-6">What is Advance Tax and Who Must Pay It? (FY 2025-26)</h2>
+
+      <p>
+        Advance tax, sometimes called "pay as you earn" tax, is a mechanism where India's income tax system requires taxpayers to pay their expected annual income tax in <strong>four installments throughout the financial year</strong>, rather than as a lump sum at year-end. This system ensures a steady flow of revenue to the government and prevents taxpayers from being burdened with a massive one-time tax payment during the busy March filing season.
+      </p>
+
+      <p>
+        The rule is simple: if your estimated income tax liability for the financial year <strong>exceeds ₹10,000</strong> (after accounting for all TDS deductions), you are obligated to pay advance tax. This threshold applies to salaried employees, self-employed individuals, business owners, freelancers, and professionals like doctors, lawyers, and architects alike.
+      </p>
+
+      <h3 class="text-2xl font-semibold mt-8 mb-4">Advance Tax Due Dates for FY 2025-26</h3>
+
+      <p>The Income Tax Department has prescribed the following schedule for advance tax payments:</p>
+
+      <div class="overflow-x-auto my-6">
+        <table class="w-full text-sm border-collapse">
+          <thead>
+            <tr class="bg-subtle">
+              <th class="border border-base px-4 py-3 text-left font-semibold">Installment</th>
+              <th class="border border-base px-4 py-3 text-left font-semibold">Due Date</th>
+              <th class="border border-base px-4 py-3 text-left font-semibold">Cumulative % to Pay</th>
+            </tr>
+          </thead>
+          <tbody>
+            {installments.map((inst, i) => (
+              <tr class={i % 2 === 1 ? 'bg-subtle/50' : ''}>
+                <td class="border border-base px-4 py-3">{inst.label}</td>
+                <td class="border border-base px-4 py-3 font-mono">{inst.dueDate}</td>
+                <td class="border border-base px-4 py-3 font-mono text-accent">{inst.cumPercent}%</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <h3 class="text-2xl font-semibold mt-8 mb-4">Penalty for Missing Advance Tax: Sections 234B & 234C</h3>
+
+      <p>
+        Missing an advance tax installment or paying less than the required percentage by the due date triggers penal interest under two specific sections of the Income Tax Act:
+      </p>
+
+      <ul class="list-disc pl-6 space-y-3 mt-4">
+        <li><strong>Section 234C (Deferment of Installments):</strong> If you pay less than the required cumulative percentage by any installment due date, you are charged a simple interest of <strong>1% per month</strong> for 3 months on the shortfall amount for each installment missed. This interest is calculated separately for each installment that was deficient.</li>
+        <li><strong>Section 234B (Default in Payment of Advance Tax):</strong> If you fail to pay advance tax altogether, or if you paid less than <strong>90% of the assessed tax</strong> by March 31st, you are charged a simple interest of <strong>1% per month</strong> on the entire shortfall from April 1st until the date of actual tax payment.</li>
+      </ul>
+
+      <p>
+        In total, failing to plan advance tax payments can result in an effective annual interest burden of 12% per annum — which is significant for high-income individuals. Our <strong>advance tax calculator for FY 2025-26</strong> above automatically shows you each installment's exact amount, helping you plan your payments in advance and stay completely interest-free.
+      </p>
+
+      <h3 class="text-2xl font-semibold mt-8 mb-4">Advance Tax for Business Owners & GST Registered Businesses</h3>
+
+      <p>
+        For business owners who are also registered under GST, the financial planning picture is more complex. Not only must you pay advance tax on your <em>income</em> on the IT side, but you also have monthly or quarterly GST outflows. Failing to separate these obligations often leads to cash flow crunches, especially in Q4 (January-March). Our recommendation is to plan both obligations together using a single annual cash flow calendar — using this <strong>advance tax calculator</strong> for income tax payments and our <a href="/late-fee-calculator" class="text-accent hover:underline">GST Late Fee Calculator</a> to stay GST-compliant simultaneously.
+      </p>
+
+      <div class="mt-10 rounded-[12px] bg-subtle border border-base p-6 text-[15px] text-muted">
+        <h4 class="text-lg font-semibold text-base mb-2">Senior Citizen Exception</h4>
+        <p>Resident senior citizens (aged 60 or above) who do not have any income from business or profession are completely exempt from advance tax. They may pay their entire tax liability as Self-Assessment Tax after the financial year ends, without any interest liability under Sections 234B or 234C.</p>
+      </div>
+    </article>
+
+  </div>
+
+  <script>
+    const fmt = (n: number) => '₹' + Math.round(n).toLocaleString('en-IN');
+
+    function calcNewRegimeTax(income: number, type: string): number {
+      // New Regime FY 2025-26 slabs
+      const slabs = [
+        { upto: 400000, rate: 0 },
+        { upto: 800000, rate: 0.05 },
+        { upto: 1200000, rate: 0.10 },
+        { upto: 1600000, rate: 0.15 },
+        { upto: 2000000, rate: 0.20 },
+        { upto: 2400000, rate: 0.25 },
+        { upto: Infinity, rate: 0.30 },
+      ];
+      // Standard deduction of 75000 in new regime for salaried
+      let taxable = Math.max(0, income - 75000);
+      // Rebate u/s 87A: if income <= 12L, tax = 0
+      if (income <= 1200000) return 0;
+
+      let tax = 0;
+      let prev = 0;
+      for (const slab of slabs) {
+        if (taxable <= prev) break;
+        const slice = Math.min(taxable, slab.upto) - prev;
+        tax += slice * slab.rate;
+        prev = slab.upto;
+      }
+      // Surcharge
+      let surcharge = 0;
+      if (income > 5000000 && income <= 10000000) surcharge = tax * 0.10;
+      else if (income > 10000000 && income <= 20000000) surcharge = tax * 0.15;
+      else if (income > 20000000 && income <= 50000000) surcharge = tax * 0.25;
+      else if (income > 50000000) surcharge = tax * 0.37;
+      const total = tax + surcharge;
+      // Health & Education Cess 4%
+      return total * 1.04;
+    }
+
+    function calcOldRegimeTax(income: number, type: string): number {
+      let basicExemption = 250000;
+      if (type === 'senior') basicExemption = 300000;
+      if (type === 'verysenior') basicExemption = 500000;
+
+      let taxable = Math.max(0, income - basicExemption);
+      // Rebate u/s 87A: if income <= 5L (old regime)
+      let tax = 0;
+      if (income <= 500000) return 0;
+
+      const slabs = [250000, 250000, Infinity];
+      const rates = [0.05, 0.20, 0.30];
+      let remaining = taxable;
+      for (let i = 0; i < slabs.length; i++) {
+        const slice = Math.min(remaining, slabs[i]);
+        tax += slice * rates[i];
+        remaining -= slice;
+        if (remaining <= 0) break;
+      }
+      let surcharge = 0;
+      if (income > 5000000 && income <= 10000000) surcharge = tax * 0.10;
+      else if (income > 10000000) surcharge = tax * 0.15;
+      return (tax + surcharge) * 1.04;
+    }
+
+    document.getElementById('calc-btn')!.addEventListener('click', () => {
+      const income = parseFloat((document.getElementById('est-income') as HTMLInputElement).value) || 0;
+      const tds = parseFloat((document.getElementById('tds-deducted') as HTMLInputElement).value) || 0;
+      const regime = (document.getElementById('tax-regime') as HTMLSelectElement).value;
+      const taxpayerType = (document.getElementById('taxpayer-type') as HTMLSelectElement).value;
+
+      const totalTax = regime === 'new' ? calcNewRegimeTax(income, taxpayerType) : calcOldRegimeTax(income, taxpayerType);
+      const advanceTaxPayable = Math.max(0, totalTax - tds);
+
+      const results = document.getElementById('results')!;
+      const noAdvTax = document.getElementById('no-advance-tax')!;
+      const instSection = document.getElementById('installments-section')!;
+      results.classList.remove('hidden');
+
+      document.getElementById('res-total-tax')!.textContent = fmt(totalTax);
+      document.getElementById('res-advance-tax')!.textContent = fmt(advanceTaxPayable);
+
+      if (advanceTaxPayable <= 10000) {
+        noAdvTax.classList.remove('hidden');
+        instSection.classList.add('hidden');
+      } else {
+        noAdvTax.classList.add('hidden');
+        instSection.classList.remove('hidden');
+        const list = document.getElementById('installments-list')!;
+        const percents = [15, 45, 75, 100];
+        const labels = ['1st Installment', '2nd Installment', '3rd Installment', '4th Installment'];
+        const dates = ['15 June 2025', '15 September 2025', '15 December 2025', '15 March 2026'];
+        list.innerHTML = '';
+        let prevPaid = 0;
+        percents.forEach((pct, i) => {
+          const cumAmount = advanceTaxPayable * pct / 100;
+          const thisPay = cumAmount - prevPaid;
+          prevPaid = cumAmount;
+          list.innerHTML += `
+            <div class="flex items-center justify-between p-4 rounded-xl border border-base bg-subtle">
+              <div>
+                <div class="font-semibold text-base">${labels[i]}</div>
+                <div class="text-xs text-muted">Due by ${dates[i]} · Cumulative ${pct}%</div>
+              </div>
+              <div class="text-right">
+                <div class="text-xl font-mono font-bold text-accent">${fmt(thisPay)}</div>
+                <div class="text-xs text-muted">Cumulative: ${fmt(cumAmount)}</div>
+              </div>
+            </div>`;
+        });
+      }
+    });
+  </script>
+</BaseLayout>

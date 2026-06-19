@@ -1,0 +1,5 @@
+GSTIN of Supplier,Trade Name,Invoice Number,Invoice Date,Invoice Value,Taxable Value,Integrated Tax,Central Tax,State/UT Tax,Cess,Match Status
+27AAAAA0000A1Z5,Acme Corp,INV-001,01-Apr-2026,11800,10000,1800,0,0,0,Matched
+29BBBBB1111B2Z6,Tech Solutions,INV-002,05-Apr-2026,23600,20000,0,1800,1800,0,Missing in GSTR-2B
+07CCCCC2222C3Z7,Delhi Traders,INV-003,10-Apr-2026,5900,5000,900,0,0,0,Matched
+24DDDDD3333D4Z8,Gujarat Manufacturing,INV-004,15-Apr-2026,118000,100000,18000,0,0,0,Value Mismatch

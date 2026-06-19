@@ -33,10 +33,18 @@ const structuredData = [
       },
       {
         '@type': 'Question',
-        name: 'How to verify GSTIN offline?',
+        name: 'Can I find gst number by pan without login?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Our offline GSTIN validator uses the official government checksum algorithm to verify the mathematical validity of a GST number without needing an API call or internet connection.',
+          text: 'Yes, if you have a PAN, you can reconstruct the middle 10 digits of a GSTIN. While our tool validates existing GSTINs, finding all GST numbers attached to a PAN without login requires visiting the official GST portal.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Is there a bulk gstin verification tool free?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Currently, our free online tool to check gst number validity is designed for single lookups to ensure maximum accuracy and instant offline decoding. For bulk checking, you can use official government utility tools.',
         },
       }
     ]
@@ -191,7 +199,11 @@ const structuredData = [
 
           <h3 class="text-[20px] font-semibold text-base mt-8 mb-4 tracking-[-0.6px]">GST Number Search By Name vs Offline Validation</h3>
           <p>
-            If you want to do a <strong>GST number search by name</strong> to find an unknown GSTIN, you must use the official GST portal's taxpayer search function. However, if a supplier has given you their GST number on an invoice, our offline validator instantly checks its mathematical authenticity without sending any data over the internet.
+            If you want to do a <strong>GST number search by name</strong> or try to <strong>find gst number by pan without login</strong>, you must use the official GST portal's taxpayer search function to find the exact registration. However, if a supplier has given you their GST number on an invoice, our <strong>free online tool to check gst number validity</strong> instantly checks its mathematical authenticity without sending any data over the internet.
+          </p>
+          <h3 class="text-[20px] font-semibold text-base mt-8 mb-4 tracking-[-0.6px]">Do you have a bulk gstin verification tool free?</h3>
+          <p>
+            We are currently building out a <strong>bulk gstin verification tool free</strong> for accountants and businesses that need to verify hundreds of GSTINs simultaneously. For now, this single-lookup offline tool is the fastest way to decode a PAN and State from any individual GSTIN.
           </p>
         </div>
       </div>

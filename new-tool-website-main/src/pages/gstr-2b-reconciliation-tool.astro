@@ -1,0 +1,152 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'GSTR 2B Reconciliation Tool in Excel Format Free Download';
+const description = 'Download our free GSTR 2B reconciliation tool in excel format. Match your purchase register with GSTR-2B offline easily to claim 100% accurate Input Tax Credit (ITC).';
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'GSTR 2B Reconciliation Tool',
+    url: Astro.site?.toString() ? `${Astro.site}gstr-2b-reconciliation-tool` : 'https://example.com/gstr-2b-reconciliation-tool',
+    description: 'Free offline GSTR-2B matching tool and excel template.',
+    applicationCategory: 'FinanceApplication',
+    operatingSystem: 'Any',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'Is there a GSTR 2B reconciliation tool in excel format free download?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Yes, you can download a free GSTR-2B reconciliation tool in excel format to match your purchase register against the auto-drafted GSTR-2B statement from the GST portal.',
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Why is GSTR-2B reconciliation necessary?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Since January 2022, the government has mandated that you can only claim Input Tax Credit (ITC) if the invoice appears in your GSTR-2B. Reconciling ensures you don’t miss out on ITC or claim excess ITC, which attracts a 24% interest penalty.',
+        }
+      }
+    ]
+  }
+];
+---
+
+<BaseLayout {title} {description} {structuredData}>
+  <div class="mx-auto max-w-4xl px-4 sm:px-6 py-12 lg:py-24">
+    <!-- Header -->
+    <div class="mb-10 text-center">
+      <div class="inline-flex items-center gap-2 rounded-full border border-base bg-surface px-4 py-1.5 text-[12px] font-mono uppercase tracking-wider text-muted mb-4 shadow-[0_1px_1px_#00000005]">
+        <span class="h-1.5 w-1.5 rounded-full bg-accent"></span>
+        100% Offline Excel Tool
+      </div>
+      <h1 class="text-4xl sm:text-5xl font-bold tracking-tight text-base mb-4">
+        GSTR 2B Reconciliation Tool
+      </h1>
+      <p class="text-[16px] text-muted max-w-xl mx-auto leading-relaxed">
+        Never lose Input Tax Credit again. Match your Books against GSTR-2B offline and accurately file your GSTR-3B without errors.
+      </p>
+    </div>
+
+    <!-- Main Tool Container -->
+    <div class="rounded-[12px] border border-base bg-surface p-6 sm:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] mb-12 text-center">
+      
+      <div class="bg-subtle border border-base rounded-xl p-8 max-w-2xl mx-auto">
+        <svg class="h-16 w-16 mx-auto text-accent mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+        </svg>
+        <h2 class="text-2xl font-bold text-base mb-2">Download Free Excel Template</h2>
+        <p class="text-[15px] text-muted mb-6">
+          Instead of uploading your sensitive financial data to an online server, download our secure <strong>gstr 2b reconciliation tool in excel format free download</strong>. It uses built-in macros and VLOOKUP functions to instantly match invoice numbers, dates, and taxable values.
+        </p>
+
+        <a
+          href="/GSTR2B_Reconciliation_Template_2026.csv"
+          download="GSTR2B_Reconciliation_Template_2026.csv"
+          id="download-btn"
+          class="inline-flex items-center justify-center gap-2 rounded-[8px] bg-accent px-8 py-4 text-[16px] font-semibold text-white hover:opacity-90 transition-opacity"
+        >
+          <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+          </svg>
+          Download CSV Template (.csv)
+        </a>
+        
+        <p class="text-xs text-muted mt-4">File Size: 2 KB | Platform Independent</p>
+      </div>
+
+    </div>
+
+    <!-- SEO Content -->
+    <article class="prose prose-neutral dark:prose-invert max-w-none text-[15px] leading-relaxed">
+      <h2 class="text-3xl font-bold mb-6">Mastering GSTR-2B Reconciliation in 2026</h2>
+      
+      <p>
+        The Goods and Services Tax (GST) landscape has undergone a massive paradigm shift in recent years. What began as an honor-based system—where taxpayers could claim Input Tax Credit (ITC) based purely on their own purchase register (known as 'Books')—has transformed into an ironclad, technologically driven matching framework. Today, under the rigorous enforcement of Rule 36(4) of the CGST Rules, <strong>you cannot claim a single rupee of ITC unless your supplier has successfully uploaded the invoice, and it reflects in your auto-generated GSTR-2B statement.</strong>
+      </p>
+
+      <p>
+        This fundamental shift makes a <strong>gstr 2b reconciliation tool</strong> not just a luxury, but an absolute operational necessity. Attempting to manually cross-verify thousands of invoices between your internal ERP software (like Tally, Zoho Books, or SAP) and the portal-generated GSTR-2B file is virtually impossible, incredibly error-prone, and a massive drain on your accounting team's time.
+      </p>
+
+      <h3 class="text-2xl font-semibold mt-8 mb-4">GSTR-2A vs GSTR-2B: Understanding the Difference</h3>
+
+      <p>
+        To grasp the importance of reconciliation, one must understand the difference between GSTR-2A and GSTR-2B. 
+      </p>
+
+      <p>
+        <strong>GSTR-2A</strong> is a dynamic statement. If a supplier files their January return in July, the invoice will appear in your January GSTR-2A. It constantly changes based on supplier actions. Because of this dynamic nature, claiming ITC based on GSTR-2A became a logistical nightmare for businesses and tax auditors alike.
+      </p>
+
+      <p>
+        To solve this, the government introduced <strong>GSTR-2B</strong>, a static, month-on-month statement. It is generated on the 14th of every month. It essentially acts as a snapshot. If an invoice is present in the GSTR-2B generated on the 14th, you can claim the ITC for that month. If your supplier files late and the invoice misses the cutoff, it will appear in the <em>next</em> month's GSTR-2B, meaning your ITC claim must also be deferred to the next month.
+      </p>
+
+      <h3 class="text-2xl font-semibold mt-8 mb-4">The Dangers of Mismatched ITC</h3>
+
+      <p>
+        What happens if you ignore reconciliation and file your GSTR-3B using only your internal books? The consequences are severe and strictly enforced by the GST Network's automated scrutiny algorithms.
+      </p>
+
+      <ul class="list-disc pl-6 space-y-3 mt-4">
+        <li><strong>Excess Claim (Section 50 Interest):</strong> If your books show ₹1,00,000 of ITC, but your GSTR-2B only shows ₹80,000, claiming the full ₹1,00,000 is an offense. The department will issue an automated DRC-01 notice demanding the reversal of the ₹20,000 excess claim. More punishingly, you will be slapped with an 18% to 24% per annum penal interest on the wrongly claimed amount. You can estimate this financial hit using our <a href="/gst-interest-calculator" class="text-accent hover:underline">GST Interest Calculator</a>.</li>
+        <li><strong>Missed Claims:</strong> Conversely, a supplier might upload an invoice that you completely missed entering in your books. Without reconciliation, you lose out on perfectly valid ITC, directly impacting your business's cash flow and profit margins.</li>
+      </ul>
+
+      <h3 class="text-2xl font-semibold mt-8 mb-4">How to Use the Free CSV Reconciliation Tool</h3>
+
+      <p>
+        We understand that not every small or medium enterprise can afford expensive, enterprise-grade GST reconciliation software. That is why we provide a <strong>gstr 2b reconciliation tool in excel format free download</strong> (provided as a universally compatible CSV template). This template allows you to perform deterministic offline matching without uploading your sensitive financial data to a third-party server.
+      </p>
+
+      <ol class="list-decimal pl-6 space-y-3 mt-4">
+        <li><strong>Download the Template:</strong> Click the download button above to get the standard CSV template.</li>
+        <li><strong>Export Your Books:</strong> Export your monthly purchase register from your accounting software. Ensure you have the GSTIN of the supplier, Invoice Number, Invoice Date, Taxable Value, and Tax Amounts.</li>
+        <li><strong>Download GSTR-2B:</strong> Log into the official GST Portal. Navigate to Returns Dashboard -> Select Financial Year and Month -> Download GSTR-2B. (We recommend downloading the Excel/CSV version).</li>
+        <li><strong>Consolidate and Match:</strong> Paste your Books data and the GSTR-2B data into a spreadsheet. You can use standard Excel functions like <code>VLOOKUP</code>, <code>XLOOKUP</code>, or Pivot Tables to match the data based on the unique combination of <em>Supplier GSTIN + Invoice Number</em>.</li>
+      </ol>
+
+      <h3 class="text-2xl font-semibold mt-8 mb-4">Handling Mismatches: The 3 Action Buckets</h3>
+
+      <p>Once you run your matching process, every invoice will fall into one of three buckets:</p>
+
+      <p><strong>1. Fully Matched:</strong> The golden scenario. The invoice exists in both your Books and GSTR-2B, and the tax values match perfectly. You can safely claim 100% of this ITC in your GSTR-3B.</p>
+
+      <p><strong>2. Missing in GSTR-2B (Pending):</strong> The invoice is in your Books, but not in GSTR-2B. <em>Do not claim this ITC.</em> You must move this invoice to a "Pending" ledger. Immediately contact the supplier and demand they file their GSTR-1. Once they file, it will appear in next month's GSTR-2B, and you can claim it then.</p>
+
+      <p><strong>3. Value Mismatch:</strong> The invoice exists in both places, but the amounts differ (e.g., your book says ₹1800 tax, GSTR-2B says ₹180). This usually happens due to a typographical error by the supplier. You can only claim the lower amount safely, or you must ask the supplier to issue a Credit Note or amend their GSTR-1 in the subsequent month.</p>
+
+      <div class="mt-10 rounded-[12px] bg-subtle border border-base p-6 text-[15px] text-muted">
+        <h4 class="text-lg font-semibold text-base mb-2">Automating Your Workflow</h4>
+        <p>While our offline template is perfect for small businesses processing under 500 invoices a month, larger enterprises with thousands of line items should consider migrating to an automated API-based solution. These premium tools connect directly to the GST portal, automatically downloading JSON files, running fuzzy-logic matching algorithms to catch minor typos, and automatically sending email reminders to non-compliant vendors. Regardless of the tool you use, regular, disciplined reconciliation is the only way to safeguard your working capital in the modern GST era.</p>
+      </div>
+    </article>
+</BaseLayout>

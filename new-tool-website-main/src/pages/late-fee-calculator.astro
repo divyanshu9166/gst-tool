@@ -33,10 +33,18 @@ const structuredData = [
       },
       {
         '@type': 'Question',
-        name: 'What is the interest rate for late payment of GST?',
+        name: 'Is there a specific gstr 1 late fee calculator?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'The interest rate for late payment of GST is 18% per annum. It is calculated only on the net tax liability paid in cash, not on the input tax credit utilized.',
+          text: 'The late fee for GSTR-1 and GSTR-3B follows the same rules. You can use our general tool as a gstr 1 late fee calculator to estimate your exact penalty.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'How does the gst late fee for nil return calculator work?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'A nil return means you had no business activity. The gst late fee for nil return calculator applies a reduced penalty of ₹20 per day instead of the standard ₹50 per day.',
         },
       }
     ]
@@ -48,9 +56,9 @@ const structuredData = [
   <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-12">
     <!-- Page header -->
     <div class="mb-12 text-center">
-      <h1 class="text-4xl sm:text-5xl font-semibold tracking-[-1.28px] text-base mb-4">GST Late Fee Calculator</h1>
+      <h1 class="text-4xl sm:text-5xl font-semibold tracking-[-1.28px] text-base mb-4">GSTR 1 & 3B Late Fee Calculator</h1>
       <p class="text-[16px] text-muted max-w-2xl mx-auto leading-relaxed">
-        <strong>What is it?</strong> The GST late fee is ₹50 per day for normal returns and ₹20 per day for NIL returns. Additionally, an 18% per annum interest is charged on the outstanding tax liability paid via the electronic cash ledger. Use our calculator to find your exact penalty.
+        <strong>What is it?</strong> The GST late fee is ₹50 per day for normal returns and ₹20 per day for NIL returns. Simply click "NIL Return" to use this as a <strong>gst late fee for nil return calculator</strong>. Need a <strong>gstr 1 late fee calculator</strong>? This tool covers that too!
       </p>
     </div>
 

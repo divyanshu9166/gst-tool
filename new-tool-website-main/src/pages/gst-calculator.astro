@@ -36,7 +36,23 @@ const structuredData = [
         name: 'What is reverse charge mechanism GST calculator?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'A reverse GST calculator helps you find the base price of an item when you only know the total GST-inclusive price. It uses the formula: Base Amount = Total Amount / (1 + (GST Rate / 100)).',
+          text: 'A reverse charge mechanism GST calculator free tool helps you find the base price of an item when you only know the total GST-inclusive price. It converts a GST inclusive amount to an exclusive price.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'How to convert gst inclusive to exclusive price formula?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'The convert gst inclusive to exclusive price formula is: Exclusive Price = Inclusive Price / (1 + (GST Rate / 100)). For example, to calculate 18 percent gst online backwards from 118, the exclusive price is 118 / 1.18 = 100.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'How to split cgst and sgst in invoice calculator?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'To split cgst and sgst in an invoice calculator for an intra-state supply, simply divide the total GST amount by 2. For an 18% GST rate, 9% is CGST and 9% is SGST.',
         },
       }
     ]
@@ -71,9 +87,9 @@ const structuredData = [
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
     <!-- Page header -->
     <div class="mb-10 text-center">
-      <h1 class="text-3xl sm:text-4xl font-bold text-base mb-3">GST Calculator for Small Business India</h1>
+      <h1 class="text-3xl sm:text-4xl font-bold text-base mb-3">GST Calculator Online — Free GST Calculator India</h1>
       <p class="text-[16px] text-muted max-w-2xl mx-auto leading-relaxed">
-        <strong>What is it?</strong> A GST calculator is an online tool that helps small businesses in India compute the exact Goods and Services Tax (GST) amount. Simply enter the base amount and select the GST rate (5%, 12%, 18%, or 28%) to instantly see the CGST and SGST split.
+        <strong>What is it?</strong> Our inclusive vs exclusive gst calculator tool helps small businesses in India compute the exact Goods and Services Tax (GST) amount. Simply enter the base amount and select the GST rate (5%, 12%, 18%, or 28%) to instantly calculate 18 percent gst online and see the CGST and SGST split.
       </p>
     </div>
 
@@ -235,12 +251,24 @@ const structuredData = [
 
         <h3 class="text-[20px] font-semibold text-base mt-8 mb-4 tracking-[-0.6px]">3. Understanding CGST, SGST, and IGST</h3>
         <p>
-          India follows a dual GST model. When calculating tax, the final GST amount is split based on the nature of the transaction:
+          India follows a dual GST model. When you want to know how to split cgst and sgst in invoice calculator results, the final GST amount is split based on the nature of the transaction:
         </p>
         <ul class="list-disc pl-5 mt-2 space-y-1">
           <li><strong>Intra-State Supply (Within the same state):</strong> The total GST is divided equally into Central GST (CGST) and State GST (SGST). For example, an 18% rate becomes 9% CGST and 9% SGST.</li>
           <li><strong>Inter-State Supply (Between two different states):</strong> The entire tax amount is collected as Integrated GST (IGST) at the full rate.</li>
         </ul>
+
+        <h3 class="text-[20px] font-semibold text-base mt-8 mb-4 tracking-[-0.6px]">Frequently Asked Questions</h3>
+        <div class="space-y-4 mt-4">
+          <div>
+            <h4 class="font-medium text-base">How to convert gst inclusive to exclusive price formula?</h4>
+            <p class="text-[15px] mt-1 text-muted">The convert gst inclusive to exclusive price formula is simple: divide your inclusive price by (1 + (GST Rate / 100)). Use our reverse charge mechanism gst calculator free tool above to do this instantly.</p>
+          </div>
+          <div>
+            <h4 class="font-medium text-base">How can I calculate 18 percent gst online?</h4>
+            <p class="text-[15px] mt-1 text-muted">Select the 18% button in the rate selector and type your amount. The tool will calculate 18 percent gst online and show the 9% CGST and 9% SGST split for you.</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>

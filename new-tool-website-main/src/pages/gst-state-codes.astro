@@ -1,0 +1,245 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'GST State Code List Finder 2026 | All Indian State Codes';
+const description = 'Find the complete, updated GST state code list for 2026. Quick offline finder for the 2-digit GST state codes used in GSTIN formatting in India.';
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'GST State Code List Finder',
+    url: Astro.site?.toString() ? `${Astro.site}gst-state-codes` : 'https://example.com/gst-state-codes',
+    description: 'Find the 2-digit GST state code for any Indian state or Union Territory.',
+    applicationCategory: 'BusinessApplication',
+    operatingSystem: 'Any',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What is a GST State Code?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'The GST state code is a 2-digit number that forms the first two characters of a 15-digit GSTIN (Goods and Services Tax Identification Number). It identifies the state where the business is registered.',
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'How to use this gst state code list finder?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'You can scroll through the list or use the search bar to instantly find the 2-digit GST state code for your state or Union Territory.',
+        }
+      }
+    ]
+  }
+];
+
+const stateCodes = [
+  { code: '01', state: 'Jammu & Kashmir' },
+  { code: '02', state: 'Himachal Pradesh' },
+  { code: '03', state: 'Punjab' },
+  { code: '04', state: 'Chandigarh' },
+  { code: '05', state: 'Uttarakhand' },
+  { code: '06', state: 'Haryana' },
+  { code: '07', state: 'Delhi' },
+  { code: '08', state: 'Rajasthan' },
+  { code: '09', state: 'Uttar Pradesh' },
+  { code: '10', state: 'Bihar' },
+  { code: '11', state: 'Sikkim' },
+  { code: '12', state: 'Arunachal Pradesh' },
+  { code: '13', state: 'Nagaland' },
+  { code: '14', state: 'Manipur' },
+  { code: '15', state: 'Mizoram' },
+  { code: '16', state: 'Tripura' },
+  { code: '17', state: 'Meghalaya' },
+  { code: '18', state: 'Assam' },
+  { code: '19', state: 'West Bengal' },
+  { code: '20', state: 'Jharkhand' },
+  { code: '21', state: 'Odisha' },
+  { code: '22', state: 'Chhattisgarh' },
+  { code: '23', state: 'Madhya Pradesh' },
+  { code: '24', state: 'Gujarat' },
+  { code: '26', state: 'Dadra & Nagar Haveli and Daman & Diu' },
+  { code: '27', state: 'Maharashtra' },
+  { code: '28', state: 'Andhra Pradesh (old)' },
+  { code: '29', state: 'Karnataka' },
+  { code: '30', state: 'Goa' },
+  { code: '31', state: 'Lakshadweep' },
+  { code: '32', state: 'Kerala' },
+  { code: '33', state: 'Tamil Nadu' },
+  { code: '34', state: 'Puducherry' },
+  { code: '35', state: 'Andaman & Nicobar Islands' },
+  { code: '36', state: 'Telangana' },
+  { code: '37', state: 'Andhra Pradesh' },
+  { code: '38', state: 'Ladakh' },
+  { code: '97', state: 'Other Territory' },
+  { code: '99', state: 'Centre Jurisdiction' }
+];
+---
+
+<BaseLayout {title} {description} {structuredData}>
+  <div class="mx-auto max-w-4xl px-4 sm:px-6 py-12 lg:py-24">
+    <!-- Header -->
+    <div class="mb-10 text-center">
+      <h1 class="text-4xl sm:text-5xl font-bold tracking-tight text-base mb-4">
+        GST State Code List Finder
+      </h1>
+      <p class="text-[16px] text-muted max-w-xl mx-auto leading-relaxed">
+        Quickly find the 2-digit state code required for generating invoices and verifying GSTINs in India.
+      </p>
+    </div>
+
+    <!-- Main Tool Container -->
+    <div class="rounded-[12px] border border-base bg-surface p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] mb-12">
+      
+      <!-- Search -->
+      <div class="mb-6 relative">
+        <svg
+          class="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted pointer-events-none"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" />
+        </svg>
+        <input
+          id="state-search"
+          type="search"
+          placeholder="Search by state name or code (e.g., Maharashtra or 27)..."
+          class="w-full rounded-xl border border-base bg-subtle pl-12 pr-4 py-3 text-[16px] focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent transition-all shadow-inner"
+          autocomplete="off"
+        />
+      </div>
+
+      <!-- State List -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3" id="state-grid">
+        {stateCodes.map(item => (
+          <div class="state-card flex items-center justify-between p-3 rounded-lg border border-base hover:bg-subtle transition-colors cursor-default" data-state={item.state.toLowerCase()} data-code={item.code}>
+            <span class="text-[14px] font-medium text-base">{item.state}</span>
+            <span class="rounded bg-accent/10 px-2 py-1 text-xs font-mono font-bold text-accent">{item.code}</span>
+          </div>
+        ))}
+      </div>
+      
+      <!-- Empty State -->
+      <div id="empty-state" class="hidden py-8 text-center">
+        <p class="text-muted">No state found matching your search.</p>
+      </div>
+
+    </div>
+
+    <!-- SEO Content -->
+    <article class="prose prose-neutral dark:prose-invert max-w-none text-[15px] leading-relaxed">
+      <h2 class="text-3xl font-bold mb-6">The Ultimate Guide to GST State Codes in India (Updated 2026)</h2>
+      
+      <p>
+        The introduction of the Goods and Services Tax (GST) in 2017 brought a paradigm shift to indirect taxation in India, replacing a convoluted web of state-level VATs, octroi, and excise duties with a unified "One Nation, One Tax" system. However, despite this unification, India remains a federal republic. Revenue must still be accurately distributed between the Central Government and the respective State Governments. To facilitate this seamless distribution, the GST Council devised a highly structured, 15-digit taxpayer identification system known as the <strong>GSTIN (Goods and Services Tax Identification Number)</strong>.
+      </p>
+
+      <p>
+        The very foundation of this 15-digit number is the <strong>GST State Code</strong>. 
+      </p>
+
+      <h3 class="text-2xl font-semibold mt-8 mb-4">What is a GST State Code?</h3>
+      
+      <p>
+        A GST State Code is a fixed, 2-digit numeric value assigned to every State and Union Territory in India. It forms the <strong>first two characters of every GSTIN</strong>. For instance, if a business operates out of Maharashtra, its GSTIN will invariably begin with "27". If it operates out of Delhi, the GSTIN will start with "07".
+      </p>
+
+      <p>
+        The numbering system is loosely based on the 2011 Census of India state codes, starting from "01" in the extreme north (Jammu & Kashmir) and moving geographically downwards and eastwards. Our <strong>gst state code list finder</strong> above provides the complete, exhaustive list of all active codes for 2026.
+      </p>
+
+      <h3 class="text-2xl font-semibold mt-8 mb-4">Why is the State Code Crucial for Invoicing?</h3>
+
+      <p>
+        The entire GST system operates on a "destination-based consumption tax" principle. This means that the tax revenue belongs to the state where the goods or services are finally consumed, not where they were manufactured. To determine whether an invoice should charge local taxes (CGST and SGST) or interstate taxes (IGST), the billing software relies entirely on the state codes of the supplier and the buyer.
+      </p>
+
+      <p><strong>Scenario A: Intra-State Supply (Local)</strong></p>
+      <p>
+        Imagine you are a manufacturer registered in Gujarat (State Code: 24) selling goods to a retailer who is also registered in Gujarat (State Code: 24). When generating the invoice using a <a href="/invoice-generator" class="text-accent hover:underline">GST invoice generator</a>, the software will compare the first two digits of your GSTIN with the first two digits of the buyer's GSTIN. Since "24" matches "24", the transaction is recognized as an intra-state supply. The software will automatically split the applicable tax rate down the middle—charging 9% CGST (Central GST) and 9% SGST (State GST) on an 18% item.
+      </p>
+
+      <p><strong>Scenario B: Inter-State Supply (Cross-Border)</strong></p>
+      <p>
+        Now imagine you are that same manufacturer in Gujarat (State Code: 24), but this time you are selling to a distributor in Karnataka (State Code: 29). The billing system detects a mismatch between the supplier code "24" and the buyer code "29". It immediately classifies the transaction as an inter-state supply. Instead of splitting the tax, the system charges the full 18% as IGST (Integrated GST). The Central Government collects this IGST and later settles the accounts with the Karnataka State Government, as Karnataka is the destination state.
+      </p>
+
+      <p>
+        A single error in recording the buyer's state code can result in charging the wrong tax head (e.g., charging CGST/SGST instead of IGST). This is a severe compliance violation. The buyer will be completely unable to claim Input Tax Credit (ITC) for that invoice, leading to commercial disputes, and you may face penalties during departmental audits.
+      </p>
+
+      <h3 class="text-2xl font-semibold mt-8 mb-4">Understanding the Structure of the 15-Digit GSTIN</h3>
+
+      <p>
+        While the first two digits are the state code, understanding the rest of the GSTIN is equally important for verifying the authenticity of a business partner:
+      </p>
+
+      <ul class="list-disc pl-6 space-y-3 mt-4">
+        <li><strong>Digits 1 and 2:</strong> The GST State Code (e.g., 27 for Maharashtra).</li>
+        <li><strong>Digits 3 to 12:</strong> The 10-character Permanent Account Number (PAN) of the business entity or proprietor. For a company, the 4th character of the PAN is usually "C". For an individual, it is "P".</li>
+        <li><strong>Digit 13:</strong> The entity code. It represents the number of registrations the business has within that specific state. If a company has 1 branch in Maharashtra, this digit is "1". If they open a second branch with a separate registration in Maharashtra, the digit becomes "2". It goes up to 9, and then uses alphabetical characters (A-Z).</li>
+        <li><strong>Digit 14:</strong> The letter "Z". This is a default, hardcoded character for all normal taxpayers under the current GST schema.</li>
+        <li><strong>Digit 15:</strong> The checksum character. It can be a number or a letter, generated mathematically using the previous 14 characters. It allows billing software and portals like our <a href="/gstin-validator" class="text-accent hover:underline">GSTIN Validator tool</a> to instantly detect typos without needing a database query.</li>
+      </ul>
+
+      <h3 class="text-2xl font-semibold mt-8 mb-4">Recent Changes and UTGST (Union Territory GST)</h3>
+
+      <p>
+        The political map of India occasionally changes, which directly impacts the GST framework. Over the past few years, the government has merged certain Union Territories and split others. These administrative changes require businesses to update their GSTINs and state codes.
+      </p>
+
+      <p>
+        For example, Dadra & Nagar Haveli and Daman & Diu were merged into a single Union Territory. Following this merger, businesses in Daman & Diu had to migrate their GSTINs to the new combined state code (26). 
+      </p>
+
+      <p>
+        Similarly, following the reorganization of Jammu & Kashmir, the region was split into two separate Union Territories. The GST Council assigned code "01" to Jammu & Kashmir and a brand new code "38" to Ladakh. If you are doing business with entities in the northernmost regions, it is imperative to use the updated 2026 codes. 
+      </p>
+
+      <p>
+        When you supply goods to a Union Territory without its own legislature (like Andaman & Nicobar Islands, code 35), the tax charged on local sales is CGST + UTGST (instead of SGST). Functionally, UTGST works exactly the same as SGST, but the revenue goes to the central administration rather than a state government.
+      </p>
+
+      <div class="mt-10 rounded-[12px] bg-subtle border border-base p-6 text-[15px] text-muted">
+        <h4 class="text-lg font-semibold text-base mb-2">Best Practices for Businesses</h4>
+        <p>Always verify the state code provided by your client before raising a tax invoice. Do not rely solely on the shipping address. Sometimes, a company may have its registered headquarters in Delhi (07) but instruct you to ship the goods to their unregistered warehouse in Haryana (06). In such cases, the billing must be done as an inter-state sale (IGST) to the Delhi GSTIN (07), with the shipping address marked as Haryana. Use our lookup tool regularly to prevent ITC mismatches and ensure 100% compliance.</p>
+      </div>
+    </article>
+  </div>
+
+  <script>
+    const searchInput = document.getElementById('state-search') as HTMLInputElement;
+    const cards = document.querySelectorAll('.state-card');
+    const emptyState = document.getElementById('empty-state')!;
+
+    searchInput.addEventListener('input', (e) => {
+      const query = (e.target as HTMLInputElement).value.toLowerCase().trim();
+      let visibleCount = 0;
+
+      cards.forEach(card => {
+        const stateName = card.getAttribute('data-state') || '';
+        const stateCode = card.getAttribute('data-code') || '';
+
+        if (stateName.includes(query) || stateCode.includes(query)) {
+          card.classList.remove('hidden');
+          visibleCount++;
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+
+      if (visibleCount === 0) {
+        emptyState.classList.remove('hidden');
+      } else {
+        emptyState.classList.add('hidden');
+      }
+    });
+  </script>
+</BaseLayout>

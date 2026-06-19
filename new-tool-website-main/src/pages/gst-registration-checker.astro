@@ -1,0 +1,358 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'GST Registration Limit Checker 2025-26 | Do I Need GST Registration?';
+const description = 'Check if your business needs GST registration in India. Free online tool to verify GST registration threshold limit for 2025-26 based on your state, turnover, and business type.';
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'GST Registration Threshold Checker',
+    description: 'Free tool to determine if your business requires mandatory GST registration based on turnover, state and business category.',
+    applicationCategory: 'FinanceApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR' }
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What is the GST registration limit for goods?',
+        acceptedAnswer: { '@type': 'Answer', text: 'For businesses supplying goods, the GST registration threshold is ₹40 Lakhs per annum for normal category states and ₹20 Lakhs for special category states (like Mizoram, Tripura, Manipur, Nagaland, Uttarakhand, Sikkim, Arunachal Pradesh, and Meghalaya).' }
+      },
+      {
+        '@type': 'Question',
+        name: 'What is the GST registration limit for services?',
+        acceptedAnswer: { '@type': 'Answer', text: 'For service providers, the GST registration threshold is ₹20 Lakhs per annum for normal category states and ₹10 Lakhs for special category states.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Is GST registration compulsory for e-commerce sellers?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes. If you sell goods or services through an e-commerce operator like Amazon, Flipkart, Meesho, or Zomato, you must register for GST regardless of your turnover. There is no threshold exemption for e-commerce sellers.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Do I need GST registration if I export services?',
+        acceptedAnswer: { '@type': 'Answer', text: 'If your aggregate turnover from all supplies (including exports) exceeds ₹20 Lakhs, GST registration is mandatory. However, exports of services are zero-rated, so you won\'t collect GST from foreign clients. You must file an LUT (Letter of Undertaking) to export without paying IGST.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'What happens if I don\'t register for GST despite crossing the threshold?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Operating without mandatory GST registration is a serious offense. You become liable to pay the entire GST amount that should have been collected, plus a penalty of ₹10,000 or 10% of the tax due (whichever is higher). In cases of deliberate evasion, the penalty can be 100% of the tax due.' }
+      }
+    ]
+  }
+];
+---
+
+<BaseLayout {title} {description} {structuredData}>
+  <div class="mx-auto max-w-3xl px-4 sm:px-6 py-12 lg:py-24">
+
+    <!-- Header -->
+    <div class="mb-10 text-center">
+      <div class="inline-flex items-center gap-2 rounded-full border border-base bg-surface px-4 py-1.5 text-[12px] font-mono uppercase tracking-wider text-muted mb-4">
+        <span class="h-1.5 w-1.5 rounded-full bg-green-500"></span>
+        Updated for FY 2025-26
+      </div>
+      <h1 class="text-4xl sm:text-5xl font-bold tracking-tight text-base mb-4">
+        GST Registration Checker
+      </h1>
+      <p class="text-[16px] text-muted max-w-lg mx-auto leading-relaxed">
+        Answer 4 quick questions to instantly know if your business needs GST registration in India.
+      </p>
+    </div>
+
+    <!-- Tool Container -->
+    <div class="rounded-[12px] border border-base bg-surface p-6 sm:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] mb-12">
+
+      <!-- Step 1: Business Type -->
+      <div class="mb-8">
+        <label class="block text-sm font-semibold text-base uppercase tracking-wide mb-3">1. What does your business primarily supply?</label>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <label class="option-card flex items-center gap-3 p-4 rounded-xl border-2 border-base cursor-pointer hover:border-accent transition-colors has-[:checked]:border-accent has-[:checked]:bg-accent/5">
+            <input type="radio" name="supply-type" value="goods" class="accent-[rgb(var(--accent))]" />
+            <div>
+              <div class="font-semibold text-base">Goods</div>
+              <div class="text-xs text-muted">Physical products, manufacturing</div>
+            </div>
+          </label>
+          <label class="option-card flex items-center gap-3 p-4 rounded-xl border-2 border-base cursor-pointer hover:border-accent transition-colors has-[:checked]:border-accent has-[:checked]:bg-accent/5">
+            <input type="radio" name="supply-type" value="services" class="accent-[rgb(var(--accent))]" />
+            <div>
+              <div class="font-semibold text-base">Services</div>
+              <div class="text-xs text-muted">Consulting, IT, freelancing</div>
+            </div>
+          </label>
+          <label class="option-card flex items-center gap-3 p-4 rounded-xl border-2 border-base cursor-pointer hover:border-accent transition-colors has-[:checked]:border-accent has-[:checked]:bg-accent/5">
+            <input type="radio" name="supply-type" value="both" class="accent-[rgb(var(--accent))]" />
+            <div>
+              <div class="font-semibold text-base">Both Goods & Services</div>
+              <div class="text-xs text-muted">Mixed supply business</div>
+            </div>
+          </label>
+          <label class="option-card flex items-center gap-3 p-4 rounded-xl border-2 border-base cursor-pointer hover:border-accent transition-colors has-[:checked]:border-accent has-[:checked]:bg-accent/5">
+            <input type="radio" name="supply-type" value="ecommerce" class="accent-[rgb(var(--accent))]" />
+            <div>
+              <div class="font-semibold text-base">E-Commerce Seller</div>
+              <div class="text-xs text-muted">Amazon, Flipkart, Meesho, Zomato</div>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <!-- Step 2: State Category -->
+      <div class="mb-8">
+        <label class="block text-sm font-semibold text-base uppercase tracking-wide mb-3">2. Which category is your state in?</label>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <label class="option-card flex items-center gap-3 p-4 rounded-xl border-2 border-base cursor-pointer hover:border-accent transition-colors has-[:checked]:border-accent has-[:checked]:bg-accent/5">
+            <input type="radio" name="state-type" value="normal" class="accent-[rgb(var(--accent))]" />
+            <div>
+              <div class="font-semibold text-base">Normal Category State</div>
+              <div class="text-xs text-muted">Maharashtra, Delhi, Gujarat, Karnataka, etc.</div>
+            </div>
+          </label>
+          <label class="option-card flex items-center gap-3 p-4 rounded-xl border-2 border-base cursor-pointer hover:border-accent transition-colors has-[:checked]:border-accent has-[:checked]:bg-accent/5">
+            <input type="radio" name="state-type" value="special" class="accent-[rgb(var(--accent))]" />
+            <div>
+              <div class="font-semibold text-base">Special Category State</div>
+              <div class="text-xs text-muted">Mizoram, Nagaland, Tripura, Sikkim, Uttarakhand, etc.</div>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <!-- Step 3: Inter-state supply -->
+      <div class="mb-8">
+        <label class="block text-sm font-semibold text-base uppercase tracking-wide mb-3">3. Do you make inter-state supplies or exports?</label>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <label class="option-card flex items-center gap-3 p-4 rounded-xl border-2 border-base cursor-pointer hover:border-accent transition-colors has-[:checked]:border-accent has-[:checked]:bg-accent/5">
+            <input type="radio" name="interstate" value="yes" class="accent-[rgb(var(--accent))]" />
+            <div>
+              <div class="font-semibold text-base">Yes</div>
+              <div class="text-xs text-muted">Sell to customers in other states or export abroad</div>
+            </div>
+          </label>
+          <label class="option-card flex items-center gap-3 p-4 rounded-xl border-2 border-base cursor-pointer hover:border-accent transition-colors has-[:checked]:border-accent has-[:checked]:bg-accent/5">
+            <input type="radio" name="interstate" value="no" class="accent-[rgb(var(--accent))]" />
+            <div>
+              <div class="font-semibold text-base">No</div>
+              <div class="text-xs text-muted">Only sell within the same state</div>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <!-- Step 4: Turnover -->
+      <div class="mb-8">
+        <label for="turnover" class="block text-sm font-semibold text-base uppercase tracking-wide mb-3">4. What is your estimated annual turnover?</label>
+        <div class="relative">
+          <span class="absolute left-4 top-1/2 -translate-y-1/2 font-mono text-muted font-bold">₹</span>
+          <input
+            type="number"
+            id="turnover"
+            placeholder="e.g., 2500000"
+            min="0"
+            class="w-full rounded-xl border border-base bg-subtle pl-10 pr-4 py-3 text-[16px] font-mono focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent transition-all"
+          />
+        </div>
+        <p class="text-xs text-muted mt-2">Enter amount in Rupees (e.g., 2500000 for ₹25 Lakhs)</p>
+      </div>
+
+      <!-- Check Button -->
+      <button
+        id="check-btn"
+        type="button"
+        class="w-full rounded-xl bg-accent py-4 text-[16px] font-bold text-white hover:opacity-90 active:scale-[0.98] transition-all"
+      >
+        Check GST Registration Requirement →
+      </button>
+
+      <!-- Result -->
+      <div id="result" class="hidden mt-6 rounded-xl p-6 border-2 text-center">
+        <div id="result-icon" class="text-4xl mb-3"></div>
+        <div id="result-title" class="text-xl font-bold mb-2"></div>
+        <div id="result-msg" class="text-[15px] text-muted leading-relaxed"></div>
+        <div id="result-threshold" class="mt-4 inline-flex items-center gap-2 rounded-full bg-surface border border-base px-4 py-2 text-sm font-mono font-semibold"></div>
+      </div>
+
+    </div>
+
+    <!-- SEO Content -->
+    <article class="prose prose-neutral dark:prose-invert max-w-none text-[15px] leading-relaxed">
+      <h2 class="text-3xl font-bold mb-6">GST Registration Threshold Limit in India (2025-26 Update)</h2>
+
+      <p>
+        One of the most frequently searched questions by new business owners, freelancers, and small traders in India is: <strong>"Do I need to register for GST?"</strong> The answer is not always straightforward because the GST registration threshold limit in India depends on multiple factors — including the type of supply (goods vs. services), the state of business, and the nature of the business activity. Our free <strong>GST registration limit checker</strong> above removes all ambiguity by walking you through the exact decision logic used by tax authorities.
+      </p>
+
+      <h3 class="text-2xl font-semibold mt-8 mb-4">GST Registration Limit: The Complete Table</h3>
+
+      <p>Below is the officially notified GST registration threshold for FY 2025-26:</p>
+
+      <div class="overflow-x-auto my-6">
+        <table class="w-full text-sm border-collapse">
+          <thead>
+            <tr class="bg-subtle">
+              <th class="border border-base px-4 py-3 text-left font-semibold">Business Type</th>
+              <th class="border border-base px-4 py-3 text-left font-semibold">Normal States</th>
+              <th class="border border-base px-4 py-3 text-left font-semibold">Special Category States</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="border border-base px-4 py-3">Goods Supplier</td>
+              <td class="border border-base px-4 py-3 font-mono text-accent">₹40 Lakhs</td>
+              <td class="border border-base px-4 py-3 font-mono text-accent">₹20 Lakhs</td>
+            </tr>
+            <tr class="bg-subtle/50">
+              <td class="border border-base px-4 py-3">Service Provider</td>
+              <td class="border border-base px-4 py-3 font-mono text-accent">₹20 Lakhs</td>
+              <td class="border border-base px-4 py-3 font-mono text-accent">₹10 Lakhs</td>
+            </tr>
+            <tr>
+              <td class="border border-base px-4 py-3">E-commerce Sellers</td>
+              <td class="border border-base px-4 py-3 font-mono font-bold">No Threshold</td>
+              <td class="border border-base px-4 py-3 font-mono font-bold">No Threshold</td>
+            </tr>
+            <tr class="bg-subtle/50">
+              <td class="border border-base px-4 py-3">Inter-State Goods Supplier</td>
+              <td class="border border-base px-4 py-3 font-mono font-bold">No Threshold</td>
+              <td class="border border-base px-4 py-3 font-mono font-bold">No Threshold</td>
+            </tr>
+            <tr>
+              <td class="border border-base px-4 py-3">Casual Taxable Person</td>
+              <td class="border border-base px-4 py-3 font-mono font-bold">No Threshold</td>
+              <td class="border border-base px-4 py-3 font-mono font-bold">No Threshold</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 class="text-2xl font-semibold mt-8 mb-4">7 Cases Where GST Registration is Mandatory Regardless of Turnover</h3>
+
+      <p>Even if your annual turnover is ₹1, you must obtain GST registration if you fall into any of these categories:</p>
+
+      <ol class="list-decimal pl-6 space-y-3 mt-4">
+        <li><strong>E-commerce sellers:</strong> Anyone who sells goods or services through Amazon, Flipkart, Meesho, Nykaa, Zomato, Swiggy, or any other e-commerce operator must register for GST. This rule was explicitly enacted to prevent tax leakage in the booming online marketplace economy.</li>
+        <li><strong>Inter-state suppliers of goods:</strong> If you are a goods supplier and you ship products to customers in a different state, GST registration is mandatory. This is because interstate movement triggers IGST, which requires a GSTIN to be collected and remitted.</li>
+        <li><strong>Casual taxable persons:</strong> If you temporarily supply goods or services in a state where you don't have a permanent business establishment (e.g., a Delhi-based artisan selling at a trade fair in Chennai), you must register as a Casual Taxable Person in that state for the duration of the fair.</li>
+        <li><strong>Non-resident taxable persons:</strong> Foreign businesses providing taxable supplies in India must register as Non-Resident Taxable Persons.</li>
+        <li><strong>Persons liable to pay tax under Reverse Charge Mechanism (RCM):</strong> If you regularly receive services where the recipient (you) is liable to pay GST under RCM, you must be GST registered. Use our <a href="/rcm-calculator" class="text-accent hover:underline">RCM Calculator</a> to estimate your RCM liability.</li>
+        <li><strong>Input Service Distributors (ISD):</strong> Companies that centrally receive invoices for services and then distribute the ITC to their various branches must register as an ISD.</li>
+        <li><strong>Agents of a taxable person:</strong> If you supply goods or services on behalf of another registered taxable person, you must also be GST registered.</li>
+      </ol>
+
+      <h3 class="text-2xl font-semibold mt-8 mb-4">Voluntary GST Registration: Is It Worth It?</h3>
+
+      <p>
+        Even if your turnover is below the threshold, you can voluntarily register for GST. This is often a smart business decision for several reasons:
+      </p>
+
+      <ul class="list-disc pl-6 space-y-2 mt-4">
+        <li><strong>ITC Benefits:</strong> As a registered person, you can claim Input Tax Credit on all your business purchases, reducing your overall cost of goods sold.</li>
+        <li><strong>B2B Credibility:</strong> Most large corporate buyers will only transact with GST-registered vendors. Having a GSTIN on your invoice makes you eligible for lucrative B2B contracts that you'd otherwise miss.</li>
+        <li><strong>Interstate Business:</strong> Even for services, if you wish to formalize interstate business at scale, being GST registered removes all friction.</li>
+      </ul>
+
+      <div class="mt-10 rounded-[12px] bg-subtle border border-base p-6 text-[15px] text-muted">
+        <h4 class="text-lg font-semibold text-base mb-2">Once You're Registered</h4>
+        <p>After registering, you'll need a suite of tools to stay compliant. Explore our <a href="/gst-calculator" class="text-accent hover:underline">GST Calculator</a> for quick tax calculations, our <a href="/invoice-generator" class="text-accent hover:underline">Invoice Generator</a> for creating compliant invoices, and our <a href="/late-fee-calculator" class="text-accent hover:underline">Late Fee Calculator</a> to avoid penalties from missed deadlines.</p>
+      </div>
+    </article>
+
+    <!-- FAQ -->
+    <section class="mt-16 pt-12 border-t border-base" aria-labelledby="faq-heading">
+      <h2 id="faq-heading" class="text-2xl sm:text-3xl font-bold text-base mb-8">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        {[
+          { q: 'What is the GST registration limit for goods?', a: 'For businesses supplying goods, the GST registration threshold is ₹40 Lakhs per annum for normal category states and ₹20 Lakhs for special category states.' },
+          { q: 'What is the GST registration limit for services?', a: 'For service providers, the GST registration threshold is ₹20 Lakhs per annum for normal category states and ₹10 Lakhs for special category states.' },
+          { q: 'Is GST registration compulsory for e-commerce sellers?', a: 'Yes. E-commerce sellers must register for GST regardless of their turnover. There is no threshold exemption for sellers on platforms like Amazon, Flipkart, or Meesho.' },
+          { q: 'What happens if I don\'t register for GST despite crossing the threshold?', a: 'You become liable to pay the entire GST that should have been collected, plus a penalty of ₹10,000 or 10% of the tax due (whichever is higher).' },
+        ].map(item => (
+          <details class="group rounded-xl border border-base bg-surface overflow-hidden">
+            <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+              <span>{item.q}</span>
+              <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+            </summary>
+            <div class="px-6 pb-5 text-sm text-muted leading-relaxed border-t border-base pt-4">{item.a}</div>
+          </details>
+        ))}
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    const checkBtn = document.getElementById('check-btn')!;
+    const result = document.getElementById('result')!;
+    const resultIcon = document.getElementById('result-icon')!;
+    const resultTitle = document.getElementById('result-title')!;
+    const resultMsg = document.getElementById('result-msg')!;
+    const resultThreshold = document.getElementById('result-threshold')!;
+
+    checkBtn.addEventListener('click', () => {
+      const supplyType = (document.querySelector('input[name="supply-type"]:checked') as HTMLInputElement)?.value;
+      const stateType = (document.querySelector('input[name="state-type"]:checked') as HTMLInputElement)?.value;
+      const interstate = (document.querySelector('input[name="interstate"]:checked') as HTMLInputElement)?.value;
+      const turnover = parseFloat((document.getElementById('turnover') as HTMLInputElement).value) || 0;
+
+      if (!supplyType || !stateType || !interstate) {
+        alert('Please answer all questions before checking.');
+        return;
+      }
+
+      result.classList.remove('hidden');
+
+      // E-commerce: always mandatory
+      if (supplyType === 'ecommerce') {
+        showResult('mandatory', '🔴', 'GST Registration is MANDATORY', 'E-commerce sellers must register for GST regardless of their annual turnover. There is no threshold exemption for sellers on platforms like Amazon, Flipkart, Meesho, or Zomato.', 'No Threshold Limit Applies');
+        return;
+      }
+
+      // Inter-state goods: always mandatory
+      if (interstate === 'yes' && (supplyType === 'goods' || supplyType === 'both')) {
+        showResult('mandatory', '🔴', 'GST Registration is MANDATORY', 'Any supplier making inter-state supply of goods must register for GST, irrespective of annual turnover. Even if your income is ₹1, you need a GSTIN.', 'No Threshold Limit for Inter-State');
+        return;
+      }
+
+      // Calculate threshold
+      let threshold = 0;
+      let thresholdLabel = '';
+
+      if (supplyType === 'goods') {
+        threshold = stateType === 'normal' ? 4000000 : 2000000;
+        thresholdLabel = stateType === 'normal' ? '₹40 Lakhs (Goods, Normal State)' : '₹20 Lakhs (Goods, Special State)';
+      } else if (supplyType === 'services') {
+        threshold = stateType === 'normal' ? 2000000 : 1000000;
+        thresholdLabel = stateType === 'normal' ? '₹20 Lakhs (Services, Normal State)' : '₹10 Lakhs (Services, Special State)';
+      } else {
+        // Both: use services threshold (lower) to be safe
+        threshold = stateType === 'normal' ? 2000000 : 1000000;
+        thresholdLabel = stateType === 'normal' ? '₹20 Lakhs (Mixed, Normal State)' : '₹10 Lakhs (Mixed, Special State)';
+      }
+
+      if (turnover >= threshold) {
+        showResult('mandatory', '🔴', 'GST Registration is MANDATORY', `Your estimated annual turnover of ₹${(turnover / 100000).toFixed(2)} Lakhs exceeds the applicable threshold. You are legally required to register for GST immediately.`, `Your Threshold: ${thresholdLabel}`);
+      } else if (turnover >= threshold * 0.8) {
+        showResult('warning', '🟡', 'Approaching the Threshold — Register Soon', `Your turnover of ₹${(turnover / 100000).toFixed(2)} Lakhs is within 80% of the threshold. You are not required to register yet, but monitor your income closely. The moment you cross the limit, registration must happen within 30 days.`, `Threshold: ${thresholdLabel}`);
+      } else {
+        showResult('safe', '🟢', 'GST Registration is NOT Required', `Your estimated annual turnover of ₹${(turnover / 100000).toFixed(2)} Lakhs is below the applicable registration threshold. You can operate without GST registration. However, voluntary registration may still benefit you for ITC claims and B2B credibility.`, `Your Threshold: ${thresholdLabel}`);
+      }
+    });
+
+    function showResult(type: 'mandatory' | 'warning' | 'safe', icon: string, title: string, msg: string, threshold: string) {
+      result.className = 'mt-6 rounded-xl p-6 border-2 text-center';
+      if (type === 'mandatory') result.classList.add('border-red-400', 'bg-red-50', 'dark:bg-red-950/20');
+      if (type === 'warning') result.classList.add('border-yellow-400', 'bg-yellow-50', 'dark:bg-yellow-950/20');
+      if (type === 'safe') result.classList.add('border-green-400', 'bg-green-50', 'dark:bg-green-950/20');
+      resultIcon.textContent = icon;
+      resultTitle.textContent = title;
+      resultMsg.textContent = msg;
+      resultThreshold.textContent = threshold;
+    }
+  </script>
+</BaseLayout>

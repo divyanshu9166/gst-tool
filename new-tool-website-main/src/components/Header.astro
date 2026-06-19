@@ -2,20 +2,36 @@
 /**
  * Header — sticky top navigation with mobile hamburger menu and dark mode toggle.
  */
-const navLinks = [
-  { href: '/', label: 'Home' },
-  { href: '/gst-calculator', label: 'GST Calculator' },
-  { href: '/invoice-generator', label: 'Invoice Generator' },
-  { href: '/rcm-calculator', label: 'RCM Calculator' },
-  { href: '/composition-scheme-calculator', label: 'Composition Scheme' },
-  { href: '/itc-calculator', label: 'ITC Calculator' },
-  { href: '/gst-interest-calculator', label: 'Interest Calculator' },
-  { href: '/tds-gst-calculator', label: 'TDS Calculator' },
-  { href: '/tcs-gst-calculator', label: 'TCS Calculator' },
-  { href: '/gst-penalty-calculator', label: 'Penalty Calculator' },
-  { href: '/hsn-code-lookup', label: 'HSN Lookup' },
-  { href: '/eway-bill-validity', label: 'E-Way Validity' },
-  { href: '/blog', label: 'Blog' },
+const navCategories = [
+  {
+    title: 'Calculators',
+    links: [
+      { href: '/gst-calculator', label: 'GST Calculator' },
+      { href: '/invoice-generator', label: 'Invoice Generator' },
+      { href: '/advance-tax-calculator', label: 'Advance Tax Calculator' },
+      { href: '/rcm-calculator', label: 'RCM Calculator' },
+      { href: '/composition-scheme-calculator', label: 'Composition Scheme' },
+      { href: '/itc-calculator', label: 'ITC Calculator' },
+      { href: '/gst-interest-calculator', label: 'Interest Calculator' },
+      { href: '/tds-gst-calculator', label: 'TDS Calculator' },
+      { href: '/tcs-gst-calculator', label: 'TCS Calculator' },
+      { href: '/gst-penalty-calculator', label: 'Penalty Calculator' },
+      { href: '/late-fee-calculator', label: 'Late Fee Calculator' },
+    ]
+  },
+  {
+    title: 'Lookups & Tools',
+    links: [
+      { href: '/gst-registration-checker', label: 'Registration Checker' },
+      { href: '/place-of-supply-calculator', label: 'Place of Supply' },
+      { href: '/hsn-code-lookup', label: 'HSN Lookup' },
+      { href: '/gstin-validator', label: 'GSTIN Validator' },
+      { href: '/eway-bill-validity', label: 'E-Way Validity' },
+      { href: '/pin-to-pin-distance-calculator', label: 'Pin to Pin Distance' },
+      { href: '/gstr-2b-reconciliation-tool', label: 'GSTR-2B Tool' },
+      { href: '/gst-state-codes', label: 'State Codes' },
+    ]
+  }
 ];
 
 const currentPath = Astro.url.pathname;
@@ -31,7 +47,7 @@ const currentPath = Astro.url.pathname;
       <!-- Logo / Brand -->
       <a
         href="/"
-        class="flex items-center gap-2 font-semibold text-base hover:text-accent transition-colors"
+        class="flex items-center gap-2 font-semibold text-base hover:text-accent transition-colors shrink-0"
         aria-label="GST HSN Lookup — Home"
       >
         <!-- Simple SVG logo mark -->
@@ -58,25 +74,33 @@ const currentPath = Astro.url.pathname;
       </a>
 
       <!-- Desktop nav -->
-      <nav class="hidden md:flex items-center gap-1" aria-label="Main navigation">
-        {navLinks.map(({ href, label }) => (
-          <a
-            href={href}
-            class={[
-              'px-3 py-2 rounded-md text-sm font-medium transition-colors',
-              currentPath === href
-                ? 'bg-subtle text-accent'
-                : 'text-muted hover:text-base hover:bg-subtle',
-            ].join(' ')}
-            aria-current={currentPath === href ? 'page' : undefined}
-          >
-            {label}
-          </a>
+      <nav class="hidden md:flex items-center gap-2" aria-label="Main navigation">
+        <a href="/" class={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${currentPath === '/' ? 'bg-subtle text-accent' : 'text-muted hover:text-base hover:bg-subtle'}`}>Home</a>
+        
+        {navCategories.map(cat => (
+          <div class="relative group">
+            <button class="flex items-center gap-1 px-3 py-2 rounded-md text-sm font-medium text-muted hover:text-base hover:bg-subtle transition-colors">
+              {cat.title}
+              <svg class="w-4 h-4 text-muted group-hover:text-base transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+            </button>
+            
+            <div class="absolute left-0 top-full hidden w-56 pt-2 group-hover:block z-50">
+              <div class="rounded-md bg-surface border border-base shadow-xl py-2">
+                {cat.links.map(link => (
+                  <a href={link.href} class={`block px-4 py-2 text-sm transition-colors ${currentPath === link.href ? 'text-accent bg-subtle font-medium' : 'text-muted hover:text-base hover:bg-subtle'}`}>
+                    {link.label}
+                  </a>
+                ))}
+              </div>
+            </div>
+          </div>
         ))}
+
+        <a href="/blog" class={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${currentPath.startsWith('/blog') ? 'bg-subtle text-accent' : 'text-muted hover:text-base hover:bg-subtle'}`}>Blog</a>
       </nav>
 
       <!-- Right side: dark mode toggle + mobile menu button -->
-      <div class="flex items-center gap-2">
+      <div class="flex items-center gap-2 shrink-0">
         <!-- Dark mode toggle -->
         <button
           id="theme-toggle"
@@ -117,25 +141,27 @@ const currentPath = Astro.url.pathname;
   <!-- Mobile menu (hidden by default) -->
   <div
     id="mobile-menu"
-    class="hidden md:hidden border-b border-base bg-white/95 dark:bg-[#0a0a0a]/95 backdrop-blur-xl absolute w-full shadow-xl z-50"
+    class="hidden md:hidden border-b border-base bg-white/95 dark:bg-[#0a0a0a]/95 backdrop-blur-xl absolute w-full shadow-xl z-50 max-h-[calc(100vh-4rem)] overflow-y-auto"
     role="navigation"
     aria-label="Mobile navigation"
   >
-    <div class="px-4 py-4 space-y-2">
-      {navLinks.map(({ href, label }) => (
-        <a
-          href={href}
-          class={[
-            'block px-4 py-3 rounded-md text-[16px] font-medium transition-colors',
-            currentPath === href
-              ? 'bg-subtle text-accent'
-              : 'text-muted hover:text-base hover:bg-subtle',
-          ].join(' ')}
-          aria-current={currentPath === href ? 'page' : undefined}
-        >
-          {label}
-        </a>
+    <div class="px-4 py-4 space-y-4">
+      <a href="/" class={`block px-4 py-3 rounded-md text-[16px] font-medium transition-colors ${currentPath === '/' ? 'bg-subtle text-accent' : 'text-muted hover:text-base hover:bg-subtle'}`}>Home</a>
+      
+      {navCategories.map(cat => (
+        <div>
+          <div class="px-4 py-2 text-xs font-semibold text-base uppercase tracking-wider">{cat.title}</div>
+          <div class="space-y-1 mt-1">
+            {cat.links.map(link => (
+              <a href={link.href} class={`block px-4 py-2.5 rounded-md text-[15px] font-medium transition-colors ${currentPath === link.href ? 'bg-subtle text-accent' : 'text-muted hover:text-base hover:bg-subtle'}`}>
+                {link.label}
+              </a>
+            ))}
+          </div>
+        </div>
       ))}
+      
+      <a href="/blog" class={`block px-4 py-3 rounded-md text-[16px] font-medium transition-colors ${currentPath.startsWith('/blog') ? 'bg-subtle text-accent' : 'text-muted hover:text-base hover:bg-subtle'}`}>Blog</a>
     </div>
   </div>
 </header>

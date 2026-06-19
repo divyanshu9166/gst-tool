@@ -1,0 +1,216 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'Place of Supply Calculator for GST India | CGST SGST or IGST?';
+const description = 'Instantly determine the place of supply under GST and find out whether to charge CGST+SGST or IGST on your invoice. Free, offline, updated for 2025-26.';
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Place of Supply Calculator',
+    description: 'Determine if a GST transaction is intra-state (CGST+SGST) or inter-state (IGST).',
+    applicationCategory: 'FinanceApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR' }
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'What is place of supply under GST?', acceptedAnswer: { '@type': 'Answer', text: 'Place of supply (POS) under GST determines the location where a supply is deemed to occur. It is the key factor that decides whether a transaction attracts CGST+SGST (intra-state) or IGST (inter-state). The rules differ for goods and services.' } },
+      { '@type': 'Question', name: 'What happens if I charge wrong tax (CGST/SGST instead of IGST)?', acceptedAnswer: { '@type': 'Answer', text: 'If you incorrectly charge CGST+SGST on a transaction that should have attracted IGST (or vice versa), you must correct the error. You need to issue a credit note for the wrongly charged tax and raise a fresh invoice with the correct tax. The buyer cannot claim ITC on the wrongly-charged tax.' } },
+      { '@type': 'Question', name: 'For services, what is the default place of supply?', acceptedAnswer: { '@type': 'Answer', text: 'For B2B services (where the recipient has a GSTIN), the default place of supply is the location of the registered recipient. For B2C services (unregistered recipient), the default place of supply is the location of the service provider.' } }
+    ]
+  }
+];
+
+const states = [
+  'Andaman & Nicobar Islands', 'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar',
+  'Chandigarh', 'Chhattisgarh', 'Dadra & Nagar Haveli and Daman & Diu', 'Delhi', 'Goa',
+  'Gujarat', 'Haryana', 'Himachal Pradesh', 'Jammu & Kashmir', 'Jharkhand', 'Karnataka',
+  'Kerala', 'Ladakh', 'Lakshadweep', 'Madhya Pradesh', 'Maharashtra', 'Manipur',
+  'Meghalaya', 'Mizoram', 'Nagaland', 'Odisha', 'Puducherry', 'Punjab', 'Rajasthan',
+  'Sikkim', 'Tamil Nadu', 'Telangana', 'Tripura', 'Uttar Pradesh', 'Uttarakhand',
+  'West Bengal', 'Outside India (Export)'
+];
+---
+
+<BaseLayout {title} {description} {structuredData}>
+  <div class="mx-auto max-w-3xl px-4 sm:px-6 py-12 lg:py-24">
+
+    <!-- Header -->
+    <div class="mb-10 text-center">
+      <div class="inline-flex items-center gap-2 rounded-full border border-base bg-surface px-4 py-1.5 text-[12px] font-mono uppercase tracking-wider text-muted mb-4">
+        <span class="h-1.5 w-1.5 rounded-full bg-accent"></span>
+        CGST/IGST Rules 2025-26
+      </div>
+      <h1 class="text-4xl sm:text-5xl font-bold tracking-tight text-base mb-4">
+        Place of Supply Calculator
+      </h1>
+      <p class="text-[16px] text-muted max-w-lg mx-auto leading-relaxed">
+        Determine in seconds whether your GST invoice should charge CGST+SGST or IGST.
+      </p>
+    </div>
+
+    <!-- Tool -->
+    <div class="rounded-[12px] border border-base bg-surface p-6 sm:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] mb-12">
+
+      <div class="space-y-6">
+
+        <!-- Supply Type -->
+        <div>
+          <label class="block text-sm font-semibold text-base uppercase tracking-wide mb-3">Type of Supply</label>
+          <div class="grid grid-cols-2 gap-3">
+            <label class="flex items-center gap-3 p-4 rounded-xl border-2 border-base cursor-pointer hover:border-accent transition-colors has-[:checked]:border-accent has-[:checked]:bg-accent/5">
+              <input type="radio" name="supply-type" value="goods" checked class="accent-[rgb(var(--accent))]" />
+              <span class="font-medium">Goods</span>
+            </label>
+            <label class="flex items-center gap-3 p-4 rounded-xl border-2 border-base cursor-pointer hover:border-accent transition-colors has-[:checked]:border-accent has-[:checked]:bg-accent/5">
+              <input type="radio" name="supply-type" value="services" class="accent-[rgb(var(--accent))]" />
+              <span class="font-medium">Services</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Supplier State -->
+        <div>
+          <label for="supplier-state" class="block text-sm font-semibold text-base uppercase tracking-wide mb-2">Supplier's State (Your GSTIN State)</label>
+          <select id="supplier-state" class="w-full rounded-xl border border-base bg-subtle px-4 py-3 text-[15px] focus:border-accent focus:outline-none transition-all">
+            <option value="">-- Select Supplier State --</option>
+            {states.filter(s => s !== 'Outside India (Export)').map(s => <option value={s}>{s}</option>)}
+          </select>
+        </div>
+
+        <!-- Recipient Type -->
+        <div>
+          <label class="block text-sm font-semibold text-base uppercase tracking-wide mb-3">Recipient Type</label>
+          <div class="grid grid-cols-2 gap-3">
+            <label class="flex items-center gap-3 p-4 rounded-xl border-2 border-base cursor-pointer hover:border-accent transition-colors has-[:checked]:border-accent has-[:checked]:bg-accent/5">
+              <input type="radio" name="recip-type" value="registered" checked class="accent-[rgb(var(--accent))]" />
+              <div>
+                <div class="font-medium">B2B (Registered)</div>
+                <div class="text-xs text-muted">Has a GSTIN</div>
+              </div>
+            </label>
+            <label class="flex items-center gap-3 p-4 rounded-xl border-2 border-base cursor-pointer hover:border-accent transition-colors has-[:checked]:border-accent has-[:checked]:bg-accent/5">
+              <input type="radio" name="recip-type" value="unregistered" class="accent-[rgb(var(--accent))]" />
+              <div>
+                <div class="font-medium">B2C (Unregistered)</div>
+                <div class="text-xs text-muted">Consumer, no GSTIN</div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Recipient State -->
+        <div>
+          <label for="recipient-state" class="block text-sm font-semibold text-base uppercase tracking-wide mb-2">Recipient's Location / Place of Supply</label>
+          <select id="recipient-state" class="w-full rounded-xl border border-base bg-subtle px-4 py-3 text-[15px] focus:border-accent focus:outline-none transition-all">
+            <option value="">-- Select Recipient State --</option>
+            {states.map(s => <option value={s}>{s}</option>)}
+          </select>
+        </div>
+
+        <button id="calc-btn" type="button"
+          class="w-full rounded-xl bg-accent py-4 text-[16px] font-bold text-white hover:opacity-90 active:scale-[0.98] transition-all">
+          Determine Tax Type →
+        </button>
+
+        <!-- Result -->
+        <div id="result" class="hidden rounded-xl p-6 border-2 text-center">
+          <div id="result-tax" class="text-4xl font-black mb-3"></div>
+          <div id="result-title" class="text-xl font-bold mb-2"></div>
+          <div id="result-desc" class="text-[15px] text-muted leading-relaxed"></div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- SEO Content -->
+    <article class="prose prose-neutral dark:prose-invert max-w-none text-[15px] leading-relaxed">
+      <h2 class="text-3xl font-bold mb-6">Understanding Place of Supply Under GST India</h2>
+
+      <p>
+        Among all the concepts introduced by the Goods and Services Tax (GST) framework, <strong>Place of Supply (POS)</strong> is arguably the most impactful for billing accuracy. The reason is simple: the Place of Supply determines whether a transaction is "intra-state" or "inter-state," and that single classification decides which type of tax you must charge and collect.
+      </p>
+
+      <p>
+        If you get this wrong — for example, charging CGST+SGST when you should have charged IGST — the entire invoice is non-compliant. Your buyer cannot claim Input Tax Credit on it, and both you and your customer become exposed to penalties during departmental audits.
+      </p>
+
+      <h3 class="text-2xl font-semibold mt-8 mb-4">Place of Supply Rules for Goods</h3>
+
+      <p>For supplies involving physical goods, determining the Place of Supply is generally straightforward:</p>
+
+      <ul class="list-disc pl-6 space-y-3 mt-4">
+        <li><strong>Goods Involving Movement:</strong> When goods are physically moved from one location to another, the Place of Supply is the location where the goods are delivered to the recipient. If a Mumbai supplier ships goods to a customer in Pune (same state), the POS is Maharashtra — making it an intra-state supply (CGST+SGST). If the same supplier ships to a customer in Bangalore, the POS is Karnataka — making it an inter-state supply (IGST).</li>
+        <li><strong>Goods Without Movement (Installation):</strong> When goods are assembled or installed at a specific site (e.g., industrial machinery), the Place of Supply is the location of that assembly or installation site.</li>
+        <li><strong>Bill-to-Ship-to Transactions:</strong> This is a common source of confusion. If Company A (in Delhi) buys from Supplier B (in Gujarat) and instructs Supplier B to directly ship the goods to Customer C (in Rajasthan), there are two separate supplies here: Supplier B to Company A (inter-state, IGST), and Company A to Customer C (inter-state, IGST). Use the respective GSTINs to determine the tax for each leg.</li>
+      </ul>
+
+      <h3 class="text-2xl font-semibold mt-8 mb-4">Place of Supply Rules for Services</h3>
+
+      <p>
+        Services are intangible, which makes their Place of Supply rules considerably more nuanced. The IGST Act provides distinct rules for different categories of services:
+      </p>
+
+      <ul class="list-disc pl-6 space-y-3 mt-4">
+        <li><strong>Default Rule for B2B Services:</strong> The Place of Supply is the location of the registered recipient. If an IT firm in Hyderabad provides software services to a GST-registered company in Delhi, the POS is Delhi (the recipient's location). The Hyderabad firm must charge IGST.</li>
+        <li><strong>Default Rule for B2C Services:</strong> The Place of Supply is the location of the supplier. If the same IT firm provides services to an unregistered individual anywhere in India, the POS is Telangana (the supplier's state). CGST+SGST is applicable.</li>
+        <li><strong>Immovable Property Services:</strong> For services related to immovable property (construction, architecture, real estate agents), the Place of Supply is where the property is located, regardless of where the supplier or recipient is located.</li>
+        <li><strong>Restaurant & Catering:</strong> The Place of Supply is the location where the restaurant or catering service is actually performed.</li>
+        <li><strong>Transportation of Goods:</strong> For registered recipients, the POS is the recipient's location. For unregistered individuals, the POS is the origin of the goods.</li>
+      </ul>
+
+      <div class="mt-10 rounded-[12px] bg-subtle border border-base p-6 text-[15px] text-muted">
+        <h4 class="text-lg font-semibold text-base mb-2">Cross-Verification Tip</h4>
+        <p>After determining your place of supply, always cross-verify the state code in your customer's GSTIN using our <a href="/gst-state-codes" class="text-accent hover:underline">GST State Code Finder</a>. The first two digits of the GSTIN represent the state, making it easy to confirm your POS determination before generating the final invoice.</p>
+      </div>
+    </article>
+
+  </div>
+
+  <script>
+    document.getElementById('calc-btn')!.addEventListener('click', () => {
+      const supplyType = (document.querySelector('input[name="supply-type"]:checked') as HTMLInputElement)?.value;
+      const supplierState = (document.getElementById('supplier-state') as HTMLSelectElement).value;
+      const recipientState = (document.getElementById('recipient-state') as HTMLSelectElement).value;
+      const recipType = (document.querySelector('input[name="recip-type"]:checked') as HTMLInputElement)?.value;
+
+      if (!supplierState || !recipientState) {
+        alert('Please select both the supplier state and recipient state/location.');
+        return;
+      }
+
+      const result = document.getElementById('result')!;
+      const taxEl = document.getElementById('result-tax')!;
+      const titleEl = document.getElementById('result-title')!;
+      const descEl = document.getElementById('result-desc')!;
+      result.classList.remove('hidden');
+
+      // Export
+      if (recipientState === 'Outside India (Export)') {
+        result.className = 'rounded-xl p-6 border-2 text-center border-blue-400 bg-blue-50 dark:bg-blue-950/20';
+        taxEl.innerHTML = '<span class="text-blue-600 dark:text-blue-400">0% GST</span>';
+        titleEl.textContent = 'Zero-Rated Supply (Export)';
+        descEl.textContent = 'Exports are zero-rated under GST. You may either export with payment of IGST (and claim refund) or export without payment of IGST under a valid Letter of Undertaking (LUT).';
+        return;
+      }
+
+      const isInterState = supplierState !== recipientState;
+
+      if (isInterState) {
+        result.className = 'rounded-xl p-6 border-2 text-center border-orange-400 bg-orange-50 dark:bg-orange-950/20';
+        taxEl.innerHTML = '<span class="text-orange-600 dark:text-orange-400">IGST</span>';
+        titleEl.textContent = 'Inter-State Supply — Charge IGST';
+        descEl.textContent = `The supplier is in ${supplierState} and the place of supply is ${recipientState}. Since they are in different states, this is an inter-state supply. You must charge IGST at the full applicable rate. DO NOT charge CGST and SGST separately.`;
+      } else {
+        result.className = 'rounded-xl p-6 border-2 text-center border-green-400 bg-green-50 dark:bg-green-950/20';
+        taxEl.innerHTML = '<span class="text-green-600 dark:text-green-400">CGST + SGST</span>';
+        titleEl.textContent = 'Intra-State Supply — Charge CGST + SGST';
+        descEl.textContent = `Both the supplier and the place of supply are in ${supplierState}. This is an intra-state supply. You must charge CGST and SGST, each at half the applicable GST rate (e.g., for 18% GST: 9% CGST + 9% SGST). DO NOT charge IGST.`;
+      }
+    });
+  </script>
+</BaseLayout>
