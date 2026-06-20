@@ -190,7 +190,7 @@ const installments = [
 
   </div>
 
-  <script>
+  <script lang="ts">
     const fmt = (n: number) => '₹' + Math.round(n).toLocaleString('en-IN');
 
     function calcNewRegimeTax(income: number, type: string): number {

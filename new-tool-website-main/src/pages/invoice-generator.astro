@@ -67,27 +67,13 @@ const states = [
 
 <BaseLayout {title} {description} {structuredData}>
   
-  <style>
-    /* Print specific styles */
+  <style is:global>
+    /* Minimal print resets that Tailwind doesn't cover */
     @media print {
-      body * {
-        visibility: hidden;
-      }
-      #invoice-preview, #invoice-preview * {
-        visibility: visible;
-      }
-      #invoice-preview {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        margin: 0;
-        padding: 0;
-        border: none;
-        box-shadow: none;
-      }
-      .no-print {
-        display: none !important;
+      body {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        background: white;
       }
       @page {
         margin: 0.5cm;
@@ -95,9 +81,9 @@ const states = [
     }
   </style>
 
-  <div class="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8 py-12 print:hidden">
+  <div id="main-content" class="print:max-w-none print:p-0 print:m-0 mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8 py-12">
     <!-- Header -->
-    <div class="mb-10 text-center">
+    <div id="header-section" class="print:hidden mb-10 text-center">
       <div class="inline-flex items-center gap-2 rounded-full border border-base bg-surface px-4 py-1.5 text-[12px] font-mono uppercase tracking-wider text-muted mb-4 shadow-[0_1px_1px_#00000005]">
         <span class="h-1.5 w-1.5 rounded-full bg-accent"></span>
         100% Free • Offline Tool
@@ -114,7 +100,7 @@ const states = [
     <div class="flex flex-col xl:flex-row gap-8">
       
       <!-- LEFT: Editor Form -->
-      <div class="w-full xl:w-5/12 flex flex-col gap-6">
+      <div id="form-section" class="print:hidden w-full xl:w-5/12 flex flex-col gap-6">
         
         <!-- Metadata -->
         <div class="rounded-xl border border-base bg-surface p-6 shadow-sm">
@@ -184,7 +170,7 @@ const states = [
       </div>
 
       <!-- RIGHT: Invoice Preview (A4 Ratio) -->
-      <div class="w-full xl:w-7/12 flex flex-col gap-4">
+      <div id="preview-section" class="print:w-full print:block w-full xl:w-7/12 flex flex-col gap-4">
         <div class="flex justify-end no-print">
           <button id="print-btn" class="bg-accent text-white px-6 py-2.5 rounded-full shadow hover:-translate-y-0.5 transition-transform font-medium flex items-center gap-2">
             <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" /></svg>
@@ -194,8 +180,8 @@ const states = [
 
         <!-- The Printable Container -->
         <!-- Fixed aspect ratio roughly A4 (210 x 297) -->
-        <div class="bg-white dark:bg-white text-black border border-gray-200 shadow-xl overflow-hidden" style="aspect-ratio: 1 / 1.414;" id="invoice-preview-container">
-          <div id="invoice-preview" class="w-full h-full p-8 sm:p-12 flex flex-col font-sans text-sm">
+        <div class="print:border-none print:shadow-none print:aspect-auto bg-white dark:bg-white text-black border border-gray-200 shadow-xl overflow-hidden" style="aspect-ratio: 1 / 1.414;" id="invoice-preview-container">
+          <div id="invoice-preview" class="print:p-0 w-full h-full p-8 sm:p-12 flex flex-col font-sans text-sm">
             
             <!-- Header Row -->
             <div class="flex justify-between items-start border-b border-gray-200 pb-6 mb-6">
@@ -298,7 +284,7 @@ const states = [
     </div>
 
     <!-- SEO Content Section -->
-    <article class="prose prose-neutral dark:prose-invert max-w-none text-[15px] leading-relaxed mt-24 pt-12 border-t border-base print:hidden">
+    <article id="seo-section" class="print:hidden prose prose-neutral dark:prose-invert max-w-none text-[15px] leading-relaxed mt-24 pt-12 border-t border-base">
       <h2 class="text-2xl font-semibold mb-4">Why Use an Online GST Invoice Generator?</h2>
       <p>
         Creating a tax invoice manually using Excel templates or Word documents is time-consuming and prone to mathematical errors. As a small business owner in India, compliance with the Goods and Services Tax (GST) framework requires you to issue a perfectly formatted invoice containing specific details like HSN/SAC codes, GSTINs, and an accurate split of CGST, SGST, or IGST. 
@@ -332,7 +318,7 @@ const states = [
     </article>
 
     <!-- FAQ Section -->
-    <section class="mt-16 pt-12 border-t border-base print:hidden" aria-labelledby="faq-heading">
+    <section id="faq-section" class="print:hidden mt-16 pt-12 border-t border-base" aria-labelledby="faq-heading">
       <h2 id="faq-heading" class="text-2xl sm:text-3xl font-bold text-base mb-8">
         Frequently Asked Questions
       </h2>
@@ -383,7 +369,7 @@ const states = [
 
   </div>
 
-  <script>
+  <script lang="ts">
     // Utility: Number to Words for Indian Rupees
     function numberToWords(num: number): string {
       const a = ['','One ','Two ','Three ','Four ', 'Five ','Six ','Seven ','Eight ','Nine ','Ten ','Eleven ','Twelve ','Thirteen ','Fourteen ','Fifteen ','Sixteen ','Seventeen ','Eighteen ','Nineteen '];

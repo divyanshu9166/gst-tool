@@ -171,7 +171,7 @@ const states = [
 
   </div>
 
-  <script>
+  <script lang="ts">
     document.getElementById('calc-btn')!.addEventListener('click', () => {
       const supplyType = (document.querySelector('input[name="supply-type"]:checked') as HTMLInputElement)?.value;
       const supplierState = (document.getElementById('supplier-state') as HTMLSelectElement).value;
