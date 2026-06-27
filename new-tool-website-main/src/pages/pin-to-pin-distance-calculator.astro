@@ -270,4 +270,46 @@ const structuredData = [
       }, 800);
     });
   </script>
+
+  
+  <!-- Related Guides -->
+  <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 pb-12">
+    <div class="border-t border-base pt-12">
+      <h2 class="text-[24px] font-semibold text-base mb-4">Related Guides</h2>
+      <ul class="list-disc pl-5 space-y-2">
+        <li><a href="/blog/late-fee-for-nil-returns" class="text-primary hover:underline">Why You Must File NIL GST Returns and the Late Fee Penalty</a></li>
+        <li><a href="/blog/gstr9-annual-return-due-date" class="text-primary hover:underline">GSTR-9 Annual Return: Due Dates and Applicability Explained</a></li>
+      </ul>
+    </div>
+  </div>
+<!-- FAQ Section -->
+  <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 pb-20 mt-16">
+    <div class="border-t border-base pt-12">
+      <h2 class="text-[28px] tracking-[-1px] font-semibold text-base mb-2">Frequently Asked Questions</h2>
+      <p class="text-muted text-[15px] mb-8">Questions about pincode distance calculation and its use in GST e-way bill compliance.</p>
+      <div class="space-y-3">
+        {[
+          { q: 'Why is pincode-to-pincode distance important for GST?', a: 'Distance between supplier and recipient pincodes determines the validity period of an E-Way Bill. Shorter distances get shorter validity (1 day for up to 200 km), while longer distances allow more time. Knowing the exact distance helps you plan your logistics to avoid e-way bill expiry during transit.' },
+          { q: 'How is e-way bill validity calculated based on distance?', a: 'Under GST Rule 138(10): Up to 200 km = 1 day. 200-400 km = 3 days. 400-600 km = 5 days. 600-800 km = 7 days. 800-1000 km = 10 days. Above 1000 km = 15 days. For Over-Dimensional Cargo (ODC), validity is halved.' },
+          { q: 'What is the minimum distance for an e-way bill to be required?', a: 'An e-way bill is required when goods worth more than ₹50,000 are moved over a distance of more than 50 km within a state (intra-state) or for any distance between states (inter-state). If the distance is less than 50 km, no e-way bill is needed for intra-state movement in most states.' },
+          { q: 'Can I extend an e-way bill if my vehicle is delayed?', a: 'Yes. You can extend the validity of an e-way bill before it expires or within 8 hours after it expires. The extension is done on the NIC E-Way Bill portal. You must provide a valid reason for the delay (vehicle breakdown, accident, natural calamity, etc.) and update the vehicle number.' },
+          { q: 'What happens if goods are transported after e-way bill expiry?', a: 'Transporting goods with an expired e-way bill is equivalent to transporting without an e-way bill. This attracts: (1) Goods detention by GST officers, (2) Penalty of ₹10,000 or the tax amount, whichever is higher, (3) Possible confiscation of goods and vehicle.' },
+          { q: 'How accurate are pincode distance calculations?', a: 'Pincode-to-pincode distance calculations give you an approximate road distance based on the geocoordinates of the pincode center. The actual road distance may vary based on the specific route taken. For e-way bill purposes, using an approximate distance is standard practice.' },
+          { q: 'Does distance matter for intra-state movement with e-way bills?', a: 'Yes. States that mandate e-way bills for intra-state movement (all states now do) still use distance to determine validity. The same national rules apply: distance determines how many days your e-way bill is valid, whether it is intra-state or inter-state.' },
+          { q: 'Can I split a consignment to avoid e-way bills?', a: 'No. Artificially splitting consignments to keep individual invoice value below ₹50,000 (to avoid generating e-way bills) is considered tax evasion under GST. GST officers can aggregate related invoices and impose penalties. If the total value of goods in one vehicle exceeds ₹50,000, an e-way bill is required.' },
+          { q: 'What is the e-way bill limit for intra-city deliveries?', a: 'For intra-city deliveries (within the same city), most states have exempted e-way bill requirements. However, if the delivery crosses a city boundary, the standard intra-state e-way bill rules apply. Check your state-specific notifications, as some states have reduced the ₹50,000 threshold.' },
+          { q: 'Does the 50 km rule apply to all states?', a: 'No. The 50 km exemption (below which no e-way bill is required for intra-state movement) is a state-level rule. Some states have different thresholds or no threshold at all. For example, some states require e-way bills for all intra-state movements regardless of distance. Always check state-specific GST notifications.' },
+        ].map((faq, i) => (
+          <details class="group rounded-[8px] border border-base bg-surface overflow-hidden" id={`faq-pin-${i}`}>
+            <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+              <span class="text-[15px]">{faq.q}</span>
+              <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+            </summary>
+            <div class="px-6 pb-5 text-[14px] text-muted leading-relaxed border-t border-base pt-4">{faq.a}</div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </div>
 </BaseLayout>
+

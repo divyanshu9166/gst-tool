@@ -1,0 +1,242 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'MRP Change After GST 2.0 Calculator | Revised MRP Sticker';
+const description = 'Free offline calculator for MRP change after GST 2.0. Instantly compute your revised MRP GST rate change sticker price to maintain profit margins.';
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'MRP Revision Calculator',
+    url: `${Astro.site?.toString() ?? 'https://example.com'}/mrp-revision-calculator`,
+    description: description,
+    applicationCategory: 'FinanceApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR' },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'What is the MRP Revision Calculator used for?', acceptedAnswer: { '@type': 'Answer', text: 'The MRP Revision Calculator helps manufacturers and retailers recalculate the Maximum Retail Price (MRP) of their products when the GST rate changes. It reverse-engineers the base price from the old MRP and applies the new GST rate to produce a revised MRP that preserves the original profit margin.' } },
+      { '@type': 'Question', name: 'How do I calculate a new MRP after a GST rate change?', acceptedAnswer: { '@type': 'Answer', text: 'Step 1: Extract the base price from the old MRP using the formula: Base Price = Old MRP ÷ (1 + Old Rate/100). Step 2: Apply the new GST rate: New MRP = Base Price × (1 + New Rate/100). This gives you the exact MRP to print on your revised labels.' } },
+      { '@type': 'Question', name: 'Is it mandatory to revise MRP stickers after a GST rate change?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. Under the Legal Metrology (Packaged Commodities) Rules, manufacturers must update MRP labels to reflect the revised GST-inclusive price when the applicable rate changes. Selling products at the old (higher) MRP after a rate reduction is considered overcharging and can attract penalties.' } },
+      { '@type': 'Question', name: 'Can I sell existing stock at the old MRP after a GST rate reduction?', acceptedAnswer: { '@type': 'Answer', text: 'No. Once the new GST rate is effective, you must sell at the revised lower MRP even for stock manufactured before the rate change. You may paste a new sticker on top of the old MRP, but it must clearly state the new GST-inclusive price.' } },
+      { '@type': 'Question', name: 'What is the reverse GST calculation formula for extracting base price from MRP?', acceptedAnswer: { '@type': 'Answer', text: 'The reverse GST formula is: Base Price = MRP ÷ (1 + GST Rate/100). For example, if MRP is ₹1,180 and GST rate is 18%, the base price = ₹1,180 ÷ 1.18 = ₹1,000. This is the exact price before tax.' } },
+      { '@type': 'Question', name: 'What happens to my profit margin after a GST rate change?', acceptedAnswer: { '@type': 'Answer', text: 'If you recalculate MRP using our tool, your base margin (the price before tax) remains exactly the same. The only change is the tax component on top of it. Your absolute profit in ₹ per unit is preserved.' } },
+      { '@type': 'Question', name: 'How do I revise MRP for products where old rate was 12% and new rate is 5%?', acceptedAnswer: { '@type': 'Answer', text: 'Enter the old MRP, select 12% as old rate, and 5% as new rate in this tool. The calculator will extract the base price, apply 5% GST, and display the new (lower) MRP. For example, an item with MRP ₹1,120 (12% GST) would become MRP ₹1,050 (5% GST) after rate revision.' } },
+      { '@type': 'Question', name: 'What if the new GST rate is 0% (exempt)?', acceptedAnswer: { '@type': 'Answer', text: 'If the new GST rate is 0%, the new MRP equals the base price (since no tax is added). In this case, the new MRP will be significantly lower than the old MRP. The tool handles this correctly — select 0% as the new rate.' } },
+      { '@type': 'Question', name: 'Does this tool account for GST on packaging or freight separately?', acceptedAnswer: { '@type': 'Answer', text: 'No. This tool calculates MRP revision purely based on the product GST rate. Packaging and freight are usually not part of the printed MRP. If your business charges these separately, consult your CA for the combined tax treatment.' } },
+      { '@type': 'Question', name: 'Are there penalties for not revising MRP after a GST rate change?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. Selling above the revised MRP after a GST rate reduction can attract penalties under the Legal Metrology Act and the Anti-Profiteering provisions of Section 171 of the CGST Act. Penalties can include fines and orders for consumer refunds.' } },
+    ]
+  }
+];
+---
+
+<BaseLayout {title} {description} {structuredData}>
+  <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-12">
+    <div class="mb-12 text-center">
+      <h1 class="text-4xl sm:text-5xl font-semibold tracking-[-1.28px] text-base mb-4">MRP Change After GST 2.0 Calculator</h1>
+      <p class="text-[16px] text-muted max-w-2xl mx-auto leading-relaxed">
+        <strong>Relabeling your stock for GST 2.0?</strong> Enter your old MRP and the new tax slab. We'll automatically reverse-calculate your base price and generate the exact new MRP you need to print to keep your margins identical.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start max-w-5xl mx-auto">
+      
+      <!-- Inputs (Left Column) -->
+      <div class="lg:col-span-5 rounded-[8px] border border-base bg-surface p-[24px] shadow-[0_2px_2px_#0000000a,0_8px_8px_-8px_#0000000a] space-y-6">
+        
+        <div>
+          <label for="old-mrp" class="block text-[14px] font-medium text-base mb-2">Old MRP (Inclusive of Tax)</label>
+          <div class="relative">
+            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-muted font-medium select-none" aria-hidden="true">₹</span>
+            <input id="old-mrp" type="number" min="0" placeholder="0" class="w-full rounded-[8px] border border-base bg-subtle pl-9 pr-4 py-3 text-[16px] focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 transition-all shadow-inner" />
+          </div>
+        </div>
+        
+        <div>
+          <label for="old-rate" class="block text-[14px] font-medium text-base mb-2">Old GST Rate</label>
+          <select id="old-rate" class="w-full rounded-[8px] border border-base bg-subtle px-4 py-3 text-[16px] focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 transition-all cursor-pointer">
+            <option value="5">5%</option>
+            <option value="12">12%</option>
+            <option value="18" selected>18%</option>
+            <option value="28">28%</option>
+          </select>
+        </div>
+        
+        <div>
+          <label for="new-rate" class="block text-[14px] font-medium text-base mb-2">New GST Rate (GST 2.0)</label>
+          <select id="new-rate" class="w-full rounded-[8px] border border-accent bg-accent/5 px-4 py-3 text-[16px] text-accent focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 transition-all cursor-pointer font-medium">
+            <option value="0">0%</option>
+            <option value="5">5%</option>
+            <option value="18">18%</option>
+            <option value="40">40%</option>
+          </select>
+        </div>
+
+        <button id="btn-reset" type="button" class="w-full rounded-[8px] border border-base py-3 text-[14px] font-medium text-muted hover:text-base hover:bg-subtle transition-all mt-2">
+          Reset Fields
+        </button>
+      </div>
+
+      <!-- Outputs (Right Column) -->
+      <div class="lg:col-span-7 space-y-6">
+        
+        <div class="rounded-[8px] border border-base bg-subtle p-[32px] flex flex-col justify-center items-center text-center h-full min-h-[280px]">
+          <p class="text-[16px] text-muted font-medium mb-2 uppercase tracking-wide">Revised MRP to Print</p>
+          <p class="text-[64px] font-bold text-accent tracking-tight leading-none mb-4" id="new-mrp">₹0</p>
+          
+          <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-surface border border-base text-[14px] font-medium">
+            <span class="text-muted">Difference:</span>
+            <span id="mrp-diff" class="text-base">₹0</span>
+          </div>
+        </div>
+
+        <!-- Breakdown Details -->
+        <div class="rounded-[8px] border border-base bg-surface p-[24px]">
+          <h3 class="text-[16px] font-semibold text-base mb-4">Calculation Breakdown</h3>
+          <div class="space-y-3">
+            <div class="flex justify-between items-center text-[14px] border-b border-base pb-2">
+              <span class="text-muted">Extracted Base Price (Margin Preserved)</span>
+              <span class="font-medium text-base" id="base-price">₹0</span>
+            </div>
+            <div class="flex justify-between items-center text-[14px] border-b border-base pb-2">
+              <span class="text-muted">Old Tax Amount (<span id="lbl-old-rate">18%</span>)</span>
+              <span class="font-medium text-red-500 line-through" id="old-tax">₹0</span>
+            </div>
+            <div class="flex justify-between items-center text-[14px]">
+              <span class="text-muted">New Tax Amount (<span id="lbl-new-rate">5%</span>)</span>
+              <span class="font-medium text-green-500" id="new-tax">₹0</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  
+  <!-- Related Guides -->
+  <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 pb-12">
+    <div class="border-t border-base pt-12">
+      <h2 class="text-[24px] font-semibold text-base mb-4">Related Guides</h2>
+      <ul class="list-disc pl-5 space-y-2">
+        <li><a href="/blog/mrp-revision-gst-rate-change" class="text-primary hover:underline">How to Revise MRP After GST Rate Change in 2026 — Step by Step</a></li>
+        <li><a href="/blog/new-vs-old-tax-regime-2025-26" class="text-primary hover:underline">New vs Old Tax Regime 2025-26: Which is Better? Full Comparison</a></li>
+      </ul>
+    </div>
+  </div>
+<!-- FAQ Section -->
+  <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 pb-20 mt-16">
+    <div class="border-t border-base pt-12">
+      <h2 class="text-[28px] tracking-[-1px] font-semibold text-base mb-2">Frequently Asked Questions</h2>
+      <p class="text-muted text-[15px] mb-8">Everything you need to know about revising MRP after GST rate changes.</p>
+      <div class="space-y-3">
+        {[
+          { q: 'What is the MRP Revision Calculator used for?', a: 'It helps manufacturers and retailers recalculate the Maximum Retail Price (MRP) of their products when the GST rate changes. It reverse-engineers the base price from the old MRP and applies the new GST rate to produce a revised MRP that preserves the original profit margin exactly.' },
+          { q: 'How do I calculate a new MRP after a GST rate change?', a: 'Step 1: Extract base price from old MRP using: Base Price = Old MRP ÷ (1 + Old Rate/100). Step 2: Apply new GST: New MRP = Base Price × (1 + New Rate/100). Example: Old MRP = ₹1,120 at 12% → Base = ₹1,000 → New MRP at 5% = ₹1,050.' },
+          { q: 'Is it mandatory to revise MRP stickers after a GST rate change?', a: 'Yes. Under the Legal Metrology (Packaged Commodities) Rules, manufacturers must update MRP labels to reflect the revised GST-inclusive price. Selling products at the old higher MRP after a rate reduction is considered overcharging and can attract penalties from consumer protection authorities.' },
+          { q: 'Can I sell existing stock at the old MRP after a GST rate reduction?', a: 'No. Once the new GST rate is effective, even existing stock must be sold at the revised lower MRP. You may paste a new sticker over the old MRP label, but it must clearly display the correct new GST-inclusive price.' },
+          { q: 'What is the reverse GST formula to extract base price from MRP?', a: 'Base Price = MRP ÷ (1 + GST Rate/100). Example: If MRP = ₹1,180 at 18% GST, then Base Price = ₹1,180 ÷ 1.18 = ₹1,000. This tool performs this calculation automatically.' },
+          { q: 'What happens to my profit margin after a GST rate change?', a: 'If you use this tool to correctly revise MRP, your base margin (price before tax) stays exactly the same. The only thing that changes is the tax component added on top of it. Your rupee profit per unit is fully preserved.' },
+          { q: 'How do I revise MRP for products where old rate was 28% and new rate is 18%?', a: 'Enter the old MRP, select 28% as old rate, and 18% as new rate. The tool extracts the base price and applies 18% to show the new MRP. Example: MRP ₹1,280 (28% GST) becomes MRP ₹1,180 (18% GST) — a price reduction of exactly ₹100.' },
+          { q: 'What if the new GST rate is 0% (exempt)?', a: 'If the product becomes exempt (0% GST), the new MRP equals the base price since no tax is added. The tool handles this correctly. Just select 0% as the new rate and you will see the MRP drop to the base price itself.' },
+          { q: 'Does this tool work for products with both CGST and SGST?', a: 'Yes. The tool calculates on the combined GST rate (CGST + SGST combined). So if your product attracts 9% CGST + 9% SGST = 18% total, select 18% as the old or new rate. The tool uses the total GST percentage for MRP calculation.' },
+          { q: 'Are there penalties for not revising MRP after a GST rate change?', a: 'Yes. Selling above the revised MRP after a GST rate reduction can attract penalties under the Legal Metrology Act and the Anti-Profiteering provisions of Section 171 of the CGST Act. Penalties include fines, consumer refund orders, and potential GST registration suspension.' },
+        ].map((faq, i) => (
+          <details class="group rounded-[8px] border border-base bg-surface overflow-hidden" id={`faq-mrp-${i}`}>
+            <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+              <span class="text-[15px]">{faq.q}</span>
+              <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+            </summary>
+            <div class="px-6 pb-5 text-[14px] text-muted leading-relaxed border-t border-base pt-4">{faq.a}</div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<script lang="ts">
+  const inOldMrp = document.getElementById('old-mrp') as HTMLInputElement;
+  const inOldRate = document.getElementById('old-rate') as HTMLSelectElement;
+  const inNewRate = document.getElementById('new-rate') as HTMLSelectElement;
+  const btnReset = document.getElementById('btn-reset') as HTMLButtonElement;
+
+  const outNewMrp = document.getElementById('new-mrp')!;
+  const outMrpDiff = document.getElementById('mrp-diff')!;
+  const outBasePrice = document.getElementById('base-price')!;
+  const outOldTax = document.getElementById('old-tax')!;
+  const outNewTax = document.getElementById('new-tax')!;
+  
+  const lblOldRate = document.getElementById('lbl-old-rate')!;
+  const lblNewRate = document.getElementById('lbl-new-rate')!;
+
+  function formatINR(val: number) {
+    const rounded = Math.round(val * 100) / 100;
+    return '₹' + rounded.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
+  function calculate() {
+    const oldMrp = parseFloat(inOldMrp.value) || 0;
+    const oldRate = parseFloat(inOldRate.value) || 0;
+    const newRate = parseFloat(inNewRate.value) || 0;
+
+    // Always update rate labels regardless of MRP value
+    lblOldRate.textContent = `${oldRate}%`;
+    lblNewRate.textContent = `${newRate}%`;
+
+    if (oldMrp === 0) {
+      outNewMrp.textContent = '₹0';
+      outBasePrice.textContent = '₹0';
+      outOldTax.textContent = '₹0';
+      outNewTax.textContent = '₹0';
+      outMrpDiff.textContent = 'Enter MRP above';
+      outMrpDiff.className = 'text-muted font-semibold';
+      return;
+    }
+
+    // Base Price = Old MRP / (1 + (Old Rate / 100))
+    const basePrice = oldMrp / (1 + (oldRate / 100));
+    const oldTax = oldMrp - basePrice;
+
+    // New MRP = Base Price * (1 + (New Rate / 100))
+    const newTax = basePrice * (newRate / 100);
+    const newMrp = basePrice + newTax;
+
+    const diff = newMrp - oldMrp;
+
+    outNewMrp.textContent = formatINR(newMrp);
+    outBasePrice.textContent = formatINR(basePrice);
+    outOldTax.textContent = formatINR(oldTax);
+    outNewTax.textContent = formatINR(newTax);
+
+    if (diff > 0.005) {
+      outMrpDiff.textContent = `+ ${formatINR(Math.abs(diff))}`;
+      outMrpDiff.className = 'text-red-500 font-semibold';
+    } else if (diff < -0.005) {
+      outMrpDiff.textContent = `- ${formatINR(Math.abs(diff))}`;
+      outMrpDiff.className = 'text-green-500 font-semibold';
+    } else {
+      outMrpDiff.textContent = 'No Change';
+      outMrpDiff.className = 'text-base font-semibold';
+    }
+  }
+
+  inOldMrp.addEventListener('input', calculate);
+  // Selects fire 'change', not 'input'
+  inOldRate.addEventListener('change', calculate);
+  inNewRate.addEventListener('change', calculate);
+
+  btnReset.addEventListener('click', () => {
+    inOldMrp.value = '';
+    inOldRate.value = '18';
+    inNewRate.value = '5';
+    calculate();
+  });
+
+  calculate();
+</script>

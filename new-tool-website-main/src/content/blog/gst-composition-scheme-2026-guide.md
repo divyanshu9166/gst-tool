@@ -65,3 +65,8 @@ Even if your turnover is under ₹1.5 Crores, the law strictly prohibits certain
 ## Conclusion
 
 If your business is strictly B2C (like a local grocery store, a standalone restaurant, or a neighborhood salon) and you source most of your goods locally, the Composition Scheme is a massive blessing. However, if your business relies on selling to other registered businesses or expanding across state lines, you must stick to the regular GST scheme to survive.
+
+
+## Related Tools
+- [GST Margin Scheme Calculator | Second Hand Goods Tax India](/gst-margin-scheme-calculator)
+- [GST on Director Remuneration Calculator & RCM Classifier](/gst-director-remuneration-calculator)

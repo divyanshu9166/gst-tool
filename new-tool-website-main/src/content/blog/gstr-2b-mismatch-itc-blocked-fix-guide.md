@@ -56,3 +56,8 @@ If you claimed ITC in your GSTR-3B that exceeds your GSTR-2B limit (perhaps due 
 ## Conclusion
 
 Manual reconciliation is impossible for businesses with hundreds of purchase invoices. To avoid blocked working capital, you must use automated reconciliation tools that instantly compare your ERP purchase register against the JSON data of your GSTR-2B. Always verify your vendor's filing status using our free [GSTIN Validator](/gstin-validator) before issuing massive purchase orders.
+
+
+## Related Tools
+- [Pricing - Free GST Tools](/pricing)
+- [GSTR-9 Annual Return Filing Checklist (FY 2025-26)](/gstr-9-annual-return-checklist)

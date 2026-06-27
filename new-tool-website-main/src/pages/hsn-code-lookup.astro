@@ -242,7 +242,49 @@ const categories = [
       </div>
     </div>
   </div>
+
+  
+  <!-- Related Guides -->
+  <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 pb-12">
+    <div class="border-t border-base pt-12">
+      <h2 class="text-[24px] font-semibold text-base mb-4">Related Guides</h2>
+      <ul class="list-disc pl-5 space-y-2">
+        <li><a href="/blog/post-sale-discount-gst-2026" class="text-primary hover:underline">Post-Sale Discounts Under GST 2026: Credit Note Rules & ITC Implications</a></li>
+        <li><a href="/blog/gst-offline-tool-guide-errors-json-to-excel" class="text-primary hover:underline">The Ultimate GST Offline Tool Guide: Fix Errors, JSON to Excel & Chrome Issues</a></li>
+      </ul>
+    </div>
+  </div>
+<!-- FAQ Section -->
+  <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 pb-20 mt-16">
+    <div class="border-t border-base pt-12">
+      <h2 class="text-[28px] tracking-[-1px] font-semibold text-base mb-2">Frequently Asked Questions</h2>
+      <p class="text-muted text-[15px] mb-8">Everything about HSN and SAC codes under GST.</p>
+      <div class="space-y-3">
+        {[
+          { q: 'What is an HSN code?', a: 'HSN stands for Harmonized System of Nomenclature. It is a globally standardized 8-digit code developed by the World Customs Organization (WCO) to classify goods for taxation and trade. Under GST in India, HSN codes are used to determine the applicable GST rate on goods. Our lookup tool includes all commonly used HSN codes with their descriptions and rates.' },
+          { q: 'What is the difference between HSN and SAC codes?', a: 'HSN codes classify goods (products you can touch and trade), while SAC codes (Services Accounting Codes) classify services. For example, a software product sold on a CD uses an HSN code, but a software subscription or consulting service uses a SAC code. Both are required on GST invoices.' },
+          { q: 'Which businesses must mention HSN codes on their invoices?', a: 'Businesses with annual turnover above ₹5 Crore must use 6-digit HSN codes on B2B and B2C invoices. Businesses between ₹1.5 Crore and ₹5 Crore must use 4-digit codes. Businesses below ₹1.5 Crore are exempt from the HSN requirement, but it is a best practice to include them.' },
+          { q: 'How many digits does an HSN code have?', a: 'HSN codes can be 2, 4, 6, or 8 digits. For GST purposes, India typically requires 4-digit or 6-digit codes. The 8-digit code is used for customs and import/export documentation. More digits = more specific classification.' },
+          { q: 'How do I find the HSN code for my product?', a: 'Use our HSN Code Lookup tool to search by product name or description. You can also refer to the official GST rate schedules on the CBIC website. For complex or specialty products, consult a CA or customs broker to get the correct classification.' },
+          { q: 'What happens if I use the wrong HSN code on an invoice?', a: 'Using the wrong HSN code can lead to: incorrect GST rate being charged, mismatch during GSTR-1 filing, GSTIN notices, and input tax credit (ITC) disputes for your buyer. In serious cases, it can attract a penalty of ₹10,000 per invoice or ₹25,000 for the financial year.' },
+          { q: 'Can two different products have the same HSN code?', a: 'Yes, a single HSN code can cover a category of similar products. For example, HSN 6403 covers leather footwear broadly. If your specific product type is not precisely listed, you use the most applicable parent category code. CBIC advance rulings can clarify ambiguous classifications.' },
+          { q: 'Are HSN codes mandatory in GSTR-1 filing?', a: 'Yes. You are required to report the HSN-wise summary of outward supplies in Table 12 of GSTR-1. This summary shows the HSN code, description, UQC (unit of quantity), quantity, taxable value, and the IGST/CGST/SGST amounts for each HSN category.' },
+          { q: 'What is a SAC code for IT services?', a: 'Most IT and software services use SAC code 9983 (Other professional, technical, and business services) or 9984 (Telecommunication, broadcasting, and information supply services). Specifically, custom software development uses SAC 998314, and IT support/maintenance uses SAC 998313. All attract 18% GST.' },
+          { q: 'Is the HSN code the same as the ITC-HS code for import/export?', a: 'They are related but different. HSN is the global 6-digit system. ITC-HS (Indian Trade Classification based on Harmonized System) extends it to 8 digits with country-specific sub-classifications for import/export purposes. For domestic GST filing, the 4 or 6-digit HSN is sufficient.' },
+        ].map((faq, i) => (
+          <details class="group rounded-[8px] border border-base bg-surface overflow-hidden" id={`faq-hsn-${i}`}>
+            <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+              <span class="text-[15px]">{faq.q}</span>
+              <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+            </summary>
+            <div class="px-6 pb-5 text-[14px] text-muted leading-relaxed border-t border-base pt-4">{faq.a}</div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </div>
 </BaseLayout>
+
 
 <script lang="ts">
   // ── Client-side logic for massive HSN dataset ──────────────────────────────

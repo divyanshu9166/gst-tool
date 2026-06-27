@@ -2,7 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const title = 'Free GST Calculator for Small Business India | Add & Remove GST';
-const description = 'Free online GST calculator for India. Add GST or remove GST (reverse) with CGST/SGST split. Supports 5%, 12%, 18%, 28% slabs and custom rates. Instant results.';
+const description = 'Free online GST calculator for India. Add GST or remove GST (reverse) with CGST/SGST split. Supports 5%, 18%, 40% (GST 2.0) slabs and custom rates. Instant results.';
 
 const structuredData = [
   {
@@ -76,7 +76,7 @@ const structuredData = [
       {
         '@type': 'HowToStep',
         name: 'Choose Rate',
-        text: 'Select the applicable GST rate (5%, 12%, 18%, or 28%) or enter a custom rate.'
+        text: 'Select the applicable GST rate (5%, 18%, or 40%) or enter a custom rate.'
       }
     ]
   }
@@ -89,7 +89,7 @@ const structuredData = [
     <div class="mb-10 text-center">
       <h1 class="text-3xl sm:text-4xl font-bold text-base mb-3">GST Calculator Online — Free GST Calculator India</h1>
       <p class="text-[16px] text-muted max-w-2xl mx-auto leading-relaxed">
-        <strong>What is it?</strong> Our inclusive vs exclusive gst calculator tool helps small businesses in India compute the exact Goods and Services Tax (GST) amount. Simply enter the base amount and select the GST rate (5%, 12%, 18%, or 28%) to instantly calculate 18 percent gst online and see the CGST and SGST split.
+        <strong>What is it?</strong> Our inclusive vs exclusive gst calculator tool helps small businesses in India compute the exact Goods and Services Tax (GST) amount. Simply enter the base amount and select the GST rate (5%, 18%, or 40%) to instantly calculate 18 percent gst online and see the CGST and SGST split.
       </p>
     </div>
 
@@ -145,8 +145,8 @@ const structuredData = [
           <!-- GST Rate selector -->
           <div>
             <label class="block text-sm font-medium text-base mb-2">GST Rate</label>
-            <div class="grid grid-cols-5 gap-2 mb-3" role="group" aria-label="GST rate selection">
-              {['0', '5', '12', '18', '28'].map((rate) => (
+            <div class="grid grid-cols-4 gap-2 mb-3" role="group" aria-label="GST rate selection">
+              {['0', '5', '18', '40'].map((rate) => (
                 <button
                   type="button"
                   data-rate={rate}
@@ -241,7 +241,7 @@ const structuredData = [
 
         <h3 class="text-[20px] font-semibold text-base mt-8 mb-4 tracking-[-0.6px]">1. Adding GST to a Base Price</h3>
         <p>
-          If you are generating an invoice and need to apply tax to a product or service, select the <strong>"Add GST"</strong> mode. Enter the base price of the item, then select the appropriate tax slab (0%, 5%, 12%, 18%, or 28%). The calculator will instantly multiply the base amount by the rate to give you the GST component, and then sum them up to provide the Total Invoice Value.
+          If you are generating an invoice and need to apply tax to a product or service, select the <strong>"Add GST"</strong> mode. Enter the base price of the item, then select the appropriate tax slab (0%, 5%, 18%, or 40%). The calculator will instantly multiply the base amount by the rate to give you the GST component, and then sum them up to provide the Total Invoice Value.
         </p>
 
         <h3 class="text-[20px] font-semibold text-base mt-8 mb-4 tracking-[-0.6px]">2. Removing GST (Reverse Calculation)</h3>
@@ -272,7 +272,49 @@ const structuredData = [
       </div>
     </div>
   </div>
+
+  
+  <!-- Related Guides -->
+  <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 pb-12">
+    <div class="border-t border-base pt-12">
+      <h2 class="text-[24px] font-semibold text-base mb-4">Related Guides</h2>
+      <ul class="list-disc pl-5 space-y-2">
+        <li><a href="/blog/gst-offline-tool-guide-errors-json-to-excel" class="text-primary hover:underline">The Ultimate GST Offline Tool Guide: Fix Errors, JSON to Excel & Chrome Issues</a></li>
+        <li><a href="/blog/gst-late-fee-waivers" class="text-primary hover:underline">GST Late Fee Waivers and Amnesty Schemes Explained</a></li>
+      </ul>
+    </div>
+  </div>
+<!-- FAQ Section -->
+  <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 pb-20 mt-16">
+    <div class="border-t border-base pt-12">
+      <h2 class="text-[28px] tracking-[-1px] font-semibold text-base mb-2">Frequently Asked Questions</h2>
+      <p class="text-muted text-[15px] mb-8">Common questions about calculating GST in India.</p>
+      <div class="space-y-3">
+        {[
+          { q: 'How do I calculate GST on a price?', a: 'To add GST to a base price, multiply the price by the GST rate and add it: Total = Base Price × (1 + Rate/100). For example, ₹1,000 at 18% GST = ₹1,000 × 1.18 = ₹1,180. To remove GST from an inclusive price, divide: Base = Inclusive Price ÷ (1 + Rate/100). So ₹1,180 ÷ 1.18 = ₹1,000.' },
+          { q: 'What are the GST slabs in 2026?', a: 'Under GST 2.0 (effective 22 September 2025), the main slabs are 0%, 5%, 18%, and 40%. The old 12% and 28% slabs have been largely restructured. Essentials like food grains are at 0%, daily-use items at 5%, most goods and services at 18%, and luxury/sin goods at 40%.' },
+          { q: 'What is CGST and SGST?', a: 'For intra-state transactions (within the same state), the total GST is split equally between Central GST (CGST) and State GST (SGST). So an 18% GST transaction = 9% CGST + 9% SGST. For inter-state transactions, the full 18% is charged as IGST (Integrated GST) instead.' },
+          { q: 'What is IGST and when does it apply?', a: 'IGST (Integrated GST) applies when goods or services are supplied from one state to another (inter-state supply) or when imported into India. The rate is the same as the combined CGST+SGST rate but it goes entirely to the central government, which then shares the state portion with the destination state.' },
+          { q: 'How do I calculate GST for a composition scheme dealer?', a: 'Composition dealers do not collect GST from customers. Instead, they pay a flat tax from their own pocket — 1% for traders, 2% for manufacturers, 5% for restaurants, and 6% for service providers — on their total turnover. They issue a Bill of Supply, not a Tax Invoice.' },
+          { q: 'Can I calculate reverse GST (remove tax from MRP)?', a: 'Yes. To remove GST from an MRP-inclusive price, use: Base Price = MRP ÷ (1 + GST Rate/100). Our calculator has a "Remove GST" mode that does this automatically. Just toggle to "Remove GST", enter the inclusive price, and select the rate.' },
+          { q: 'Which GST rate applies to professional services like consulting?', a: 'Most professional services — consulting, legal, accounting, IT, marketing — attract 18% GST. Some specified services like healthcare, education, and some financial services are exempt (0%). Always verify the SAC code for your specific service to confirm the correct rate.' },
+          { q: 'Is GST calculated on the price before or after discount?', a: 'GST is calculated on the discounted price if the discount is mentioned on the invoice. If a pre-sale discount is agreed upon before or at the time of supply and is reflected on the invoice, GST applies on the post-discount amount. Post-sale discounts with credit notes require ITC reversal from the buyer.' },
+          { q: 'Does GST apply to exports?', a: 'No. Exports are zero-rated under GST, meaning no GST is charged on the export invoice. Exporters can either claim a refund of input tax credit paid on raw materials or export under a Letter of Undertaking (LUT) without paying IGST upfront.' },
+          { q: 'What is the GST rate on gold and jewellery?', a: 'Gold (including bars, coins, and jewellery) attracts 3% GST. Making charges for jewellery are taxed separately at 5%. So a ₹1,00,000 gold purchase with ₹5,000 making charges would attract ₹3,000 GST on gold + ₹250 GST on making charges.' },
+        ].map((faq, i) => (
+          <details class="group rounded-[8px] border border-base bg-surface overflow-hidden" id={`faq-calc-${i}`}>
+            <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+              <span class="text-[15px]">{faq.q}</span>
+              <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+            </summary>
+            <div class="px-6 pb-5 text-[14px] text-muted leading-relaxed border-t border-base pt-4">{faq.a}</div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </div>
 </BaseLayout>
+
 
 <script lang="ts">
   // ── GST Calculator — vanilla JS, runs entirely client-side ────────────────
@@ -385,7 +427,7 @@ const structuredData = [
       btn.setAttribute('aria-pressed', String(isSelected));
     });
     // Clear custom rate if a preset is selected
-    if ([0, 5, 12, 18, 28].includes(rate)) {
+    if ([0, 5, 18, 40].includes(rate)) {
       customRateInput.value = '';
     }
     calculate();

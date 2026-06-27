@@ -1,0 +1,360 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'GST on Rent Calculator India | Commercial & Residential (2026)';
+const description = 'Free offline GST on Rent Calculator. Check if Reverse Charge Mechanism (RCM) applies to your residential or commercial property rent instantly.';
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'GST on Rent Calculator',
+    url: Astro.site?.toString() ? `${Astro.site}gst-on-rent-calculator` : 'https://example.com/gst-on-rent-calculator',
+    description: 'Calculate GST on commercial and residential rent in India.',
+    applicationCategory: 'FinanceApplication',
+    operatingSystem: 'Any',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'Is GST applicable on residential property rent?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Yes, if a residential property is rented out to a GST-registered person, it attracts 18% GST. This is payable under the Reverse Charge Mechanism (RCM) by the tenant. If rented to an unregistered person for personal use, it is exempt from GST.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Who pays the GST on residential rent under RCM?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Under RCM for residential property, the GST-registered tenant is legally liable to pay the 18% GST directly to the government, not to the landlord.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Can I claim Input Tax Credit (ITC) for GST paid on rent?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Yes, if you use the rented property for business purposes, you can claim ITC on the GST paid (both forward charge for commercial rent and RCM for residential rent).'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Is GST applicable on commercial property rent?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Yes, commercial property rent attracts 18% GST under forward charge. The landlord must collect this from the tenant and deposit it with the government, provided the landlord\'s turnover exceeds the GST registration threshold (₹20 Lakhs in most states).'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'What if a GST-registered person rents a house for personal use?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'If a GST-registered proprietor rents a residential property strictly for personal residence on their own account (not as a company expense), it is exempt from GST as per recent CBIC clarifications.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'What is the GST rate on rent?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'The standard GST rate on both commercial and residential property rent (when taxable) is 18%.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Do NGOs or charitable trusts have to pay GST on rent?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Renting of precincts of a religious place meant for the general public is exempt, subject to certain limits (e.g., room rent below ₹1,000/day, shop rent below ₹10,000/month). Otherwise, standard GST rules apply.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Does the landlord\'s turnover matter for residential rent GST?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'No. For residential rent given to a registered person, RCM applies. The landlord\'s turnover or GST registration status is irrelevant; the registered tenant must pay the tax.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'How do I pay RCM on rent?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'You must pay RCM liability in cash via a GST challan (it cannot be paid using existing ITC). You declare this in table 3.1(d) of GSTR-3B and can claim it back as ITC in table 4(A)(3) in the same month.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Is TDS applicable along with GST on rent?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Yes, under Income Tax rules (Section 194I), TDS is applicable at 10% on rent (if it exceeds ₹2,40,000 annually). TDS is calculated on the base rent amount, excluding the GST component.'
+        }
+      }
+    ]
+  }
+];
+---
+
+<BaseLayout title={title} description={description} structuredData={structuredData}>
+  <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Header -->
+    <div class="text-center mb-10">
+      <h1 class="text-[32px] sm:text-[40px] tracking-[-1.5px] font-semibold text-base mb-4 leading-tight">
+        GST on Rent Calculator
+      </h1>
+      <p class="text-[16px] text-muted max-w-2xl mx-auto leading-relaxed">
+        Instantly check GST applicability, Reverse Charge Mechanism (RCM) rules, and tax liability for commercial or residential property rent.
+      </p>
+    </div>
+
+    <!-- Main Card -->
+    <div class="bg-surface border border-base rounded-[16px] shadow-sm overflow-hidden mb-8">
+      <div class="p-6 sm:p-8">
+        <form id="rent-calculator-form" class="space-y-6">
+          
+          <!-- Property Type -->
+          <div>
+            <label class="block text-[14px] font-medium text-base mb-2">Type of Property</label>
+            <div class="grid grid-cols-2 gap-3">
+              <label class="relative flex cursor-pointer rounded-lg border border-base bg-surface p-4 focus:outline-none has-[:checked]:border-primary has-[:checked]:bg-subtle transition-all">
+                <input type="radio" name="propertyType" value="commercial" class="sr-only" checked>
+                <span class="text-[14px] font-medium text-base">Commercial</span>
+              </label>
+              <label class="relative flex cursor-pointer rounded-lg border border-base bg-surface p-4 focus:outline-none has-[:checked]:border-primary has-[:checked]:bg-subtle transition-all">
+                <input type="radio" name="propertyType" value="residential" class="sr-only">
+                <span class="text-[14px] font-medium text-base">Residential</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Tenant Registration -->
+          <div>
+            <label class="block text-[14px] font-medium text-base mb-2">Is the Tenant GST Registered?</label>
+            <div class="grid grid-cols-2 gap-3">
+              <label class="relative flex cursor-pointer rounded-lg border border-base bg-surface p-4 focus:outline-none has-[:checked]:border-primary has-[:checked]:bg-subtle transition-all">
+                <input type="radio" name="tenantStatus" value="yes" class="sr-only" checked>
+                <span class="text-[14px] font-medium text-base">Yes, Registered</span>
+              </label>
+              <label class="relative flex cursor-pointer rounded-lg border border-base bg-surface p-4 focus:outline-none has-[:checked]:border-primary has-[:checked]:bg-subtle transition-all">
+                <input type="radio" name="tenantStatus" value="no" class="sr-only">
+                <span class="text-[14px] font-medium text-base">No, Unregistered</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Monthly Rent -->
+          <div>
+            <label for="rentAmount" class="block text-[14px] font-medium text-base mb-2">Monthly Rent Amount (₹)</label>
+            <div class="relative">
+              <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                <span class="text-muted sm:text-sm">₹</span>
+              </div>
+              <input 
+                type="number" 
+                id="rentAmount" 
+                name="rentAmount"
+                class="block w-full rounded-[8px] border-0 py-2.5 pl-8 pr-3 text-base ring-1 ring-inset ring-base focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6 bg-surface transition-all"
+                placeholder="e.g. 50000"
+                min="0"
+                step="1"
+                required
+              >
+            </div>
+          </div>
+
+        </form>
+      </div>
+
+      <!-- Results Section -->
+      <div id="results-section" class="bg-subtle border-t border-base p-6 sm:p-8 hidden">
+        <div class="mb-6">
+          <div class="flex items-center gap-2 mb-1">
+            <h3 class="text-[14px] font-medium text-muted uppercase tracking-wider">GST Applicability</h3>
+          </div>
+          <div id="status-badge" class="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-sm font-medium">
+            <!-- Badge content injected via JS -->
+          </div>
+          <p id="status-description" class="text-[15px] text-base mt-3 leading-relaxed">
+            <!-- Description injected via JS -->
+          </p>
+        </div>
+
+        <div id="calculation-breakdown" class="space-y-4">
+          <div class="flex justify-between items-center">
+            <span class="text-[15px] text-muted">Base Rent</span>
+            <span id="res-base" class="text-[15px] font-medium text-base">₹0</span>
+          </div>
+          
+          <div class="flex justify-between items-center text-red-600">
+            <span class="text-[15px]">GST @ 18%</span>
+            <span id="res-gst" class="text-[15px] font-medium">₹0</span>
+          </div>
+          
+          <div class="my-4 border-t border-base"></div>
+          
+          <div class="flex justify-between items-center">
+            <div>
+              <span class="block text-[16px] font-semibold text-base">Total Payable to Landlord</span>
+              <span class="block text-[13px] text-muted">Amount exchanged directly</span>
+            </div>
+            <span id="res-landlord" class="text-[20px] font-bold text-base">₹0</span>
+          </div>
+          
+          <div id="rcm-row" class="flex justify-between items-center hidden mt-2 p-3 bg-red-50/50 rounded-lg border border-red-100">
+            <div>
+              <span class="block text-[14px] font-semibold text-red-700">RCM Payable to Govt</span>
+              <span class="block text-[12px] text-red-600">Tenant pays directly (can claim ITC)</span>
+            </div>
+            <span id="res-rcm" class="text-[16px] font-bold text-red-700">₹0</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+  <!-- Related Guides -->
+  <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 pb-12">
+    <div class="border-t border-base pt-12">
+      <h2 class="text-[24px] font-semibold text-base mb-4">Related Guides</h2>
+      <ul class="list-disc pl-5 space-y-2">
+        <li><a href="/blog/never-miss-gst-due-dates" class="text-primary hover:underline">The Complete Guide to GST Return Due Dates for 2026</a></li>
+        <li><a href="/blog/gst-late-fee-waivers" class="text-primary hover:underline">GST Late Fee Waivers and Amnesty Schemes Explained</a></li>
+      </ul>
+    </div>
+  </div>
+<!-- FAQ Section -->
+  <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 pb-20 mt-8">
+    <div class="border-t border-base pt-12">
+      <h2 class="text-[28px] tracking-[-1px] font-semibold text-base mb-2">Frequently Asked Questions</h2>
+      <p class="text-muted text-[15px] mb-8">Understanding GST implications on commercial and residential renting.</p>
+      <div class="space-y-3">
+        {structuredData[1].mainEntity.map((faq, i) => (
+          <details class="group rounded-[8px] border border-base bg-surface overflow-hidden" id={`faq-${i}`}>
+            <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+              <span class="text-[15px]">{faq.name}</span>
+              <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+            </summary>
+            <div class="px-6 pb-5 text-[14px] text-muted leading-relaxed border-t border-base pt-4">{faq.acceptedAnswer.text}</div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<script lang="ts">
+  const form = document.getElementById('rent-calculator-form');
+  const rentInput = document.getElementById('rentAmount') as HTMLInputElement;
+  const radioProperty = document.querySelectorAll('input[name="propertyType"]');
+  const radioTenant = document.querySelectorAll('input[name="tenantStatus"]');
+  
+  const resultsSection = document.getElementById('results-section');
+  const statusBadge = document.getElementById('status-badge');
+  const statusDesc = document.getElementById('status-description');
+  
+  const resBase = document.getElementById('res-base');
+  const resGst = document.getElementById('res-gst');
+  const resLandlord = document.getElementById('res-landlord');
+  const resRcm = document.getElementById('res-rcm');
+  const rcmRow = document.getElementById('rcm-row');
+
+  function formatINR(number) {
+    return new Intl.NumberFormat('en-IN', {
+      style: 'currency',
+      currency: 'INR',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(number);
+  }
+
+  function calculate() {
+    const rent = parseFloat(rentInput.value) || 0;
+    
+    // Get selected radio values
+    let propType = 'commercial';
+    let tenantReg = 'yes';
+    
+    radioProperty.forEach((r: HTMLInputElement) => {
+      if (r.checked) propType = r.value;
+    });
+    
+    radioTenant.forEach((r: HTMLInputElement) => {
+      if (r.checked) tenantReg = r.value;
+    });
+
+    if (rent <= 0) {
+      resultsSection.classList.add('hidden');
+      return;
+    }
+    
+    resultsSection.classList.remove('hidden');
+
+    let isTaxable = false;
+    let isRcm = false;
+    
+    // Logic Rules
+    if (propType === 'commercial') {
+      isTaxable = true;
+      isRcm = false; // Forward charge (assuming landlord is registered for simplicity of calculator)
+    } else if (propType === 'residential') {
+      if (tenantReg === 'yes') {
+        isTaxable = true;
+        isRcm = true;
+      } else {
+        isTaxable = false;
+        isRcm = false;
+      }
+    }
+
+    const gstRate = 0.18;
+    const gstAmount = isTaxable ? rent * gstRate : 0;
+    
+    // Update UI Elements
+    resBase.textContent = formatINR(rent);
+    resGst.textContent = formatINR(gstAmount);
+
+    if (isTaxable) {
+      if (isRcm) {
+        statusBadge.className = 'inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-sm font-medium bg-red-100 text-red-800';
+        statusBadge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-red-600"></span> Taxable under RCM';
+        statusDesc.innerHTML = 'Since residential property is rented to a GST-registered person, the <strong>Tenant</strong> must pay 18% GST directly to the government under the Reverse Charge Mechanism (RCM).';
+        
+        resLandlord.textContent = formatINR(rent);
+        resLandlord.parentElement.parentElement.classList.remove('text-green-700');
+        
+        rcmRow.classList.remove('hidden');
+        resRcm.textContent = formatINR(gstAmount);
+      } else {
+        statusBadge.className = 'inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-sm font-medium bg-yellow-100 text-yellow-800';
+        statusBadge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-yellow-600"></span> Taxable (Forward Charge)';
+        statusDesc.innerHTML = 'Commercial property rent attracts 18% GST. The <strong>Landlord</strong> collects this amount from the tenant and pays it to the government (assuming landlord\\'s turnover > ₹20L).';
+        
+        resLandlord.textContent = formatINR(rent + gstAmount);
+        resLandlord.parentElement.parentElement.classList.add('text-green-700');
+        
+        rcmRow.classList.add('hidden');
+      }
+    } else {
+      statusBadge.className = 'inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-sm font-medium bg-green-100 text-green-800';
+      statusBadge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-green-600"></span> Exempt from GST';
+      statusDesc.innerHTML = 'Renting of residential property to an unregistered person for residential purposes is completely exempt from GST.';
+      
+      resLandlord.textContent = formatINR(rent);
+      resLandlord.parentElement.parentElement.classList.remove('text-green-700');
+      rcmRow.classList.add('hidden');
+    }
+  }
+
+  // Event Listeners
+  form.addEventListener('input', calculate);
+  form.addEventListener('change', calculate);
+</script>

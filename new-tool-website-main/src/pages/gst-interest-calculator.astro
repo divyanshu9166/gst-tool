@@ -221,7 +221,18 @@ const structuredData = [
       </ol>
     </article>
 
-    <!-- FAQ Section -->
+    
+  <!-- Related Guides -->
+  <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 pb-12">
+    <div class="border-t border-base pt-12">
+      <h2 class="text-[24px] font-semibold text-base mb-4">Related Guides</h2>
+      <ul class="list-disc pl-5 space-y-2">
+        <li><a href="/blog/gst-offline-tool-guide-errors-json-to-excel" class="text-primary hover:underline">The Ultimate GST Offline Tool Guide: Fix Errors, JSON to Excel & Chrome Issues</a></li>
+        <li><a href="/blog/calculate-gst-late-fees" class="text-primary hover:underline">How to Calculate GST Late Fees in 2026: A Complete Guide</a></li>
+      </ul>
+    </div>
+  </div>
+<!-- FAQ Section -->
     <section class="mt-16 pt-12 border-t border-base" aria-labelledby="faq-heading">
       <h2 id="faq-heading" class="text-2xl sm:text-3xl font-bold text-base mb-8">
         Frequently Asked Questions
@@ -327,10 +338,17 @@ const structuredData = [
       const tax = parseFloat(taxInput.value) || 0;
       const rate = parseFloat(rateSelect.value) || 18;
       
-      const due = new Date(dueInput.value);
-      const pay = new Date(payInput.value);
+      // Parse dates safely to avoid timezone/DST issues
+      const parseDate = (dateStr: string): Date | null => {
+        if (!dateStr) return null;
+        const [year, month, day] = dateStr.split('-').map(Number);
+        return new Date(year, month - 1, day);
+      };
+      
+      const due = parseDate(dueInput.value);
+      const pay = parseDate(payInput.value);
 
-      if (tax <= 0 || isNaN(due.getTime()) || isNaN(pay.getTime())) {
+      if (tax <= 0 || !due || !pay) {
         resultCard.classList.add('hidden');
         return;
       }

@@ -1,0 +1,262 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'GST LUT Renewal Date Calculator & Reminder | Exporters';
+const description = 'Calculate the exact deadline to renew your Letter of Undertaking (LUT) for zero-rated GST exports. Never miss the March 31st deadline.';
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'LUT Renewal Reminder Calculator',
+    url: Astro.site?.toString() ? `${Astro.site}lut-renewal-reminder` : 'https://example.com/lut-renewal-reminder',
+    description: 'Calculate deadline for LUT renewal.',
+    applicationCategory: 'FinanceApplication',
+    operatingSystem: 'Any',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What is a Letter of Undertaking (LUT) in GST?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'A Letter of Undertaking (LUT) allows registered exporters to export goods or services without paying IGST upfront. It acts as a guarantee that the exporter will fulfill the export requirements.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'When does an LUT expire?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'An LUT is valid for only one financial year. Regardless of when you apply during the year, it automatically expires on the 31st of March of that financial year.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'When is the deadline to renew my LUT?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'You must apply for a new LUT for the upcoming financial year before the 31st of March of the current financial year. E.g., for FY 2026-27, you must file the LUT on or before 31 March 2026.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'What happens if I export without a valid LUT?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'If you export goods or services without a valid LUT, it will be treated as a normal domestic taxable supply. You will be forced to pay IGST on the export invoice and then claim a refund later, which blocks working capital.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Can I backdate an LUT application?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'No, an LUT cannot be filed retroactively. If you miss the deadline and make an export on April 1st, you must pay IGST for that specific invoice if the LUT is filed on April 2nd.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'How do I apply for an LUT?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'You can apply online on the GST Portal by navigating to Services > User Services > Furnish Letter of Undertaking (LUT). You will need to provide the details of two independent witnesses.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Are all exporters eligible for LUT?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Most exporters are eligible. However, if an exporter has been prosecuted for tax evasion exceeding ₹2.5 Crores under the CGST Act or the IGST Act, they are ineligible and must export on payment of IGST.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Is LUT applicable to SEZ supplies?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Yes, supplying goods or services to a Special Economic Zone (SEZ) developer or unit is considered a zero-rated supply, and you can supply them without payment of IGST under cover of an LUT.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Do I need a physical signature for the LUT?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'No, the LUT application (Form GST RFD-11) is filed digitally on the GST portal and verified using DSC (Digital Signature Certificate) or EVC (Aadhaar OTP).'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Does the GST officer need to approve the LUT manually?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Normally, the system auto-acknowledges the LUT filing and generates an ARN (Application Reference Number), which serves as immediate proof of your active LUT status.'
+        }
+      }
+    ]
+  }
+];
+---
+
+<BaseLayout title={title} description={description} structuredData={structuredData}>
+  <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Header -->
+    <div class="text-center mb-10">
+      <h1 class="text-[32px] sm:text-[40px] tracking-[-1.5px] font-semibold text-base mb-4 leading-tight">
+        LUT Renewal Deadline Calculator
+      </h1>
+      <p class="text-[16px] text-muted max-w-2xl mx-auto leading-relaxed">
+        Exporting under zero-rating? Don't let your LUT expire. Find your exact renewal deadline to avoid paying IGST upfront on your exports.
+      </p>
+    </div>
+
+    <!-- Main Card -->
+    <div class="bg-surface border border-base rounded-[16px] shadow-sm overflow-hidden mb-8">
+      <div class="p-6 sm:p-8">
+        <div class="space-y-6">
+          
+          <div>
+            <label for="currentDate" class="block text-[14px] font-medium text-base mb-2">Today's Date</label>
+            <input 
+              type="date" 
+              id="currentDate" 
+              class="block w-full rounded-[8px] border-0 py-2.5 px-3 text-base ring-1 ring-inset ring-base focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6 bg-surface transition-all"
+            >
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Results Section -->
+      <div class="bg-subtle border-t border-base p-6 sm:p-8">
+        <div class="text-center">
+          <div class="text-[14px] font-medium text-muted uppercase tracking-wider mb-2">Your LUT Renewal Deadline</div>
+          <div id="deadline-date" class="text-[32px] sm:text-[40px] font-bold text-primary leading-tight mb-2">
+            31 March 2026
+          </div>
+          <div id="deadline-status" class="inline-flex items-center px-3 py-1 rounded-full text-[13px] font-medium bg-primary/10 text-primary">
+            For Financial Year 2026-27
+          </div>
+        </div>
+        
+        <div class="mt-8 bg-surface border border-base p-5 rounded-[12px]">
+          <div class="flex gap-4">
+            <div id="icon-container" class="mt-1 flex-shrink-0 text-primary">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            </div>
+            <div>
+              <h4 id="action-title" class="font-semibold text-[15px] text-base">Action Required</h4>
+              <p id="action-desc" class="text-[14px] text-muted mt-1 leading-relaxed">
+                You must file your LUT on the GST portal before this date to ensure continuous zero-rated exports starting April 1st.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+  <!-- Related Guides -->
+  <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 pb-12">
+    <div class="border-t border-base pt-12">
+      <h2 class="text-[24px] font-semibold text-base mb-4">Related Guides</h2>
+      <ul class="list-disc pl-5 space-y-2">
+        <li><a href="/blog/hsn-code-importance" class="text-primary hover:underline">Why HSN Codes are Essential for GST Invoices in India</a></li>
+        <li><a href="/blog/how-to-file-gstr-1-step-by-step" class="text-primary hover:underline">How to File GSTR-1 Step by Step: Complete Guide 2025-26</a></li>
+      </ul>
+    </div>
+  </div>
+<!-- FAQ Section -->
+  <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 pb-20 mt-8">
+    <div class="border-t border-base pt-12">
+      <h2 class="text-[28px] tracking-[-1px] font-semibold text-base mb-2">Frequently Asked Questions</h2>
+      <p class="text-muted text-[15px] mb-8">Understanding LUT Rules and Deadlines.</p>
+      <div class="space-y-3">
+        {structuredData[1].mainEntity.map((faq, i) => (
+          <details class="group rounded-[8px] border border-base bg-surface overflow-hidden" id={`faq-${i}`}>
+            <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+              <span class="text-[15px]">{faq.name}</span>
+              <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+            </summary>
+            <div class="px-6 pb-5 text-[14px] text-muted leading-relaxed border-t border-base pt-4">{faq.acceptedAnswer.text}</div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<script lang="ts">
+  const dateInput = document.getElementById('currentDate') as HTMLInputElement;
+  const deadlineDateEl = document.getElementById('deadline-date');
+  const deadlineStatusEl = document.getElementById('deadline-status');
+  const iconContainer = document.getElementById('icon-container');
+  const actionTitle = document.getElementById('action-title');
+  const actionDesc = document.getElementById('action-desc');
+
+  // Set today as default
+  dateInput.valueAsDate = new Date();
+
+  function calculate() {
+    if (!dateInput.value) return;
+    
+    const d = new Date(dateInput.value);
+    const year = d.getFullYear();
+    const month = d.getMonth(); // 0-11
+    
+    let targetYear = year;
+    let targetFYYear = year;
+    
+    // If we are in Jan, Feb, Mar (0,1,2), the deadline is March 31 of THIS year.
+    // If we are in Apr-Dec (3-11), the deadline is March 31 of NEXT year.
+    if (month >= 3) {
+        targetYear = year + 1;
+        targetFYYear = year + 1;
+    }
+    
+    const deadlineStr = `31 March ${targetYear}`;
+    const nextFY = `FY ${targetFYYear}-${(targetFYYear + 1).toString().substring(2)}`;
+    
+    deadlineDateEl.textContent = deadlineStr;
+    deadlineStatusEl.textContent = `For Financial Year ${targetFYYear}-${(targetFYYear + 1).toString().substring(2)}`;
+
+    // Time difference
+    const deadlineDateObj = new Date(targetYear, 2, 31); // Month is 0-indexed (2 = March)
+    const timeDiff = deadlineDateObj.getTime() - d.getTime();
+    const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+    if (daysDiff < 0) {
+        // Technically impossible with the logic above, it will always target future march.
+        // But if someone manually alters logic, this serves as fallback
+    } else if (daysDiff <= 30) {
+        iconContainer.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>';
+        iconContainer.className = "mt-1 flex-shrink-0 text-red-500";
+        actionTitle.textContent = "Urgent: File Immediately";
+        actionTitle.className = "font-semibold text-[15px] text-red-600";
+        actionDesc.textContent = `You have less than ${daysDiff} days left to renew your LUT for ${nextFY}. File Form RFD-11 today to prevent blockage of working capital on April 1st.`;
+    } else if (daysDiff <= 60) {
+        iconContainer.className = "mt-1 flex-shrink-0 text-yellow-500";
+        actionTitle.textContent = "Prepare to File";
+        actionTitle.className = "font-semibold text-[15px] text-yellow-600";
+        actionDesc.textContent = `The portal is likely open for ${nextFY} LUT filings. Gather your witness details and initiate the RFD-11 filing process.`;
+    } else {
+        iconContainer.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>';
+        iconContainer.className = "mt-1 flex-shrink-0 text-green-500";
+        actionTitle.textContent = "You are safe for now";
+        actionTitle.className = "font-semibold text-[15px] text-green-600";
+        actionDesc.textContent = `Your current LUT is valid. You do not need to file for ${nextFY} until Q4 (Jan-March ${targetYear}).`;
+    }
+  }
+
+  dateInput.addEventListener('change', calculate);
+  dateInput.addEventListener('input', calculate);
+  
+  // Initial run
+  calculate();
+</script>

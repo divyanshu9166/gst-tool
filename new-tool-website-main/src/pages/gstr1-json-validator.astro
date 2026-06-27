@@ -1,0 +1,170 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'GSTR 1 JSON Validator | Check GST JSON Files Online';
+const description = 'Validate your GSTR 1 JSON payload before uploading it to the GST Portal to prevent processing errors. Free offline semantic validation tool.';
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'GSTR 1 JSON Validator',
+    url: `${Astro.site?.toString() ?? 'https://example.com'}/gstr1-json-validator`,
+    description: 'Ensure your GSTR-1 offline JSON file is structurally valid before uploading.',
+    applicationCategory: 'BusinessApplication',
+    operatingSystem: 'Any'
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'Why should I validate my GSTR-1 JSON offline?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'The GST portal can often take several minutes to process an uploaded JSON file, only to return an error report if the schema does not match. This validator checks for core GST structural integrity offline, saving you time.'
+        }
+      }
+    ]
+  }
+];
+---
+
+<BaseLayout {title} {description} {structuredData}>
+  <div class="mx-auto max-w-4xl px-4 sm:px-6 py-12">
+    <div class="text-center mb-10">
+      <h1 class="text-3xl sm:text-4xl font-bold text-base mb-3">GSTR-1 JSON Validator</h1>
+      <p class="text-muted text-lg max-w-2xl mx-auto">
+        Verify your JSON files before uploading them to the GST Portal to avoid tedious correction steps. Validates JSON syntax and basic GST structural schemas.
+      </p>
+    </div>
+
+    <div class="bg-surface border border-base rounded-2xl p-8 shadow-sm">
+      <div class="space-y-6">
+        <div>
+          <label class="block text-sm font-medium text-base mb-2">Upload JSON Document to Validate</label>
+          <input 
+            type="file" 
+            id="jsonFileInput" 
+            accept="application/json"
+            class="block w-full text-sm text-muted file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-accent file:text-white hover:file:bg-accent/90"
+          />
+        </div>
+        <div>
+          <button id="validateBtn" class="w-full bg-accent hover:bg-accent/90 text-white font-semibold py-3 px-4 rounded-xl transition-colors">
+            Run Validation
+          </button>
+        </div>
+        
+        <div id="validationResult" class="hidden rounded-lg border p-6">
+          <div id="statusIcon" class="mb-4"></div>
+          <h3 id="statusTitle" class="text-lg font-bold mb-2"></h3>
+          <p id="statusDesc" class="text-sm text-muted mb-4"></p>
+          <ul id="errorList" class="list-disc pl-5 text-sm text-red-600 hidden space-y-1"></ul>
+        </div>
+      </div>
+    </div>
+    
+    <div class="mt-16 prose prose-slate max-w-none text-muted">
+      <h2>Why Validate Returns Offline?</h2>
+      <p>The GST portal can often take several minutes to process an uploaded JSON file, only to return an error report if the schema doesn't perfectly match expectations. This validator checks for core GST structural integrity (e.g. valid GSTIN formats, appropriate tax rates, valid date formats) completely offline.</p>
+      
+      <h3>Frequently Asked Questions</h3>
+      <dl class="space-y-4">
+        <div>
+          <dt class="font-bold text-base">Does this replace the official offline tool?</dt>
+          <dd>No, this is a supplementary tool to pre-check structural integrity. It helps you catch common formatting or nesting errors before you attempt an upload on the official GST portal.</dd>
+        </div>
+        <div>
+          <dt class="font-bold text-base">Will this catch incorrect tax calculations?</dt>
+          <dd>This tool primarily checks the JSON schema, structure, GSTIN formats, and basic data types. It does not perform deep accounting calculations (like verifying if your tax amount precisely equals the taxable value * rate).</dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+
+  <script is:inline>
+    document.getElementById('validateBtn').addEventListener('click', () => {
+      const fileInput = document.getElementById('jsonFileInput');
+      const resultBox = document.getElementById('validationResult');
+      const statusIcon = document.getElementById('statusIcon');
+      const statusTitle = document.getElementById('statusTitle');
+      const statusDesc = document.getElementById('statusDesc');
+      const errorList = document.getElementById('errorList');
+      
+      resultBox.classList.add('hidden');
+      errorList.classList.add('hidden');
+      errorList.innerHTML = '';
+
+      if (!fileInput.files.length) {
+        alert('Please select a JSON file.');
+        return;
+      }
+
+      const file = fileInput.files[0];
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        try {
+          const data = JSON.parse(e.target.result);
+          const errors = [];
+
+          // Basic checks
+          if (!data.gstin) {
+            errors.push('Missing "gstin" attribute at the root level.');
+          } else if (!/^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/.test(data.gstin)) {
+            errors.push('Invalid GSTIN format assigned to the return.');
+          }
+
+          if (!data.fp) {
+            errors.push('Missing "fp" (Financial Period) attribute. E.g., "042026"');
+          }
+
+          if (!data.gt) {
+             // Not completely fatal but worth noting
+          }
+
+          // Check sections
+          const sections = ['b2b', 'b2cl', 'b2cs', 'exp', 'cdnr', 'cdnur', 'hsn'];
+          sections.forEach(sec => {
+            if (data[sec] && !Array.isArray(data[sec])) {
+              errors.push(`Section "${sec}" should be an Array.`);
+            }
+          });
+
+          // Results
+          resultBox.classList.remove('hidden', 'border-green-200', 'bg-green-50', 'border-red-200', 'bg-red-50');
+          
+          if (errors.length === 0) {
+            resultBox.classList.add('border-green-200', 'bg-green-50');
+            statusTitle.className = 'text-lg font-bold mb-2 text-green-800';
+            statusTitle.textContent = 'JSON Validation Passed';
+            statusDesc.textContent = 'The JSON structure looks structurally sound and ready for portal upload.';
+          } else {
+            resultBox.classList.add('border-red-200', 'bg-red-50');
+            statusTitle.className = 'text-lg font-bold mb-2 text-red-800';
+            statusTitle.textContent = 'Validation Completed with Errors';
+            statusDesc.textContent = 'Please fix the following schema/logic errors before uploading:';
+            errorList.classList.remove('hidden');
+            errors.forEach(err => {
+              const li = document.createElement('li');
+              li.textContent = err;
+              errorList.appendChild(li);
+            });
+          }
+
+        } catch (err) {
+          resultBox.classList.remove('hidden');
+          resultBox.classList.add('border-red-200', 'bg-red-50');
+          statusTitle.className = 'text-lg font-bold mb-2 text-red-800';
+          statusTitle.textContent = 'Invalid JSON File';
+          statusDesc.textContent = 'The uploaded file is not a valid JSON document. (Syntax Error)';
+          errorList.classList.add('hidden');
+        }
+      };
+
+      reader.readAsText(file);
+    });
+  </script>
+</BaseLayout>

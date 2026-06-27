@@ -56,3 +56,8 @@ If you are registered under the GST Composition Scheme (paying a flat 1% tax wit
 ## Conclusion
 
 E-commerce GST compliance in 2026 requires hyper-vigilance. You must download the monthly seller tax reports from your platform dashboard, reconcile them down to the last rupee against your GSTR-1, and ensure you accept your TCS credits on time. Keep your accounting tight, use automated tools, and never ignore an ITC mismatch.
+
+
+## Related Tools
+- [GST on Rent Calculator India | Commercial & Residential (2026)](/gst-on-rent-calculator)
+- [GST ITC Calculator | Input Tax Credit Set-Off Calculator 2026](/itc-calculator)

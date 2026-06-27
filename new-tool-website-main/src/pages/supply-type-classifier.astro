@@ -1,0 +1,299 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'Composite vs Mixed Supply Classifier | GST Classification Tool';
+const description = 'Determine whether your bundled products/services are a Composite Supply or a Mixed Supply under GST. Avoid incorrect tax rates and penalties.';
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Composite vs Mixed Supply Classifier',
+    url: Astro.site?.toString() ? `${Astro.site}supply-type-classifier` : 'https://example.com/supply-type-classifier',
+    description: 'Classify GST Supply Type.',
+    applicationCategory: 'FinanceApplication',
+    operatingSystem: 'Any',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What is a Composite Supply under GST?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'A composite supply consists of two or more goods/services that are naturally bundled and supplied together in the ordinary course of business. One of them is a principal supply (e.g., buying a laptop that comes with a charger and warranty).'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'What is a Mixed Supply under GST?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'A mixed supply consists of two or more independent goods/services bundled together for a single price, which are NOT naturally bundled. They can be sold separately (e.g., a Diwali gift hamper containing chocolates, dry fruits, and aerated drinks).'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'How is GST calculated on a Composite Supply?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'For a composite supply, the GST rate of the "Principal Supply" applies to the entire bundle. For example, if you buy a laptop (18%) and it comes with a bag (18%), the entire value is taxed at the rate of the laptop (principal item).'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'How is GST calculated on a Mixed Supply?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'For a mixed supply, the GST rate of the item with the HIGHEST tax rate in the bundle applies to the entire bundle. If a hamper has dry fruits (12%) and aerated drinks (40%), the whole hamper is taxed at 40%.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'What does "naturally bundled" mean?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Naturally bundled means that the combination is largely standard industry practice, and buyers expect them to be provided together. They are intrinsically linked (e.g., air transport and the food served on the flight).'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Is a hotel booking with free breakfast a composite supply?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Yes. Accommodation with breakfast is naturally bundled in the hotel industry. The principal supply is the accommodation, so the entire package will be taxed at the hotel room rate (e.g., 12% or 18%).'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'If I sell items separately on the same invoice, is it a mixed supply?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'No. If you sell items and itemize their prices separately on the invoice, it is neither a composite nor a mixed supply. It is simply a multiple individual supply. You charge the respective GST rate for each item.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'What is a Principal Supply?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'The principal supply is the pre-dominant element of a composite supply. It is the primary reason the customer is buying the bundle. The other elements are ancillary (e.g., transport insurance is ancillary to the transport of goods).'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'What happens if I classify a mixed supply as a composite supply?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'If you classify a mixed supply as composite, you will likely apply a lower tax rate to the bundle. During an audit, the GST officer can demand the differential tax at the highest rate, along with interest and penalties under Section 73/74.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Is buying a car with an extended warranty a composite supply?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'No, usually extended warranties sold at the time of car purchase are treated as a separate supply if they are optional. However, the standard mandatory warranty included in the car price is part of the composite supply of the car.'
+        }
+      }
+    ]
+  }
+];
+---
+
+<BaseLayout title={title} description={description} structuredData={structuredData}>
+  <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Header -->
+    <div class="text-center mb-10">
+      <h1 class="text-[32px] sm:text-[40px] tracking-[-1.5px] font-semibold text-base mb-4 leading-tight">
+        Composite vs Mixed Supply Classifier
+      </h1>
+      <p class="text-[16px] text-muted max-w-2xl mx-auto leading-relaxed">
+        Are you selling a bundle of goods or services for a single price? Use this interactive questionnaire to determine your supply classification and the correct GST rate.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+      <!-- Questionnaire -->
+      <div class="lg:col-span-2 bg-surface border border-base rounded-[16px] shadow-sm p-6 sm:p-8">
+        <form id="classifier-form" class="space-y-8">
+          
+          <!-- Q1 -->
+          <div>
+            <label class="block text-[15px] font-semibold text-base mb-4">
+              1. Are the items supplied together for a <span class="text-primary underline decoration-2">single, consolidated price</span>?
+            </label>
+            <div class="flex gap-4">
+              <label class="flex-1 relative flex cursor-pointer p-4 border border-base rounded-[8px] bg-subtle hover:bg-surface focus-within:ring-2 focus-within:ring-primary transition-all has-[:checked]:border-primary">
+                <input type="radio" name="q1" value="yes" class="mt-0.5 w-4 h-4 text-primary border-base focus:ring-primary" checked>
+                <span class="ml-3 font-medium text-[14px]">Yes, single price</span>
+              </label>
+              <label class="flex-1 relative flex cursor-pointer p-4 border border-base rounded-[8px] bg-subtle hover:bg-surface focus-within:ring-2 focus-within:ring-primary transition-all has-[:checked]:border-primary">
+                <input type="radio" name="q1" value="no" class="mt-0.5 w-4 h-4 text-primary border-base focus:ring-primary">
+                <span class="ml-3 font-medium text-[14px]">No, itemized prices</span>
+              </label>
+            </div>
+            <p class="text-[12px] text-muted mt-2">If they are itemized separately on the invoice, they are neither composite nor mixed supplies.</p>
+          </div>
+
+          <!-- Q2 -->
+          <div id="q2-container" class="border-t border-base pt-6">
+            <label class="block text-[15px] font-semibold text-base mb-4">
+              2. Are the items <span class="text-primary underline decoration-2">naturally bundled</span> in the ordinary course of business?
+            </label>
+            <div class="flex gap-4">
+              <label class="flex-1 relative flex cursor-pointer p-4 border border-base rounded-[8px] bg-subtle hover:bg-surface focus-within:ring-2 focus-within:ring-primary transition-all has-[:checked]:border-primary">
+                <input type="radio" name="q2" value="yes" class="mt-0.5 w-4 h-4 text-primary border-base focus:ring-primary">
+                <span class="ml-3 font-medium text-[14px]">Yes, naturally bundled</span>
+              </label>
+              <label class="flex-1 relative flex cursor-pointer p-4 border border-base rounded-[8px] bg-subtle hover:bg-surface focus-within:ring-2 focus-within:ring-primary transition-all has-[:checked]:border-primary">
+                <input type="radio" name="q2" value="no" class="mt-0.5 w-4 h-4 text-primary border-base focus:ring-primary" checked>
+                <span class="ml-3 font-medium text-[14px]">No, artificially bundled</span>
+              </label>
+            </div>
+            <p class="text-[12px] text-muted mt-2">Example of Natural: Laptop + Charger. Example of Artificial: Diwali hamper (Chocolates + Watch).</p>
+          </div>
+
+          <!-- Q3 -->
+          <div id="q3-container" class="border-t border-base pt-6 hidden">
+            <label class="block text-[15px] font-semibold text-base mb-4">
+              3. Is there a clear <span class="text-primary underline decoration-2">Principal Supply</span> that gives the bundle its essential character?
+            </label>
+            <div class="flex gap-4">
+              <label class="flex-1 relative flex cursor-pointer p-4 border border-base rounded-[8px] bg-subtle hover:bg-surface focus-within:ring-2 focus-within:ring-primary transition-all has-[:checked]:border-primary">
+                <input type="radio" name="q3" value="yes" class="mt-0.5 w-4 h-4 text-primary border-base focus:ring-primary" checked>
+                <span class="ml-3 font-medium text-[14px]">Yes, there is a primary item</span>
+              </label>
+              <label class="flex-1 relative flex cursor-pointer p-4 border border-base rounded-[8px] bg-subtle hover:bg-surface focus-within:ring-2 focus-within:ring-primary transition-all has-[:checked]:border-primary">
+                <input type="radio" name="q3" value="no" class="mt-0.5 w-4 h-4 text-primary border-base focus:ring-primary">
+                <span class="ml-3 font-medium text-[14px]">No</span>
+              </label>
+            </div>
+          </div>
+
+        </form>
+      </div>
+
+      <!-- Result Sidebar -->
+      <div class="lg:col-span-1">
+        <div id="result-card" class="bg-surface border border-base rounded-[16px] shadow-sm p-6 sticky top-8">
+          <!-- Injected via JS -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+  <!-- Related Guides -->
+  <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 pb-12">
+    <div class="border-t border-base pt-12">
+      <h2 class="text-[24px] font-semibold text-base mb-4">Related Guides</h2>
+      <ul class="list-disc pl-5 space-y-2">
+        <li><a href="/blog/post-sale-discount-gst-2026" class="text-primary hover:underline">Post-Sale Discounts Under GST 2026: Credit Note Rules & ITC Implications</a></li>
+        <li><a href="/blog/reverse-charge-mechanism-gst-list" class="text-primary hover:underline">Reverse Charge Mechanism (RCM) Under GST: Full List of Goods & Services</a></li>
+      </ul>
+    </div>
+  </div>
+<!-- FAQ Section -->
+  <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 pb-20 mt-8">
+    <div class="border-t border-base pt-12">
+      <h2 class="text-[28px] tracking-[-1px] font-semibold text-base mb-2">Frequently Asked Questions</h2>
+      <p class="text-muted text-[15px] mb-8">Understanding Supply Classifications.</p>
+      <div class="space-y-3">
+        {structuredData[1].mainEntity.map((faq, i) => (
+          <details class="group rounded-[8px] border border-base bg-surface overflow-hidden" id={`faq-${i}`}>
+            <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+              <span class="text-[15px]">{faq.name}</span>
+              <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+            </summary>
+            <div class="px-6 pb-5 text-[14px] text-muted leading-relaxed border-t border-base pt-4">{faq.acceptedAnswer.text}</div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<script lang="ts">
+  const form = document.getElementById('classifier-form');
+  const resultCard = document.getElementById('result-card');
+  const q2Container = document.getElementById('q2-container');
+  const q3Container = document.getElementById('q3-container');
+
+  function calculate() {
+    const q1 = (document.querySelector('input[name="q1"]:checked') as HTMLInputElement)?.value;
+    const q2 = (document.querySelector('input[name="q2"]:checked') as HTMLInputElement)?.value;
+    const q3 = (document.querySelector('input[name="q3"]:checked') as HTMLInputElement)?.value;
+
+    if (q1 === 'no') {
+        q2Container.classList.add('hidden');
+        q3Container.classList.add('hidden');
+        
+        resultCard.innerHTML = `
+          <div class="text-center">
+            <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-blue-100 text-blue-600 mb-4">
+              <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path></svg>
+            </div>
+            <h3 class="text-[20px] font-bold text-blue-700 mb-2">Individual Supply</h3>
+            <p class="text-[14px] text-blue-900/80 mb-6">Since the items are itemized and priced separately on the invoice, this is neither a composite nor mixed supply.</p>
+            <div class="bg-blue-50/50 rounded-lg p-4 text-left border border-blue-100 text-[13px] text-blue-800">
+              <strong>Action:</strong> You must charge the respective GST rate for each individual item on the invoice.
+            </div>
+          </div>
+        `;
+        return;
+    }
+
+    q2Container.classList.remove('hidden');
+
+    if (q2 === 'yes') {
+        q3Container.classList.remove('hidden');
+        
+        if (q3 === 'yes') {
+            resultCard.innerHTML = `
+              <div class="text-center">
+                <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-green-100 text-green-600 mb-4">
+                  <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </div>
+                <h3 class="text-[20px] font-bold text-green-700 mb-2">Composite Supply</h3>
+                <p class="text-[14px] text-green-900/80 mb-6">These goods/services are naturally bundled and supplied in the ordinary course of business, with one principal supply.</p>
+                <div class="bg-green-50/50 rounded-lg p-4 text-left border border-green-100 text-[13px] text-green-800">
+                  <strong>Action:</strong> Apply the GST rate of the <strong>Principal Supply</strong> to the entire bundle's price.
+                </div>
+              </div>
+            `;
+        } else {
+             resultCard.innerHTML = `
+              <div class="text-center">
+                <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-red-100 text-red-600 mb-4">
+                  <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                </div>
+                <h3 class="text-[20px] font-bold text-red-700 mb-2">Review Needed</h3>
+                <p class="text-[14px] text-red-900/80 mb-6">A naturally bundled supply without a principal supply is legally ambiguous. It usually defaults to a Mixed Supply.</p>
+              </div>
+            `;
+        }
+    } else {
+        q3Container.classList.add('hidden');
+        resultCard.innerHTML = `
+          <div class="text-center">
+            <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-orange-100 text-orange-600 mb-4">
+              <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+            </div>
+            <h3 class="text-[20px] font-bold text-orange-700 mb-2">Mixed Supply</h3>
+            <p class="text-[14px] text-orange-900/80 mb-6">These items are artificially bundled together for a single price and can be sold separately.</p>
+            <div class="bg-orange-50/50 rounded-lg p-4 text-left border border-orange-100 text-[13px] text-orange-800">
+              <strong>Action:</strong> You must apply the <strong>Highest GST Rate</strong> among all the items in the bundle to the entire bundle's price.
+            </div>
+          </div>
+        `;
+    }
+  }
+
+  form.addEventListener('change', calculate);
+  
+  // Initial run
+  calculate();
+</script>

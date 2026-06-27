@@ -1,0 +1,150 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'Merge Excel Files Online | Combine Multiple Workbooks Tool';
+const description = 'Free tool to easily combine and merge multiple Excel (.xlsx, .xls) files into one single Excel document. Secure, offline merge right in your browser.';
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Merge Excel Files',
+    url: `${Astro.site?.toString() ?? 'https://example.com'}/merge-excel-files`,
+    description: 'Combine multiple Excel sheets or workbooks into a single file.',
+    applicationCategory: 'BusinessApplication',
+    operatingSystem: 'Any'
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'Is the Excel merge process secure?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Yes, the merge process is 100% secure. Everything happens locally within your web browser. Your confidential data is never uploaded to our servers.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Is there a limit on how many Excel files I can merge?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Since processing is done by your browser, it largely depends on your system memory. Typically, merging up to 50-100 files of moderate size works seamlessly.'
+        }
+      }
+    ]
+  }
+];
+---
+
+<BaseLayout {title} {description} {structuredData}>
+  <div class="mx-auto max-w-4xl px-4 sm:px-6 py-12">
+    <div class="text-center mb-10">
+      <h1 class="text-3xl sm:text-4xl font-bold text-base mb-3">Merge Excel Files</h1>
+      <p class="text-muted text-lg max-w-2xl mx-auto">
+        Got multiple GST reports or purchase registers? Combine multiple Excel documents into a single workbook securely within your browser.
+      </p>
+    </div>
+
+    <div class="bg-surface border border-base rounded-2xl p-8 shadow-sm">
+      <div class="space-y-6">
+        <div>
+          <label class="block text-sm font-medium text-base mb-2">Select Multiple Excel Files</label>
+          <input 
+            type="file" 
+            id="excelFilesInput" 
+            accept=".xlsx, .xls, .csv"
+            multiple
+            class="block w-full text-sm text-muted file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-accent file:text-white hover:file:bg-accent/90"
+          />
+          <p class="text-xs text-muted mt-2">Hold Ctrl/Cmd or shift to select multiple files.</p>
+        </div>
+        <div>
+          <button id="mergeBtn" class="w-full bg-accent hover:bg-accent/90 text-white font-semibold py-3 px-4 rounded-xl transition-colors">
+            Merge Files & Download
+          </button>
+        </div>
+
+        <div id="output" class="hidden text-sm text-center p-4 bg-green-50 text-green-700 rounded-lg border border-green-200">
+          Files successfully merged! Downloading the combined Excel file...
+        </div>
+        <div id="errorMsg" class="hidden text-sm text-center p-4 bg-red-50 text-red-700 rounded-lg border border-red-200">
+          Error merging files. Ensure they are valid Excel/CSV formats.
+        </div>
+      </div>
+    </div>
+    
+    <div class="mt-16 prose prose-slate max-w-none text-muted">
+      <h2>How do I merge Excel files?</h2>
+      <p>Sometimes you need to consolidate multiple data downloads (e.g. from Tally, Zoho, or GST Portal) into one unified file for tallying or offline preparation. Our free merge tool combines all the sheets from each selected file into one large workbook. If you upload 3 files with 2 sheets each, you will download 1 file with 6 sheets.</p>
+      
+      <h3>Frequently Asked Questions</h3>
+      <dl class="space-y-4">
+        <div>
+          <dt class="font-bold text-base">Is the Excel merge process secure?</dt>
+          <dd>Yes, the merge process is 100% secure. Everything happens locally within your web browser. Your confidential data is never uploaded to our servers.</dd>
+        </div>
+        <div>
+          <dt class="font-bold text-base">What happens to the sheet names?</dt>
+          <dd>We use the original sheet names from your uploaded files. If there is a duplicate sheet name, our tool automatically appends a number (e.g., Sheet1_1) to ensure no data is overwritten.</dd>
+        </div>
+        <div>
+          <dt class="font-bold text-base">Is there a limit on how many Excel files I can merge?</dt>
+          <dd>Since processing is done by your browser, it largely depends on your system memory. Typically, merging up to 50-100 files of moderate size works seamlessly.</dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+
+  <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script is:inline>
+    document.getElementById('mergeBtn').addEventListener('click', async () => {
+      const fileInput = document.getElementById('excelFilesInput');
+      const output = document.getElementById('output');
+      const errorMsg = document.getElementById('errorMsg');
+      
+      output.classList.add('hidden');
+      errorMsg.classList.add('hidden');
+
+      if (!fileInput.files.length) {
+        alert('Please select at least 2 Excel files to merge.');
+        return;
+      }
+      
+      if (fileInput.files.length === 1) {
+        alert('Please select more than 1 file to merge.');
+        return;
+      }
+
+      try {
+        const combinedWb = XLSX.utils.book_new();
+        let sheetIndex = 1;
+
+        for (const file of Array.from(fileInput.files)) {
+          const buffer = await file.arrayBuffer();
+          const wb = XLSX.read(buffer, { type: 'array' });
+          
+          wb.SheetNames.forEach(sheetName => {
+            const ws = wb.Sheets[sheetName];
+            // Name conflicts can happen, so let's guarantee unique names if necessary
+            let newSheetName = sheetName;
+            if (combinedWb.SheetNames.includes(newSheetName)) {
+              newSheetName = `${sheetName}_${sheetIndex}`;
+            }
+            sheetIndex++;
+            XLSX.utils.book_append_sheet(combinedWb, ws, newSheetName.substring(0, 31)); // Excel limits sheet names to 31 chars
+          });
+        }
+
+        XLSX.writeFile(combinedWb, 'Merged_Excel_Files.xlsx');
+        output.classList.remove('hidden');
+        
+      } catch (err) {
+        console.error(err);
+        errorMsg.classList.remove('hidden');
+      }
+    });
+  </script>
+</BaseLayout>

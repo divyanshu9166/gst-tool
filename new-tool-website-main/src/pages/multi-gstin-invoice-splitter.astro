@@ -1,0 +1,380 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'Multi-State GSTIN Invoice Splitter | IGST vs CGST/SGST';
+const description = 'Easily split invoices and allocate GST types (IGST or CGST/SGST) across multiple branches in different states. Free calculator for multi-GSTIN companies.';
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Multi-GSTIN Invoice Splitter',
+    url: Astro.site?.toString() ? `${Astro.site}multi-gstin-invoice-splitter` : 'https://example.com/multi-gstin-invoice-splitter',
+    description: 'Split invoices across multiple GSTIN branches.',
+    applicationCategory: 'FinanceApplication',
+    operatingSystem: 'Any',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'Can a company have multiple GSTINs in the same state?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Yes, a company can obtain multiple GSTINs in the same state if they have multiple business verticals or separate business places within that state.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Is it mandatory to have separate GSTINs for different states?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Yes. GST is a state-specific tax. If you have physical offices or warehouses in different states from which you make taxable supplies, you must obtain a separate GSTIN in each of those states.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'How do I invoice a customer from multiple branches?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'You cannot issue a single invoice from multiple GSTINs. You must issue separate invoices from each respective state\'s GSTIN for the portion of goods or services supplied from that specific state.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Do I charge IGST or CGST/SGST when transferring goods between my own branches in different states?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Yes. Transfers between different GSTINs of the same PAN (distinct persons) across states are treated as Inter-State supplies. You must issue a tax invoice and charge IGST, even if there is no actual sale.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Can the receiving branch claim ITC on inter-branch transfers?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Yes, the receiving branch can claim full Input Tax Credit (ITC) on the IGST charged by the sending branch, provided the receiving branch uses the goods/services for further taxable supply.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'What value should be declared on inter-branch invoices?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'As per Rule 28 of CGST Rules, if the receiving branch is eligible for full ITC, any value declared in the invoice is deemed to be the open market value. You can technically invoice at cost.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'What is cross-charge in GST?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Cross-charge refers to the mechanism where the Head Office (HO) provides support services (like HR, IT, accounting) to its branches in other states. The HO must issue an invoice charging IGST to those branches for these services.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Is cross-charge different from Input Service Distributor (ISD)?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Yes. ISD is used to distribute ITC on common third-party services received at the HO. Cross-charge is for internally generated services provided by the HO to the branches.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Can I use one GSTIN to bill a client for services performed in multiple states?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'If the contract is centralized with the HO, the HO can issue a single invoice (charging IGST or CGST/SGST based on POS). However, the branches that actually performed the service must then cross-charge the HO.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'How does E-invoicing apply to inter-branch transfers?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'If your aggregate PAN-based turnover exceeds the e-invoicing threshold (currently ₹5 Crores), you must generate an IRN and QR code for all B2B invoices, which includes inter-branch transfers.'
+        }
+      }
+    ]
+  }
+];
+---
+
+<BaseLayout title={title} description={description} structuredData={structuredData}>
+  <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Header -->
+    <div class="text-center mb-10">
+      <h1 class="text-[32px] sm:text-[40px] tracking-[-1.5px] font-semibold text-base mb-4 leading-tight">
+        Multi-State GSTIN Invoice Splitter
+      </h1>
+      <p class="text-[16px] text-muted max-w-2xl mx-auto leading-relaxed">
+        Splitting a centralized contract across your state branches? Allocate values and instantly determine whether to charge IGST or CGST/SGST for each branch invoice.
+      </p>
+    </div>
+
+    <div class="bg-surface border border-base rounded-[16px] shadow-sm p-6 sm:p-8 mb-8">
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 border-b border-base pb-8">
+        <div>
+          <label class="block text-[14px] font-medium text-base mb-2">Customer's Registration State (Place of Supply)</label>
+          <select id="pos-state" class="block w-full rounded-[8px] border-0 py-2.5 px-3 text-base ring-1 ring-inset ring-base focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6 bg-surface">
+            <option value="MH">Maharashtra</option>
+            <option value="DL">Delhi</option>
+            <option value="KA">Karnataka</option>
+            <option value="TN">Tamil Nadu</option>
+            <option value="GJ">Gujarat</option>
+            <option value="UP">Uttar Pradesh</option>
+            <option value="WB">West Bengal</option>
+            <option value="TS">Telangana</option>
+            <option value="HR">Haryana</option>
+            <option value="OTHER">Other State</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-[14px] font-medium text-base mb-2">Total Contract Value (Base ₹)</label>
+          <input 
+            type="number" 
+            id="total-amount" 
+            class="block w-full rounded-[8px] border-0 py-2.5 px-3 text-base ring-1 ring-inset ring-base focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6 bg-surface"
+            value="1000000"
+          >
+        </div>
+      </div>
+
+      <!-- Branches -->
+      <div>
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="text-[16px] font-semibold text-base">Allocating to Branches</h3>
+          <button type="button" id="add-branch" class="text-[13px] font-medium text-primary hover:text-primary/80 flex items-center gap-1">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path></svg>
+            Add Branch
+          </button>
+        </div>
+        
+        <div id="branches-container" class="space-y-4">
+          <!-- Branch Rows go here -->
+        </div>
+
+        <div class="mt-6 flex justify-between items-center p-4 bg-subtle rounded-lg border border-base">
+          <span class="text-[14px] font-medium text-muted">Remaining to Allocate:</span>
+          <span id="remaining-amount" class="text-[16px] font-bold text-base">₹0</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Results -->
+    <div class="bg-surface border border-base rounded-[16px] shadow-sm overflow-hidden hidden" id="results-section">
+      <div class="p-6 sm:p-8 bg-subtle border-b border-base flex justify-between items-center">
+        <h3 class="text-[18px] font-bold text-base">Generated Invoices Summary</h3>
+        <button onclick="window.print()" class="text-sm font-medium text-primary hover:underline">Print Summary</button>
+      </div>
+      <div class="p-0">
+        <table class="min-w-full divide-y divide-base">
+          <thead class="bg-surface">
+            <tr>
+              <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-base sm:pl-6">Billing Branch</th>
+              <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-base">Tax Type</th>
+              <th scope="col" class="px-3 py-3.5 text-right text-sm font-semibold text-base">Base Value</th>
+              <th scope="col" class="px-3 py-3.5 text-right text-sm font-semibold text-base">GST (18%)</th>
+              <th scope="col" class="py-3.5 pl-3 pr-4 text-right text-sm font-semibold text-base sm:pr-6">Invoice Total</th>
+            </tr>
+          </thead>
+          <tbody id="results-table-body" class="divide-y divide-base bg-surface">
+            <!-- Rows injected -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  
+  <!-- Related Guides -->
+  <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 pb-12">
+    <div class="border-t border-base pt-12">
+      <h2 class="text-[24px] font-semibold text-base mb-4">Related Guides</h2>
+      <ul class="list-disc pl-5 space-y-2">
+        <li><a href="/blog/gst-composition-scheme-2026" class="text-primary hover:underline">GST Composition Scheme 2026: Eligibility, Rates (1.5%/5%/6%) & How to Opt In</a></li>
+        <li><a href="/blog/mrp-revision-gst-rate-change" class="text-primary hover:underline">How to Revise MRP After GST Rate Change in 2026 — Step by Step</a></li>
+      </ul>
+    </div>
+  </div>
+<!-- FAQ Section -->
+  <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 pb-20 mt-8">
+    <div class="border-t border-base pt-12">
+      <h2 class="text-[28px] tracking-[-1px] font-semibold text-base mb-2">Frequently Asked Questions</h2>
+      <p class="text-muted text-[15px] mb-8">Understanding Multi-State Invoicing and Cross-Charge.</p>
+      <div class="space-y-3">
+        {structuredData[1].mainEntity.map((faq, i) => (
+          <details class="group rounded-[8px] border border-base bg-surface overflow-hidden" id={`faq-${i}`}>
+            <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+              <span class="text-[15px]">{faq.name}</span>
+              <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+            </summary>
+            <div class="px-6 pb-5 text-[14px] text-muted leading-relaxed border-t border-base pt-4">{faq.acceptedAnswer.text}</div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<script lang="ts">
+  const posSelect = document.getElementById('pos-state') as HTMLSelectElement;
+  const totalAmountInput = document.getElementById('total-amount') as HTMLInputElement;
+  const branchesContainer = document.getElementById('branches-container');
+  const addBranchBtn = document.getElementById('add-branch');
+  const remainingAmountEl = document.getElementById('remaining-amount');
+  
+  const resultsSection = document.getElementById('results-section');
+  const resultsTableBody = document.getElementById('results-table-body');
+
+  let branchCount = 0;
+  const states = [
+    {val: 'MH', label: 'Maharashtra'},
+    {val: 'DL', label: 'Delhi'},
+    {val: 'KA', label: 'Karnataka'},
+    {val: 'TN', label: 'Tamil Nadu'},
+    {val: 'GJ', label: 'Gujarat'},
+    {val: 'UP', label: 'Uttar Pradesh'},
+    {val: 'WB', label: 'West Bengal'},
+    {val: 'TS', label: 'Telangana'},
+    {val: 'HR', label: 'Haryana'},
+    {val: 'OTHER', label: 'Other State'}
+  ];
+
+  function formatINR(num) {
+    return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(num);
+  }
+
+  function createBranchRow() {
+    branchCount++;
+    const id = branchCount;
+    
+    const div = document.createElement('div');
+    div.className = 'flex flex-col sm:flex-row gap-4 items-end p-4 border border-base rounded-lg bg-surface';
+    div.id = `branch-row-${id}`;
+    
+    let optionsHtml = states.map(s => `<option value="${s.val}">${s.label}</option>`).join('');
+    
+    div.innerHTML = `
+      <div class="w-full sm:w-1/3">
+        <label class="block text-[12px] font-medium text-muted mb-1">Branch State</label>
+        <select class="branch-state block w-full rounded-[8px] border-0 py-2 px-3 text-sm ring-1 ring-inset ring-base focus:ring-2 focus:ring-inset focus:ring-primary bg-surface">
+          ${optionsHtml}
+        </select>
+      </div>
+      <div class="w-full sm:w-1/3">
+        <label class="block text-[12px] font-medium text-muted mb-1">Allocation %</label>
+        <div class="relative">
+          <input type="number" min="0" max="100" class="branch-percent block w-full rounded-[8px] border-0 py-2 px-3 text-sm ring-1 ring-inset ring-base focus:ring-2 focus:ring-inset focus:ring-primary bg-surface" placeholder="e.g. 50">
+          <span class="absolute right-3 top-1/2 -translate-y-1/2 text-muted text-sm">%</span>
+        </div>
+      </div>
+      <div class="w-full sm:w-1/3">
+        <label class="block text-[12px] font-medium text-muted mb-1">Allocated Value (₹)</label>
+        <input type="number" min="0" class="branch-value block w-full rounded-[8px] border-0 py-2 px-3 text-sm ring-1 ring-inset ring-base focus:ring-2 focus:ring-inset focus:ring-primary bg-subtle" readonly>
+      </div>
+      <button type="button" class="remove-branch p-2 text-muted hover:text-red-500 transition-colors" title="Remove Branch">
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+      </button>
+    `;
+    
+    branchesContainer.appendChild(div);
+    
+    // Auto set state differently if multiple
+    const stateSelect = div.querySelector('.branch-state') as HTMLSelectElement;
+    if (id <= states.length) {
+        stateSelect.selectedIndex = id - 1;
+    }
+    
+    // Listeners
+    const percentInput = div.querySelector('.branch-percent') as HTMLInputElement;
+    percentInput.addEventListener('input', calculate);
+    stateSelect.addEventListener('change', calculate);
+    
+    div.querySelector('.remove-branch').addEventListener('click', () => {
+      div.remove();
+      calculate();
+    });
+    
+    return div;
+  }
+
+  function calculate() {
+    const totalAmount = parseFloat(totalAmountInput.value) || 0;
+    const pos = posSelect.value;
+    
+    let totalPercent = 0;
+    let totalAllocated = 0;
+    
+    const branchRows = document.querySelectorAll('[id^="branch-row-"]');
+    
+    let resultsHtml = '';
+    
+    branchRows.forEach(row => {
+      const stateSelect = row.querySelector('.branch-state') as HTMLSelectElement;
+      const percentInput = row.querySelector('.branch-percent') as HTMLInputElement;
+      const valueInput = row.querySelector('.branch-value') as HTMLInputElement;
+      
+      const percent = parseFloat(percentInput.value) || 0;
+      totalPercent += percent;
+      
+      const value = (totalAmount * percent) / 100;
+      totalAllocated += value;
+      valueInput.value = value.toFixed(2);
+      
+      if (value > 0) {
+          const branchState = stateSelect.value;
+          const isIntra = (branchState === pos);
+          const taxType = isIntra ? '<span class="text-green-600 font-medium bg-green-50 px-2 py-0.5 rounded">CGST + SGST</span>' : '<span class="text-orange-600 font-medium bg-orange-50 px-2 py-0.5 rounded">IGST</span>';
+          const gstAmount = value * 0.18;
+          const totalInvoice = value + gstAmount;
+          
+          resultsHtml += `
+            <tr>
+              <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-base sm:pl-6">${stateSelect.options[stateSelect.selectedIndex].text}</td>
+              <td class="whitespace-nowrap px-3 py-4 text-sm">${taxType}</td>
+              <td class="whitespace-nowrap px-3 py-4 text-sm text-right font-medium">${formatINR(value)}</td>
+              <td class="whitespace-nowrap px-3 py-4 text-sm text-right text-muted">${formatINR(gstAmount)}</td>
+              <td class="whitespace-nowrap py-4 pl-3 pr-4 text-sm text-right font-bold text-base sm:pr-6">${formatINR(totalInvoice)}</td>
+            </tr>
+          `;
+      }
+    });
+    
+    const remaining = totalAmount - totalAllocated;
+    remainingAmountEl.textContent = formatINR(remaining);
+    
+    if (Math.abs(remaining) < 1) {
+        remainingAmountEl.className = "text-[16px] font-bold text-green-600";
+    } else if (remaining < 0) {
+        remainingAmountEl.className = "text-[16px] font-bold text-red-600";
+    } else {
+        remainingAmountEl.className = "text-[16px] font-bold text-orange-600";
+    }
+    
+    if (resultsHtml !== '') {
+        resultsSection.classList.remove('hidden');
+        resultsTableBody.innerHTML = resultsHtml;
+    } else {
+        resultsSection.classList.add('hidden');
+    }
+  }
+
+  addBranchBtn.addEventListener('click', () => {
+    createBranchRow();
+    calculate();
+  });
+  
+  posSelect.addEventListener('change', calculate);
+  totalAmountInput.addEventListener('input', calculate);
+  
+  // Init
+  const firstRow = createBranchRow();
+  (firstRow.querySelector('.branch-percent') as HTMLInputElement).value = "100";
+  calculate();
+</script>

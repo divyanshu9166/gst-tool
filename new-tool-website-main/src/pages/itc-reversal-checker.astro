@@ -1,0 +1,269 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'ITC Reversal Rule 42 Calculator | Section 17(2) ITC Checker';
+const description = 'Free offline ITC Reversal Checker. Determine if you need to reverse Input Tax Credit under Rule 42 and Section 17(2) of the CGST Act.';
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'ITC Reversal Checker',
+    url: `${Astro.site?.toString() ?? 'https://example.com'}/itc-reversal-checker`,
+    description: description,
+    applicationCategory: 'FinanceApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR' },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'What is Input Tax Credit (ITC) reversal under GST?', acceptedAnswer: { '@type': 'Answer', text: 'ITC reversal means returning to the government the Input Tax Credit you had previously claimed. It is required in specific situations such as when you use inputs for exempt supplies, when goods are lost or destroyed, or when your supplier fails to pay GST. It is done by entering the reversal amount in Table 4(B) of GSTR-3B.' } },
+      { '@type': 'Question', name: 'Does a GST rate drop automatically require ITC reversal?', acceptedAnswer: { '@type': 'Answer', text: 'No. A rate drop from one taxable slab to another (e.g., 12% to 5%) does NOT automatically require ITC reversal on your input purchases. ITC reversal is only required when supplies become Exempt or Nil-rated under Section 17(2) of the CGST Act.' } },
+      { '@type': 'Question', name: 'When is ITC reversal mandatory after a GST rate change?', acceptedAnswer: { '@type': 'Answer', text: 'ITC reversal becomes mandatory when: (1) The output supply transitions from taxable to Exempt or Nil-rated (0%). (2) You are holding unsold inventory purchased with ITC. (3) The goods are used for personal or non-business purposes. A move from 12% to 5% does NOT trigger reversal.' } },
+      { '@type': 'Question', name: 'What is the legal basis for ITC reversal in GST?', acceptedAnswer: { '@type': 'Answer', text: 'ITC reversal is governed by Section 17(2) of the CGST Act, which states that ITC cannot be claimed on goods or services used to make exempt supplies. Rule 42 and Rule 43 of the CGST Rules specify the calculation method for proportionate reversal.' } },
+      { '@type': 'Question', name: 'If my goods are already sold, do I need to reverse ITC after a rate change?', acceptedAnswer: { '@type': 'Answer', text: 'No. If the goods have already been dispatched and invoiced to buyers before the rate change, the ITC was properly utilized against the output tax at the time of sale. A subsequent rate change does not retroactively force an ITC reversal on already-sold goods.' } },
+      { '@type': 'Question', name: 'How do I calculate the ITC reversal amount for exempt supplies?', acceptedAnswer: { '@type': 'Answer', text: 'Under Rule 42, the reversal is proportional: (Exempt Turnover ÷ Total Turnover) × Total ITC claimed on common inputs. For example, if 30% of your sales are exempt, you must reverse 30% of the ITC claimed on inputs used for both taxable and exempt supplies.' } },
+      { '@type': 'Question', name: 'Where do I report ITC reversal in my GSTR-3B?', acceptedAnswer: { '@type': 'Answer', text: 'ITC reversals are reported in Table 4(B) of your monthly GSTR-3B return. Specifically, reversals due to exempt supplies go in Table 4(B)(1) and reversals under Rule 42/43 go in Table 4(B)(2). The reversal amount reduces your eligible ITC for that month.' } },
+      { '@type': 'Question', name: 'Can I claim ITC that I had previously reversed?', acceptedAnswer: { '@type': 'Answer', text: 'Yes, if the reason for the original reversal no longer applies — for instance, if goods initially intended for exempt supplies are later used for taxable supplies — you can reclaim the reversed ITC in subsequent returns by reporting it in Table 4(A) of GSTR-3B.' } },
+      { '@type': 'Question', name: 'Is ITC reversal required if I sell goods at a discount after a rate drop?', acceptedAnswer: { '@type': 'Answer', text: 'No. Selling at a discount does not trigger ITC reversal. ITC reversal is only about the tax nature of the supply (taxable vs exempt). Selling taxable goods at any price — even at a loss — does not require you to reverse ITC.' } },
+      { '@type': 'Question', name: 'What is the penalty for not reversing ITC when it is legally required?', acceptedAnswer: { '@type': 'Answer', text: 'Failure to reverse ITC when legally required is treated as wrongful availment of ITC. Penalty under Section 122 of the CGST Act is 100% of the tax amount (i.e., the wrongfully claimed ITC), plus interest at 24% per annum on the ITC amount from the date it was claimed.' } },
+    ]
+  }
+];
+---
+
+<BaseLayout {title} {description} {structuredData}>
+  <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-12">
+    <div class="mb-12 text-center">
+      <h1 class="text-4xl sm:text-5xl font-semibold tracking-[-1.28px] text-base mb-4">ITC Reversal Rule 42 Calculator</h1>
+      <p class="text-[16px] text-muted max-w-2xl mx-auto leading-relaxed">
+        <strong>A rate drop does not automatically mean you surrender your credit.</strong> Use this 1-minute decision tool to check if you actually need to reverse your Input Tax Credit under GST 2.0 rules.
+      </p>
+    </div>
+
+    <div class="rounded-[8px] border border-base bg-surface p-[24px] md:p-[40px] shadow-[0_2px_2px_#0000000a,0_8px_8px_-8px_#0000000a] min-h-[400px] flex flex-col justify-center">
+      
+      <!-- Interactive Container -->
+      <div id="quiz-container" class="transition-opacity duration-300">
+        <div class="mb-8">
+          <span class="inline-block px-3 py-1 rounded-full bg-accent/10 text-accent text-[12px] font-semibold mb-4" id="q-badge">Step 1 of 3</span>
+          <h2 class="text-[24px] md:text-[28px] font-semibold text-base leading-tight" id="q-text">Did the GST rate on your product or service drop after the GST 2.0 update?</h2>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" id="q-options">
+          <!-- Options rendered dynamically by JS -->
+        </div>
+      </div>
+
+      <!-- Result Container -->
+      <div id="result-container" class="hidden text-center">
+        <div class="text-[64px] mb-4" id="res-icon">✅</div>
+        <h2 class="text-[28px] font-bold text-base tracking-tight mb-3" id="res-title">No Reversal Required</h2>
+        <p class="text-[16px] text-muted max-w-xl mx-auto leading-relaxed mb-8" id="res-desc">
+          Because the rate didn't drop, you can continue utilizing your accumulated ITC as normal.
+        </p>
+        
+        <button type="button" id="btn-restart" class="rounded-full border border-base bg-surface hover:bg-subtle px-6 py-2.5 text-[14px] font-medium transition-colors">
+          Start Over
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  
+  <!-- Related Guides -->
+  <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 pb-12">
+    <div class="border-t border-base pt-12">
+      <h2 class="text-[24px] font-semibold text-base mb-4">Related Guides</h2>
+      <ul class="list-disc pl-5 space-y-2">
+        <li><a href="/blog/gstin-validator-api-vs-offline" class="text-primary hover:underline">Offline GSTIN Validator vs Official API: Which is Better?</a></li>
+        <li><a href="/blog/gst-composition-scheme-2026-guide" class="text-primary hover:underline">GST Composition Scheme 2026: Complete Guide for Small Business</a></li>
+      </ul>
+    </div>
+  </div>
+<!-- FAQ Section -->
+  <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 pb-20 mt-16">
+    <div class="border-t border-base pt-12">
+      <h2 class="text-[28px] tracking-[-1px] font-semibold text-base mb-2">Frequently Asked Questions</h2>
+      <p class="text-muted text-[15px] mb-8">Deep-dive answers on ITC reversal rules, when they apply, and how to calculate the amount.</p>
+      <div class="space-y-3">
+        {[
+          { q: 'Does a GST rate drop automatically require ITC reversal?', a: 'No. A rate reduction from one taxable slab to another (e.g., 12% to 5%) does NOT require ITC reversal on your previously claimed input tax credit. ITC reversal is only mandatory when your output supplies become Exempt (0%) or Nil-rated, as per Section 17(2) of the CGST Act.' },
+          { q: 'What is ITC reversal and when is it required?', a: 'ITC reversal means returning previously claimed Input Tax Credit to the government. It is required in specific situations: (1) when your goods/services transition to Exempt/Nil status; (2) when inputs are used for personal use; (3) when inputs are lost, stolen, or destroyed; or (4) when your supplier fails to file returns and pay the tax.' },
+          { q: 'If my stock is already sold, do I need to reverse ITC after a rate change?', a: 'No. If goods were already dispatched and invoiced before the rate change, the ITC was properly utilized against output tax at the time of sale. A subsequent rate change on the product category does not retroactively trigger reversal on those already-sold goods.' },
+          { q: 'When exactly does a rate drop trigger ITC reversal?', a: 'Only when the rate drops to 0% (Exempt or Nil-rated). For example, if handloom cloth was taxable at 5% and is now declared exempt, you must reverse ITC on unsold stock of that cloth. A drop from 12% to 5% for a still-taxable product does not require any reversal.' },
+          { q: 'What is the legal section governing ITC reversal?', a: 'Section 17(2) of the CGST Act is the primary provision. It states that ITC is not available for goods or services used to make exempt supplies. Rule 42 (for inputs/input services) and Rule 43 (for capital goods) of the CGST Rules specify the exact calculation methodology.' },
+          { q: 'How do I calculate the ITC to reverse for exempt supplies?', a: 'Under Rule 42: Reversal Amount = (Exempt Supplies Value ÷ Total Turnover) × Total Common ITC. For example, if exempt turnover is ₹10L out of total ₹100L turnover, and common ITC is ₹1L, you must reverse ₹1L × 10% = ₹10,000.' },
+          { q: 'Where do I report ITC reversal in GSTR-3B?', a: 'Report ITC reversals in Table 4(B) of GSTR-3B. Reversals related to Rule 42/43 go in Table 4(B)(2). Reversals due to ineligible ITC go in Table 4(B)(1). The system reduces your net eligible ITC by this amount before calculating your final cash GST payable.' },
+          { q: 'Can I reclaim reversed ITC later if the situation changes?', a: 'Yes. If goods initially intended for exempt supplies are later used for taxable supplies, you can reclaim the reversed ITC in your subsequent GSTR-3B by reporting it as eligible ITC in Table 4(A)(5). The law allows this reclaim as long as it is within the due date for the September return of the following financial year.' },
+          { q: 'Is ITC reversal required if I sell goods at a heavy discount after a rate drop?', a: 'No. Selling taxable goods at a discount or even at a loss does not trigger ITC reversal. The only trigger is the tax classification of the supply (taxable vs exempt). As long as your product is still taxable at any slab, no ITC reversal is needed regardless of your selling price.' },
+          { q: 'What is the penalty for wrongfully claiming ITC instead of reversing it?', a: 'Under Section 122 of the CGST Act, the penalty for wrongful availment of ITC is 100% of the tax amount involved (equal to the ITC that should have been reversed). Additionally, interest is charged at 24% per annum from the date the ITC was originally claimed, until the date of reversal.' },
+        ].map((faq, i) => (
+          <details class="group rounded-[8px] border border-base bg-surface overflow-hidden" id={`faq-itc-${i}`}>
+            <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+              <span class="text-[15px]">{faq.q}</span>
+              <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+            </summary>
+            <div class="px-6 pb-5 text-[14px] text-muted leading-relaxed border-t border-base pt-4">{faq.a}</div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<script lang="ts">
+  type Question = {
+    id: number;
+    badge: string;
+    text: string;
+    optYesTitle: string;
+    optYesDesc: string;
+    optNoTitle: string;
+    optNoDesc: string;
+  };
+
+  const questions: Record<number, Question> = {
+    1: {
+      id: 1,
+      badge: "Step 1 of 3",
+      text: "Did the GST rate on your product or service drop after the GST 2.0 update?",
+      optYesTitle: "Yes",
+      optYesDesc: "The tax slab was reduced.",
+      optNoTitle: "No",
+      optNoDesc: "The rate stayed the same or increased."
+    },
+    2: {
+      id: 2,
+      badge: "Step 2 of 3",
+      text: "Have you already sold the inventory that was purchased at the older, higher tax rate?",
+      optYesTitle: "Yes, it's sold",
+      optYesDesc: "The goods have already been dispatched and invoiced.",
+      optNoTitle: "No, it's in stock",
+      optNoDesc: "I am holding this inventory in my warehouse."
+    },
+    3: {
+      id: 3,
+      badge: "Step 3 of 3",
+      text: "Is the new rate specifically 'Nil-Rated' (0%) or 'Exempt'?",
+      optYesTitle: "Yes, 0% / Exempt",
+      optYesDesc: "The item is now completely tax-free.",
+      optNoTitle: "No, it's just lower",
+      optNoDesc: "It dropped to a lower taxable slab (like 5%)."
+    }
+  };
+
+  let currentStep = 1;
+
+  const quizContainer = document.getElementById('quiz-container')!;
+  const resultContainer = document.getElementById('result-container')!;
+  
+  const qBadge = document.getElementById('q-badge')!;
+  const qText = document.getElementById('q-text')!;
+  
+  const optionsDiv = document.getElementById('q-options')!;
+  const btnRestart = document.getElementById('btn-restart')!;
+
+  const resIcon = document.getElementById('res-icon')!;
+  const resTitle = document.getElementById('res-title')!;
+  const resDesc = document.getElementById('res-desc')!;
+
+  function renderQuestion(qId: number) {
+    const q = questions[qId];
+    qBadge.textContent = q.badge;
+    qText.textContent = q.text;
+
+    optionsDiv.innerHTML = `
+      <button type="button" class="ans-btn rounded-[8px] border border-base bg-subtle hover:border-accent hover:bg-accent/5 py-4 px-6 text-left transition-all active:scale-95" data-ans="yes">
+        <span class="block text-[18px] font-medium text-base mb-1">${q.optYesTitle}</span>
+        <span class="block text-[13px] text-muted">${q.optYesDesc}</span>
+      </button>
+      <button type="button" class="ans-btn rounded-[8px] border border-base bg-subtle hover:border-accent hover:bg-accent/5 py-4 px-6 text-left transition-all active:scale-95" data-ans="no">
+        <span class="block text-[18px] font-medium text-base mb-1">${q.optNoTitle}</span>
+        <span class="block text-[13px] text-muted">${q.optNoDesc}</span>
+      </button>
+    `;
+
+    // Reattach listeners to new buttons
+    document.querySelectorAll('.ans-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const target = e.currentTarget as HTMLButtonElement;
+        handleAnswer(target.dataset.ans as 'yes' | 'no');
+      });
+    });
+  }
+
+  function showResult(icon: string, title: string, desc: string, isError: boolean) {
+    quizContainer.classList.add('hidden');
+    resultContainer.classList.remove('hidden');
+
+    resIcon.textContent = icon;
+    resTitle.textContent = title;
+    resDesc.textContent = desc;
+
+    if (isError) {
+      resTitle.className = "text-[28px] font-bold tracking-tight mb-3 text-red-500";
+    } else {
+      resTitle.className = "text-[28px] font-bold tracking-tight mb-3 text-green-500";
+    }
+  }
+
+  function handleAnswer(ans: 'yes' | 'no') {
+    if (currentStep === 1) {
+      if (ans === 'no') {
+        showResult(
+          '✅', 
+          'No Reversal Required', 
+          'If the rate did not drop, you do not need to reverse any ITC. You can continue utilizing your accumulated credit against output tax as usual.',
+          false
+        );
+      } else {
+        currentStep = 2;
+        renderQuestion(2);
+      }
+    } 
+    else if (currentStep === 2) {
+      if (ans === 'yes') {
+        showResult(
+          '✅', 
+          'No Reversal Required', 
+          'Since the inventory has already been sold, the ITC was rightfully claimed and utilized against the output tax at that time. A subsequent rate drop does not retroactively force an ITC surrender on sold goods.',
+          false
+        );
+      } else {
+        currentStep = 3;
+        renderQuestion(3);
+      }
+    }
+    else if (currentStep === 3) {
+      if (ans === 'yes') {
+        showResult(
+          '⚠️', 
+          'ITC Reversal Required', 
+          'Under Section 17(2) of the CGST Act, you cannot claim Input Tax Credit on goods or services used to make Exempt or Nil-Rated supplies. Because your unsold stock is now exempt, you must calculate and reverse the corresponding ITC in Table 4(B) of your GSTR-3B.',
+          true
+        );
+      } else {
+        showResult(
+          '✅', 
+          'No Reversal Required', 
+          'A standard rate drop (e.g., from 18% to 5%) does NOT require you to reverse ITC already claimed on raw materials, unless the CBIC issues a specific notification stating otherwise (which they rarely do). You can retain the ITC and carry it forward.',
+          false
+        );
+      }
+    }
+  }
+
+  btnRestart.addEventListener('click', () => {
+    currentStep = 1;
+    resultContainer.classList.add('hidden');
+    quizContainer.classList.remove('hidden');
+    renderQuestion(1);
+  });
+
+  // Init
+  renderQuestion(1);
+</script>

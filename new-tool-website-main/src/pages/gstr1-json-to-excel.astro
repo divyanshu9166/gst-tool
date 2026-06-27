@@ -1,0 +1,163 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'GSTR 1 JSON to Excel Converter | Free GST Tool Online';
+const description = 'Convert your GSTR 1 JSON files into Excel format quickly and easily. Free online GST tool to decode parsing, view B2B, B2C, EXP, and CDNUR details in an Excel spreadsheet.';
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'GSTR 1 JSON to Excel',
+    url: `${Astro.site?.toString() ?? 'https://example.com'}/gstr1-json-to-excel`,
+    description: 'Easily convert GSTR 1 JSON files downloaded from GST portal to Excel sheets.',
+    applicationCategory: 'BusinessApplication',
+    operatingSystem: 'Any'
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'Is the GSTR-1 JSON to Excel tool free?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Yes! It is completely free and works beautifully directly in your browser. No sign-ups needed.'
+        }
+      }
+    ]
+  }
+];
+---
+
+<BaseLayout {title} {description} {structuredData}>
+  <div class="mx-auto max-w-4xl px-4 sm:px-6 py-12">
+    <div class="text-center mb-10">
+      <h1 class="text-3xl sm:text-4xl font-bold text-base mb-3">GSTR-1 JSON to Excel Converter</h1>
+      <p class="text-muted text-lg max-w-2xl mx-auto">
+        Convert your complicated GSTR-1 JSON files directly into readable Excel spreadsheets. 100% Free and works completely inside your browser. No data is uploaded to our servers.
+      </p>
+    </div>
+
+    <div class="bg-surface border border-base rounded-2xl p-8 shadow-sm">
+      <div class="space-y-6">
+        <div>
+          <label class="block text-sm font-medium text-base mb-2">Upload GSTR-1 JSON File</label>
+          <input 
+            type="file" 
+            id="jsonFileInput" 
+            accept="application/json"
+            class="block w-full text-sm text-muted file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-accent file:text-white hover:file:bg-accent/90"
+          />
+        </div>
+        <div>
+          <button id="convertBtn" class="w-full bg-accent hover:bg-accent/90 text-white font-semibold py-3 px-4 rounded-xl transition-colors">
+            Convert to Excel
+          </button>
+        </div>
+        <div id="output" class="hidden text-sm text-center p-4 bg-green-50 text-green-700 rounded-lg border border-green-200">
+          Success! Your Excel file has been generated and should download automatically.
+        </div>
+        <div id="error" class="hidden text-sm text-center p-4 bg-red-50 text-red-700 rounded-lg border border-red-200">
+          Error parsing JSON. Please ensure it is a valid GSTR-1 JSON file.
+        </div>
+      </div>
+    </div>
+    
+    <div class="mt-16 prose prose-slate max-w-none text-muted">
+      <h2>Why use our GSTR 1 JSON to Excel Tool?</h2>
+      <p>The Goods and Services Tax Network (GSTN) provides the GSTR-1 offline return data in JSON format which can be incredibly hard to read. Our <strong>GSTR-1 JSON to Excel Converter</strong> makes it simple by parsing all internal records (B2B, B2C, CDNR, etc.) and placing them in a structured Excel spreadsheet.</p>
+      
+      <h3>Frequently Asked Questions</h3>
+      <dl class="space-y-4">
+        <div>
+          <dt class="font-bold text-base">Is the GSTR-1 JSON to Excel tool free?</dt>
+          <dd>Yes! It is completely free and works beautifully directly in your browser. No sign-ups needed.</dd>
+        </div>
+        <div>
+          <dt class="font-bold text-base">Why download GSTR-1 as JSON instead of Excel from the portal?</dt>
+          <dd>The portal allows downloading JSON formats directly which contains comprehensive invoice-level data across all sections. Converting this offline to Excel means you have the exact snapshot data presented elegantly, ensuring ease of reconciliation.</dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+
+  <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script is:inline>
+    document.getElementById('convertBtn').addEventListener('click', () => {
+      const fileInput = document.getElementById('jsonFileInput');
+      const output = document.getElementById('output');
+      const errorMsg = document.getElementById('error');
+      
+      output.classList.add('hidden');
+      errorMsg.classList.add('hidden');
+
+      if (!fileInput.files.length) {
+        alert('Please select a JSON file first.');
+        return;
+      }
+
+      const file = fileInput.files[0];
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        try {
+          const data = JSON.parse(e.target.result);
+          
+          // Generate a workbook
+          const wb = XLSX.utils.book_new();
+
+          // We'll create basic sheets for B2B, B2CS, etc if they exist
+          const tables = ['b2b', 'b2cs', 'b2cl', 'exp', 'cdnr', 'cdnur', 'hsn', 'nil'];
+          let hasData = false;
+
+          tables.forEach(key => {
+            if (data[key] && Array.isArray(data[key])) {
+              hasData = true;
+              // Flatten the json slightly or just pass directly
+              // Real GSTR1 has nested arrays for invoices/items but this provides a basic flat view
+              const sheetData = [];
+              data[key].forEach(supplier => {
+                if (supplier.inv) {
+                  supplier.inv.forEach(invoice => {
+                    const row = {
+                      'Supplier Details': supplier.ctin || supplier.sply_ty || '',
+                      'Invoice No': invoice.inum || '',
+                      'Invoice Date': invoice.idt || '',
+                      'Invoice Value': invoice.val || '',
+                      'POS': invoice.pos || ''
+                    };
+                    sheetData.push(row);
+                  });
+                } else {
+                  sheetData.push(supplier);
+                }
+              });
+
+              if (sheetData.length) {
+                const ws = XLSX.utils.json_to_sheet(sheetData);
+                XLSX.utils.book_append_sheet(wb, ws, key.toUpperCase());
+              }
+            }
+          });
+
+          if (!hasData) {
+            // Just push exactly what's there
+            const ws = XLSX.utils.json_to_sheet([data]);
+            XLSX.utils.book_append_sheet(wb, ws, "RawData");
+          }
+
+          XLSX.writeFile(wb, 'GSTR1_Converted.xlsx');
+          output.classList.remove('hidden');
+
+        } catch (err) {
+          console.error(err);
+          errorMsg.classList.remove('hidden');
+        }
+      };
+
+      reader.readAsText(file);
+    });
+  </script>
+</BaseLayout>

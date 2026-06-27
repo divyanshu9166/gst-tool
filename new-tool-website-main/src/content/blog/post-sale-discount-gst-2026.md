@@ -66,3 +66,8 @@ If you are issuing a valid GST Credit Note:
 ## Conclusion
 
 Handling post-sale discounts under GST requires meticulous documentation. Ensure all discount structures are clearly defined in your vendor contracts or purchase orders before the supply occurs. When issuing credit notes, always verify whether they qualify as GST Credit Notes or merely Financial Credit Notes to avoid compliance nightmares down the road.
+
+
+## Related Tools
+- [Referral Program](/referral-program)
+- [GSTR 1 JSON Validator | Check GST JSON Files Online](/gstr1-json-validator)

@@ -1,0 +1,367 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'GST Margin Scheme Calculator | Second Hand Goods Tax India';
+const description = 'Calculate GST payable under the Margin Scheme for second-hand goods like used cars, laptops, or machinery. Instantly see your tax savings compared to the normal GST scheme.';
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'GST Margin Scheme Calculator',
+    url: Astro.site?.toString() ? `${Astro.site}gst-margin-scheme-calculator` : 'https://example.com/gst-margin-scheme-calculator',
+    description: 'Calculate GST on second-hand goods under the margin scheme.',
+    applicationCategory: 'FinanceApplication',
+    operatingSystem: 'Any',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What is the GST Margin Scheme for second-hand goods?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Under Rule 32(5) of the CGST Rules, a registered person dealing in buying and selling of second-hand goods can choose to pay GST only on the profit margin (Selling Price minus Purchase Price) rather than the entire transaction value.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Who can opt for the Margin Scheme?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Any GST-registered dealer who buys second-hand goods from an unregistered person and sells them as such (or after minor refurbishment) can opt for this scheme. It is widely used by used car dealers and second-hand electronics shops.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'What happens if I sell the second-hand good at a loss?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'If the selling price is less than the purchase price, the margin is considered negative or zero. In such cases, no GST is payable on that specific transaction.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Can I claim Input Tax Credit (ITC) if I opt for the Margin Scheme?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'No. The fundamental condition of the Margin Scheme is that the dealer cannot claim any Input Tax Credit (ITC) on the purchase of the second-hand goods.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Can I include refurbishment costs in the purchase price?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Minor refurbishments that do not change the fundamental nature of the good can be done. However, you cannot add the refurbishment cost to the purchase price to artificially reduce your taxable margin. The taxable margin is strictly Selling Price - Original Purchase Price.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'How is GST calculated on used cars under the Margin Scheme?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'For used cars, the government has specific concessional rates (e.g., 12% for small cars, 18% for large SUVs). The tax is calculated on the margin (Selling Price - Purchase Price). Note that Compensation Cess may also apply depending on the vehicle category.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Does the Margin Scheme apply if I buy from a registered dealer?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Generally, the Margin Scheme is beneficial when buying from an unregistered person where no ITC is available. If you buy from a registered dealer who charges GST, you would normally claim ITC and pay GST on the full sale value under the normal scheme.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Do I have to issue a Tax Invoice under the Margin Scheme?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Yes, you must issue a tax invoice, but you cannot show the GST amount separately on the invoice. This prevents the buyer from claiming ITC on the purchase.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Is the Margin Scheme mandatory for second-hand dealers?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'No, it is an optional scheme. A dealer can choose to operate under the normal GST rules (paying tax on the full transaction value) if they prefer.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'How do I report Margin Scheme sales in GSTR-3B?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'In GSTR-3B, you report the taxable value as only the profit margin amount, and the corresponding tax amount. You do not report the full sale value as the taxable value.'
+        }
+      }
+    ]
+  }
+];
+---
+
+<BaseLayout title={title} description={description} structuredData={structuredData}>
+  <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Header -->
+    <div class="text-center mb-10">
+      <h1 class="text-[32px] sm:text-[40px] tracking-[-1.5px] font-semibold text-base mb-4 leading-tight">
+        GST Margin Scheme Calculator
+      </h1>
+      <p class="text-[16px] text-muted max-w-2xl mx-auto leading-relaxed">
+        Calculate your tax savings on second-hand goods (Rule 32(5)). Pay GST only on your profit margin, not the full sale value.
+      </p>
+    </div>
+
+    <!-- Main Card -->
+    <div class="bg-surface border border-base rounded-[16px] shadow-sm overflow-hidden mb-8">
+      <div class="p-6 sm:p-8">
+        <form id="margin-form" class="space-y-6">
+          
+          <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+            <!-- Purchase Price -->
+            <div>
+              <label for="purchasePrice" class="block text-[14px] font-medium text-base mb-2">Purchase Price (₹)</label>
+              <div class="relative">
+                <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                  <span class="text-muted sm:text-sm">₹</span>
+                </div>
+                <input 
+                  type="number" 
+                  id="purchasePrice" 
+                  class="block w-full rounded-[8px] border-0 py-2.5 pl-8 pr-3 text-base ring-1 ring-inset ring-base focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6 bg-surface transition-all"
+                  placeholder="e.g. 50000"
+                  min="0"
+                  step="1"
+                  required
+                >
+              </div>
+            </div>
+
+            <!-- Selling Price -->
+            <div>
+              <label for="sellingPrice" class="block text-[14px] font-medium text-base mb-2">Selling Price (₹)</label>
+              <div class="relative">
+                <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                  <span class="text-muted sm:text-sm">₹</span>
+                </div>
+                <input 
+                  type="number" 
+                  id="sellingPrice" 
+                  class="block w-full rounded-[8px] border-0 py-2.5 pl-8 pr-3 text-base ring-1 ring-inset ring-base focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6 bg-surface transition-all"
+                  placeholder="e.g. 70000"
+                  min="0"
+                  step="1"
+                  required
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- Applicable GST Rate -->
+          <div>
+            <label class="block text-[14px] font-medium text-base mb-2">Applicable GST Rate (%)</label>
+            <div class="grid grid-cols-3 gap-3 sm:grid-cols-5">
+              <label class="relative flex cursor-pointer justify-center rounded-lg border border-base bg-surface p-3 focus:outline-none has-[:checked]:border-primary has-[:checked]:bg-subtle transition-all">
+                <input type="radio" name="gstRate" value="5" class="sr-only">
+                <span class="text-[13px] font-medium text-base">5%</span>
+              </label>
+              <label class="relative flex cursor-pointer justify-center rounded-lg border border-base bg-surface p-3 focus:outline-none has-[:checked]:border-primary has-[:checked]:bg-subtle transition-all">
+                <input type="radio" name="gstRate" value="12" class="sr-only">
+                <span class="text-[13px] font-medium text-base">12%</span>
+              </label>
+              <label class="relative flex cursor-pointer justify-center rounded-lg border border-base bg-surface p-3 focus:outline-none has-[:checked]:border-primary has-[:checked]:bg-subtle transition-all">
+                <input type="radio" name="gstRate" value="18" class="sr-only" checked>
+                <span class="text-[13px] font-medium text-base">18%</span>
+              </label>
+              <label class="relative flex cursor-pointer justify-center rounded-lg border border-base bg-surface p-3 focus:outline-none has-[:checked]:border-primary has-[:checked]:bg-subtle transition-all">
+                <input type="radio" name="gstRate" value="28" class="sr-only">
+                <span class="text-[13px] font-medium text-base">28%</span>
+              </label>
+              <label class="relative flex cursor-pointer justify-center rounded-lg border border-base bg-surface p-3 focus:outline-none has-[:checked]:border-primary has-[:checked]:bg-subtle transition-all">
+                <input type="radio" name="gstRate" value="40" class="sr-only">
+                <span class="text-[13px] font-medium text-base">40%</span>
+              </label>
+            </div>
+          </div>
+
+        </form>
+      </div>
+
+      <!-- Results Section -->
+      <div id="results-section" class="bg-subtle border-t border-base p-6 sm:p-8 hidden">
+        <div class="mb-6">
+          <h3 class="text-[14px] font-medium text-muted uppercase tracking-wider mb-2">Tax Calculation</h3>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <!-- Margin Scheme (Recommended) -->
+          <div class="bg-surface border-2 border-primary rounded-[12px] p-5 shadow-sm relative">
+            <div class="absolute -top-3 left-4 bg-primary text-white text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full">
+              Margin Scheme
+            </div>
+            
+            <div class="space-y-3 mt-2">
+              <div class="flex justify-between items-center text-[13px] text-muted">
+                <span>Profit Margin</span>
+                <span id="res-margin-value">₹0</span>
+              </div>
+              
+              <div class="flex justify-between items-center">
+                <span class="text-[15px] font-medium text-base">GST Payable</span>
+                <span id="res-margin-gst" class="text-[20px] font-bold text-primary">₹0</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Normal Scheme (Comparison) -->
+          <div class="bg-surface border border-base opacity-75 rounded-[12px] p-5">
+            <div class="text-[12px] font-medium text-muted uppercase tracking-wider mb-3">
+              Normal Scheme
+            </div>
+            
+            <div class="space-y-3">
+              <div class="flex justify-between items-center text-[13px] text-muted">
+                <span>Taxable Value (Full)</span>
+                <span id="res-normal-value">₹0</span>
+              </div>
+              
+              <div class="flex justify-between items-center">
+                <span class="text-[15px] font-medium text-base">GST Payable</span>
+                <span id="res-normal-gst" class="text-[18px] font-semibold text-base">₹0</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-6 p-4 bg-green-50 rounded-[8px] border border-green-100 hidden" id="savings-box">
+          <div class="flex items-center gap-2 text-green-700">
+            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span class="font-medium text-[15px]">You save <strong id="res-savings">₹0</strong> by opting for the Margin Scheme!</span>
+          </div>
+          <p class="text-[12px] text-green-600 mt-1 ml-7">Condition: You cannot claim ITC on the purchase price.</p>
+        </div>
+        
+        <div class="mt-6 p-4 bg-yellow-50 rounded-[8px] border border-yellow-100 hidden" id="loss-box">
+          <div class="flex items-center gap-2 text-yellow-800">
+            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+            <span class="font-medium text-[15px]">Loss Sale: Zero GST Payable</span>
+          </div>
+          <p class="text-[12px] text-yellow-700 mt-1 ml-7">Since you are selling at a loss (negative margin), no GST is payable under the margin scheme for this transaction.</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  
+  <!-- Related Guides -->
+  <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 pb-12">
+    <div class="border-t border-base pt-12">
+      <h2 class="text-[24px] font-semibold text-base mb-4">Related Guides</h2>
+      <ul class="list-disc pl-5 space-y-2">
+        <li><a href="/blog/gstin-validation-check" class="text-primary hover:underline">How to Spot a Fake GST Bill Using a GSTIN Validator</a></li>
+        <li><a href="/blog/gst-offline-tool-guide-errors-json-to-excel" class="text-primary hover:underline">The Ultimate GST Offline Tool Guide: Fix Errors, JSON to Excel & Chrome Issues</a></li>
+      </ul>
+    </div>
+  </div>
+<!-- FAQ Section -->
+  <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 pb-20 mt-8">
+    <div class="border-t border-base pt-12">
+      <h2 class="text-[28px] tracking-[-1px] font-semibold text-base mb-2">Frequently Asked Questions</h2>
+      <p class="text-muted text-[15px] mb-8">Understanding the Margin Scheme for Second Hand Goods.</p>
+      <div class="space-y-3">
+        {structuredData[1].mainEntity.map((faq, i) => (
+          <details class="group rounded-[8px] border border-base bg-surface overflow-hidden" id={`faq-${i}`}>
+            <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+              <span class="text-[15px]">{faq.name}</span>
+              <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+            </summary>
+            <div class="px-6 pb-5 text-[14px] text-muted leading-relaxed border-t border-base pt-4">{faq.acceptedAnswer.text}</div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<script lang="ts">
+  const form = document.getElementById('margin-form');
+  const purchaseInput = document.getElementById('purchasePrice') as HTMLInputElement;
+  const sellingInput = document.getElementById('sellingPrice') as HTMLInputElement;
+  const rateRadios = document.querySelectorAll('input[name="gstRate"]');
+  
+  const resultsSection = document.getElementById('results-section');
+  const resMarginValue = document.getElementById('res-margin-value');
+  const resMarginGst = document.getElementById('res-margin-gst');
+  const resNormalValue = document.getElementById('res-normal-value');
+  const resNormalGst = document.getElementById('res-normal-gst');
+  
+  const savingsBox = document.getElementById('savings-box');
+  const resSavings = document.getElementById('res-savings');
+  const lossBox = document.getElementById('loss-box');
+
+  function formatINR(number) {
+    return new Intl.NumberFormat('en-IN', {
+      style: 'currency',
+      currency: 'INR',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(number);
+  }
+
+  function calculate() {
+    const purchase = parseFloat(purchaseInput.value);
+    const selling = parseFloat(sellingInput.value);
+    
+    if (isNaN(purchase) || isNaN(selling)) {
+      resultsSection.classList.add('hidden');
+      return;
+    }
+    
+    let rate = 18;
+    rateRadios.forEach((r: HTMLInputElement) => {
+      if (r.checked) rate = parseFloat(r.value);
+    });
+
+    resultsSection.classList.remove('hidden');
+
+    const margin = selling - purchase;
+    const taxableMargin = margin > 0 ? margin : 0;
+    
+    // Reverse calculation formula since margin is inclusive of GST if collected from customer, 
+    // but usually in margin scheme, tax is calculated on margin itself.
+    // The law says GST is payable on the margin. 
+    // Margin GST = (Margin) * rate / 100
+    const marginGst = (taxableMargin * rate) / 100;
+    
+    // Normal scheme GST = Selling Price * rate / 100
+    const normalGst = (selling * rate) / 100;
+
+    resMarginValue.textContent = formatINR(taxableMargin);
+    resMarginGst.textContent = formatINR(marginGst);
+    
+    resNormalValue.textContent = formatINR(selling);
+    resNormalGst.textContent = formatINR(normalGst);
+
+    if (margin > 0) {
+        const savings = normalGst - marginGst;
+        resSavings.textContent = formatINR(savings);
+        savingsBox.classList.remove('hidden');
+        lossBox.classList.add('hidden');
+    } else {
+        savingsBox.classList.add('hidden');
+        lossBox.classList.remove('hidden');
+    }
+  }
+
+  // Event Listeners
+  form.addEventListener('input', calculate);
+  form.addEventListener('change', calculate);
+</script>

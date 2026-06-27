@@ -1,0 +1,317 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'GST on Director Remuneration Calculator & RCM Classifier';
+const description = 'Determine if GST is applicable on your Director\'s remuneration. Instantly classify between Salary (No GST) and Professional Fees (18% RCM).';
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'GST Director Remuneration Calculator',
+    url: Astro.site?.toString() ? `${Astro.site}gst-director-remuneration-calculator` : 'https://example.com/gst-director-remuneration-calculator',
+    description: 'Calculate GST RCM on Director Remuneration.',
+    applicationCategory: 'FinanceApplication',
+    operatingSystem: 'Any',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'Is GST applicable on salary paid to a Director?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'No. If the director is a whole-time director or a managing director and is treated as an employee of the company (TDS deducted under Section 192 of Income Tax Act), their remuneration is considered a "Salary". Under Schedule III of the CGST Act, services by an employee to the employer are neither a supply of goods nor services. Thus, no GST applies.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'When is GST applicable on Director Remuneration?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'GST is applicable if the director is an independent director or non-executive director, and the payment is for professional services, sitting fees, or commission. If TDS is deducted under Section 194J (Professional Fees) of the Income Tax Act, GST applies.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Who pays the GST on Director Remuneration?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'The company pays the GST under the Reverse Charge Mechanism (RCM). The director does not need to register for GST or charge it on their invoice. The company must pay the GST in cash and can claim ITC later.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'What is the GST rate on Director Sitting Fees?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'The applicable GST rate on director sitting fees and professional remuneration is 18%. It must be paid by the company under RCM.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Can the company claim Input Tax Credit (ITC) for the RCM paid?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Yes, the company can claim ITC for the GST paid under RCM on director remuneration in the same month\'s GSTR-3B, provided the company is eligible to claim ITC (not making exempt supplies).'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'What if TDS is deducted under Section 192 and 194J both?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'The part of the remuneration declared as salary (Sec 192) will not attract GST. The part declared as professional fees or sitting fees (Sec 194J) will attract 18% GST under RCM.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Do Independent Directors need to obtain GST registration?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'No. Since the tax on their services is entirely payable by the company under RCM, independent directors are exempt from taking GST registration solely for this purpose.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'How do I report Director RCM in GSTR-3B?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'The company must report the liability in Table 3.1(d) (Inward Supplies liable to reverse charge) and claim the corresponding ITC in Table 4(A)(3).'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Are commissions paid to directors subject to GST?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Yes, commissions paid to non-executive or independent directors are treated as professional fees and attract 18% GST under RCM.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'What if the company is not registered under GST?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Under Section 24 of the CGST Act, a person required to pay tax under reverse charge must mandatorily obtain GST registration, regardless of their turnover. The company must register and pay the RCM.'
+        }
+      }
+    ]
+  }
+];
+---
+
+<BaseLayout title={title} description={description} structuredData={structuredData}>
+  <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Header -->
+    <div class="text-center mb-10">
+      <h1 class="text-[32px] sm:text-[40px] tracking-[-1.5px] font-semibold text-base mb-4 leading-tight">
+        GST on Director Remuneration Calculator
+      </h1>
+      <p class="text-[16px] text-muted max-w-2xl mx-auto leading-relaxed">
+        Determine whether the payment made to your director is classified as Salary (No GST) or Professional Fees (18% RCM).
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+      <!-- Input Card -->
+      <div class="bg-surface border border-base rounded-[16px] shadow-sm p-6 sm:p-8">
+        <form id="director-form" class="space-y-6">
+          
+          <div>
+            <label class="block text-[14px] font-medium text-base mb-3">Nature of Engagement</label>
+            <div class="space-y-3">
+              <label class="relative flex cursor-pointer p-4 border border-base rounded-[8px] bg-subtle hover:bg-surface focus-within:ring-2 focus-within:ring-primary transition-all">
+                <input type="radio" name="engagementType" value="employee" class="mt-0.5 w-4 h-4 text-primary border-base focus:ring-primary">
+                <div class="ml-3">
+                  <span class="block text-[14px] font-semibold text-base">Whole-time / Executive Director</span>
+                  <span class="block text-[12px] text-muted mt-0.5">Engaged under an employment contract (Employer-Employee relationship).</span>
+                </div>
+              </label>
+              <label class="relative flex cursor-pointer p-4 border border-base rounded-[8px] bg-subtle hover:bg-surface focus-within:ring-2 focus-within:ring-primary transition-all">
+                <input type="radio" name="engagementType" value="independent" class="mt-0.5 w-4 h-4 text-primary border-base focus:ring-primary" checked>
+                <div class="ml-3">
+                  <span class="block text-[14px] font-semibold text-base">Independent / Non-Executive Director</span>
+                  <span class="block text-[12px] text-muted mt-0.5">Engaged for advisory, sitting on board meetings, or professional services.</span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-[14px] font-medium text-base mb-3">Income Tax TDS Deduction Under</label>
+            <div class="space-y-3">
+              <label class="relative flex cursor-pointer p-4 border border-base rounded-[8px] bg-subtle hover:bg-surface focus-within:ring-2 focus-within:ring-primary transition-all">
+                <input type="radio" name="tdsType" value="192" class="mt-0.5 w-4 h-4 text-primary border-base focus:ring-primary">
+                <div class="ml-3">
+                  <span class="block text-[14px] font-semibold text-base">Section 192 (Salary)</span>
+                </div>
+              </label>
+              <label class="relative flex cursor-pointer p-4 border border-base rounded-[8px] bg-subtle hover:bg-surface focus-within:ring-2 focus-within:ring-primary transition-all">
+                <input type="radio" name="tdsType" value="194J" class="mt-0.5 w-4 h-4 text-primary border-base focus:ring-primary" checked>
+                <div class="ml-3">
+                  <span class="block text-[14px] font-semibold text-base">Section 194J (Professional / Tech Fees)</span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <div>
+            <label for="amount" class="block text-[14px] font-medium text-base mb-2">Remuneration Amount (₹)</label>
+            <input 
+              type="number" 
+              id="amount" 
+              class="block w-full rounded-[8px] border-0 py-2.5 px-3 text-base ring-1 ring-inset ring-base focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6 bg-surface transition-all"
+              placeholder="e.g. 100000"
+              value="50000"
+              min="0"
+            >
+          </div>
+        </form>
+      </div>
+
+      <!-- Result Card -->
+      <div class="bg-surface border border-base rounded-[16px] shadow-sm overflow-hidden flex flex-col">
+        <div class="p-6 sm:p-8 flex-grow">
+          <h3 class="text-[14px] font-medium text-muted uppercase tracking-wider mb-6">GST Implications</h3>
+          
+          <div id="result-container" class="space-y-4">
+            <!-- Injected by JS -->
+          </div>
+          
+        </div>
+        
+        <div id="action-footer" class="bg-subtle border-t border-base p-6">
+          <!-- Injected by JS -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+  <!-- Related Guides -->
+  <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 pb-12">
+    <div class="border-t border-base pt-12">
+      <h2 class="text-[24px] font-semibold text-base mb-4">Related Guides</h2>
+      <ul class="list-disc pl-5 space-y-2">
+        <li><a href="/blog/gst-for-amazon-flipkart-sellers-2026" class="text-primary hover:underline">GST for Amazon, Flipkart & Meesho Sellers 2026: The Ultimate Guide</a></li>
+        <li><a href="/blog/eway-bill-deadline-august-2026" class="text-primary hover:underline">E-Way Bill Deadline Postponed to August 2026: Ship-To GSTIN Updates</a></li>
+      </ul>
+    </div>
+  </div>
+<!-- FAQ Section -->
+  <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 pb-20 mt-8">
+    <div class="border-t border-base pt-12">
+      <h2 class="text-[28px] tracking-[-1px] font-semibold text-base mb-2">Frequently Asked Questions</h2>
+      <p class="text-muted text-[15px] mb-8">Understanding RCM on Director Remuneration.</p>
+      <div class="space-y-3">
+        {structuredData[1].mainEntity.map((faq, i) => (
+          <details class="group rounded-[8px] border border-base bg-surface overflow-hidden" id={`faq-${i}`}>
+            <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+              <span class="text-[15px]">{faq.name}</span>
+              <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+            </summary>
+            <div class="px-6 pb-5 text-[14px] text-muted leading-relaxed border-t border-base pt-4">{faq.acceptedAnswer.text}</div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<script lang="ts">
+  const form = document.getElementById('director-form');
+  const amountInput = document.getElementById('amount') as HTMLInputElement;
+  const resultContainer = document.getElementById('result-container');
+  const actionFooter = document.getElementById('action-footer');
+
+  function formatINR(number) {
+    return new Intl.NumberFormat('en-IN', {
+      style: 'currency',
+      currency: 'INR',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(number);
+  }
+
+  function calculate() {
+    const engagementType = (document.querySelector('input[name="engagementType"]:checked') as HTMLInputElement)?.value;
+    const tdsType = (document.querySelector('input[name="tdsType"]:checked') as HTMLInputElement)?.value;
+    const amount = parseFloat(amountInput.value) || 0;
+
+    let isSalary = false;
+    let conflict = false;
+
+    // Logic per CBIC Circular No. 140/10/2020-GST
+    if (engagementType === 'employee' && tdsType === '192') {
+        isSalary = true;
+    } else if (tdsType === '192') {
+        isSalary = true; // Section 192 TDS overrides designation technically
+        if (engagementType === 'independent') conflict = true;
+    } else if (engagementType === 'employee' && tdsType === '194J') {
+        isSalary = false; // Declared as employee but paid as professional
+        conflict = true;
+    }
+
+    if (conflict) {
+        resultContainer.innerHTML = `
+          <div class="bg-yellow-50 border border-yellow-200 rounded-xl p-5 mb-4 text-yellow-800">
+            <h4 class="font-bold text-[15px] mb-1 flex items-center gap-2">
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+              Classification Conflict
+            </h4>
+            <p class="text-[13px]">Your TDS deduction section contradicts the engagement type. For GST purposes, the TDS section heavily dictates the treatment. Ensure your HR/Finance aligns the contract with the Income Tax deductions.</p>
+          </div>
+        `;
+    } else {
+        resultContainer.innerHTML = '';
+    }
+
+    if (isSalary) {
+        resultContainer.innerHTML += `
+          <div class="border-2 border-green-500 bg-green-50 rounded-xl p-6 text-center">
+            <div class="text-green-600 font-bold text-xl mb-2">No GST Applicable</div>
+            <div class="text-[14px] text-green-800">This payment falls under Schedule III (Employer-Employee relationship). It is neither a supply of goods nor services.</div>
+          </div>
+        `;
+        actionFooter.innerHTML = `
+          <div class="text-[13px] text-muted"><strong>No Action Required:</strong> You do not need to report this in GSTR-3B or pay any RCM. Pay the net salary to the director after Sec 192 TDS deduction.</div>
+        `;
+    } else {
+        const gstAmount = amount * 0.18;
+        resultContainer.innerHTML += `
+          <div class="border-2 border-orange-500 bg-orange-50 rounded-xl p-6 text-center">
+            <div class="text-orange-600 font-bold text-xl mb-2">18% GST Applicable (RCM)</div>
+            <div class="text-[14px] text-orange-800">This payment is classified as Professional/Sitting Fees. The Company is liable to pay GST under Reverse Charge Mechanism.</div>
+            
+            <div class="mt-6 space-y-3 text-left bg-white rounded-lg p-4 shadow-sm border border-orange-100">
+                <div class="flex justify-between items-center text-[14px]">
+                    <span class="text-muted">Remuneration Amount</span>
+                    <span class="font-medium text-base">${formatINR(amount)}</span>
+                </div>
+                <div class="flex justify-between items-center text-[14px]">
+                    <span class="text-muted">RCM Liability (18%)</span>
+                    <span class="font-bold text-orange-600">${formatINR(gstAmount)}</span>
+                </div>
+            </div>
+          </div>
+        `;
+        
+        actionFooter.innerHTML = `
+          <div class="text-[13px] text-muted space-y-2">
+            <p><strong>Step 1:</strong> Pay the director ${formatINR(amount)} (minus 10% TDS under 194J).</p>
+            <p><strong>Step 2:</strong> Pay ${formatINR(gstAmount)} in cash as RCM in GSTR-3B (Table 3.1.d).</p>
+            <p><strong>Step 3:</strong> Claim ${formatINR(gstAmount)} as ITC in the same month (Table 4.A.3).</p>
+          </div>
+        `;
+    }
+  }
+
+  form.addEventListener('input', calculate);
+  form.addEventListener('change', calculate);
+  
+  // Initial run
+  calculate();
+</script>

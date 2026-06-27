@@ -50,3 +50,8 @@ With IMS, you simply click "Keep Pending." The GST portal handles the math, comp
 ## Conclusion
 
 The Invoice Management System transfers the power of ITC control from the supplier back to the buyer. By actively using the Accept/Reject/Pending workflow, you ensure your GSTR-2B is 100% accurate, dramatically reducing your chances of facing departmental audits in 2026. If you need to quickly verify your final tax payouts after accepting your ITC, rely on our [Free GST Calculator](/gst-calculator).
+
+
+## Related Tools
+- [GST Notice Reply Deadline Calculator | Section 73, 74 & DRC-01](/gst-notice-deadline-calculator)
+- [GST LUT Renewal Date Calculator & Reminder | Exporters](/lut-renewal-reminder)

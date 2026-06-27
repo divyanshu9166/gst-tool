@@ -98,3 +98,8 @@ These schemes are announced separately and have different notification numbers. 
 ## Conclusion
 
 The GST Amnesty Scheme 2025 under Section 128A is a significant relief measure, particularly for MSMEs and small businesses that struggled to navigate the new GST compliance framework in the initial years (2017-2020). If you have any pending demands for those years, evaluating this scheme should be your top priority. The principal tax will need to be paid, but the savings on interest (at 18% p.a.) and penalties (up to 100% of tax) can be enormous. Act quickly before the deadlines expire.
+
+
+## Related Tools
+- [About Us | GST HSN Lookup — Free GST Tools for India](/about)
+- [GST on Director Remuneration Calculator & RCM Classifier](/gst-director-remuneration-calculator)

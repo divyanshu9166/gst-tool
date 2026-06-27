@@ -1,8 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const title = 'GST Number Search By Name & Verify GSTIN Online | Free Tool';
-const description = 'Validate any 15-digit GSTIN offline. Verifies format, official checksum, decodes state name and embedded PAN. Free GST number check tool for India.';
+const title = 'GSTIN Format Checker | Check GSTIN Validity Offline';
+const description = 'Free offline GSTIN format checker. Instantly check GSTIN validity offline, verify the checksum, and decode the state code and PAN without any API calls.';
 
 const structuredData = [
   {
@@ -56,7 +56,7 @@ const structuredData = [
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
     <!-- Page header -->
     <div class="mb-10 text-center">
-      <h1 class="text-3xl sm:text-4xl font-bold text-base mb-3">GSTIN Validator</h1>
+      <h1 class="text-3xl sm:text-4xl font-bold text-base mb-3">GSTIN Format Checker</h1>
       <p class="text-[16px] text-muted max-w-2xl mx-auto leading-relaxed">
         <strong>What is a GST Number check?</strong> A GST number search allows you to verify the 15-digit Goods and Services Tax Identification Number (GSTIN) of any business. Use our tool to instantly validate the format, state code, and PAN offline.
       </p>
@@ -209,7 +209,49 @@ const structuredData = [
       </div>
     </div>
   </div>
+
+  
+  <!-- Related Guides -->
+  <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 pb-12">
+    <div class="border-t border-base pt-12">
+      <h2 class="text-[24px] font-semibold text-base mb-4">Related Guides</h2>
+      <ul class="list-disc pl-5 space-y-2">
+        <li><a href="/blog/sac-codes-vs-hsn-codes" class="text-primary hover:underline">SAC Codes vs HSN Codes: What Service Providers Must Know</a></li>
+        <li><a href="/blog/how-qrmp-scheme-works" class="text-primary hover:underline">How the QRMP Scheme Changes Your GST Due Dates</a></li>
+      </ul>
+    </div>
+  </div>
+<!-- FAQ Section -->
+  <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 pb-20 mt-16">
+    <div class="border-t border-base pt-12">
+      <h2 class="text-[28px] tracking-[-1px] font-semibold text-base mb-2">Frequently Asked Questions</h2>
+      <p class="text-muted text-[15px] mb-8">Everything about validating and understanding GSTIN numbers.</p>
+      <div class="space-y-3">
+        {[
+          { q: 'What is a GSTIN?', a: 'GSTIN (Goods and Services Tax Identification Number) is a unique 15-character alphanumeric code assigned to every GST-registered business in India. It is your primary identity on the GST portal and must appear on all tax invoices, returns, and official communications.' },
+          { q: 'What is the structure of a GSTIN?', a: 'A GSTIN is 15 characters long: Characters 1-2 = 2-digit State Code (e.g., 27 for Maharashtra, 07 for Delhi). Characters 3-12 = 10-character PAN of the entity. Character 13 = Entity number (1 for the first registration, 2 for a second, etc.). Character 14 = Always "Z". Character 15 = Checksum digit (alphanumeric).' },
+          { q: 'How do I validate a GSTIN offline?', a: 'Our GSTIN Validator checks the number locally without any internet connection. It verifies: (1) total character count is exactly 15, (2) state code is valid (01-38), (3) PAN embedded within is valid format, (4) the checksum digit at position 15 is mathematically correct. No API call is made.' },
+          { q: 'What does the 2-digit state code in GSTIN represent?', a: 'The first two digits are the GST State Code. For example: 01 = Jammu & Kashmir, 07 = Delhi, 27 = Maharashtra, 29 = Karnataka, 33 = Tamil Nadu. Our validator automatically decodes the state name from these two digits.' },
+          { q: 'What is the checksum digit in GSTIN?', a: 'The 15th character of a GSTIN is a calculated checksum based on a modulus-36 algorithm applied to the first 14 characters. This digit allows offline validation: if the algorithm produces a different character, the GSTIN is invalid. Our validator performs this check instantly.' },
+          { q: 'Can I look up a GSTIN on the government portal?', a: 'Yes. You can verify GSTIN details (like legal name, trade name, registration status, and return filing status) on the official GST portal at www.gst.gov.in under the "Search Taxpayer" section. Our offline validator only checks format validity — for live portal data, you must use the official site.' },
+          { q: 'What does entity number 1, 2, 3 in GSTIN mean?', a: 'The 13th character (entity number) indicates how many GST registrations a PAN holder has in the same state. "1" means their first registration in that state, "2" is the second (e.g., a second business vertical), and so on up to "9". After "9", the coding switches to letters A, B, C, etc.' },
+          { q: 'Is a GSTIN the same as a GSTN?', a: 'No. GSTIN is the Goods and Services Tax Identification Number assigned to a taxpayer. GSTN (Goods and Services Tax Network) is the company/platform that built and operates the GST technology infrastructure. GSTN processes all returns, payments, and registrations; GSTIN is just your tax ID on that platform.' },
+          { q: 'How do I get a GSTIN?', a: 'You get a GSTIN by completing GST registration on the GST portal (www.gst.gov.in). The process requires your PAN, Aadhaar, business address proof, bank account details, and business type details. After verification, the GSTIN is issued within 7 working days.' },
+          { q: 'Can a GSTIN become invalid or cancelled?', a: 'Yes. A GSTIN can be cancelled if the business: voluntarily surrenders it (e.g., turnover drops below threshold), fails to file returns consecutively, or is found to be fraudulent. After cancellation, the GSTIN shows as "Cancelled" on the portal. Our format validator cannot check live status — always verify active status on the GST portal.' },
+        ].map((faq, i) => (
+          <details class="group rounded-[8px] border border-base bg-surface overflow-hidden" id={`faq-gstin-${i}`}>
+            <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+              <span class="text-[15px]">{faq.q}</span>
+              <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+            </summary>
+            <div class="px-6 pb-5 text-[14px] text-muted leading-relaxed border-t border-base pt-4">{faq.a}</div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </div>
 </BaseLayout>
+
 
 <script lang="ts">
   // ── GSTIN Validator — 100% client-side, no API ────────────────────────────

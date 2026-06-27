@@ -1,8 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const title = 'GST Late Fee Calculator & Interest Calculator 2026';
-const description = 'Calculate GST late fees and 18% interest for delayed filing of GSTR-1 and GSTR-3B. Accurate, offline, and free GST tool for India.';
+const title = 'GSTR-1, GSTR-3B & NIL Return Late Fee Calculator India';
+const description = 'Calculate GSTR-1 late fee, GSTR-3B late fee, NIL return late fee, and 18% interest instantly. Accurate, offline, and free GST tool for India.';
 
 const structuredData = [
   {
@@ -56,7 +56,7 @@ const structuredData = [
   <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-12">
     <!-- Page header -->
     <div class="mb-12 text-center">
-      <h1 class="text-4xl sm:text-5xl font-semibold tracking-[-1.28px] text-base mb-4">GSTR 1 & 3B Late Fee Calculator</h1>
+      <h1 class="text-4xl sm:text-5xl font-semibold tracking-[-1.28px] text-base mb-4">GSTR-1, GSTR-3B & NIL Return Late Fee Calculator</h1>
       <p class="text-[16px] text-muted max-w-2xl mx-auto leading-relaxed">
         <strong>What is it?</strong> The GST late fee is ₹50 per day for normal returns and ₹20 per day for NIL returns. Simply click "NIL Return" to use this as a <strong>gst late fee for nil return calculator</strong>. Need a <strong>gstr 1 late fee calculator</strong>? This tool covers that too!
       </p>
@@ -225,7 +225,49 @@ const structuredData = [
       </div>
     </div>
   </div>
+
+  
+  <!-- Related Guides -->
+  <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 pb-12">
+    <div class="border-t border-base pt-12">
+      <h2 class="text-[24px] font-semibold text-base mb-4">Related Guides</h2>
+      <ul class="list-disc pl-5 space-y-2">
+        <li><a href="/blog/gstr-2b-mismatch-itc-blocked-fix-guide" class="text-primary hover:underline">GSTR-2B Mismatches: Why Your ITC is Blocked & How to Fix It in 2026</a></li>
+        <li><a href="/blog/itc-reversal-gst-rate-drop" class="text-primary hover:underline">ITC Reversal After GST Rate Drop: Do You Actually Need to Do It?</a></li>
+      </ul>
+    </div>
+  </div>
+<!-- FAQ Section -->
+  <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 pb-20 mt-16">
+    <div class="border-t border-base pt-12">
+      <h2 class="text-[28px] tracking-[-1px] font-semibold text-base mb-2">Frequently Asked Questions</h2>
+      <p class="text-muted text-[15px] mb-8">All about GST late fees and interest calculation.</p>
+      <div class="space-y-3">
+        {[
+          { q: 'What is the GST late fee per day?', a: 'For normal returns (where tax is payable): ₹50 per day (₹25 CGST + ₹25 SGST). For NIL returns (zero tax liability): ₹20 per day (₹10 CGST + ₹10 SGST). This applies per return that is filed late — so filing both GSTR-1 and GSTR-3B late doubles the late fee.' },
+          { q: 'Is there a maximum cap on GST late fees?', a: 'Yes. The CBIC has introduced turnover-based maximum late fee caps: (1) Up to ₹1.5 Crore turnover: max ₹2,000 per return. (2) ₹1.5 Crore to ₹5 Crore: max ₹5,000 per return. (3) Above ₹5 Crore: max ₹10,000 per return. Annual return (GSTR-9) has a separate cap of 0.25% of turnover.' },
+          { q: 'How is 18% GST interest calculated on delayed tax payment?', a: 'Interest is calculated as: Interest = Tax Liability × 18% × (Days Delayed ÷ 365). It applies only on the net cash tax liability — i.e., the amount you owe that cannot be covered by ITC in your Electronic Credit Ledger. If your ITC covers the full liability, no interest is charged.' },
+          { q: 'Is GST late fee charged separately for CGST and SGST?', a: 'Yes. The ₹50/day late fee (for normal returns) is split as ₹25 CGST and ₹25 SGST. You pay the CGST portion from your CGST Electronic Cash Ledger and the SGST portion from your SGST ledger. You cannot use IGST credit to pay late fees.' },
+          { q: 'What is the late fee for GSTR-1?', a: 'GSTR-1 late fee is ₹50 per day (₹25 CGST + ₹25 SGST) for returns with outward supplies, and ₹20 per day for NIL returns. The maximum cap applies based on your annual turnover (see turnover-based caps above). Note: GSTR-1 late fee is separate from GSTR-3B late fee.' },
+          { q: 'What is the late fee for GSTR-3B?', a: 'GSTR-3B late fee is also ₹50/day for normal returns and ₹20/day for NIL returns, with the same turnover-based maximum caps. Additionally, interest at 18% per annum is charged on any outstanding cash tax liability for the period of delay. Filing GSTR-3B late also blocks you from filing subsequent months.' },
+          { q: 'Can I get a waiver of GST late fees?', a: 'The CBIC periodically announces amnesty schemes waiving or reducing late fees for taxpayers who file pending returns within a specified window. These are announced via GST Council decisions and CBIC notifications. Outside of amnesty periods, late fees are mandatory and cannot be waived on the portal.' },
+          { q: 'Is interest charged on ITC utilization?', a: 'No. Interest at 18% under Section 50 of the CGST Act is charged only on the cash component of the tax liability — the amount that exceeds your available ITC. If you have sufficient ITC in your Electronic Credit Ledger to cover the tax, the interest amount is zero even if you file late.' },
+          { q: 'What is the penalty for not filing GSTR-9 (Annual Return)?', a: 'The late fee for GSTR-9 (Annual Return) is ₹200 per day (₹100 CGST + ₹100 SGST), subject to a maximum of 0.25% of the state turnover. For example, if your Karnataka turnover is ₹10 Crore, the maximum GSTR-9 late fee for Karnataka is ₹2,50,000.' },
+          { q: 'Does late GSTR-1 filing block GSTR-3B filing?', a: 'Yes. If GSTR-1 is not filed for the previous month, the GST portal restricts filing of GSTR-3B for the current month. Similarly, if GSTR-3B is not filed, it can restrict e-way bill generation. This cascading effect makes timely filing extremely important for business continuity.' },
+        ].map((faq, i) => (
+          <details class="group rounded-[8px] border border-base bg-surface overflow-hidden" id={`faq-late-${i}`}>
+            <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+              <span class="text-[15px]">{faq.q}</span>
+              <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+            </summary>
+            <div class="px-6 pb-5 text-[14px] text-muted leading-relaxed border-t border-base pt-4">{faq.a}</div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </div>
 </BaseLayout>
+
 
 <script lang="ts">
   // Client-side calculation logic
@@ -252,10 +294,22 @@ const structuredData = [
   function calculate() {
     let days = 0;
     if (dueDateInput.value && filingDateInput.value) {
-      const start = new Date(dueDateInput.value).getTime();
-      const end = new Date(filingDateInput.value).getTime();
-      if (end > start) {
-        days = Math.floor((end - start) / (1000 * 60 * 60 * 24));
+      // Parse dates safely to avoid timezone/DST issues
+      const parseDate = (dateStr: string): Date | null => {
+        if (!dateStr) return null;
+        const [year, month, day] = dateStr.split('-').map(Number);
+        return new Date(year, month - 1, day);
+      };
+      
+      const start = parseDate(dueDateInput.value);
+      const end = parseDate(filingDateInput.value);
+      
+      if (start && end) {
+        const startTime = start.getTime();
+        const endTime = end.getTime();
+        if (endTime > startTime) {
+          days = Math.floor((endTime - startTime) / (1000 * 60 * 60 * 24));
+        }
       }
     }
 
