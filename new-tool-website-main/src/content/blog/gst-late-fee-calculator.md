@@ -4,7 +4,7 @@ description: "Missed your GSTR-3B deadline? Calculate your exact GSTR-3B late fe
 slug: "gst-late-fee-calculator"
 pubDate: 2026-06-26
 author: "GST Expert"
-heroImage: "/images/blog/gst-late-fee-calculator.svg"
+heroImage: "/images/blog/gst-late-fee-calculator.png"
 ---
 
 Running a small business means wearing a dozen hats at once. Between managing inventory, handling angry customers, and chasing payments, it is incredibly easy to miss a tax deadline. 

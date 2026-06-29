@@ -4,7 +4,7 @@ description: "Understand the Reverse Charge Mechanism (RCM) under GST. Get the f
 slug: "reverse-charge-mechanism-gst-list"
 pubDate: 2026-06-26
 author: "GST Expert"
-heroImage: "/images/blog/reverse-charge-mechanism-gst-list.svg"
+heroImage: "/images/blog/reverse-charge-mechanism-gst-list.png"
 ---
 
 Normally, when you buy a product or service, the supplier charges you GST, collects it, and pays it to the government. This is called the Forward Charge. 
