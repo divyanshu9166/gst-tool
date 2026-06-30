@@ -18,6 +18,8 @@ const structuredData = [
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
     mainEntity: [
+      { '@type': 'Question', name: "What is the TDS rate under GST?", acceptedAnswer: { '@type': 'Answer', text: "The TDS rate under GST is 2% (1% CGST + 1% SGST, or 2% IGST) on payments made to suppliers for taxable goods or services." } },
+      { '@type': 'Question', name: "When is TDS deducted under GST?", acceptedAnswer: { '@type': 'Answer', text: "TDS is deducted by specified government agencies, local authorities, and PSUs when the total value of supply under a single contract exceeds ₹2,50,000." } },
       {
         '@type': 'Question',
         name: 'What is the rate of TDS under GST?',
@@ -265,121 +267,80 @@ const structuredData = [
       </ul>
     </div>
   </div>
-<!-- FAQ Section -->
-    <section class="mt-16 pt-12 border-t border-base" aria-labelledby="faq-heading">
-      <h2 id="faq-heading" class="text-2xl sm:text-3xl font-bold text-base mb-8">
-        Frequently Asked Questions
-      </h2>
+<script>
+const contractInput = document.getElementById("contract-val");
+const invoiceInput = document.getElementById("invoice-val");
+const typeSelect = document.getElementById("txn-type");
+const resultCard = document.getElementById("result-card");
+const statusTds = document.getElementById("status-tds");
+const statusNoTds = document.getElementById("status-no-tds");
+const resInv = document.getElementById("res-inv");
+const resCgstBox = document.getElementById("res-cgst-box");
+const resCgst = document.getElementById("res-cgst");
+const resSgstBox = document.getElementById("res-sgst-box");
+const resSgst = document.getElementById("res-sgst");
+const resIgstBox = document.getElementById("res-igst-box");
+const resIgst = document.getElementById("res-igst");
+const resTotal = document.getElementById("res-total");
+const resTdsNote = document.getElementById("res-tds-note");
+function formatCur(num) {
+  return "\u20B9" + num.toLocaleString("en-IN", { maximumFractionDigits: 2 });
+}
+function calculate() {
+  const contract = parseFloat(contractInput.value) || 0;
+  const invoice = parseFloat(invoiceInput.value) || 0;
+  const type = typeSelect.value;
+  if (contract <= 0 || invoice <= 0) {
+    resultCard.classList.add("hidden");
+    return;
+  }
+  resultCard.classList.remove("hidden");
+  if (contract <= 25e4) {
+    statusTds.classList.add("hidden");
+    statusNoTds.classList.remove("hidden");
+  } else {
+    statusNoTds.classList.add("hidden");
+    statusTds.classList.remove("hidden");
+    resInv.textContent = formatCur(invoice);
+    const totalTds = invoice * 0.02;
+    resTotal.textContent = formatCur(totalTds);
+    resTdsNote.textContent = totalTds.toLocaleString("en-IN", { maximumFractionDigits: 2 });
+    if (type === "intra") {
+      resCgstBox.classList.remove("hidden");
+      resCgstBox.classList.add("flex");
+      resSgstBox.classList.remove("hidden");
+      resSgstBox.classList.add("flex");
+      resIgstBox.classList.remove("flex");
+      resIgstBox.classList.add("hidden");
+      resCgst.textContent = "-" + formatCur(totalTds / 2);
+      resSgst.textContent = "-" + formatCur(totalTds / 2);
+    } else {
+      resCgstBox.classList.remove("flex");
+      resCgstBox.classList.add("hidden");
+      resSgstBox.classList.remove("flex");
+      resSgstBox.classList.add("hidden");
+      resIgstBox.classList.remove("hidden");
+      resIgstBox.classList.add("flex");
+      resIgst.textContent = "-" + formatCur(totalTds);
+    }
+  }
+}
+[contractInput, invoiceInput, typeSelect].forEach((el) => el.addEventListener("input", calculate));
+</script>
+
+    <!-- FAQ Section -->
+    <section class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 pb-20 mt-16 pt-12 border-t border-base" aria-labelledby="faq-heading">
+      <h2 id="faq-heading" class="text-2xl sm:text-3xl font-bold text-base mb-8">Frequently Asked Questions</h2>
       <div class="space-y-4">
-        
-        <details class="group rounded-xl border border-base bg-surface overflow-hidden">
-          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
-            <span>What is the rate of TDS under GST?</span>
-            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
-          </summary>
-          <div class="px-6 pb-5 text-sm text-muted leading-relaxed border-t border-base pt-4">
-            The standard rate of TDS under GST is 2%. For intra-state transactions, this is split into 1% CGST and 1% SGST. For inter-state transactions, it is 2% IGST.
-          </div>
-        </details>
-
-        <details class="group rounded-xl border border-base bg-surface overflow-hidden">
-          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
-            <span>When is TDS required to be deducted under GST?</span>
-            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
-          </summary>
-          <div class="px-6 pb-5 text-sm text-muted leading-relaxed border-t border-base pt-4">
-            TDS is only deducted when the total value of supply under a single contract exceeds ₹2,50,000. It is generally deducted by Government agencies, local authorities, and specified PSUs.
-          </div>
-        </details>
-
-        <details class="group rounded-xl border border-base bg-surface overflow-hidden">
-          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
-            <span>Is TDS calculated on the total invoice value including GST?</span>
-            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
-          </summary>
-          <div class="px-6 pb-5 text-sm text-muted leading-relaxed border-t border-base pt-4">
-            No. The TDS is calculated strictly on the taxable value of the goods or services. It is not calculated on the GST amount (CGST/SGST/IGST) mentioned in the invoice.
-          </div>
-        </details>
-
+        {structuredData[1].mainEntity.map((faq, i) => (
+          <details class="group rounded-xl border border-base bg-surface overflow-hidden" id={`faq-${i}`}>
+            <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+              <span>{faq.name}</span>
+              <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+            </summary>
+            <div class="px-6 pb-5 text-[15px] text-muted leading-relaxed border-t border-base pt-4">{faq.acceptedAnswer.text}</div>
+          </details>
+        ))}
       </div>
     </section>
-
-  </div>
-
-  <script lang="ts">
-    const contractInput = document.getElementById('contract-val') as HTMLInputElement;
-    const invoiceInput = document.getElementById('invoice-val') as HTMLInputElement;
-    const typeSelect = document.getElementById('txn-type') as HTMLSelectElement;
-
-    const resultCard = document.getElementById('result-card')!;
-    const statusTds = document.getElementById('status-tds')!;
-    const statusNoTds = document.getElementById('status-no-tds')!;
-    
-    const resInv = document.getElementById('res-inv')!;
-    const resCgstBox = document.getElementById('res-cgst-box')!;
-    const resCgst = document.getElementById('res-cgst')!;
-    const resSgstBox = document.getElementById('res-sgst-box')!;
-    const resSgst = document.getElementById('res-sgst')!;
-    const resIgstBox = document.getElementById('res-igst-box')!;
-    const resIgst = document.getElementById('res-igst')!;
-    const resTotal = document.getElementById('res-total')!;
-    const resTdsNote = document.getElementById('res-tds-note')!;
-
-    function formatCur(num: number) {
-      return '₹' + num.toLocaleString('en-IN', { maximumFractionDigits: 2 });
-    }
-
-    function calculate() {
-      const contract = parseFloat(contractInput.value) || 0;
-      const invoice = parseFloat(invoiceInput.value) || 0;
-      const type = typeSelect.value;
-
-      if (contract <= 0 || invoice <= 0) {
-        resultCard.classList.add('hidden');
-        return;
-      }
-
-      resultCard.classList.remove('hidden');
-
-      if (contract <= 250000) {
-        statusTds.classList.add('hidden');
-        statusNoTds.classList.remove('hidden');
-      } else {
-        statusNoTds.classList.add('hidden');
-        statusTds.classList.remove('hidden');
-
-        resInv.textContent = formatCur(invoice);
-
-        const totalTds = invoice * 0.02;
-
-        resTotal.textContent = formatCur(totalTds);
-        resTdsNote.textContent = totalTds.toLocaleString('en-IN', { maximumFractionDigits: 2 });
-
-        if (type === 'intra') {
-          resCgstBox.classList.remove('hidden');
-          resCgstBox.classList.add('flex');
-          resSgstBox.classList.remove('hidden');
-          resSgstBox.classList.add('flex');
-          resIgstBox.classList.remove('flex');
-          resIgstBox.classList.add('hidden');
-
-          resCgst.textContent = '-' + formatCur(totalTds / 2);
-          resSgst.textContent = '-' + formatCur(totalTds / 2);
-        } else {
-          resCgstBox.classList.remove('flex');
-          resCgstBox.classList.add('hidden');
-          resSgstBox.classList.remove('flex');
-          resSgstBox.classList.add('hidden');
-          resIgstBox.classList.remove('hidden');
-          resIgstBox.classList.add('flex');
-
-          resIgst.textContent = '-' + formatCur(totalTds);
-        }
-      }
-    }
-
-    [contractInput, invoiceInput, typeSelect].forEach(el => el.addEventListener('input', calculate));
-    
-  </script>
 </BaseLayout>

@@ -171,48 +171,42 @@ const states = [
 
   </div>
 
-  <script lang="ts">
-    document.getElementById('calc-btn')!.addEventListener('click', () => {
-      const supplyType = (document.querySelector('input[name="supply-type"]:checked') as HTMLInputElement)?.value;
-      const supplierState = (document.getElementById('supplier-state') as HTMLSelectElement).value;
-      const recipientState = (document.getElementById('recipient-state') as HTMLSelectElement).value;
-      const recipType = (document.querySelector('input[name="recip-type"]:checked') as HTMLInputElement)?.value;
-
-      if (!supplierState || !recipientState) {
-        alert('Please select both the supplier state and recipient state/location.');
-        return;
-      }
-
-      const result = document.getElementById('result')!;
-      const taxEl = document.getElementById('result-tax')!;
-      const titleEl = document.getElementById('result-title')!;
-      const descEl = document.getElementById('result-desc')!;
-      result.classList.remove('hidden');
-
-      // Export
-      if (recipientState === 'Outside India (Export)') {
-        result.className = 'rounded-xl p-6 border-2 text-center border-blue-400 bg-blue-50 dark:bg-blue-950/20';
-        taxEl.innerHTML = '<span class="text-blue-600 dark:text-blue-400">0% GST</span>';
-        titleEl.textContent = 'Zero-Rated Supply (Export)';
-        descEl.textContent = 'Exports are zero-rated under GST. You may either export with payment of IGST (and claim refund) or export without payment of IGST under a valid Letter of Undertaking (LUT).';
-        return;
-      }
-
-      const isInterState = supplierState !== recipientState;
-
-      if (isInterState) {
-        result.className = 'rounded-xl p-6 border-2 text-center border-orange-400 bg-orange-50 dark:bg-orange-950/20';
-        taxEl.innerHTML = '<span class="text-orange-600 dark:text-orange-400">IGST</span>';
-        titleEl.textContent = 'Inter-State Supply — Charge IGST';
-        descEl.textContent = `The supplier is in ${supplierState} and the place of supply is ${recipientState}. Since they are in different states, this is an inter-state supply. You must charge IGST at the full applicable rate. DO NOT charge CGST and SGST separately.`;
-      } else {
-        result.className = 'rounded-xl p-6 border-2 text-center border-green-400 bg-green-50 dark:bg-green-950/20';
-        taxEl.innerHTML = '<span class="text-green-600 dark:text-green-400">CGST + SGST</span>';
-        titleEl.textContent = 'Intra-State Supply — Charge CGST + SGST';
-        descEl.textContent = `Both the supplier and the place of supply are in ${supplierState}. This is an intra-state supply. You must charge CGST and SGST, each at half the applicable GST rate (e.g., for 18% GST: 9% CGST + 9% SGST). DO NOT charge IGST.`;
-      }
-    });
-  </script>
+  <script>
+document.getElementById("calc-btn").addEventListener("click", () => {
+  const supplyType = document.querySelector('input[name="supply-type"]:checked')?.value;
+  const supplierState = document.getElementById("supplier-state").value;
+  const recipientState = document.getElementById("recipient-state").value;
+  const recipType = document.querySelector('input[name="recip-type"]:checked')?.value;
+  if (!supplierState || !recipientState) {
+    alert("Please select both the supplier state and recipient state/location.");
+    return;
+  }
+  const result = document.getElementById("result");
+  const taxEl = document.getElementById("result-tax");
+  const titleEl = document.getElementById("result-title");
+  const descEl = document.getElementById("result-desc");
+  result.classList.remove("hidden");
+  if (recipientState === "Outside India (Export)") {
+    result.className = "rounded-xl p-6 border-2 text-center border-blue-400 bg-blue-50 dark:bg-blue-950/20";
+    taxEl.innerHTML = '<span class="text-blue-600 dark:text-blue-400">0% GST</span>';
+    titleEl.textContent = "Zero-Rated Supply (Export)";
+    descEl.textContent = "Exports are zero-rated under GST. You may either export with payment of IGST (and claim refund) or export without payment of IGST under a valid Letter of Undertaking (LUT).";
+    return;
+  }
+  const isInterState = supplierState !== recipientState;
+  if (isInterState) {
+    result.className = "rounded-xl p-6 border-2 text-center border-orange-400 bg-orange-50 dark:bg-orange-950/20";
+    taxEl.innerHTML = '<span class="text-orange-600 dark:text-orange-400">IGST</span>';
+    titleEl.textContent = "Inter-State Supply \u2014 Charge IGST";
+    descEl.textContent = `The supplier is in ${supplierState} and the place of supply is ${recipientState}. Since they are in different states, this is an inter-state supply. You must charge IGST at the full applicable rate. DO NOT charge CGST and SGST separately.`;
+  } else {
+    result.className = "rounded-xl p-6 border-2 text-center border-green-400 bg-green-50 dark:bg-green-950/20";
+    taxEl.innerHTML = '<span class="text-green-600 dark:text-green-400">CGST + SGST</span>';
+    titleEl.textContent = "Intra-State Supply \u2014 Charge CGST + SGST";
+    descEl.textContent = `Both the supplier and the place of supply are in ${supplierState}. This is an intra-state supply. You must charge CGST and SGST, each at half the applicable GST rate (e.g., for 18% GST: 9% CGST + 9% SGST). DO NOT charge IGST.`;
+  }
+});
+</script>
 
   
   <!-- Related Guides -->

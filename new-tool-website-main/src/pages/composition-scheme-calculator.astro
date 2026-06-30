@@ -18,6 +18,8 @@ const structuredData = [
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
     mainEntity: [
+      { '@type': 'Question', name: "What is the GST composition scheme limit for 2026?", acceptedAnswer: { '@type': 'Answer', text: "For most states, the turnover limit for the GST composition scheme is ₹1.5 crore. For North-Eastern and special category states, it is ₹75 lakhs." } },
+      { '@type': 'Question', name: "Can a composition dealer collect GST from customers?", acceptedAnswer: { '@type': 'Answer', text: "No. A composition dealer cannot charge GST on their invoices (they issue a 'Bill of Supply') and cannot claim Input Tax Credit." } },
       {
         '@type': 'Question',
         name: 'What is the turnover limit for the GST Composition Scheme in 2026?',
@@ -255,103 +257,64 @@ const businessTypes = [
       </ul>
     </div>
   </div>
-<!-- FAQ Section -->
-    <section class="mt-16 pt-12 border-t border-base" aria-labelledby="faq-heading">
-      <h2 id="faq-heading" class="text-2xl sm:text-3xl font-bold text-base mb-8">
-        Frequently Asked Questions
-      </h2>
+<script>
+const bizData = {
+  trader: { rate: 1, limit: 15e6, splLimit: 75e5 },
+  manufacturer: { rate: 1, limit: 15e6, splLimit: 75e5 },
+  restaurant: { rate: 5, limit: 15e6, splLimit: 75e5 },
+  service: { rate: 6, limit: 5e6, splLimit: 5e6 }
+};
+const typeSelect = document.getElementById("biz-type");
+const splCheck = document.getElementById("spl-category");
+const toInput = document.getElementById("turnover");
+const resultCard = document.getElementById("result-card");
+const statusEligible = document.getElementById("status-eligible");
+const statusIneligible = document.getElementById("status-ineligible");
+const resRate = document.getElementById("res-rate");
+const resTax = document.getElementById("res-tax");
+const ineligibleReason = document.getElementById("ineligible-reason");
+function formatCur(num) {
+  return "\u20B9" + num.toLocaleString("en-IN", { maximumFractionDigits: 0 });
+}
+function calculate() {
+  const type = typeSelect.value;
+  const to = parseFloat(toInput.value) || 0;
+  const isSpl = splCheck.checked;
+  if (!type || to === 0) {
+    resultCard.classList.add("hidden");
+    return;
+  }
+  resultCard.classList.remove("hidden");
+  const config = bizData[type];
+  const maxLimit = isSpl ? config.splLimit : config.limit;
+  if (to > maxLimit) {
+    statusEligible.classList.add("hidden");
+    statusIneligible.classList.remove("hidden");
+    ineligibleReason.innerHTML = `Your aggregate turnover of <strong>${formatCur(to)}</strong> exceeds the legally permissible limit of <strong>${formatCur(maxLimit)}</strong> for your business category and state classification. You must register under the normal GST scheme.`;
+  } else {
+    statusIneligible.classList.add("hidden");
+    statusEligible.classList.remove("hidden");
+    resRate.textContent = `${config.rate}%`;
+    const flatTax = to * (config.rate / 100);
+    resTax.textContent = formatCur(flatTax);
+  }
+}
+[typeSelect, splCheck, toInput].forEach((el) => el.addEventListener("input", calculate));
+</script>
+
+    <!-- FAQ Section -->
+    <section class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 pb-20 mt-16 pt-12 border-t border-base" aria-labelledby="faq-heading">
+      <h2 id="faq-heading" class="text-2xl sm:text-3xl font-bold text-base mb-8">Frequently Asked Questions</h2>
       <div class="space-y-4">
-        
-        <details class="group rounded-xl border border-base bg-surface overflow-hidden">
-          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
-            <span>What is the turnover limit for the GST Composition Scheme in 2026?</span>
-            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
-          </summary>
-          <div class="px-6 pb-5 text-sm text-muted leading-relaxed border-t border-base pt-4">
-            For normal states, the turnover limit is ₹1.5 Crore for manufacturers and traders. For special category states (North Eastern states and hill states), the limit is ₹75 Lakhs. For pure service providers across India, the limit is strictly ₹50 Lakhs.
-          </div>
-        </details>
-
-        <details class="group rounded-xl border border-base bg-surface overflow-hidden">
-          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
-            <span>What are the GST rates under the Composition Scheme?</span>
-            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
-          </summary>
-          <div class="px-6 pb-5 text-sm text-muted leading-relaxed border-t border-base pt-4">
-            The flat tax rates are: 1% for Manufacturers and Traders, 5% for Restaurants not serving alcohol, and 6% for Service Providers.
-          </div>
-        </details>
-
-        <details class="group rounded-xl border border-base bg-surface overflow-hidden">
-          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
-            <span>Can a composition dealer issue a Tax Invoice?</span>
-            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
-          </summary>
-          <div class="px-6 pb-5 text-sm text-muted leading-relaxed border-t border-base pt-4">
-            No. A composition dealer cannot issue a Tax Invoice or collect GST from customers. They must issue a "Bill of Supply" and mention "Composition taxable person, not eligible to collect tax on supplies" at the top. They must pay the flat tax out of their own pocket.
-          </div>
-        </details>
-
+        {structuredData[1].mainEntity.map((faq, i) => (
+          <details class="group rounded-xl border border-base bg-surface overflow-hidden" id={`faq-${i}`}>
+            <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+              <span>{faq.name}</span>
+              <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+            </summary>
+            <div class="px-6 pb-5 text-[15px] text-muted leading-relaxed border-t border-base pt-4">{faq.acceptedAnswer.text}</div>
+          </details>
+        ))}
       </div>
     </section>
-
-  </div>
-
-  <script lang="ts">
-    const bizData = {
-      trader: { rate: 1, limit: 15000000, splLimit: 7500000 },
-      manufacturer: { rate: 1, limit: 15000000, splLimit: 7500000 },
-      restaurant: { rate: 5, limit: 15000000, splLimit: 7500000 },
-      service: { rate: 6, limit: 5000000, splLimit: 5000000 }
-    };
-
-    const typeSelect = document.getElementById('biz-type') as HTMLSelectElement;
-    const splCheck = document.getElementById('spl-category') as HTMLInputElement;
-    const toInput = document.getElementById('turnover') as HTMLInputElement;
-
-    const resultCard = document.getElementById('result-card')!;
-    const statusEligible = document.getElementById('status-eligible')!;
-    const statusIneligible = document.getElementById('status-ineligible')!;
-    const resRate = document.getElementById('res-rate')!;
-    const resTax = document.getElementById('res-tax')!;
-    const ineligibleReason = document.getElementById('ineligible-reason')!;
-
-    function formatCur(num: number) {
-      return '₹' + num.toLocaleString('en-IN', { maximumFractionDigits: 0 });
-    }
-
-    function calculate() {
-      const type = typeSelect.value;
-      const to = parseFloat(toInput.value) || 0;
-      const isSpl = splCheck.checked;
-
-      if (!type || to === 0) {
-        resultCard.classList.add('hidden');
-        return;
-      }
-
-      resultCard.classList.remove('hidden');
-
-      const config = bizData[type as keyof typeof bizData];
-      const maxLimit = isSpl ? config.splLimit : config.limit;
-
-      if (to > maxLimit) {
-        // Ineligible
-        statusEligible.classList.add('hidden');
-        statusIneligible.classList.remove('hidden');
-        ineligibleReason.innerHTML = `Your aggregate turnover of <strong>${formatCur(to)}</strong> exceeds the legally permissible limit of <strong>${formatCur(maxLimit)}</strong> for your business category and state classification. You must register under the normal GST scheme.`;
-      } else {
-        // Eligible
-        statusIneligible.classList.add('hidden');
-        statusEligible.classList.remove('hidden');
-
-        resRate.textContent = `${config.rate}%`;
-        const flatTax = to * (config.rate / 100);
-        resTax.textContent = formatCur(flatTax);
-      }
-    }
-
-    [typeSelect, splCheck, toInput].forEach(el => el.addEventListener('input', calculate));
-    
-  </script>
 </BaseLayout>

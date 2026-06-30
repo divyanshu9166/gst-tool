@@ -18,6 +18,14 @@ const structuredData = [
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
     mainEntity: [
+      { '@type': 'Question', name: "What is GSTR-2B reconciliation in 2026?", acceptedAnswer: { '@type': 'Answer', text: "GSTR-2B reconciliation involves matching your purchase register (books) against the auto-drafted GSTR-2B statement from the GST portal to claim accurate Input Tax Credit (ITC)." } },
+      { '@type': 'Question', name: "Why do I need an offline GSTR-2B reconciliation tool?", acceptedAnswer: { '@type': 'Answer', text: "An offline tool ensures your financial data stays private while allowing you to instantly identify missing invoices, mismatches in tax amounts, and vendors who haven't filed their returns." } },
+      { '@type': 'Question', name: "How does this tool match invoices?", acceptedAnswer: { '@type': 'Answer', text: "It compares the invoice number, GSTIN, date, and tax amounts between your purchase register Excel and the GSTR-2B JSON/Excel using advanced fuzzy matching and exact matching algorithms." } },
+      { '@type': 'Question', name: "What happens if a vendor invoice is missing from GSTR-2B?", acceptedAnswer: { '@type': 'Answer', text: "If an invoice is missing from GSTR-2B, you cannot claim ITC for it in that month under the strict 2026 ITC rules. You must follow up with the vendor to file their GSTR-1." } },
+      { '@type': 'Question', name: "Does this tool support the latest GST 2.0 formats?", acceptedAnswer: { '@type': 'Answer', text: "Yes, our GSTR-2B reconciliation engine is fully updated for the 2026 financial year formats and schema requirements." } },
+      { '@type': 'Question', name: "Can it handle large datasets?", acceptedAnswer: { '@type': 'Answer', text: "Yes. Since it runs in your browser using local resources, it can process thousands of rows of purchase data without server timeouts." } },
+      { '@type': 'Question', name: "Are there any limits on the number of reconciliations?", acceptedAnswer: { '@type': 'Answer', text: "No. You can run as many GSTR-2B reconciliations as you want, completely free of charge." } },
+      { '@type': 'Question', name: "What should I do with the mismatched records?", acceptedAnswer: { '@type': 'Answer', text: "Our tool generates a clear report of mismatched and missing invoices. You can export this report and use it to follow up with your suppliers for corrections." } },
       {
         '@type': 'Question',
         name: 'Is there a GSTR 2B reconciliation tool in excel format free download?',
@@ -149,4 +157,20 @@ const structuredData = [
         <p>While our offline template is perfect for small businesses processing under 500 invoices a month, larger enterprises with thousands of line items should consider migrating to an automated API-based solution. These premium tools connect directly to the GST portal, automatically downloading JSON files, running fuzzy-logic matching algorithms to catch minor typos, and automatically sending email reminders to non-compliant vendors. Regardless of the tool you use, regular, disciplined reconciliation is the only way to safeguard your working capital in the modern GST era.</p>
       </div>
     </article>
+
+    <!-- FAQ Section -->
+    <section class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 pb-20 mt-16 pt-12 border-t border-base" aria-labelledby="faq-heading">
+      <h2 id="faq-heading" class="text-2xl sm:text-3xl font-bold text-base mb-8">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        {structuredData[1].mainEntity.map((faq, i) => (
+          <details class="group rounded-xl border border-base bg-surface overflow-hidden" id={`faq-${i}`}>
+            <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+              <span>{faq.name}</span>
+              <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+            </summary>
+            <div class="px-6 pb-5 text-[15px] text-muted leading-relaxed border-t border-base pt-4">{faq.acceptedAnswer.text}</div>
+          </details>
+        ))}
+      </div>
+    </section>
 </BaseLayout>

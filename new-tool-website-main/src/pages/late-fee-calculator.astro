@@ -269,109 +269,89 @@ const structuredData = [
 </BaseLayout>
 
 
-<script lang="ts">
-  // Client-side calculation logic
-  const btnNormal = document.getElementById('btn-normal') as HTMLButtonElement;
-  const btnNil = document.getElementById('btn-nil') as HTMLButtonElement;
-  const dueDateInput = document.getElementById('due-date') as HTMLInputElement;
-  const filingDateInput = document.getElementById('filing-date') as HTMLInputElement;
-  const liabilityInput = document.getElementById('tax-liability') as HTMLInputElement;
-  const btnReset = document.getElementById('btn-reset') as HTMLButtonElement;
-
-  const resDays = document.getElementById('result-days')!;
-  const resLateFee = document.getElementById('result-late-fee')!;
-  const resCgst = document.getElementById('result-cgst')!;
-  const resSgst = document.getElementById('result-sgst')!;
-  const resInterest = document.getElementById('result-interest')!;
-  const resTotal = document.getElementById('result-total')!;
-
-  let isNil = false;
-
-  function formatINR(value: number): string {
-    return '₹' + Math.round(value).toLocaleString('en-IN');
-  }
-
-  function calculate() {
-    let days = 0;
-    if (dueDateInput.value && filingDateInput.value) {
-      // Parse dates safely to avoid timezone/DST issues
-      const parseDate = (dateStr: string): Date | null => {
-        if (!dateStr) return null;
-        const [year, month, day] = dateStr.split('-').map(Number);
-        return new Date(year, month - 1, day);
-      };
-      
-      const start = parseDate(dueDateInput.value);
-      const end = parseDate(filingDateInput.value);
-      
-      if (start && end) {
-        const startTime = start.getTime();
-        const endTime = end.getTime();
-        if (endTime > startTime) {
-          days = Math.floor((endTime - startTime) / (1000 * 60 * 60 * 24));
-        }
+<script>
+const btnNormal = document.getElementById("btn-normal");
+const btnNil = document.getElementById("btn-nil");
+const dueDateInput = document.getElementById("due-date");
+const filingDateInput = document.getElementById("filing-date");
+const liabilityInput = document.getElementById("tax-liability");
+const btnReset = document.getElementById("btn-reset");
+const resDays = document.getElementById("result-days");
+const resLateFee = document.getElementById("result-late-fee");
+const resCgst = document.getElementById("result-cgst");
+const resSgst = document.getElementById("result-sgst");
+const resInterest = document.getElementById("result-interest");
+const resTotal = document.getElementById("result-total");
+let isNil = false;
+function formatINR(value) {
+  return "\u20B9" + Math.round(value).toLocaleString("en-IN");
+}
+function calculate() {
+  let days = 0;
+  if (dueDateInput.value && filingDateInput.value) {
+    const parseDate = (dateStr) => {
+      if (!dateStr) return null;
+      const [year, month, day] = dateStr.split("-").map(Number);
+      return new Date(year, month - 1, day);
+    };
+    const start = parseDate(dueDateInput.value);
+    const end = parseDate(filingDateInput.value);
+    if (start && end) {
+      const startTime = start.getTime();
+      const endTime = end.getTime();
+      if (endTime > startTime) {
+        days = Math.floor((endTime - startTime) / (1e3 * 60 * 60 * 24));
       }
     }
-
-    const feePerDay = isNil ? 20 : 50;
-    const lateFee = days * feePerDay;
-    const cgstSgst = lateFee / 2;
-
-    const liability = parseFloat(liabilityInput.value) || 0;
-    let interest = 0;
-    if (liability > 0 && days > 0) {
-      interest = (liability * 18 * days) / (100 * 365);
-    }
-
-    const total = lateFee + interest;
-
-    resDays.textContent = `${days} Days`;
-    resLateFee.textContent = formatINR(lateFee);
-    resCgst.textContent = formatINR(cgstSgst);
-    resSgst.textContent = formatINR(cgstSgst);
-    resInterest.textContent = formatINR(interest);
-    resTotal.textContent = formatINR(total);
   }
-
-  function toggleType(type: 'normal' | 'nil') {
-    isNil = type === 'nil';
-    
-    btnNormal.classList.toggle('border-accent', !isNil);
-    btnNormal.classList.toggle('bg-accent', !isNil);
-    btnNormal.classList.toggle('text-white', !isNil);
-    btnNormal.classList.toggle('border-base', isNil);
-    btnNormal.classList.toggle('bg-subtle', isNil);
-    btnNormal.classList.toggle('text-muted', isNil);
-    btnNormal.setAttribute('aria-pressed', String(!isNil));
-
-    btnNil.classList.toggle('border-accent', isNil);
-    btnNil.classList.toggle('bg-accent', isNil);
-    btnNil.classList.toggle('text-white', isNil);
-    btnNil.classList.toggle('border-base', !isNil);
-    btnNil.classList.toggle('bg-subtle', !isNil);
-    btnNil.classList.toggle('text-muted', !isNil);
-    btnNil.setAttribute('aria-pressed', String(isNil));
-
-    calculate();
+  const feePerDay = isNil ? 20 : 50;
+  const lateFee = days * feePerDay;
+  const cgstSgst = lateFee / 2;
+  const liability = parseFloat(liabilityInput.value) || 0;
+  let interest = 0;
+  if (liability > 0 && days > 0) {
+    interest = liability * 18 * days / (100 * 365);
   }
-
-  btnNormal.addEventListener('click', () => toggleType('normal'));
-  btnNil.addEventListener('click', () => toggleType('nil'));
-  dueDateInput.addEventListener('change', calculate);
-  filingDateInput.addEventListener('change', calculate);
-  liabilityInput.addEventListener('input', calculate);
-
-  btnReset.addEventListener('click', () => {
-    dueDateInput.value = '';
-    filingDateInput.value = '';
-    liabilityInput.value = '';
-    toggleType('normal');
-  });
-
-  // Init dates to today and 20th of last month to show something
-  const today = new Date();
-  const lastMonth = new Date(today.getFullYear(), today.getMonth() - 1, 20);
-  dueDateInput.value = lastMonth.toISOString().split('T')[0];
-  filingDateInput.value = today.toISOString().split('T')[0];
+  const total = lateFee + interest;
+  resDays.textContent = `${days} Days`;
+  resLateFee.textContent = formatINR(lateFee);
+  resCgst.textContent = formatINR(cgstSgst);
+  resSgst.textContent = formatINR(cgstSgst);
+  resInterest.textContent = formatINR(interest);
+  resTotal.textContent = formatINR(total);
+}
+function toggleType(type) {
+  isNil = type === "nil";
+  btnNormal.classList.toggle("border-accent", !isNil);
+  btnNormal.classList.toggle("bg-accent", !isNil);
+  btnNormal.classList.toggle("text-white", !isNil);
+  btnNormal.classList.toggle("border-base", isNil);
+  btnNormal.classList.toggle("bg-subtle", isNil);
+  btnNormal.classList.toggle("text-muted", isNil);
+  btnNormal.setAttribute("aria-pressed", String(!isNil));
+  btnNil.classList.toggle("border-accent", isNil);
+  btnNil.classList.toggle("bg-accent", isNil);
+  btnNil.classList.toggle("text-white", isNil);
+  btnNil.classList.toggle("border-base", !isNil);
+  btnNil.classList.toggle("bg-subtle", !isNil);
+  btnNil.classList.toggle("text-muted", !isNil);
+  btnNil.setAttribute("aria-pressed", String(isNil));
   calculate();
+}
+btnNormal.addEventListener("click", () => toggleType("normal"));
+btnNil.addEventListener("click", () => toggleType("nil"));
+dueDateInput.addEventListener("change", calculate);
+filingDateInput.addEventListener("change", calculate);
+liabilityInput.addEventListener("input", calculate);
+btnReset.addEventListener("click", () => {
+  dueDateInput.value = "";
+  filingDateInput.value = "";
+  liabilityInput.value = "";
+  toggleType("normal");
+});
+const today = /* @__PURE__ */ new Date();
+const lastMonth = new Date(today.getFullYear(), today.getMonth() - 1, 20);
+dueDateInput.value = lastMonth.toISOString().split("T")[0];
+filingDateInput.value = today.toISOString().split("T")[0];
+calculate();
 </script>

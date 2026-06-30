@@ -316,156 +316,122 @@ const structuredData = [
 </BaseLayout>
 
 
-<script lang="ts">
-  // ── GST Calculator — vanilla JS, runs entirely client-side ────────────────
-
-  type Mode = 'add' | 'remove';
-
-  let mode: Mode = 'add';
-  let selectedRate = 18;
-
-  const amountInput = document.getElementById('amount') as HTMLInputElement;
-  const customRateInput = document.getElementById('custom-rate') as HTMLInputElement;
-  const btnAdd = document.getElementById('btn-add') as HTMLButtonElement;
-  const btnRemove = document.getElementById('btn-remove') as HTMLButtonElement;
-  const btnReset = document.getElementById('btn-reset') as HTMLButtonElement;
-  const rateBtns = document.querySelectorAll<HTMLButtonElement>('.rate-btn');
-
-  // Result elements
-  const resultBase = document.getElementById('result-base')!;
-  const resultGst = document.getElementById('result-gst')!;
-  const resultCgst = document.getElementById('result-cgst')!;
-  const resultSgst = document.getElementById('result-sgst')!;
-  const resultTotal = document.getElementById('result-total')!;
-  const resultRateLabel = document.getElementById('result-rate-label')!;
-  const resultCgstRate = document.getElementById('result-cgst-rate')!;
-  const resultSgstRate = document.getElementById('result-sgst-rate')!;
-  const amountLabel = document.getElementById('amount-label')!;
-  const amountHintText = document.getElementById('amount-hint-text')!;
-  const labelBase = document.getElementById('label-base')!;
-  const labelTotal = document.getElementById('label-total')!;
-
-  /** Format a number as Indian Rupee string */
-  function formatINR(value: number): string {
-    return '₹' + value.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+<script>
+let mode = "add";
+let selectedRate = 18;
+const amountInput = document.getElementById("amount");
+const customRateInput = document.getElementById("custom-rate");
+const btnAdd = document.getElementById("btn-add");
+const btnRemove = document.getElementById("btn-remove");
+const btnReset = document.getElementById("btn-reset");
+const rateBtns = document.querySelectorAll(".rate-btn");
+const resultBase = document.getElementById("result-base");
+const resultGst = document.getElementById("result-gst");
+const resultCgst = document.getElementById("result-cgst");
+const resultSgst = document.getElementById("result-sgst");
+const resultTotal = document.getElementById("result-total");
+const resultRateLabel = document.getElementById("result-rate-label");
+const resultCgstRate = document.getElementById("result-cgst-rate");
+const resultSgstRate = document.getElementById("result-sgst-rate");
+const amountLabel = document.getElementById("amount-label");
+const amountHintText = document.getElementById("amount-hint-text");
+const labelBase = document.getElementById("label-base");
+const labelTotal = document.getElementById("label-total");
+function formatINR(value) {
+  return "\u20B9" + value.toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+function calculate() {
+  const raw = parseFloat(amountInput.value);
+  const amount = isNaN(raw) || raw < 0 ? 0 : raw;
+  const rate = selectedRate;
+  const halfRate = rate / 2;
+  let base, gstAmount, total;
+  if (mode === "add") {
+    base = amount;
+    gstAmount = base * rate / 100;
+    total = base + gstAmount;
+  } else {
+    total = amount;
+    base = total / (1 + rate / 100);
+    gstAmount = total - base;
   }
-
-  /** Recalculate and update the UI */
-  function calculate() {
-    const raw = parseFloat(amountInput.value);
-    const amount = isNaN(raw) || raw < 0 ? 0 : raw;
-    const rate = selectedRate;
-    const halfRate = rate / 2;
-
-    let base: number, gstAmount: number, total: number;
-
-    if (mode === 'add') {
-      base = amount;
-      gstAmount = (base * rate) / 100;
-      total = base + gstAmount;
-    } else {
-      // Reverse: amount is the GST-inclusive price
-      total = amount;
-      base = total / (1 + rate / 100);
-      gstAmount = total - base;
-    }
-
-    const cgst = gstAmount / 2;
-    const sgst = gstAmount / 2;
-
-    resultBase.textContent = formatINR(base);
-    resultGst.textContent = formatINR(gstAmount);
-    resultCgst.textContent = formatINR(cgst);
-    resultSgst.textContent = formatINR(sgst);
-    resultTotal.textContent = formatINR(total);
-    resultRateLabel.textContent = `${rate}%`;
-    resultCgstRate.textContent = `${halfRate}%`;
-    resultSgstRate.textContent = `${halfRate}%`;
+  const cgst = gstAmount / 2;
+  const sgst = gstAmount / 2;
+  resultBase.textContent = formatINR(base);
+  resultGst.textContent = formatINR(gstAmount);
+  resultCgst.textContent = formatINR(cgst);
+  resultSgst.textContent = formatINR(sgst);
+  resultTotal.textContent = formatINR(total);
+  resultRateLabel.textContent = `${rate}%`;
+  resultCgstRate.textContent = `${halfRate}%`;
+  resultSgstRate.textContent = `${halfRate}%`;
+}
+function setMode(newMode) {
+  mode = newMode;
+  const isAdd = mode === "add";
+  btnAdd.classList.toggle("bg-accent", isAdd);
+  btnAdd.classList.toggle("text-white", isAdd);
+  btnAdd.classList.toggle("text-muted", !isAdd);
+  btnAdd.setAttribute("aria-pressed", String(isAdd));
+  btnRemove.classList.toggle("bg-accent", !isAdd);
+  btnRemove.classList.toggle("text-white", !isAdd);
+  btnRemove.classList.toggle("text-muted", isAdd);
+  btnRemove.setAttribute("aria-pressed", String(!isAdd));
+  if (isAdd) {
+    amountLabel.textContent = "Base Amount (\u20B9)";
+    amountHintText.textContent = "Enter the price before GST";
+    labelBase.textContent = "Base Amount";
+    labelTotal.textContent = "Total Amount (incl. GST)";
+  } else {
+    amountLabel.textContent = "GST-Inclusive Amount (\u20B9)";
+    amountHintText.textContent = "Enter the total price including GST";
+    labelBase.textContent = "Base Amount (excl. GST)";
+    labelTotal.textContent = "GST-Inclusive Amount";
   }
-
-  /** Update mode UI */
-  function setMode(newMode: Mode) {
-    mode = newMode;
-    const isAdd = mode === 'add';
-
-    btnAdd.classList.toggle('bg-accent', isAdd);
-    btnAdd.classList.toggle('text-white', isAdd);
-    btnAdd.classList.toggle('text-muted', !isAdd);
-    btnAdd.setAttribute('aria-pressed', String(isAdd));
-
-    btnRemove.classList.toggle('bg-accent', !isAdd);
-    btnRemove.classList.toggle('text-white', !isAdd);
-    btnRemove.classList.toggle('text-muted', isAdd);
-    btnRemove.setAttribute('aria-pressed', String(!isAdd));
-
-    if (isAdd) {
-      amountLabel.textContent = 'Base Amount (₹)';
-      amountHintText.textContent = 'Enter the price before GST';
-      labelBase.textContent = 'Base Amount';
-      labelTotal.textContent = 'Total Amount (incl. GST)';
-    } else {
-      amountLabel.textContent = 'GST-Inclusive Amount (₹)';
-      amountHintText.textContent = 'Enter the total price including GST';
-      labelBase.textContent = 'Base Amount (excl. GST)';
-      labelTotal.textContent = 'GST-Inclusive Amount';
-    }
-
-    calculate();
-  }
-
-  /** Update selected rate button UI */
-  function setRate(rate: number) {
-    selectedRate = rate;
-    rateBtns.forEach((btn) => {
-      const isSelected = parseFloat(btn.dataset.rate ?? '') === rate;
-      btn.classList.toggle('border-accent', isSelected);
-      btn.classList.toggle('bg-accent', isSelected);
-      btn.classList.toggle('text-white', isSelected);
-      btn.classList.toggle('border-base', !isSelected);
-      btn.classList.toggle('bg-subtle', !isSelected);
-      btn.classList.toggle('text-muted', !isSelected);
-      btn.setAttribute('aria-pressed', String(isSelected));
-    });
-    // Clear custom rate if a preset is selected
-    if ([0, 5, 18, 40].includes(rate)) {
-      customRateInput.value = '';
-    }
-    calculate();
-  }
-
-  // ── Event listeners ───────────────────────────────────────────────────────
-  btnAdd.addEventListener('click', () => setMode('add'));
-  btnRemove.addEventListener('click', () => setMode('remove'));
-
-  rateBtns.forEach((btn) => {
-    btn.addEventListener('click', () => {
-      setRate(parseFloat(btn.dataset.rate ?? '18'));
-    });
-  });
-
-  customRateInput.addEventListener('input', () => {
-    const val = parseFloat(customRateInput.value);
-    if (!isNaN(val) && val >= 0 && val <= 100) {
-      // Deselect preset buttons
-      rateBtns.forEach((btn) => {
-        btn.classList.remove('border-accent', 'bg-accent', 'text-white');
-        btn.classList.add('border-base', 'bg-subtle', 'text-muted');
-        btn.setAttribute('aria-pressed', 'false');
-      });
-      selectedRate = val;
-      calculate();
-    }
-  });
-
-  amountInput.addEventListener('input', calculate);
-
-  btnReset.addEventListener('click', () => {
-    amountInput.value = '';
-    customRateInput.value = '';
-    setMode('add');
-    setRate(18);
-  });
-
-  // Initial render
   calculate();
+}
+function setRate(rate) {
+  selectedRate = rate;
+  rateBtns.forEach((btn) => {
+    const isSelected = parseFloat(btn.dataset.rate ?? "") === rate;
+    btn.classList.toggle("border-accent", isSelected);
+    btn.classList.toggle("bg-accent", isSelected);
+    btn.classList.toggle("text-white", isSelected);
+    btn.classList.toggle("border-base", !isSelected);
+    btn.classList.toggle("bg-subtle", !isSelected);
+    btn.classList.toggle("text-muted", !isSelected);
+    btn.setAttribute("aria-pressed", String(isSelected));
+  });
+  if ([0, 5, 18, 40].includes(rate)) {
+    customRateInput.value = "";
+  }
+  calculate();
+}
+btnAdd.addEventListener("click", () => setMode("add"));
+btnRemove.addEventListener("click", () => setMode("remove"));
+rateBtns.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    setRate(parseFloat(btn.dataset.rate ?? "18"));
+  });
+});
+customRateInput.addEventListener("input", () => {
+  const val = parseFloat(customRateInput.value);
+  if (!isNaN(val) && val >= 0 && val <= 100) {
+    rateBtns.forEach((btn) => {
+      btn.classList.remove("border-accent", "bg-accent", "text-white");
+      btn.classList.add("border-base", "bg-subtle", "text-muted");
+      btn.setAttribute("aria-pressed", "false");
+    });
+    selectedRate = val;
+    calculate();
+  }
+});
+amountInput.addEventListener("input", calculate);
+btnReset.addEventListener("click", () => {
+  amountInput.value = "";
+  customRateInput.value = "";
+  setMode("add");
+  setRate(18);
+});
+calculate();
 </script>

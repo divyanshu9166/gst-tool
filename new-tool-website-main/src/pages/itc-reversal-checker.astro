@@ -115,68 +115,51 @@ const structuredData = [
   </div>
 </BaseLayout>
 
-<script lang="ts">
-  type Question = {
-    id: number;
-    badge: string;
-    text: string;
-    optYesTitle: string;
-    optYesDesc: string;
-    optNoTitle: string;
-    optNoDesc: string;
-  };
-
-  const questions: Record<number, Question> = {
-    1: {
-      id: 1,
-      badge: "Step 1 of 3",
-      text: "Did the GST rate on your product or service drop after the GST 2.0 update?",
-      optYesTitle: "Yes",
-      optYesDesc: "The tax slab was reduced.",
-      optNoTitle: "No",
-      optNoDesc: "The rate stayed the same or increased."
-    },
-    2: {
-      id: 2,
-      badge: "Step 2 of 3",
-      text: "Have you already sold the inventory that was purchased at the older, higher tax rate?",
-      optYesTitle: "Yes, it's sold",
-      optYesDesc: "The goods have already been dispatched and invoiced.",
-      optNoTitle: "No, it's in stock",
-      optNoDesc: "I am holding this inventory in my warehouse."
-    },
-    3: {
-      id: 3,
-      badge: "Step 3 of 3",
-      text: "Is the new rate specifically 'Nil-Rated' (0%) or 'Exempt'?",
-      optYesTitle: "Yes, 0% / Exempt",
-      optYesDesc: "The item is now completely tax-free.",
-      optNoTitle: "No, it's just lower",
-      optNoDesc: "It dropped to a lower taxable slab (like 5%)."
-    }
-  };
-
-  let currentStep = 1;
-
-  const quizContainer = document.getElementById('quiz-container')!;
-  const resultContainer = document.getElementById('result-container')!;
-  
-  const qBadge = document.getElementById('q-badge')!;
-  const qText = document.getElementById('q-text')!;
-  
-  const optionsDiv = document.getElementById('q-options')!;
-  const btnRestart = document.getElementById('btn-restart')!;
-
-  const resIcon = document.getElementById('res-icon')!;
-  const resTitle = document.getElementById('res-title')!;
-  const resDesc = document.getElementById('res-desc')!;
-
-  function renderQuestion(qId: number) {
-    const q = questions[qId];
-    qBadge.textContent = q.badge;
-    qText.textContent = q.text;
-
-    optionsDiv.innerHTML = `
+<script>
+const questions = {
+  1: {
+    id: 1,
+    badge: "Step 1 of 3",
+    text: "Did the GST rate on your product or service drop after the GST 2.0 update?",
+    optYesTitle: "Yes",
+    optYesDesc: "The tax slab was reduced.",
+    optNoTitle: "No",
+    optNoDesc: "The rate stayed the same or increased."
+  },
+  2: {
+    id: 2,
+    badge: "Step 2 of 3",
+    text: "Have you already sold the inventory that was purchased at the older, higher tax rate?",
+    optYesTitle: "Yes, it's sold",
+    optYesDesc: "The goods have already been dispatched and invoiced.",
+    optNoTitle: "No, it's in stock",
+    optNoDesc: "I am holding this inventory in my warehouse."
+  },
+  3: {
+    id: 3,
+    badge: "Step 3 of 3",
+    text: "Is the new rate specifically 'Nil-Rated' (0%) or 'Exempt'?",
+    optYesTitle: "Yes, 0% / Exempt",
+    optYesDesc: "The item is now completely tax-free.",
+    optNoTitle: "No, it's just lower",
+    optNoDesc: "It dropped to a lower taxable slab (like 5%)."
+  }
+};
+let currentStep = 1;
+const quizContainer = document.getElementById("quiz-container");
+const resultContainer = document.getElementById("result-container");
+const qBadge = document.getElementById("q-badge");
+const qText = document.getElementById("q-text");
+const optionsDiv = document.getElementById("q-options");
+const btnRestart = document.getElementById("btn-restart");
+const resIcon = document.getElementById("res-icon");
+const resTitle = document.getElementById("res-title");
+const resDesc = document.getElementById("res-desc");
+function renderQuestion(qId) {
+  const q = questions[qId];
+  qBadge.textContent = q.badge;
+  qText.textContent = q.text;
+  optionsDiv.innerHTML = `
       <button type="button" class="ans-btn rounded-[8px] border border-base bg-subtle hover:border-accent hover:bg-accent/5 py-4 px-6 text-left transition-all active:scale-95" data-ans="yes">
         <span class="block text-[18px] font-medium text-base mb-1">${q.optYesTitle}</span>
         <span class="block text-[13px] text-muted">${q.optYesDesc}</span>
@@ -186,84 +169,73 @@ const structuredData = [
         <span class="block text-[13px] text-muted">${q.optNoDesc}</span>
       </button>
     `;
-
-    // Reattach listeners to new buttons
-    document.querySelectorAll('.ans-btn').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        const target = e.currentTarget as HTMLButtonElement;
-        handleAnswer(target.dataset.ans as 'yes' | 'no');
-      });
+  document.querySelectorAll(".ans-btn").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      const target = e.currentTarget;
+      handleAnswer(target.dataset.ans);
     });
-  }
-
-  function showResult(icon: string, title: string, desc: string, isError: boolean) {
-    quizContainer.classList.add('hidden');
-    resultContainer.classList.remove('hidden');
-
-    resIcon.textContent = icon;
-    resTitle.textContent = title;
-    resDesc.textContent = desc;
-
-    if (isError) {
-      resTitle.className = "text-[28px] font-bold tracking-tight mb-3 text-red-500";
-    } else {
-      resTitle.className = "text-[28px] font-bold tracking-tight mb-3 text-green-500";
-    }
-  }
-
-  function handleAnswer(ans: 'yes' | 'no') {
-    if (currentStep === 1) {
-      if (ans === 'no') {
-        showResult(
-          '✅', 
-          'No Reversal Required', 
-          'If the rate did not drop, you do not need to reverse any ITC. You can continue utilizing your accumulated credit against output tax as usual.',
-          false
-        );
-      } else {
-        currentStep = 2;
-        renderQuestion(2);
-      }
-    } 
-    else if (currentStep === 2) {
-      if (ans === 'yes') {
-        showResult(
-          '✅', 
-          'No Reversal Required', 
-          'Since the inventory has already been sold, the ITC was rightfully claimed and utilized against the output tax at that time. A subsequent rate drop does not retroactively force an ITC surrender on sold goods.',
-          false
-        );
-      } else {
-        currentStep = 3;
-        renderQuestion(3);
-      }
-    }
-    else if (currentStep === 3) {
-      if (ans === 'yes') {
-        showResult(
-          '⚠️', 
-          'ITC Reversal Required', 
-          'Under Section 17(2) of the CGST Act, you cannot claim Input Tax Credit on goods or services used to make Exempt or Nil-Rated supplies. Because your unsold stock is now exempt, you must calculate and reverse the corresponding ITC in Table 4(B) of your GSTR-3B.',
-          true
-        );
-      } else {
-        showResult(
-          '✅', 
-          'No Reversal Required', 
-          'A standard rate drop (e.g., from 18% to 5%) does NOT require you to reverse ITC already claimed on raw materials, unless the CBIC issues a specific notification stating otherwise (which they rarely do). You can retain the ITC and carry it forward.',
-          false
-        );
-      }
-    }
-  }
-
-  btnRestart.addEventListener('click', () => {
-    currentStep = 1;
-    resultContainer.classList.add('hidden');
-    quizContainer.classList.remove('hidden');
-    renderQuestion(1);
   });
-
-  // Init
+}
+function showResult(icon, title, desc, isError) {
+  quizContainer.classList.add("hidden");
+  resultContainer.classList.remove("hidden");
+  resIcon.textContent = icon;
+  resTitle.textContent = title;
+  resDesc.textContent = desc;
+  if (isError) {
+    resTitle.className = "text-[28px] font-bold tracking-tight mb-3 text-red-500";
+  } else {
+    resTitle.className = "text-[28px] font-bold tracking-tight mb-3 text-green-500";
+  }
+}
+function handleAnswer(ans) {
+  if (currentStep === 1) {
+    if (ans === "no") {
+      showResult(
+        "\u2705",
+        "No Reversal Required",
+        "If the rate did not drop, you do not need to reverse any ITC. You can continue utilizing your accumulated credit against output tax as usual.",
+        false
+      );
+    } else {
+      currentStep = 2;
+      renderQuestion(2);
+    }
+  } else if (currentStep === 2) {
+    if (ans === "yes") {
+      showResult(
+        "\u2705",
+        "No Reversal Required",
+        "Since the inventory has already been sold, the ITC was rightfully claimed and utilized against the output tax at that time. A subsequent rate drop does not retroactively force an ITC surrender on sold goods.",
+        false
+      );
+    } else {
+      currentStep = 3;
+      renderQuestion(3);
+    }
+  } else if (currentStep === 3) {
+    if (ans === "yes") {
+      showResult(
+        "\u26A0\uFE0F",
+        "ITC Reversal Required",
+        "Under Section 17(2) of the CGST Act, you cannot claim Input Tax Credit on goods or services used to make Exempt or Nil-Rated supplies. Because your unsold stock is now exempt, you must calculate and reverse the corresponding ITC in Table 4(B) of your GSTR-3B.",
+        true
+      );
+    } else {
+      showResult(
+        "\u2705",
+        "No Reversal Required",
+        "A standard rate drop (e.g., from 18% to 5%) does NOT require you to reverse ITC already claimed on raw materials, unless the CBIC issues a specific notification stating otherwise (which they rarely do). You can retain the ITC and carry it forward.",
+        false
+      );
+    }
+  }
+}
+btnRestart.addEventListener("click", () => {
+  currentStep = 1;
+  resultContainer.classList.add("hidden");
+  quizContainer.classList.remove("hidden");
   renderQuestion(1);
+});
+renderQuestion(1);
 </script>

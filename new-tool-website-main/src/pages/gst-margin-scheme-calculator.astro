@@ -291,77 +291,57 @@ const structuredData = [
   </div>
 </BaseLayout>
 
-<script lang="ts">
-  const form = document.getElementById('margin-form');
-  const purchaseInput = document.getElementById('purchasePrice') as HTMLInputElement;
-  const sellingInput = document.getElementById('sellingPrice') as HTMLInputElement;
-  const rateRadios = document.querySelectorAll('input[name="gstRate"]');
-  
-  const resultsSection = document.getElementById('results-section');
-  const resMarginValue = document.getElementById('res-margin-value');
-  const resMarginGst = document.getElementById('res-margin-gst');
-  const resNormalValue = document.getElementById('res-normal-value');
-  const resNormalGst = document.getElementById('res-normal-gst');
-  
-  const savingsBox = document.getElementById('savings-box');
-  const resSavings = document.getElementById('res-savings');
-  const lossBox = document.getElementById('loss-box');
-
-  function formatINR(number) {
-    return new Intl.NumberFormat('en-IN', {
-      style: 'currency',
-      currency: 'INR',
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
-    }).format(number);
+<script>
+const form = document.getElementById("margin-form");
+const purchaseInput = document.getElementById("purchasePrice");
+const sellingInput = document.getElementById("sellingPrice");
+const rateRadios = document.querySelectorAll('input[name="gstRate"]');
+const resultsSection = document.getElementById("results-section");
+const resMarginValue = document.getElementById("res-margin-value");
+const resMarginGst = document.getElementById("res-margin-gst");
+const resNormalValue = document.getElementById("res-normal-value");
+const resNormalGst = document.getElementById("res-normal-gst");
+const savingsBox = document.getElementById("savings-box");
+const resSavings = document.getElementById("res-savings");
+const lossBox = document.getElementById("loss-box");
+function formatINR(number) {
+  return new Intl.NumberFormat("en-IN", {
+    style: "currency",
+    currency: "INR",
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0
+  }).format(number);
+}
+function calculate() {
+  const purchase = parseFloat(purchaseInput.value);
+  const selling = parseFloat(sellingInput.value);
+  if (isNaN(purchase) || isNaN(selling)) {
+    resultsSection.classList.add("hidden");
+    return;
   }
-
-  function calculate() {
-    const purchase = parseFloat(purchaseInput.value);
-    const selling = parseFloat(sellingInput.value);
-    
-    if (isNaN(purchase) || isNaN(selling)) {
-      resultsSection.classList.add('hidden');
-      return;
-    }
-    
-    let rate = 18;
-    rateRadios.forEach((r: HTMLInputElement) => {
-      if (r.checked) rate = parseFloat(r.value);
-    });
-
-    resultsSection.classList.remove('hidden');
-
-    const margin = selling - purchase;
-    const taxableMargin = margin > 0 ? margin : 0;
-    
-    // Reverse calculation formula since margin is inclusive of GST if collected from customer, 
-    // but usually in margin scheme, tax is calculated on margin itself.
-    // The law says GST is payable on the margin. 
-    // Margin GST = (Margin) * rate / 100
-    const marginGst = (taxableMargin * rate) / 100;
-    
-    // Normal scheme GST = Selling Price * rate / 100
-    const normalGst = (selling * rate) / 100;
-
-    resMarginValue.textContent = formatINR(taxableMargin);
-    resMarginGst.textContent = formatINR(marginGst);
-    
-    resNormalValue.textContent = formatINR(selling);
-    resNormalGst.textContent = formatINR(normalGst);
-
-    if (margin > 0) {
-        const savings = normalGst - marginGst;
-        resSavings.textContent = formatINR(savings);
-        savingsBox.classList.remove('hidden');
-        lossBox.classList.add('hidden');
-    } else {
-        savingsBox.classList.add('hidden');
-        lossBox.classList.remove('hidden');
-    }
+  let rate = 18;
+  rateRadios.forEach((r) => {
+    if (r.checked) rate = parseFloat(r.value);
+  });
+  resultsSection.classList.remove("hidden");
+  const margin = selling - purchase;
+  const taxableMargin = margin > 0 ? margin : 0;
+  const marginGst = taxableMargin * rate / 100;
+  const normalGst = selling * rate / 100;
+  resMarginValue.textContent = formatINR(taxableMargin);
+  resMarginGst.textContent = formatINR(marginGst);
+  resNormalValue.textContent = formatINR(selling);
+  resNormalGst.textContent = formatINR(normalGst);
+  if (margin > 0) {
+    const savings = normalGst - marginGst;
+    resSavings.textContent = formatINR(savings);
+    savingsBox.classList.remove("hidden");
+    lossBox.classList.add("hidden");
+  } else {
+    savingsBox.classList.add("hidden");
+    lossBox.classList.remove("hidden");
   }
-
-  // Event Listeners
-  form.addEventListener('input', calculate);
-  form.addEventListener('change', calculate);
+}
+form.addEventListener("input", calculate);
+form.addEventListener("change", calculate);
 </script>

@@ -192,71 +192,53 @@ const structuredData = [
   </div>
 </BaseLayout>
 
-<script lang="ts">
-  const dateInput = document.getElementById('currentDate') as HTMLInputElement;
-  const deadlineDateEl = document.getElementById('deadline-date');
-  const deadlineStatusEl = document.getElementById('deadline-status');
-  const iconContainer = document.getElementById('icon-container');
-  const actionTitle = document.getElementById('action-title');
-  const actionDesc = document.getElementById('action-desc');
-
-  // Set today as default
-  dateInput.valueAsDate = new Date();
-
-  function calculate() {
-    if (!dateInput.value) return;
-    
-    const d = new Date(dateInput.value);
-    const year = d.getFullYear();
-    const month = d.getMonth(); // 0-11
-    
-    let targetYear = year;
-    let targetFYYear = year;
-    
-    // If we are in Jan, Feb, Mar (0,1,2), the deadline is March 31 of THIS year.
-    // If we are in Apr-Dec (3-11), the deadline is March 31 of NEXT year.
-    if (month >= 3) {
-        targetYear = year + 1;
-        targetFYYear = year + 1;
-    }
-    
-    const deadlineStr = `31 March ${targetYear}`;
-    const nextFY = `FY ${targetFYYear}-${(targetFYYear + 1).toString().substring(2)}`;
-    
-    deadlineDateEl.textContent = deadlineStr;
-    deadlineStatusEl.textContent = `For Financial Year ${targetFYYear}-${(targetFYYear + 1).toString().substring(2)}`;
-
-    // Time difference
-    const deadlineDateObj = new Date(targetYear, 2, 31); // Month is 0-indexed (2 = March)
-    const timeDiff = deadlineDateObj.getTime() - d.getTime();
-    const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
-
-    if (daysDiff < 0) {
-        // Technically impossible with the logic above, it will always target future march.
-        // But if someone manually alters logic, this serves as fallback
-    } else if (daysDiff <= 30) {
-        iconContainer.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>';
-        iconContainer.className = "mt-1 flex-shrink-0 text-red-500";
-        actionTitle.textContent = "Urgent: File Immediately";
-        actionTitle.className = "font-semibold text-[15px] text-red-600";
-        actionDesc.textContent = `You have less than ${daysDiff} days left to renew your LUT for ${nextFY}. File Form RFD-11 today to prevent blockage of working capital on April 1st.`;
-    } else if (daysDiff <= 60) {
-        iconContainer.className = "mt-1 flex-shrink-0 text-yellow-500";
-        actionTitle.textContent = "Prepare to File";
-        actionTitle.className = "font-semibold text-[15px] text-yellow-600";
-        actionDesc.textContent = `The portal is likely open for ${nextFY} LUT filings. Gather your witness details and initiate the RFD-11 filing process.`;
-    } else {
-        iconContainer.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>';
-        iconContainer.className = "mt-1 flex-shrink-0 text-green-500";
-        actionTitle.textContent = "You are safe for now";
-        actionTitle.className = "font-semibold text-[15px] text-green-600";
-        actionDesc.textContent = `Your current LUT is valid. You do not need to file for ${nextFY} until Q4 (Jan-March ${targetYear}).`;
-    }
+<script>
+const dateInput = document.getElementById("currentDate");
+const deadlineDateEl = document.getElementById("deadline-date");
+const deadlineStatusEl = document.getElementById("deadline-status");
+const iconContainer = document.getElementById("icon-container");
+const actionTitle = document.getElementById("action-title");
+const actionDesc = document.getElementById("action-desc");
+dateInput.valueAsDate = /* @__PURE__ */ new Date();
+function calculate() {
+  if (!dateInput.value) return;
+  const d = new Date(dateInput.value);
+  const year = d.getFullYear();
+  const month = d.getMonth();
+  let targetYear = year;
+  let targetFYYear = year;
+  if (month >= 3) {
+    targetYear = year + 1;
+    targetFYYear = year + 1;
   }
-
-  dateInput.addEventListener('change', calculate);
-  dateInput.addEventListener('input', calculate);
-  
-  // Initial run
-  calculate();
+  const deadlineStr = `31 March ${targetYear}`;
+  const nextFY = `FY ${targetFYYear}-${(targetFYYear + 1).toString().substring(2)}`;
+  deadlineDateEl.textContent = deadlineStr;
+  deadlineStatusEl.textContent = `For Financial Year ${targetFYYear}-${(targetFYYear + 1).toString().substring(2)}`;
+  const deadlineDateObj = new Date(targetYear, 2, 31);
+  const timeDiff = deadlineDateObj.getTime() - d.getTime();
+  const daysDiff = Math.ceil(timeDiff / (1e3 * 3600 * 24));
+  if (daysDiff < 0) {
+  } else if (daysDiff <= 30) {
+    iconContainer.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>';
+    iconContainer.className = "mt-1 flex-shrink-0 text-red-500";
+    actionTitle.textContent = "Urgent: File Immediately";
+    actionTitle.className = "font-semibold text-[15px] text-red-600";
+    actionDesc.textContent = `You have less than ${daysDiff} days left to renew your LUT for ${nextFY}. File Form RFD-11 today to prevent blockage of working capital on April 1st.`;
+  } else if (daysDiff <= 60) {
+    iconContainer.className = "mt-1 flex-shrink-0 text-yellow-500";
+    actionTitle.textContent = "Prepare to File";
+    actionTitle.className = "font-semibold text-[15px] text-yellow-600";
+    actionDesc.textContent = `The portal is likely open for ${nextFY} LUT filings. Gather your witness details and initiate the RFD-11 filing process.`;
+  } else {
+    iconContainer.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>';
+    iconContainer.className = "mt-1 flex-shrink-0 text-green-500";
+    actionTitle.textContent = "You are safe for now";
+    actionTitle.className = "font-semibold text-[15px] text-green-600";
+    actionDesc.textContent = `Your current LUT is valid. You do not need to file for ${nextFY} until Q4 (Jan-March ${targetYear}).`;
+  }
+}
+dateInput.addEventListener("change", calculate);
+dateInput.addEventListener("input", calculate);
+calculate();
 </script>

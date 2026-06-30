@@ -190,119 +190,103 @@ const installments = [
 
   </div>
 
-  <script lang="ts">
-    const fmt = (n: number) => '₹' + Math.round(n).toLocaleString('en-IN');
-
-    function calcNewRegimeTax(income: number, type: string): number {
-      // New Regime FY 2025-26 slabs
-      const slabs = [
-        { upto: 400000, rate: 0 },
-        { upto: 800000, rate: 0.05 },
-        { upto: 1200000, rate: 0.10 },
-        { upto: 1600000, rate: 0.15 },
-        { upto: 2000000, rate: 0.20 },
-        { upto: 2400000, rate: 0.25 },
-        { upto: Infinity, rate: 0.30 },
-      ];
-      // Standard deduction of 75000 in new regime for salaried
-      let taxable = Math.max(0, income - 75000);
-      // Rebate u/s 87A: if income <= 12L, tax = 0
-      if (income <= 1200000) return 0;
-
-      let tax = 0;
-      let prev = 0;
-      for (const slab of slabs) {
-        if (taxable <= prev) break;
-        const slice = Math.min(taxable, slab.upto) - prev;
-        tax += slice * slab.rate;
-        prev = slab.upto;
-      }
-      // Surcharge
-      let surcharge = 0;
-      if (income > 5000000 && income <= 10000000) surcharge = tax * 0.10;
-      else if (income > 10000000 && income <= 20000000) surcharge = tax * 0.15;
-      else if (income > 20000000 && income <= 50000000) surcharge = tax * 0.25;
-      else if (income > 50000000) surcharge = tax * 0.37;
-      const total = tax + surcharge;
-      // Health & Education Cess 4%
-      return total * 1.04;
-    }
-
-    function calcOldRegimeTax(income: number, type: string): number {
-      let basicExemption = 250000;
-      if (type === 'senior') basicExemption = 300000;
-      if (type === 'verysenior') basicExemption = 500000;
-
-      let taxable = Math.max(0, income - basicExemption);
-      // Rebate u/s 87A: if income <= 5L (old regime)
-      let tax = 0;
-      if (income <= 500000) return 0;
-
-      const slabs = [250000, 250000, Infinity];
-      const rates = [0.05, 0.20, 0.30];
-      let remaining = taxable;
-      for (let i = 0; i < slabs.length; i++) {
-        const slice = Math.min(remaining, slabs[i]);
-        tax += slice * rates[i];
-        remaining -= slice;
-        if (remaining <= 0) break;
-      }
-      let surcharge = 0;
-      if (income > 5000000 && income <= 10000000) surcharge = tax * 0.10;
-      else if (income > 10000000 && income <= 20000000) surcharge = tax * 0.15;
-      else if (income > 20000000 && income <= 50000000) surcharge = tax * 0.25;
-      else if (income > 50000000) surcharge = tax * 0.37;
-      return (tax + surcharge) * 1.04;
-    }
-
-    document.getElementById('calc-btn')!.addEventListener('click', () => {
-      const income = parseFloat((document.getElementById('est-income') as HTMLInputElement).value) || 0;
-      const tds = parseFloat((document.getElementById('tds-deducted') as HTMLInputElement).value) || 0;
-      const regime = (document.getElementById('tax-regime') as HTMLSelectElement).value;
-      const taxpayerType = (document.getElementById('taxpayer-type') as HTMLSelectElement).value;
-
-      const totalTax = regime === 'new' ? calcNewRegimeTax(income, taxpayerType) : calcOldRegimeTax(income, taxpayerType);
-      const advanceTaxPayable = Math.max(0, totalTax - tds);
-
-      const results = document.getElementById('results')!;
-      const noAdvTax = document.getElementById('no-advance-tax')!;
-      const instSection = document.getElementById('installments-section')!;
-      results.classList.remove('hidden');
-
-      document.getElementById('res-total-tax')!.textContent = fmt(totalTax);
-      document.getElementById('res-advance-tax')!.textContent = fmt(advanceTaxPayable);
-
-      if (advanceTaxPayable <= 10000) {
-        noAdvTax.classList.remove('hidden');
-        instSection.classList.add('hidden');
-      } else {
-        noAdvTax.classList.add('hidden');
-        instSection.classList.remove('hidden');
-        const list = document.getElementById('installments-list')!;
-        const percents = [15, 45, 75, 100];
-        const labels = ['1st Installment', '2nd Installment', '3rd Installment', '4th Installment'];
-        const dates = ['15 June 2025', '15 September 2025', '15 December 2025', '15 March 2026'];
-        list.innerHTML = '';
-        let prevPaid = 0;
-        percents.forEach((pct, i) => {
-          const cumAmount = advanceTaxPayable * pct / 100;
-          const thisPay = cumAmount - prevPaid;
-          prevPaid = cumAmount;
-          list.innerHTML += `
+  <script>
+const fmt = (n) => "\u20B9" + Math.round(n).toLocaleString("en-IN");
+function calcNewRegimeTax(income, type) {
+  const slabs = [
+    { upto: 4e5, rate: 0 },
+    { upto: 8e5, rate: 0.05 },
+    { upto: 12e5, rate: 0.1 },
+    { upto: 16e5, rate: 0.15 },
+    { upto: 2e6, rate: 0.2 },
+    { upto: 24e5, rate: 0.25 },
+    { upto: Infinity, rate: 0.3 }
+  ];
+  let taxable = Math.max(0, income - 75e3);
+  if (income <= 12e5) return 0;
+  let tax = 0;
+  let prev = 0;
+  for (const slab of slabs) {
+    if (taxable <= prev) break;
+    const slice = Math.min(taxable, slab.upto) - prev;
+    tax += slice * slab.rate;
+    prev = slab.upto;
+  }
+  let surcharge = 0;
+  if (income > 5e6 && income <= 1e7) surcharge = tax * 0.1;
+  else if (income > 1e7 && income <= 2e7) surcharge = tax * 0.15;
+  else if (income > 2e7 && income <= 5e7) surcharge = tax * 0.25;
+  else if (income > 5e7) surcharge = tax * 0.37;
+  const total = tax + surcharge;
+  return total * 1.04;
+}
+function calcOldRegimeTax(income, type) {
+  let basicExemption = 25e4;
+  if (type === "senior") basicExemption = 3e5;
+  if (type === "verysenior") basicExemption = 5e5;
+  let taxable = Math.max(0, income - basicExemption);
+  let tax = 0;
+  if (income <= 5e5) return 0;
+  const slabs = [25e4, 25e4, Infinity];
+  const rates = [0.05, 0.2, 0.3];
+  let remaining = taxable;
+  for (let i = 0; i < slabs.length; i++) {
+    const slice = Math.min(remaining, slabs[i]);
+    tax += slice * rates[i];
+    remaining -= slice;
+    if (remaining <= 0) break;
+  }
+  let surcharge = 0;
+  if (income > 5e6 && income <= 1e7) surcharge = tax * 0.1;
+  else if (income > 1e7 && income <= 2e7) surcharge = tax * 0.15;
+  else if (income > 2e7 && income <= 5e7) surcharge = tax * 0.25;
+  else if (income > 5e7) surcharge = tax * 0.37;
+  return (tax + surcharge) * 1.04;
+}
+document.getElementById("calc-btn").addEventListener("click", () => {
+  const income = parseFloat(document.getElementById("est-income").value) || 0;
+  const tds = parseFloat(document.getElementById("tds-deducted").value) || 0;
+  const regime = document.getElementById("tax-regime").value;
+  const taxpayerType = document.getElementById("taxpayer-type").value;
+  const totalTax = regime === "new" ? calcNewRegimeTax(income, taxpayerType) : calcOldRegimeTax(income, taxpayerType);
+  const advanceTaxPayable = Math.max(0, totalTax - tds);
+  const results = document.getElementById("results");
+  const noAdvTax = document.getElementById("no-advance-tax");
+  const instSection = document.getElementById("installments-section");
+  results.classList.remove("hidden");
+  document.getElementById("res-total-tax").textContent = fmt(totalTax);
+  document.getElementById("res-advance-tax").textContent = fmt(advanceTaxPayable);
+  if (advanceTaxPayable <= 1e4) {
+    noAdvTax.classList.remove("hidden");
+    instSection.classList.add("hidden");
+  } else {
+    noAdvTax.classList.add("hidden");
+    instSection.classList.remove("hidden");
+    const list = document.getElementById("installments-list");
+    const percents = [15, 45, 75, 100];
+    const labels = ["1st Installment", "2nd Installment", "3rd Installment", "4th Installment"];
+    const dates = ["15 June 2025", "15 September 2025", "15 December 2025", "15 March 2026"];
+    list.innerHTML = "";
+    let prevPaid = 0;
+    percents.forEach((pct, i) => {
+      const cumAmount = advanceTaxPayable * pct / 100;
+      const thisPay = cumAmount - prevPaid;
+      prevPaid = cumAmount;
+      list.innerHTML += `
             <div class="flex items-center justify-between p-4 rounded-xl border border-base bg-subtle">
               <div>
                 <div class="font-semibold text-base">${labels[i]}</div>
-                <div class="text-xs text-muted">Due by ${dates[i]} · Cumulative ${pct}%</div>
+                <div class="text-xs text-muted">Due by ${dates[i]} \xB7 Cumulative ${pct}%</div>
               </div>
               <div class="text-right">
                 <div class="text-xl font-mono font-bold text-accent">${fmt(thisPay)}</div>
                 <div class="text-xs text-muted">Cumulative: ${fmt(cumAmount)}</div>
               </div>
             </div>`;
-        });
-      }
     });
-  </script>
+  }
+});
+</script>
 
   
   <!-- Related Guides -->

@@ -228,107 +228,84 @@ const structuredData = [
   </div>
 </BaseLayout>
 
-<script lang="ts">
-  const form = document.getElementById('deadline-form');
-  const noticeRadios = document.querySelectorAll('input[name="noticeType"]');
-  const customDaysContainer = document.getElementById('custom-days-container');
-  const customDaysInput = document.getElementById('customDays') as HTMLInputElement;
-  const receiptDateInput = document.getElementById('receiptDate') as HTMLInputElement;
-  
-  const resultsSection = document.getElementById('results-section');
-  const deadlineDateEl = document.getElementById('deadline-date');
-  const daysRemainingEl = document.getElementById('days-remaining');
-  const statusIcon = document.getElementById('status-icon');
-  const consequenceText = document.getElementById('consequence-text');
-
-  // Set today as default date
-  const today = new Date();
-  receiptDateInput.valueAsDate = today;
-
-  function calculate() {
-    if (!receiptDateInput.value) {
-      resultsSection.classList.add('hidden');
-      return;
-    }
-
-    let allowedDays = 30; // Default
-    let isCustom = false;
-    
-    noticeRadios.forEach((r: HTMLInputElement) => {
-      if (r.checked) {
-        if (r.value === 'custom') {
-          isCustom = true;
-          allowedDays = parseInt(customDaysInput.value) || 0;
-        } else {
-          allowedDays = parseInt(r.value);
-        }
-      }
-    });
-
-    if (isCustom) {
-      customDaysContainer.classList.remove('hidden');
-    } else {
-      customDaysContainer.classList.add('hidden');
-    }
-
-    if (allowedDays <= 0 && isCustom) {
-        resultsSection.classList.add('hidden');
-        return;
-    }
-
-    resultsSection.classList.remove('hidden');
-
-    const receiptDate = new Date(receiptDateInput.value);
-    
-    // Calculate Deadline Date
-    const deadlineDate = new Date(receiptDate);
-    deadlineDate.setDate(deadlineDate.getDate() + allowedDays);
-    
-    // Formatting
-    const options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' };
-    deadlineDateEl.textContent = deadlineDate.toLocaleDateString('en-IN', options);
-
-    // Calculate Days Remaining
-    // Normalizing today's date to midnight for accurate day diff
-    const currentDate = new Date();
-    currentDate.setHours(0,0,0,0);
-    const targetDeadlineDate = new Date(deadlineDate);
-    targetDeadlineDate.setHours(0,0,0,0);
-    
-    const timeDiff = targetDeadlineDate.getTime() - currentDate.getTime();
-    const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
-
-    if (daysDiff < 0) {
-        daysRemainingEl.textContent = `${Math.abs(daysDiff)} Days Overdue`;
-        daysRemainingEl.className = 'text-[14px] font-medium mt-1 text-red-600';
-        statusIcon.className = 'flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center bg-red-100 text-red-600';
-        statusIcon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>';
-        consequenceText.innerHTML = '<strong>Warning:</strong> You have missed the deadline. The officer may pass an ex-parte order. You should immediately consult a tax professional and consider filing the reply with a request for condonation of delay.';
-    } else if (daysDiff === 0) {
-        daysRemainingEl.textContent = 'Deadline is TODAY';
-        daysRemainingEl.className = 'text-[14px] font-bold mt-1 text-red-600';
-        statusIcon.className = 'flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center bg-red-100 text-red-600';
-        statusIcon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>';
-        consequenceText.innerHTML = '<strong>Urgent:</strong> File your reply immediately on the GST portal before midnight to avoid ex-parte proceedings.';
-    } else if (daysDiff <= 5) {
-        daysRemainingEl.textContent = `${daysDiff} Days Remaining`;
-        daysRemainingEl.className = 'text-[14px] font-medium mt-1 text-yellow-600';
-        statusIcon.className = 'flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center bg-yellow-100 text-yellow-600';
-        statusIcon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>';
-        consequenceText.innerHTML = 'You are approaching the deadline. Ensure your reply is finalized and submitted promptly. Do not wait for the last minute due to potential portal glitches.';
-    } else {
-        daysRemainingEl.textContent = `${daysDiff} Days Remaining`;
-        daysRemainingEl.className = 'text-[14px] font-medium mt-1 text-green-600';
-        statusIcon.className = 'flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center bg-green-100 text-green-600';
-        statusIcon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>';
-        consequenceText.innerHTML = 'You have sufficient time to prepare a strong factual and legal defense. If it is a DRC-01 SCN, it is advisable to consult a GST professional.';
-    }
+<script>
+const form = document.getElementById("deadline-form");
+const noticeRadios = document.querySelectorAll('input[name="noticeType"]');
+const customDaysContainer = document.getElementById("custom-days-container");
+const customDaysInput = document.getElementById("customDays");
+const receiptDateInput = document.getElementById("receiptDate");
+const resultsSection = document.getElementById("results-section");
+const deadlineDateEl = document.getElementById("deadline-date");
+const daysRemainingEl = document.getElementById("days-remaining");
+const statusIcon = document.getElementById("status-icon");
+const consequenceText = document.getElementById("consequence-text");
+const today = /* @__PURE__ */ new Date();
+receiptDateInput.valueAsDate = today;
+function calculate() {
+  if (!receiptDateInput.value) {
+    resultsSection.classList.add("hidden");
+    return;
   }
-
-  // Event Listeners
-  form.addEventListener('input', calculate);
-  form.addEventListener('change', calculate);
-  
-  // Initial Run
-  calculate();
+  let allowedDays = 30;
+  let isCustom = false;
+  noticeRadios.forEach((r) => {
+    if (r.checked) {
+      if (r.value === "custom") {
+        isCustom = true;
+        allowedDays = parseInt(customDaysInput.value) || 0;
+      } else {
+        allowedDays = parseInt(r.value);
+      }
+    }
+  });
+  if (isCustom) {
+    customDaysContainer.classList.remove("hidden");
+  } else {
+    customDaysContainer.classList.add("hidden");
+  }
+  if (allowedDays <= 0 && isCustom) {
+    resultsSection.classList.add("hidden");
+    return;
+  }
+  resultsSection.classList.remove("hidden");
+  const receiptDate = new Date(receiptDateInput.value);
+  const deadlineDate = new Date(receiptDate);
+  deadlineDate.setDate(deadlineDate.getDate() + allowedDays);
+  const options = { weekday: "short", year: "numeric", month: "long", day: "numeric" };
+  deadlineDateEl.textContent = deadlineDate.toLocaleDateString("en-IN", options);
+  const currentDate = /* @__PURE__ */ new Date();
+  currentDate.setHours(0, 0, 0, 0);
+  const targetDeadlineDate = new Date(deadlineDate);
+  targetDeadlineDate.setHours(0, 0, 0, 0);
+  const timeDiff = targetDeadlineDate.getTime() - currentDate.getTime();
+  const daysDiff = Math.ceil(timeDiff / (1e3 * 3600 * 24));
+  if (daysDiff < 0) {
+    daysRemainingEl.textContent = `${Math.abs(daysDiff)} Days Overdue`;
+    daysRemainingEl.className = "text-[14px] font-medium mt-1 text-red-600";
+    statusIcon.className = "flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center bg-red-100 text-red-600";
+    statusIcon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>';
+    consequenceText.innerHTML = "<strong>Warning:</strong> You have missed the deadline. The officer may pass an ex-parte order. You should immediately consult a tax professional and consider filing the reply with a request for condonation of delay.";
+  } else if (daysDiff === 0) {
+    daysRemainingEl.textContent = "Deadline is TODAY";
+    daysRemainingEl.className = "text-[14px] font-bold mt-1 text-red-600";
+    statusIcon.className = "flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center bg-red-100 text-red-600";
+    statusIcon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>';
+    consequenceText.innerHTML = "<strong>Urgent:</strong> File your reply immediately on the GST portal before midnight to avoid ex-parte proceedings.";
+  } else if (daysDiff <= 5) {
+    daysRemainingEl.textContent = `${daysDiff} Days Remaining`;
+    daysRemainingEl.className = "text-[14px] font-medium mt-1 text-yellow-600";
+    statusIcon.className = "flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center bg-yellow-100 text-yellow-600";
+    statusIcon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>';
+    consequenceText.innerHTML = "You are approaching the deadline. Ensure your reply is finalized and submitted promptly. Do not wait for the last minute due to potential portal glitches.";
+  } else {
+    daysRemainingEl.textContent = `${daysDiff} Days Remaining`;
+    daysRemainingEl.className = "text-[14px] font-medium mt-1 text-green-600";
+    statusIcon.className = "flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center bg-green-100 text-green-600";
+    statusIcon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>';
+    consequenceText.innerHTML = "You have sufficient time to prepare a strong factual and legal defense. If it is a DRC-01 SCN, it is advisable to consult a GST professional.";
+  }
+}
+form.addEventListener("input", calculate);
+form.addEventListener("change", calculate);
+calculate();
 </script>

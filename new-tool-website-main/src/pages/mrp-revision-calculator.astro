@@ -160,83 +160,65 @@ const structuredData = [
   </div>
 </BaseLayout>
 
-<script lang="ts">
-  const inOldMrp = document.getElementById('old-mrp') as HTMLInputElement;
-  const inOldRate = document.getElementById('old-rate') as HTMLSelectElement;
-  const inNewRate = document.getElementById('new-rate') as HTMLSelectElement;
-  const btnReset = document.getElementById('btn-reset') as HTMLButtonElement;
-
-  const outNewMrp = document.getElementById('new-mrp')!;
-  const outMrpDiff = document.getElementById('mrp-diff')!;
-  const outBasePrice = document.getElementById('base-price')!;
-  const outOldTax = document.getElementById('old-tax')!;
-  const outNewTax = document.getElementById('new-tax')!;
-  
-  const lblOldRate = document.getElementById('lbl-old-rate')!;
-  const lblNewRate = document.getElementById('lbl-new-rate')!;
-
-  function formatINR(val: number) {
-    const rounded = Math.round(val * 100) / 100;
-    return '₹' + rounded.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+<script>
+const inOldMrp = document.getElementById("old-mrp");
+const inOldRate = document.getElementById("old-rate");
+const inNewRate = document.getElementById("new-rate");
+const btnReset = document.getElementById("btn-reset");
+const outNewMrp = document.getElementById("new-mrp");
+const outMrpDiff = document.getElementById("mrp-diff");
+const outBasePrice = document.getElementById("base-price");
+const outOldTax = document.getElementById("old-tax");
+const outNewTax = document.getElementById("new-tax");
+const lblOldRate = document.getElementById("lbl-old-rate");
+const lblNewRate = document.getElementById("lbl-new-rate");
+function formatINR(val) {
+  const rounded = Math.round(val * 100) / 100;
+  return "\u20B9" + rounded.toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+function calculate() {
+  const oldMrp = parseFloat(inOldMrp.value) || 0;
+  const oldRate = parseFloat(inOldRate.value) || 0;
+  const newRate = parseFloat(inNewRate.value) || 0;
+  lblOldRate.textContent = `${oldRate}%`;
+  lblNewRate.textContent = `${newRate}%`;
+  if (oldMrp === 0) {
+    outNewMrp.textContent = "\u20B90";
+    outBasePrice.textContent = "\u20B90";
+    outOldTax.textContent = "\u20B90";
+    outNewTax.textContent = "\u20B90";
+    outMrpDiff.textContent = "Enter MRP above";
+    outMrpDiff.className = "text-muted font-semibold";
+    return;
   }
-
-  function calculate() {
-    const oldMrp = parseFloat(inOldMrp.value) || 0;
-    const oldRate = parseFloat(inOldRate.value) || 0;
-    const newRate = parseFloat(inNewRate.value) || 0;
-
-    // Always update rate labels regardless of MRP value
-    lblOldRate.textContent = `${oldRate}%`;
-    lblNewRate.textContent = `${newRate}%`;
-
-    if (oldMrp === 0) {
-      outNewMrp.textContent = '₹0';
-      outBasePrice.textContent = '₹0';
-      outOldTax.textContent = '₹0';
-      outNewTax.textContent = '₹0';
-      outMrpDiff.textContent = 'Enter MRP above';
-      outMrpDiff.className = 'text-muted font-semibold';
-      return;
-    }
-
-    // Base Price = Old MRP / (1 + (Old Rate / 100))
-    const basePrice = oldMrp / (1 + (oldRate / 100));
-    const oldTax = oldMrp - basePrice;
-
-    // New MRP = Base Price * (1 + (New Rate / 100))
-    const newTax = basePrice * (newRate / 100);
-    const newMrp = basePrice + newTax;
-
-    const diff = newMrp - oldMrp;
-
-    outNewMrp.textContent = formatINR(newMrp);
-    outBasePrice.textContent = formatINR(basePrice);
-    outOldTax.textContent = formatINR(oldTax);
-    outNewTax.textContent = formatINR(newTax);
-
-    if (diff > 0.005) {
-      outMrpDiff.textContent = `+ ${formatINR(Math.abs(diff))}`;
-      outMrpDiff.className = 'text-red-500 font-semibold';
-    } else if (diff < -0.005) {
-      outMrpDiff.textContent = `- ${formatINR(Math.abs(diff))}`;
-      outMrpDiff.className = 'text-green-500 font-semibold';
-    } else {
-      outMrpDiff.textContent = 'No Change';
-      outMrpDiff.className = 'text-base font-semibold';
-    }
+  const basePrice = oldMrp / (1 + oldRate / 100);
+  const oldTax = oldMrp - basePrice;
+  const newTax = basePrice * (newRate / 100);
+  const newMrp = basePrice + newTax;
+  const diff = newMrp - oldMrp;
+  outNewMrp.textContent = formatINR(newMrp);
+  outBasePrice.textContent = formatINR(basePrice);
+  outOldTax.textContent = formatINR(oldTax);
+  outNewTax.textContent = formatINR(newTax);
+  if (diff > 5e-3) {
+    outMrpDiff.textContent = `+ ${formatINR(Math.abs(diff))}`;
+    outMrpDiff.className = "text-red-500 font-semibold";
+  } else if (diff < -5e-3) {
+    outMrpDiff.textContent = `- ${formatINR(Math.abs(diff))}`;
+    outMrpDiff.className = "text-green-500 font-semibold";
+  } else {
+    outMrpDiff.textContent = "No Change";
+    outMrpDiff.className = "text-base font-semibold";
   }
-
-  inOldMrp.addEventListener('input', calculate);
-  // Selects fire 'change', not 'input'
-  inOldRate.addEventListener('change', calculate);
-  inNewRate.addEventListener('change', calculate);
-
-  btnReset.addEventListener('click', () => {
-    inOldMrp.value = '';
-    inOldRate.value = '18';
-    inNewRate.value = '5';
-    calculate();
-  });
-
+}
+inOldMrp.addEventListener("input", calculate);
+inOldRate.addEventListener("change", calculate);
+inNewRate.addEventListener("change", calculate);
+btnReset.addEventListener("click", () => {
+  inOldMrp.value = "";
+  inOldRate.value = "18";
+  inNewRate.value = "5";
   calculate();
+});
+calculate();
 </script>

@@ -48,29 +48,16 @@ const currentPath = Astro.url.pathname;
       <a
         href="/"
         class="flex items-center gap-2 font-semibold text-base hover:text-accent transition-colors shrink-0"
-        aria-label="GST HSN Lookup — Home"
+        aria-label="Taxzentic — Home"
       >
-        <!-- Simple SVG logo mark -->
-        <svg
-          width="28"
-          height="28"
-          viewBox="0 0 28 28"
-          fill="none"
-          aria-hidden="true"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <rect width="28" height="28" rx="6" fill="rgb(var(--accent))" />
-          <text
-            x="14"
-            y="19"
-            text-anchor="middle"
-            font-family="Inter, sans-serif"
-            font-size="13"
-            font-weight="700"
-            fill="white"
-          >GST</text>
-        </svg>
-        <span class="text-lg tracking-tight">GST<span class="text-accent">Tools</span></span>
+        <img
+          src="/taxzentic-logo.png"
+          alt="Taxzentic Logo"
+          width="32"
+          height="32"
+          class="rounded-md object-contain"
+        />
+        <span class="text-xl font-bold tracking-tight">Taxzentic</span>
       </a>
 
       <!-- Desktop nav -->
@@ -173,7 +160,7 @@ const currentPath = Astro.url.pathname;
   const iconSun = document.getElementById('icon-sun');
   const iconMoon = document.getElementById('icon-moon');
 
-  function applyTheme(dark: boolean) {
+  function applyTheme(dark) {
     html.classList.toggle('dark', dark);
     iconSun?.classList.toggle('hidden', !dark);
     iconMoon?.classList.toggle('hidden', dark);

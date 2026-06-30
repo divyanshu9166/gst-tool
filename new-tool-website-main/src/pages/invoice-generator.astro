@@ -18,6 +18,12 @@ const structuredData = [
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
     mainEntity: [
+      { '@type': 'Question', name: "Is this GST invoice generator free to use?", acceptedAnswer: { '@type': 'Answer', text: "Yes, our GST invoice generator is 100% free. You can generate unlimited invoices without any watermarks or hidden charges." } },
+      { '@type': 'Question', name: "Can I add my own company logo to the invoice?", acceptedAnswer: { '@type': 'Answer', text: "Yes, you can upload your company logo directly in the tool, and it will be beautifully formatted on the final PDF invoice." } },
+      { '@type': 'Question', name: "Does the invoice format comply with 2026 GST rules?", acceptedAnswer: { '@type': 'Answer', text: "Absolutely. Our invoice template includes all mandatory fields required by the CGST Act, including HSN/SAC codes, GSTINs, Place of Supply, and tax breakdown." } },
+      { '@type': 'Question', name: "Are my invoice details saved online?", acceptedAnswer: { '@type': 'Answer', text: "No. For your privacy and security, all invoice generation happens locally in your browser. We do not store your client or pricing data on any database." } },
+      { '@type': 'Question', name: "How do I add IGST or CGST/SGST?", acceptedAnswer: { '@type': 'Answer', text: "Simply select the 'Place of Supply' state. If it matches your business state, the tool automatically splits the tax into CGST and SGST. If it differs, it applies IGST." } },
+      { '@type': 'Question', name: "Can I download the invoice as a PDF?", acceptedAnswer: { '@type': 'Answer', text: "Yes, once you fill in the details, click 'Download PDF' to instantly save a professional, print-ready PDF invoice to your device." } },
       {
         '@type': 'Question',
         name: 'Is this GST invoice generator completely free?',
@@ -328,107 +334,51 @@ const states = [
       </ul>
     </div>
   </div>
-<!-- FAQ Section -->
-    <section id="faq-section" class="print:hidden mt-16 pt-12 border-t border-base" aria-labelledby="faq-heading">
-      <h2 id="faq-heading" class="text-2xl sm:text-3xl font-bold text-base mb-8">
-        Frequently Asked Questions
-      </h2>
-      <div class="space-y-4">
-        
-        <details class="group rounded-xl border border-base bg-surface overflow-hidden">
-          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
-            <span>Is this GST invoice generator completely free?</span>
-            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
-          </summary>
-          <div class="px-6 pb-5 text-sm text-muted leading-relaxed border-t border-base pt-4">
-            Yes! Our online GST invoice generator is 100% free to use. There are no hidden charges, no watermarks, and no sign-up required. You can generate unlimited tax invoices forever.
-          </div>
-        </details>
-
-        <details class="group rounded-xl border border-base bg-surface overflow-hidden">
-          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
-            <span>Does this tool automatically calculate CGST, SGST, and IGST?</span>
-            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
-          </summary>
-          <div class="px-6 pb-5 text-sm text-muted leading-relaxed border-t border-base pt-4">
-            Yes. The invoice generator automatically detects the transaction type based on the Biller and Client state. If they are in the same state, it splits the tax equally into CGST and SGST. If they are in different states, it calculates it as IGST.
-          </div>
-        </details>
-
-        <details class="group rounded-xl border border-base bg-surface overflow-hidden">
-          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
-            <span>Is my financial data secure?</span>
-            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
-          </summary>
-          <div class="px-6 pb-5 text-sm text-muted leading-relaxed border-t border-base pt-4">
-            Absolutely. This tool runs entirely in your web browser (offline mode). No invoice data, client details, or pricing information is ever sent to our servers. Your privacy is 100% guaranteed.
-          </div>
-        </details>
-
-        <details class="group rounded-xl border border-base bg-surface overflow-hidden">
-          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
-            <span>How do I save the invoice as a PDF?</span>
-            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
-          </summary>
-          <div class="px-6 pb-5 text-sm text-muted leading-relaxed border-t border-base pt-4">
-            Simply fill out the form and click the "Download PDF" button. This will trigger your browser's native print dialog. Select "Save as PDF" as the destination, and your perfectly formatted A4 invoice will be downloaded to your computer or phone.
-          </div>
-        </details>
-
-      </div>
-    </section>
-
-  </div>
-
-  <script lang="ts">
-    // Utility: Number to Words for Indian Rupees
-    function numberToWords(num: number): string {
-      const a = ['','One ','Two ','Three ','Four ', 'Five ','Six ','Seven ','Eight ','Nine ','Ten ','Eleven ','Twelve ','Thirteen ','Fourteen ','Fifteen ','Sixteen ','Seventeen ','Eighteen ','Nineteen '];
-      const b = ['', '', 'Twenty','Thirty','Forty','Fifty', 'Sixty','Seventy','Eighty','Ninety'];
-      
-      if ((num = num.toString()).length > 9) return 'Overflow';
-      let n = ('000000000' + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
-      if (!n) return '';
-      
-      let str = '';
-      str += (n[1] != '00') ? (a[Number(n[1])] || b[n[1][0]] + ' ' + a[n[1][1]]) + 'Crore ' : '';
-      str += (n[2] != '00') ? (a[Number(n[2])] || b[n[2][0]] + ' ' + a[n[2][1]]) + 'Lakh ' : '';
-      str += (n[3] != '00') ? (a[Number(n[3])] || b[n[3][0]] + ' ' + a[n[3][1]]) + 'Thousand ' : '';
-      str += (n[4] != '0') ? (a[Number(n[4])] || b[n[4][0]] + ' ' + a[n[4][1]]) + 'Hundred ' : '';
-      str += (n[5] != '00') ? ((str != '') ? 'and ' : '') + (a[Number(n[5])] || b[n[5][0]] + ' ' + a[n[5][1]]) : '';
-      return str ? str + 'Rupees Only' : 'Zero Rupees Only';
-    }
-
-    // State
-    let items = [
-      { id: Date.now(), desc: '', qty: 1, rate: 0, gst: 18 }
-    ];
-
-    // Form Elements
-    const getEl = (id: string) => document.getElementById(id) as HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
-    
-    // Binding metadata
-    ['inv-no', 'inv-date', 'biller-name', 'biller-gstin', 'biller-address', 'biller-state', 
-     'client-name', 'client-gstin', 'client-address', 'client-state', 'bank-details', 'notes'].forEach(id => {
-      getEl(id)?.addEventListener('input', renderInvoice);
-    });
-
-    // Default Date
-    getEl('inv-date').valueAsDate = new Date();
-
-    // Add Item
-    document.getElementById('add-item-btn')?.addEventListener('click', () => {
-      items.push({ id: Date.now(), desc: '', qty: 1, rate: 0, gst: 18 });
-      renderFormItems();
-      renderInvoice();
-    });
-
-    // Render the Form items
-    function renderFormItems() {
-      const container = document.getElementById('items-container');
-      if (!container) return;
-      
-      container.innerHTML = items.map((item, index) => `
+<script>
+function numberToWords(num) {
+  const a = ["", "One ", "Two ", "Three ", "Four ", "Five ", "Six ", "Seven ", "Eight ", "Nine ", "Ten ", "Eleven ", "Twelve ", "Thirteen ", "Fourteen ", "Fifteen ", "Sixteen ", "Seventeen ", "Eighteen ", "Nineteen "];
+  const b = ["", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"];
+  if ((num = num.toString()).length > 9) return "Overflow";
+  let n = ("000000000" + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
+  if (!n) return "";
+  let str = "";
+  str += n[1] != "00" ? (a[Number(n[1])] || b[n[1][0]] + " " + a[n[1][1]]) + "Crore " : "";
+  str += n[2] != "00" ? (a[Number(n[2])] || b[n[2][0]] + " " + a[n[2][1]]) + "Lakh " : "";
+  str += n[3] != "00" ? (a[Number(n[3])] || b[n[3][0]] + " " + a[n[3][1]]) + "Thousand " : "";
+  str += n[4] != "0" ? (a[Number(n[4])] || b[n[4][0]] + " " + a[n[4][1]]) + "Hundred " : "";
+  str += n[5] != "00" ? (str != "" ? "and " : "") + (a[Number(n[5])] || b[n[5][0]] + " " + a[n[5][1]]) : "";
+  return str ? str + "Rupees Only" : "Zero Rupees Only";
+}
+let items = [
+  { id: Date.now(), desc: "", qty: 1, rate: 0, gst: 18 }
+];
+const getEl = (id) => document.getElementById(id);
+[
+  "inv-no",
+  "inv-date",
+  "biller-name",
+  "biller-gstin",
+  "biller-address",
+  "biller-state",
+  "client-name",
+  "client-gstin",
+  "client-address",
+  "client-state",
+  "bank-details",
+  "notes"
+].forEach((id) => {
+  getEl(id)?.addEventListener("input", renderInvoice);
+});
+getEl("inv-date").valueAsDate = /* @__PURE__ */ new Date();
+document.getElementById("add-item-btn")?.addEventListener("click", () => {
+  items.push({ id: Date.now(), desc: "", qty: 1, rate: 0, gst: 18 });
+  renderFormItems();
+  renderInvoice();
+});
+function renderFormItems() {
+  const container = document.getElementById("items-container");
+  if (!container) return;
+  container.innerHTML = items.map((item, index) => `
         <div class="relative grid grid-cols-12 gap-3 p-4 border border-base rounded-md bg-subtle/50">
           <div class="col-span-12 md:col-span-5 flex flex-col gap-1">
             <label class="text-[10px] font-bold uppercase text-muted">Description</label>
@@ -439,17 +389,17 @@ const states = [
             <input type="number" min="1" value="${item.qty}" oninput="updateItem(${item.id}, 'qty', this.value)" class="w-full rounded border border-base px-2 py-1.5 text-sm focus:border-accent focus:ring-1 outline-none" />
           </div>
           <div class="col-span-4 md:col-span-2 flex flex-col gap-1">
-            <label class="text-[10px] font-bold uppercase text-muted">Rate (₹)</label>
+            <label class="text-[10px] font-bold uppercase text-muted">Rate (\u20B9)</label>
             <input type="number" min="0" value="${item.rate}" oninput="updateItem(${item.id}, 'rate', this.value)" class="w-full rounded border border-base px-2 py-1.5 text-sm focus:border-accent focus:ring-1 outline-none" />
           </div>
           <div class="col-span-4 md:col-span-2 flex flex-col gap-1">
             <label class="text-[10px] font-bold uppercase text-muted">GST %</label>
             <select onchange="updateItem(${item.id}, 'gst', this.value)" class="w-full rounded border border-base px-2 py-1.5 text-sm focus:border-accent focus:ring-1 outline-none">
-              <option value="0" ${item.gst == 0 ? 'selected' : ''}>0%</option>
-              <option value="5" ${item.gst == 5 ? 'selected' : ''}>5%</option>
-              <option value="12" ${item.gst == 12 ? 'selected' : ''}>12%</option>
-              <option value="18" ${item.gst == 18 ? 'selected' : ''}>18%</option>
-              <option value="28" ${item.gst == 28 ? 'selected' : ''}>28%</option>
+              <option value="0" ${item.gst == 0 ? "selected" : ""}>0%</option>
+              <option value="5" ${item.gst == 5 ? "selected" : ""}>5%</option>
+              <option value="12" ${item.gst == 12 ? "selected" : ""}>12%</option>
+              <option value="18" ${item.gst == 18 ? "selected" : ""}>18%</option>
+              <option value="28" ${item.gst == 28 ? "selected" : ""}>28%</option>
             </select>
           </div>
           <div class="col-span-12 md:col-span-1 flex items-end justify-end">
@@ -458,117 +408,101 @@ const states = [
             </button>
           </div>
         </div>
-      `).join('');
-    }
-
-    // Global hooks for inline handlers
-    (window as any).updateItem = (id: number, field: string, val: string) => {
-      const item = items.find(i => i.id === id);
-      if (item) {
-        if (field === 'desc') item.desc = val;
-        else (item as any)[field] = Number(val);
-        renderInvoice();
-      }
-    };
-
-    (window as any).removeItem = (id: number) => {
-      if (items.length > 1) {
-        items = items.filter(i => i.id !== id);
-        renderFormItems();
-        renderInvoice();
-      }
-    };
-
-    // Core Render Engine
-    function renderInvoice() {
-      // 1. Text Fields
-      document.getElementById('prev-biller-name')!.textContent = getEl('biller-name').value || 'Business Name';
-      document.getElementById('prev-auth-name')!.textContent = getEl('biller-name').value || 'Business Name';
-      document.getElementById('prev-biller-address')!.textContent = getEl('biller-address').value || '';
-      document.getElementById('prev-biller-gstin')!.textContent = getEl('biller-gstin').value || 'N/A';
-      document.getElementById('prev-biller-state')!.textContent = getEl('biller-state').value || 'N/A';
-      
-      document.getElementById('prev-client-name')!.textContent = getEl('client-name').value || 'Client Name';
-      document.getElementById('prev-client-address')!.textContent = getEl('client-address').value || '';
-      document.getElementById('prev-client-gstin')!.textContent = getEl('client-gstin').value || 'N/A';
-      document.getElementById('prev-client-state')!.textContent = getEl('client-state').value || 'N/A';
-      
-      document.getElementById('prev-inv-no')!.textContent = getEl('inv-no').value;
-      const dateVal = getEl('inv-date').value;
-      document.getElementById('prev-inv-date')!.textContent = dateVal ? new Date(dateVal).toLocaleDateString('en-IN') : '';
-
-      // Notes & Bank
-      document.getElementById('prev-bank-details')!.textContent = getEl('bank-details').value;
-      document.getElementById('prev-notes')!.textContent = getEl('notes').value;
-      
-      document.getElementById('prev-bank-container')!.style.display = getEl('bank-details').value ? 'block' : 'none';
-      document.getElementById('prev-notes-container')!.style.display = getEl('notes').value ? 'block' : 'none';
-
-      // 2. Calculations
-      const isInterState = (getEl('biller-state').value && getEl('client-state').value) 
-        ? getEl('biller-state').value !== getEl('client-state').value 
-        : false; // Default to Intra (CGST/SGST) if unknown
-
-      let subtotal = 0;
-      let totalGst = 0;
-
-      const tbody = document.getElementById('prev-items-body')!;
-      tbody.innerHTML = '';
-
-      items.forEach((item, index) => {
-        const amt = item.qty * item.rate;
-        const gstAmt = amt * (item.gst / 100);
-        
-        subtotal += amt;
-        totalGst += gstAmt;
-
-        tbody.innerHTML += `
-          <tr>
-            <td class="py-3 px-2 text-gray-700">${index + 1}</td>
-            <td class="py-3 px-2 text-gray-800 font-medium">${item.desc || '-'}</td>
-            <td class="py-3 px-2 text-gray-700 text-right">${item.qty}</td>
-            <td class="py-3 px-2 text-gray-700 text-right font-mono">₹${item.rate.toFixed(2)}</td>
-            <td class="py-3 px-2 text-gray-700 text-right">${item.gst}%</td>
-            <td class="py-3 px-2 text-gray-800 text-right font-mono font-medium">₹${amt.toFixed(2)}</td>
-          </tr>
-        `;
-      });
-
-      const grandTotal = subtotal + totalGst;
-
-      // Update Total Table
-      document.getElementById('prev-subtotal')!.textContent = `₹${subtotal.toFixed(2)}`;
-      document.getElementById('prev-total')!.textContent = `₹${Math.round(grandTotal).toFixed(2)}`; // Govt rounds off invoice total
-      
-      document.getElementById('prev-words')!.textContent = numberToWords(Math.round(grandTotal));
-
-      // Toggle GST Rows
-      const rCGST = document.getElementById('row-cgst')!;
-      const rSGST = document.getElementById('row-sgst')!;
-      const rIGST = document.getElementById('row-igst')!;
-
-      if (isInterState) {
-        rCGST.classList.add('hidden');
-        rSGST.classList.add('hidden');
-        rIGST.classList.remove('hidden');
-        document.getElementById('prev-igst')!.textContent = `₹${totalGst.toFixed(2)}`;
-      } else {
-        rIGST.classList.add('hidden');
-        rCGST.classList.remove('hidden');
-        rSGST.classList.remove('hidden');
-        document.getElementById('prev-cgst')!.textContent = `₹${(totalGst / 2).toFixed(2)}`;
-        document.getElementById('prev-sgst')!.textContent = `₹${(totalGst / 2).toFixed(2)}`;
-      }
-    }
-
-    // Initial Render
+      `).join("");
+}
+window.updateItem = (id, field, val) => {
+  const item = items.find((i) => i.id === id);
+  if (item) {
+    if (field === "desc") item.desc = val;
+    else item[field] = Number(val);
+    renderInvoice();
+  }
+};
+window.removeItem = (id) => {
+  if (items.length > 1) {
+    items = items.filter((i) => i.id !== id);
     renderFormItems();
     renderInvoice();
+  }
+};
+function renderInvoice() {
+  document.getElementById("prev-biller-name").textContent = getEl("biller-name").value || "Business Name";
+  document.getElementById("prev-auth-name").textContent = getEl("biller-name").value || "Business Name";
+  document.getElementById("prev-biller-address").textContent = getEl("biller-address").value || "";
+  document.getElementById("prev-biller-gstin").textContent = getEl("biller-gstin").value || "N/A";
+  document.getElementById("prev-biller-state").textContent = getEl("biller-state").value || "N/A";
+  document.getElementById("prev-client-name").textContent = getEl("client-name").value || "Client Name";
+  document.getElementById("prev-client-address").textContent = getEl("client-address").value || "";
+  document.getElementById("prev-client-gstin").textContent = getEl("client-gstin").value || "N/A";
+  document.getElementById("prev-client-state").textContent = getEl("client-state").value || "N/A";
+  document.getElementById("prev-inv-no").textContent = getEl("inv-no").value;
+  const dateVal = getEl("inv-date").value;
+  document.getElementById("prev-inv-date").textContent = dateVal ? new Date(dateVal).toLocaleDateString("en-IN") : "";
+  document.getElementById("prev-bank-details").textContent = getEl("bank-details").value;
+  document.getElementById("prev-notes").textContent = getEl("notes").value;
+  document.getElementById("prev-bank-container").style.display = getEl("bank-details").value ? "block" : "none";
+  document.getElementById("prev-notes-container").style.display = getEl("notes").value ? "block" : "none";
+  const isInterState = getEl("biller-state").value && getEl("client-state").value ? getEl("biller-state").value !== getEl("client-state").value : false;
+  let subtotal = 0;
+  let totalGst = 0;
+  const tbody = document.getElementById("prev-items-body");
+  tbody.innerHTML = "";
+  items.forEach((item, index) => {
+    const amt = item.qty * item.rate;
+    const gstAmt = amt * (item.gst / 100);
+    subtotal += amt;
+    totalGst += gstAmt;
+    tbody.innerHTML += `
+          <tr>
+            <td class="py-3 px-2 text-gray-700">${index + 1}</td>
+            <td class="py-3 px-2 text-gray-800 font-medium">${item.desc || "-"}</td>
+            <td class="py-3 px-2 text-gray-700 text-right">${item.qty}</td>
+            <td class="py-3 px-2 text-gray-700 text-right font-mono">\u20B9${item.rate.toFixed(2)}</td>
+            <td class="py-3 px-2 text-gray-700 text-right">${item.gst}%</td>
+            <td class="py-3 px-2 text-gray-800 text-right font-mono font-medium">\u20B9${amt.toFixed(2)}</td>
+          </tr>
+        `;
+  });
+  const grandTotal = subtotal + totalGst;
+  document.getElementById("prev-subtotal").textContent = `\u20B9${subtotal.toFixed(2)}`;
+  document.getElementById("prev-total").textContent = `\u20B9${Math.round(grandTotal).toFixed(2)}`;
+  document.getElementById("prev-words").textContent = numberToWords(Math.round(grandTotal));
+  const rCGST = document.getElementById("row-cgst");
+  const rSGST = document.getElementById("row-sgst");
+  const rIGST = document.getElementById("row-igst");
+  if (isInterState) {
+    rCGST.classList.add("hidden");
+    rSGST.classList.add("hidden");
+    rIGST.classList.remove("hidden");
+    document.getElementById("prev-igst").textContent = `\u20B9${totalGst.toFixed(2)}`;
+  } else {
+    rIGST.classList.add("hidden");
+    rCGST.classList.remove("hidden");
+    rSGST.classList.remove("hidden");
+    document.getElementById("prev-cgst").textContent = `\u20B9${(totalGst / 2).toFixed(2)}`;
+    document.getElementById("prev-sgst").textContent = `\u20B9${(totalGst / 2).toFixed(2)}`;
+  }
+}
+renderFormItems();
+renderInvoice();
+document.getElementById("print-btn")?.addEventListener("click", () => {
+  window.print();
+});
+</script>
 
-    // Print Handler
-    document.getElementById('print-btn')?.addEventListener('click', () => {
-      window.print();
-    });
-
-  </script>
+    <!-- FAQ Section -->
+    <section class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 pb-20 mt-16 pt-12 border-t border-base" aria-labelledby="faq-heading">
+      <h2 id="faq-heading" class="text-2xl sm:text-3xl font-bold text-base mb-8">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        {structuredData[1].mainEntity.map((faq, i) => (
+          <details class="group rounded-xl border border-base bg-surface overflow-hidden" id={`faq-${i}`}>
+            <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+              <span>{faq.name}</span>
+              <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+            </summary>
+            <div class="px-6 pb-5 text-[15px] text-muted leading-relaxed border-t border-base pt-4">{faq.acceptedAnswer.text}</div>
+          </details>
+        ))}
+      </div>
+    </section>
 </BaseLayout>

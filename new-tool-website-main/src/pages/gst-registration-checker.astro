@@ -18,6 +18,11 @@ const structuredData = [
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
     mainEntity: [
+      { '@type': 'Question', name: "How can I verify a GST registration status offline?", acceptedAnswer: { '@type': 'Answer', text: "Our offline GST registration checker validates the structural integrity and mathematical checksum of the GSTIN. For live portal status (Active/Cancelled), you must check the official GST portal." } },
+      { '@type': 'Question', name: "Why is checking GST registration important?", acceptedAnswer: { '@type': 'Answer', text: "Verifying a supplier's GST registration ensures you are dealing with a legitimate business and prevents you from losing Input Tax Credit (ITC) due to fake invoices." } },
+      { '@type': 'Question', name: "What does the 15-digit GSTIN consist of?", acceptedAnswer: { '@type': 'Answer', text: "It consists of a 2-digit state code, 10-digit PAN, 1-digit entity code, a default 'Z', and a 1-digit mathematical checksum." } },
+      { '@type': 'Question', name: "Can this tool extract the PAN from the GSTIN?", acceptedAnswer: { '@type': 'Answer', text: "Yes, the tool automatically decodes and displays the 10-character PAN embedded within the GSTIN." } },
+      { '@type': 'Question', name: "Does it show the state of the registered business?", acceptedAnswer: { '@type': 'Answer', text: "Yes, it parses the first two digits of the GSTIN to instantly display the state or union territory of the business." } },
       {
         '@type': 'Question',
         name: 'What is the GST registration limit for goods?',
@@ -263,96 +268,80 @@ const structuredData = [
       </div>
     </article>
 
-    <!-- FAQ -->
-    <section class="mt-16 pt-12 border-t border-base" aria-labelledby="faq-heading">
+    
+
+  </div>
+
+  <script>
+const checkBtn = document.getElementById("check-btn");
+const result = document.getElementById("result");
+const resultIcon = document.getElementById("result-icon");
+const resultTitle = document.getElementById("result-title");
+const resultMsg = document.getElementById("result-msg");
+const resultThreshold = document.getElementById("result-threshold");
+checkBtn.addEventListener("click", () => {
+  const supplyType = document.querySelector('input[name="supply-type"]:checked')?.value;
+  const stateType = document.querySelector('input[name="state-type"]:checked')?.value;
+  const interstate = document.querySelector('input[name="interstate"]:checked')?.value;
+  const turnover = parseFloat(document.getElementById("turnover").value) || 0;
+  if (!supplyType || !stateType || !interstate) {
+    alert("Please answer all questions before checking.");
+    return;
+  }
+  result.classList.remove("hidden");
+  if (supplyType === "ecommerce") {
+    showResult("mandatory", "\u{1F534}", "GST Registration is MANDATORY", "E-commerce sellers must register for GST regardless of their annual turnover. There is no threshold exemption for sellers on platforms like Amazon, Flipkart, Meesho, or Zomato.", "No Threshold Limit Applies");
+    return;
+  }
+  if (interstate === "yes" && (supplyType === "goods" || supplyType === "both")) {
+    showResult("mandatory", "\u{1F534}", "GST Registration is MANDATORY", "Any supplier making inter-state supply of goods must register for GST, irrespective of annual turnover. Even if your income is \u20B91, you need a GSTIN.", "No Threshold Limit for Inter-State");
+    return;
+  }
+  let threshold = 0;
+  let thresholdLabel = "";
+  if (supplyType === "goods") {
+    threshold = stateType === "normal" ? 4e6 : 2e6;
+    thresholdLabel = stateType === "normal" ? "\u20B940 Lakhs (Goods, Normal State)" : "\u20B920 Lakhs (Goods, Special State)";
+  } else if (supplyType === "services") {
+    threshold = stateType === "normal" ? 2e6 : 1e6;
+    thresholdLabel = stateType === "normal" ? "\u20B920 Lakhs (Services, Normal State)" : "\u20B910 Lakhs (Services, Special State)";
+  } else {
+    threshold = stateType === "normal" ? 2e6 : 1e6;
+    thresholdLabel = stateType === "normal" ? "\u20B920 Lakhs (Mixed, Normal State)" : "\u20B910 Lakhs (Mixed, Special State)";
+  }
+  if (turnover >= threshold) {
+    showResult("mandatory", "\u{1F534}", "GST Registration is MANDATORY", `Your estimated annual turnover of \u20B9${(turnover / 1e5).toFixed(2)} Lakhs exceeds the applicable threshold. You are legally required to register for GST immediately.`, `Your Threshold: ${thresholdLabel}`);
+  } else if (turnover >= threshold * 0.8) {
+    showResult("warning", "\u{1F7E1}", "Approaching the Threshold \u2014 Register Soon", `Your turnover of \u20B9${(turnover / 1e5).toFixed(2)} Lakhs is within 80% of the threshold. You are not required to register yet, but monitor your income closely. The moment you cross the limit, registration must happen within 30 days.`, `Threshold: ${thresholdLabel}`);
+  } else {
+    showResult("safe", "\u{1F7E2}", "GST Registration is NOT Required", `Your estimated annual turnover of \u20B9${(turnover / 1e5).toFixed(2)} Lakhs is below the applicable registration threshold. You can operate without GST registration. However, voluntary registration may still benefit you for ITC claims and B2B credibility.`, `Your Threshold: ${thresholdLabel}`);
+  }
+});
+function showResult(type, icon, title, msg, threshold) {
+  result.className = "mt-6 rounded-xl p-6 border-2 text-center";
+  if (type === "mandatory") result.classList.add("border-red-400", "bg-red-50", "dark:bg-red-950/20");
+  if (type === "warning") result.classList.add("border-yellow-400", "bg-yellow-50", "dark:bg-yellow-950/20");
+  if (type === "safe") result.classList.add("border-green-400", "bg-green-50", "dark:bg-green-950/20");
+  resultIcon.textContent = icon;
+  resultTitle.textContent = title;
+  resultMsg.textContent = msg;
+  resultThreshold.textContent = threshold;
+}
+</script>
+
+    <!-- FAQ Section -->
+    <section class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 pb-20 mt-16 pt-12 border-t border-base" aria-labelledby="faq-heading">
       <h2 id="faq-heading" class="text-2xl sm:text-3xl font-bold text-base mb-8">Frequently Asked Questions</h2>
       <div class="space-y-4">
-        {[
-          { q: 'What is the GST registration limit for goods?', a: 'For businesses supplying goods, the GST registration threshold is ₹40 Lakhs per annum for normal category states and ₹20 Lakhs for special category states.' },
-          { q: 'What is the GST registration limit for services?', a: 'For service providers, the GST registration threshold is ₹20 Lakhs per annum for normal category states and ₹10 Lakhs for special category states.' },
-          { q: 'Is GST registration compulsory for e-commerce sellers?', a: 'Yes. E-commerce sellers must register for GST regardless of their turnover. There is no threshold exemption for sellers on platforms like Amazon, Flipkart, or Meesho.' },
-          { q: 'What happens if I don\'t register for GST despite crossing the threshold?', a: 'You become liable to pay the entire GST that should have been collected, plus a penalty of ₹10,000 or 10% of the tax due (whichever is higher).' },
-        ].map(item => (
-          <details class="group rounded-xl border border-base bg-surface overflow-hidden">
+        {structuredData[1].mainEntity.map((faq, i) => (
+          <details class="group rounded-xl border border-base bg-surface overflow-hidden" id={`faq-${i}`}>
             <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
-              <span>{item.q}</span>
+              <span>{faq.name}</span>
               <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
             </summary>
-            <div class="px-6 pb-5 text-sm text-muted leading-relaxed border-t border-base pt-4">{item.a}</div>
+            <div class="px-6 pb-5 text-[15px] text-muted leading-relaxed border-t border-base pt-4">{faq.acceptedAnswer.text}</div>
           </details>
         ))}
       </div>
     </section>
-
-  </div>
-
-  <script lang="ts">
-    const checkBtn = document.getElementById('check-btn')!;
-    const result = document.getElementById('result')!;
-    const resultIcon = document.getElementById('result-icon')!;
-    const resultTitle = document.getElementById('result-title')!;
-    const resultMsg = document.getElementById('result-msg')!;
-    const resultThreshold = document.getElementById('result-threshold')!;
-
-    checkBtn.addEventListener('click', () => {
-      const supplyType = (document.querySelector('input[name="supply-type"]:checked') as HTMLInputElement)?.value;
-      const stateType = (document.querySelector('input[name="state-type"]:checked') as HTMLInputElement)?.value;
-      const interstate = (document.querySelector('input[name="interstate"]:checked') as HTMLInputElement)?.value;
-      const turnover = parseFloat((document.getElementById('turnover') as HTMLInputElement).value) || 0;
-
-      if (!supplyType || !stateType || !interstate) {
-        alert('Please answer all questions before checking.');
-        return;
-      }
-
-      result.classList.remove('hidden');
-
-      // E-commerce: always mandatory
-      if (supplyType === 'ecommerce') {
-        showResult('mandatory', '🔴', 'GST Registration is MANDATORY', 'E-commerce sellers must register for GST regardless of their annual turnover. There is no threshold exemption for sellers on platforms like Amazon, Flipkart, Meesho, or Zomato.', 'No Threshold Limit Applies');
-        return;
-      }
-
-      // Inter-state goods: always mandatory
-      if (interstate === 'yes' && (supplyType === 'goods' || supplyType === 'both')) {
-        showResult('mandatory', '🔴', 'GST Registration is MANDATORY', 'Any supplier making inter-state supply of goods must register for GST, irrespective of annual turnover. Even if your income is ₹1, you need a GSTIN.', 'No Threshold Limit for Inter-State');
-        return;
-      }
-
-      // Calculate threshold
-      let threshold = 0;
-      let thresholdLabel = '';
-
-      if (supplyType === 'goods') {
-        threshold = stateType === 'normal' ? 4000000 : 2000000;
-        thresholdLabel = stateType === 'normal' ? '₹40 Lakhs (Goods, Normal State)' : '₹20 Lakhs (Goods, Special State)';
-      } else if (supplyType === 'services') {
-        threshold = stateType === 'normal' ? 2000000 : 1000000;
-        thresholdLabel = stateType === 'normal' ? '₹20 Lakhs (Services, Normal State)' : '₹10 Lakhs (Services, Special State)';
-      } else {
-        // Both: use services threshold (lower) to be safe
-        threshold = stateType === 'normal' ? 2000000 : 1000000;
-        thresholdLabel = stateType === 'normal' ? '₹20 Lakhs (Mixed, Normal State)' : '₹10 Lakhs (Mixed, Special State)';
-      }
-
-      if (turnover >= threshold) {
-        showResult('mandatory', '🔴', 'GST Registration is MANDATORY', `Your estimated annual turnover of ₹${(turnover / 100000).toFixed(2)} Lakhs exceeds the applicable threshold. You are legally required to register for GST immediately.`, `Your Threshold: ${thresholdLabel}`);
-      } else if (turnover >= threshold * 0.8) {
-        showResult('warning', '🟡', 'Approaching the Threshold — Register Soon', `Your turnover of ₹${(turnover / 100000).toFixed(2)} Lakhs is within 80% of the threshold. You are not required to register yet, but monitor your income closely. The moment you cross the limit, registration must happen within 30 days.`, `Threshold: ${thresholdLabel}`);
-      } else {
-        showResult('safe', '🟢', 'GST Registration is NOT Required', `Your estimated annual turnover of ₹${(turnover / 100000).toFixed(2)} Lakhs is below the applicable registration threshold. You can operate without GST registration. However, voluntary registration may still benefit you for ITC claims and B2B credibility.`, `Your Threshold: ${thresholdLabel}`);
-      }
-    });
-
-    function showResult(type: 'mandatory' | 'warning' | 'safe', icon: string, title: string, msg: string, threshold: string) {
-      result.className = 'mt-6 rounded-xl p-6 border-2 text-center';
-      if (type === 'mandatory') result.classList.add('border-red-400', 'bg-red-50', 'dark:bg-red-950/20');
-      if (type === 'warning') result.classList.add('border-yellow-400', 'bg-yellow-50', 'dark:bg-yellow-950/20');
-      if (type === 'safe') result.classList.add('border-green-400', 'bg-green-50', 'dark:bg-green-950/20');
-      resultIcon.textContent = icon;
-      resultTitle.textContent = title;
-      resultMsg.textContent = msg;
-      resultThreshold.textContent = threshold;
-    }
-  </script>
 </BaseLayout>

@@ -176,79 +176,64 @@ const structuredData = [
   </div>
 </BaseLayout>
 
-<script lang="ts">
-  const inBasePrice = document.getElementById('base-price') as HTMLInputElement;
-  const inOldRate = document.getElementById('old-rate') as HTMLSelectElement;
-  const inNewRate = document.getElementById('new-rate') as HTMLSelectElement;
-
-  const oldBase = document.getElementById('old-base')!;
-  const oldTax = document.getElementById('old-tax')!;
-  const oldTotal = document.getElementById('old-total')!;
-  const oldRateLabel = document.getElementById('old-rate-label')!;
-
-  const newBase = document.getElementById('new-base')!;
-  const newTax = document.getElementById('new-tax')!;
-  const newTotal = document.getElementById('new-total')!;
-  const newRateLabel = document.getElementById('new-rate-label')!;
-
-  const impactCard = document.getElementById('impact-card')!;
-  const impactVal = document.getElementById('impact-val')!;
-  const impactDesc = document.getElementById('impact-desc')!;
-
-  function formatINR(val: number) {
-    // Round to 2 decimal places, then format in Indian numbering
-    const rounded = Math.round(val * 100) / 100;
-    return '₹' + rounded.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+<script>
+const inBasePrice = document.getElementById("base-price");
+const inOldRate = document.getElementById("old-rate");
+const inNewRate = document.getElementById("new-rate");
+const oldBase = document.getElementById("old-base");
+const oldTax = document.getElementById("old-tax");
+const oldTotal = document.getElementById("old-total");
+const oldRateLabel = document.getElementById("old-rate-label");
+const newBase = document.getElementById("new-base");
+const newTax = document.getElementById("new-tax");
+const newTotal = document.getElementById("new-total");
+const newRateLabel = document.getElementById("new-rate-label");
+const impactCard = document.getElementById("impact-card");
+const impactVal = document.getElementById("impact-val");
+const impactDesc = document.getElementById("impact-desc");
+function formatINR(val) {
+  const rounded = Math.round(val * 100) / 100;
+  return "\u20B9" + rounded.toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+function formatINRWhole(val) {
+  return "\u20B9" + Math.round(val).toLocaleString("en-IN");
+}
+function calculate() {
+  const basePrice = parseFloat(inBasePrice.value) || 0;
+  const oldRate = parseFloat(inOldRate.value) || 0;
+  const newRate = parseFloat(inNewRate.value) || 0;
+  const oldTaxAmount = basePrice * (oldRate / 100);
+  const oldTotalAmount = basePrice + oldTaxAmount;
+  const newTaxAmount = basePrice * (newRate / 100);
+  const newTotalAmount = basePrice + newTaxAmount;
+  oldBase.textContent = formatINRWhole(basePrice);
+  oldTax.textContent = formatINR(oldTaxAmount);
+  oldTotal.textContent = formatINR(oldTotalAmount);
+  oldRateLabel.textContent = `${oldRate}%`;
+  newBase.textContent = formatINRWhole(basePrice);
+  newTax.textContent = formatINR(newTaxAmount);
+  newTotal.textContent = formatINR(newTotalAmount);
+  newRateLabel.textContent = `${newRate}%`;
+  const difference = newTotalAmount - oldTotalAmount;
+  if (difference > 5e-3) {
+    impactCard.className = "rounded-[8px] border border-red-500 bg-red-50 dark:bg-red-900/10 p-[24px] text-center";
+    impactVal.textContent = `+ ${formatINR(Math.abs(difference))}`;
+    impactVal.className = "text-[32px] font-bold tracking-tight text-red-600 dark:text-red-400";
+    impactDesc.textContent = "Price increase for the end consumer.";
+  } else if (difference < -5e-3) {
+    impactCard.className = "rounded-[8px] border border-green-500 bg-green-50 dark:bg-green-900/10 p-[24px] text-center";
+    impactVal.textContent = `- ${formatINR(Math.abs(difference))}`;
+    impactVal.className = "text-[32px] font-bold tracking-tight text-green-600 dark:text-green-400";
+    impactDesc.textContent = "Price reduction for the end consumer.";
+  } else {
+    impactCard.className = "rounded-[8px] border border-base bg-subtle p-[24px] text-center";
+    impactVal.textContent = "No Change";
+    impactVal.className = "text-[32px] font-bold tracking-tight text-base";
+    impactDesc.textContent = "The consumer pays the exact same amount.";
   }
-
-  function formatINRWhole(val: number) {
-    return '₹' + Math.round(val).toLocaleString('en-IN');
-  }
-
-  function calculate() {
-    const basePrice = parseFloat(inBasePrice.value) || 0;
-    const oldRate = parseFloat(inOldRate.value) || 0;
-    const newRate = parseFloat(inNewRate.value) || 0;
-
-    const oldTaxAmount = basePrice * (oldRate / 100);
-    const oldTotalAmount = basePrice + oldTaxAmount;
-
-    const newTaxAmount = basePrice * (newRate / 100);
-    const newTotalAmount = basePrice + newTaxAmount;
-
-    oldBase.textContent = formatINRWhole(basePrice);
-    oldTax.textContent = formatINR(oldTaxAmount);
-    oldTotal.textContent = formatINR(oldTotalAmount);
-    oldRateLabel.textContent = `${oldRate}%`;
-
-    newBase.textContent = formatINRWhole(basePrice);
-    newTax.textContent = formatINR(newTaxAmount);
-    newTotal.textContent = formatINR(newTotalAmount);
-    newRateLabel.textContent = `${newRate}%`;
-
-    const difference = newTotalAmount - oldTotalAmount;
-
-    if (difference > 0.005) {
-      impactCard.className = 'rounded-[8px] border border-red-500 bg-red-50 dark:bg-red-900/10 p-[24px] text-center';
-      impactVal.textContent = `+ ${formatINR(Math.abs(difference))}`;
-      impactVal.className = 'text-[32px] font-bold tracking-tight text-red-600 dark:text-red-400';
-      impactDesc.textContent = 'Price increase for the end consumer.';
-    } else if (difference < -0.005) {
-      impactCard.className = 'rounded-[8px] border border-green-500 bg-green-50 dark:bg-green-900/10 p-[24px] text-center';
-      impactVal.textContent = `- ${formatINR(Math.abs(difference))}`;
-      impactVal.className = 'text-[32px] font-bold tracking-tight text-green-600 dark:text-green-400';
-      impactDesc.textContent = 'Price reduction for the end consumer.';
-    } else {
-      impactCard.className = 'rounded-[8px] border border-base bg-subtle p-[24px] text-center';
-      impactVal.textContent = 'No Change';
-      impactVal.className = 'text-[32px] font-bold tracking-tight text-base';
-      impactDesc.textContent = 'The consumer pays the exact same amount.';
-    }
-  }
-
-  inBasePrice.addEventListener('input', calculate);
-  inOldRate.addEventListener('change', calculate);
-  inNewRate.addEventListener('change', calculate);
-
-  calculate();
+}
+inBasePrice.addEventListener("input", calculate);
+inOldRate.addEventListener("change", calculate);
+inNewRate.addEventListener("change", calculate);
+calculate();
 </script>

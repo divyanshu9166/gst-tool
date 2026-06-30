@@ -222,45 +222,38 @@ const structuredData = [
   </div>
 </BaseLayout>
 
-<script lang="ts">
-  const posSelect = document.getElementById('pos-state') as HTMLSelectElement;
-  const totalAmountInput = document.getElementById('total-amount') as HTMLInputElement;
-  const branchesContainer = document.getElementById('branches-container');
-  const addBranchBtn = document.getElementById('add-branch');
-  const remainingAmountEl = document.getElementById('remaining-amount');
-  
-  const resultsSection = document.getElementById('results-section');
-  const resultsTableBody = document.getElementById('results-table-body');
-
-  let branchCount = 0;
-  const states = [
-    {val: 'MH', label: 'Maharashtra'},
-    {val: 'DL', label: 'Delhi'},
-    {val: 'KA', label: 'Karnataka'},
-    {val: 'TN', label: 'Tamil Nadu'},
-    {val: 'GJ', label: 'Gujarat'},
-    {val: 'UP', label: 'Uttar Pradesh'},
-    {val: 'WB', label: 'West Bengal'},
-    {val: 'TS', label: 'Telangana'},
-    {val: 'HR', label: 'Haryana'},
-    {val: 'OTHER', label: 'Other State'}
-  ];
-
-  function formatINR(num) {
-    return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(num);
-  }
-
-  function createBranchRow() {
-    branchCount++;
-    const id = branchCount;
-    
-    const div = document.createElement('div');
-    div.className = 'flex flex-col sm:flex-row gap-4 items-end p-4 border border-base rounded-lg bg-surface';
-    div.id = `branch-row-${id}`;
-    
-    let optionsHtml = states.map(s => `<option value="${s.val}">${s.label}</option>`).join('');
-    
-    div.innerHTML = `
+<script>
+const posSelect = document.getElementById("pos-state");
+const totalAmountInput = document.getElementById("total-amount");
+const branchesContainer = document.getElementById("branches-container");
+const addBranchBtn = document.getElementById("add-branch");
+const remainingAmountEl = document.getElementById("remaining-amount");
+const resultsSection = document.getElementById("results-section");
+const resultsTableBody = document.getElementById("results-table-body");
+let branchCount = 0;
+const states = [
+  { val: "MH", label: "Maharashtra" },
+  { val: "DL", label: "Delhi" },
+  { val: "KA", label: "Karnataka" },
+  { val: "TN", label: "Tamil Nadu" },
+  { val: "GJ", label: "Gujarat" },
+  { val: "UP", label: "Uttar Pradesh" },
+  { val: "WB", label: "West Bengal" },
+  { val: "TS", label: "Telangana" },
+  { val: "HR", label: "Haryana" },
+  { val: "OTHER", label: "Other State" }
+];
+function formatINR(num) {
+  return new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 }).format(num);
+}
+function createBranchRow() {
+  branchCount++;
+  const id = branchCount;
+  const div = document.createElement("div");
+  div.className = "flex flex-col sm:flex-row gap-4 items-end p-4 border border-base rounded-lg bg-surface";
+  div.id = `branch-row-${id}`;
+  let optionsHtml = states.map((s) => `<option value="${s.val}">${s.label}</option>`).join("");
+  div.innerHTML = `
       <div class="w-full sm:w-1/3">
         <label class="block text-[12px] font-medium text-muted mb-1">Branch State</label>
         <select class="branch-state block w-full rounded-[8px] border-0 py-2 px-3 text-sm ring-1 ring-inset ring-base focus:ring-2 focus:ring-inset focus:ring-primary bg-surface">
@@ -275,66 +268,50 @@ const structuredData = [
         </div>
       </div>
       <div class="w-full sm:w-1/3">
-        <label class="block text-[12px] font-medium text-muted mb-1">Allocated Value (₹)</label>
+        <label class="block text-[12px] font-medium text-muted mb-1">Allocated Value (\u20B9)</label>
         <input type="number" min="0" class="branch-value block w-full rounded-[8px] border-0 py-2 px-3 text-sm ring-1 ring-inset ring-base focus:ring-2 focus:ring-inset focus:ring-primary bg-subtle" readonly>
       </div>
       <button type="button" class="remove-branch p-2 text-muted hover:text-red-500 transition-colors" title="Remove Branch">
         <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
       </button>
     `;
-    
-    branchesContainer.appendChild(div);
-    
-    // Auto set state differently if multiple
-    const stateSelect = div.querySelector('.branch-state') as HTMLSelectElement;
-    if (id <= states.length) {
-        stateSelect.selectedIndex = id - 1;
-    }
-    
-    // Listeners
-    const percentInput = div.querySelector('.branch-percent') as HTMLInputElement;
-    percentInput.addEventListener('input', calculate);
-    stateSelect.addEventListener('change', calculate);
-    
-    div.querySelector('.remove-branch').addEventListener('click', () => {
-      div.remove();
-      calculate();
-    });
-    
-    return div;
+  branchesContainer.appendChild(div);
+  const stateSelect = div.querySelector(".branch-state");
+  if (id <= states.length) {
+    stateSelect.selectedIndex = id - 1;
   }
-
-  function calculate() {
-    const totalAmount = parseFloat(totalAmountInput.value) || 0;
-    const pos = posSelect.value;
-    
-    let totalPercent = 0;
-    let totalAllocated = 0;
-    
-    const branchRows = document.querySelectorAll('[id^="branch-row-"]');
-    
-    let resultsHtml = '';
-    
-    branchRows.forEach(row => {
-      const stateSelect = row.querySelector('.branch-state') as HTMLSelectElement;
-      const percentInput = row.querySelector('.branch-percent') as HTMLInputElement;
-      const valueInput = row.querySelector('.branch-value') as HTMLInputElement;
-      
-      const percent = parseFloat(percentInput.value) || 0;
-      totalPercent += percent;
-      
-      const value = (totalAmount * percent) / 100;
-      totalAllocated += value;
-      valueInput.value = value.toFixed(2);
-      
-      if (value > 0) {
-          const branchState = stateSelect.value;
-          const isIntra = (branchState === pos);
-          const taxType = isIntra ? '<span class="text-green-600 font-medium bg-green-50 px-2 py-0.5 rounded">CGST + SGST</span>' : '<span class="text-orange-600 font-medium bg-orange-50 px-2 py-0.5 rounded">IGST</span>';
-          const gstAmount = value * 0.18;
-          const totalInvoice = value + gstAmount;
-          
-          resultsHtml += `
+  const percentInput = div.querySelector(".branch-percent");
+  percentInput.addEventListener("input", calculate);
+  stateSelect.addEventListener("change", calculate);
+  div.querySelector(".remove-branch").addEventListener("click", () => {
+    div.remove();
+    calculate();
+  });
+  return div;
+}
+function calculate() {
+  const totalAmount = parseFloat(totalAmountInput.value) || 0;
+  const pos = posSelect.value;
+  let totalPercent = 0;
+  let totalAllocated = 0;
+  const branchRows = document.querySelectorAll('[id^="branch-row-"]');
+  let resultsHtml = "";
+  branchRows.forEach((row) => {
+    const stateSelect = row.querySelector(".branch-state");
+    const percentInput = row.querySelector(".branch-percent");
+    const valueInput = row.querySelector(".branch-value");
+    const percent = parseFloat(percentInput.value) || 0;
+    totalPercent += percent;
+    const value = totalAmount * percent / 100;
+    totalAllocated += value;
+    valueInput.value = value.toFixed(2);
+    if (value > 0) {
+      const branchState = stateSelect.value;
+      const isIntra = branchState === pos;
+      const taxType = isIntra ? '<span class="text-green-600 font-medium bg-green-50 px-2 py-0.5 rounded">CGST + SGST</span>' : '<span class="text-orange-600 font-medium bg-orange-50 px-2 py-0.5 rounded">IGST</span>';
+      const gstAmount = value * 0.18;
+      const totalInvoice = value + gstAmount;
+      resultsHtml += `
             <tr>
               <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-base sm:pl-6">${stateSelect.options[stateSelect.selectedIndex].text}</td>
               <td class="whitespace-nowrap px-3 py-4 text-sm">${taxType}</td>
@@ -343,38 +320,31 @@ const structuredData = [
               <td class="whitespace-nowrap py-4 pl-3 pr-4 text-sm text-right font-bold text-base sm:pr-6">${formatINR(totalInvoice)}</td>
             </tr>
           `;
-      }
-    });
-    
-    const remaining = totalAmount - totalAllocated;
-    remainingAmountEl.textContent = formatINR(remaining);
-    
-    if (Math.abs(remaining) < 1) {
-        remainingAmountEl.className = "text-[16px] font-bold text-green-600";
-    } else if (remaining < 0) {
-        remainingAmountEl.className = "text-[16px] font-bold text-red-600";
-    } else {
-        remainingAmountEl.className = "text-[16px] font-bold text-orange-600";
     }
-    
-    if (resultsHtml !== '') {
-        resultsSection.classList.remove('hidden');
-        resultsTableBody.innerHTML = resultsHtml;
-    } else {
-        resultsSection.classList.add('hidden');
-    }
-  }
-
-  addBranchBtn.addEventListener('click', () => {
-    createBranchRow();
-    calculate();
   });
-  
-  posSelect.addEventListener('change', calculate);
-  totalAmountInput.addEventListener('input', calculate);
-  
-  // Init
-  const firstRow = createBranchRow();
-  (firstRow.querySelector('.branch-percent') as HTMLInputElement).value = "100";
+  const remaining = totalAmount - totalAllocated;
+  remainingAmountEl.textContent = formatINR(remaining);
+  if (Math.abs(remaining) < 1) {
+    remainingAmountEl.className = "text-[16px] font-bold text-green-600";
+  } else if (remaining < 0) {
+    remainingAmountEl.className = "text-[16px] font-bold text-red-600";
+  } else {
+    remainingAmountEl.className = "text-[16px] font-bold text-orange-600";
+  }
+  if (resultsHtml !== "") {
+    resultsSection.classList.remove("hidden");
+    resultsTableBody.innerHTML = resultsHtml;
+  } else {
+    resultsSection.classList.add("hidden");
+  }
+}
+addBranchBtn.addEventListener("click", () => {
+  createBranchRow();
   calculate();
+});
+posSelect.addEventListener("change", calculate);
+totalAmountInput.addEventListener("input", calculate);
+const firstRow = createBranchRow();
+firstRow.querySelector(".branch-percent").value = "100";
+calculate();
 </script>

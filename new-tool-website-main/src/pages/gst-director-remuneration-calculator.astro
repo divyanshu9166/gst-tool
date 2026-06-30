@@ -221,42 +221,36 @@ const structuredData = [
   </div>
 </BaseLayout>
 
-<script lang="ts">
-  const form = document.getElementById('director-form');
-  const amountInput = document.getElementById('amount') as HTMLInputElement;
-  const resultContainer = document.getElementById('result-container');
-  const actionFooter = document.getElementById('action-footer');
-
-  function formatINR(number) {
-    return new Intl.NumberFormat('en-IN', {
-      style: 'currency',
-      currency: 'INR',
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
-    }).format(number);
+<script>
+const form = document.getElementById("director-form");
+const amountInput = document.getElementById("amount");
+const resultContainer = document.getElementById("result-container");
+const actionFooter = document.getElementById("action-footer");
+function formatINR(number) {
+  return new Intl.NumberFormat("en-IN", {
+    style: "currency",
+    currency: "INR",
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0
+  }).format(number);
+}
+function calculate() {
+  const engagementType = document.querySelector('input[name="engagementType"]:checked')?.value;
+  const tdsType = document.querySelector('input[name="tdsType"]:checked')?.value;
+  const amount = parseFloat(amountInput.value) || 0;
+  let isSalary = false;
+  let conflict = false;
+  if (engagementType === "employee" && tdsType === "192") {
+    isSalary = true;
+  } else if (tdsType === "192") {
+    isSalary = true;
+    if (engagementType === "independent") conflict = true;
+  } else if (engagementType === "employee" && tdsType === "194J") {
+    isSalary = false;
+    conflict = true;
   }
-
-  function calculate() {
-    const engagementType = (document.querySelector('input[name="engagementType"]:checked') as HTMLInputElement)?.value;
-    const tdsType = (document.querySelector('input[name="tdsType"]:checked') as HTMLInputElement)?.value;
-    const amount = parseFloat(amountInput.value) || 0;
-
-    let isSalary = false;
-    let conflict = false;
-
-    // Logic per CBIC Circular No. 140/10/2020-GST
-    if (engagementType === 'employee' && tdsType === '192') {
-        isSalary = true;
-    } else if (tdsType === '192') {
-        isSalary = true; // Section 192 TDS overrides designation technically
-        if (engagementType === 'independent') conflict = true;
-    } else if (engagementType === 'employee' && tdsType === '194J') {
-        isSalary = false; // Declared as employee but paid as professional
-        conflict = true;
-    }
-
-    if (conflict) {
-        resultContainer.innerHTML = `
+  if (conflict) {
+    resultContainer.innerHTML = `
           <div class="bg-yellow-50 border border-yellow-200 rounded-xl p-5 mb-4 text-yellow-800">
             <h4 class="font-bold text-[15px] mb-1 flex items-center gap-2">
               <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
@@ -265,23 +259,22 @@ const structuredData = [
             <p class="text-[13px]">Your TDS deduction section contradicts the engagement type. For GST purposes, the TDS section heavily dictates the treatment. Ensure your HR/Finance aligns the contract with the Income Tax deductions.</p>
           </div>
         `;
-    } else {
-        resultContainer.innerHTML = '';
-    }
-
-    if (isSalary) {
-        resultContainer.innerHTML += `
+  } else {
+    resultContainer.innerHTML = "";
+  }
+  if (isSalary) {
+    resultContainer.innerHTML += `
           <div class="border-2 border-green-500 bg-green-50 rounded-xl p-6 text-center">
             <div class="text-green-600 font-bold text-xl mb-2">No GST Applicable</div>
             <div class="text-[14px] text-green-800">This payment falls under Schedule III (Employer-Employee relationship). It is neither a supply of goods nor services.</div>
           </div>
         `;
-        actionFooter.innerHTML = `
+    actionFooter.innerHTML = `
           <div class="text-[13px] text-muted"><strong>No Action Required:</strong> You do not need to report this in GSTR-3B or pay any RCM. Pay the net salary to the director after Sec 192 TDS deduction.</div>
         `;
-    } else {
-        const gstAmount = amount * 0.18;
-        resultContainer.innerHTML += `
+  } else {
+    const gstAmount = amount * 0.18;
+    resultContainer.innerHTML += `
           <div class="border-2 border-orange-500 bg-orange-50 rounded-xl p-6 text-center">
             <div class="text-orange-600 font-bold text-xl mb-2">18% GST Applicable (RCM)</div>
             <div class="text-[14px] text-orange-800">This payment is classified as Professional/Sitting Fees. The Company is liable to pay GST under Reverse Charge Mechanism.</div>
@@ -298,20 +291,16 @@ const structuredData = [
             </div>
           </div>
         `;
-        
-        actionFooter.innerHTML = `
+    actionFooter.innerHTML = `
           <div class="text-[13px] text-muted space-y-2">
             <p><strong>Step 1:</strong> Pay the director ${formatINR(amount)} (minus 10% TDS under 194J).</p>
             <p><strong>Step 2:</strong> Pay ${formatINR(gstAmount)} in cash as RCM in GSTR-3B (Table 3.1.d).</p>
             <p><strong>Step 3:</strong> Claim ${formatINR(gstAmount)} as ITC in the same month (Table 4.A.3).</p>
           </div>
         `;
-    }
   }
-
-  form.addEventListener('input', calculate);
-  form.addEventListener('change', calculate);
-  
-  // Initial run
-  calculate();
+}
+form.addEventListener("input", calculate);
+form.addEventListener("change", calculate);
+calculate();
 </script>

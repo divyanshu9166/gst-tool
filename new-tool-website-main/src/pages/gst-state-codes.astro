@@ -18,6 +18,14 @@ const structuredData = [
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
     mainEntity: [
+      { '@type': 'Question', name: "What is a GST state code?", acceptedAnswer: { '@type': 'Answer', text: "A GST state code is a unique 2-digit number assigned to each state and union territory in India. It forms the first two digits of any 15-digit GSTIN." } },
+      { '@type': 'Question', name: "Why is the GST state code important for billing?", acceptedAnswer: { '@type': 'Answer', text: "The state code helps determine the Place of Supply. If the supplier's state code and the buyer's state code match, CGST+SGST applies. If they differ, IGST applies." } },
+      { '@type': 'Question', name: "What is the GST state code for Maharashtra in 2026?", acceptedAnswer: { '@type': 'Answer', text: "The GST state code for Maharashtra remains '27'. The state codes have not changed in the 2026 GST 2.0 update." } },
+      { '@type': 'Question', name: "How can I find the state name from a GSTIN?", acceptedAnswer: { '@type': 'Answer', text: "Simply look at the first two digits of the GSTIN and match it against our GST state code list. For example, '07' is Delhi and '29' is Karnataka." } },
+      { '@type': 'Question', name: "Are state codes different from union territory codes?", acceptedAnswer: { '@type': 'Answer', text: "No, under GST, both states and union territories are assigned 2-digit codes in the exact same format (from 01 to 38)." } },
+      { '@type': 'Question', name: "What does state code '97' mean?", acceptedAnswer: { '@type': 'Answer', text: "State code '97' is reserved for 'Other Territory' under the GST framework, typically used for specific offshore or specialized economic zones." } },
+      { '@type': 'Question', name: "Can a business have multiple GSTINs in the same state?", acceptedAnswer: { '@type': 'Answer', text: "Yes. If a business has multiple verticals or branches in the same state, they can obtain multiple GSTINs. The state code (first two digits) will remain the same, but the entity code (13th digit) will change." } },
+      { '@type': 'Question', name: "Where can I download the full list of GST state codes?", acceptedAnswer: { '@type': 'Answer', text: "You can view, search, and refer to the complete, updated 2026 list of GST state codes directly on our page." } },
       {
         '@type': 'Question',
         name: 'What is a GST State Code?',
@@ -214,32 +222,44 @@ const stateCodes = [
     </article>
   </div>
 
-  <script lang="ts">
-    const searchInput = document.getElementById('state-search') as HTMLInputElement;
-    const cards = document.querySelectorAll('.state-card');
-    const emptyState = document.getElementById('empty-state')!;
+  <script>
+const searchInput = document.getElementById("state-search");
+const cards = document.querySelectorAll(".state-card");
+const emptyState = document.getElementById("empty-state");
+searchInput.addEventListener("input", (e) => {
+  const query = e.target.value.toLowerCase().trim();
+  let visibleCount = 0;
+  cards.forEach((card) => {
+    const stateName = card.getAttribute("data-state") || "";
+    const stateCode = card.getAttribute("data-code") || "";
+    if (stateName.includes(query) || stateCode.includes(query)) {
+      card.classList.remove("hidden");
+      visibleCount++;
+    } else {
+      card.classList.add("hidden");
+    }
+  });
+  if (visibleCount === 0) {
+    emptyState.classList.remove("hidden");
+  } else {
+    emptyState.classList.add("hidden");
+  }
+});
+</script>
 
-    searchInput.addEventListener('input', (e) => {
-      const query = (e.target as HTMLInputElement).value.toLowerCase().trim();
-      let visibleCount = 0;
-
-      cards.forEach(card => {
-        const stateName = card.getAttribute('data-state') || '';
-        const stateCode = card.getAttribute('data-code') || '';
-
-        if (stateName.includes(query) || stateCode.includes(query)) {
-          card.classList.remove('hidden');
-          visibleCount++;
-        } else {
-          card.classList.add('hidden');
-        }
-      });
-
-      if (visibleCount === 0) {
-        emptyState.classList.remove('hidden');
-      } else {
-        emptyState.classList.add('hidden');
-      }
-    });
-  </script>
+    <!-- FAQ Section -->
+    <section class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 pb-20 mt-16 pt-12 border-t border-base" aria-labelledby="faq-heading">
+      <h2 id="faq-heading" class="text-2xl sm:text-3xl font-bold text-base mb-8">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        {structuredData[1].mainEntity.map((faq, i) => (
+          <details class="group rounded-xl border border-base bg-surface overflow-hidden" id={`faq-${i}`}>
+            <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+              <span>{faq.name}</span>
+              <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+            </summary>
+            <div class="px-6 pb-5 text-[15px] text-muted leading-relaxed border-t border-base pt-4">{faq.acceptedAnswer.text}</div>
+          </details>
+        ))}
+      </div>
+    </section>
 </BaseLayout>

@@ -169,158 +169,128 @@ const structuredData = [
   </div>
 </BaseLayout>
 
-<script lang="ts">
-  type BizType = 'goods' | 'services' | 'both';
-  let bizType: BizType = 'goods';
-
-  const typeBtns = document.querySelectorAll('.biz-type-btn');
-  const stateCatSelect = document.getElementById('state-category') as HTMLSelectElement;
-  const inTaxable = document.getElementById('val-taxable') as HTMLInputElement;
-  const inExempt = document.getElementById('val-exempt') as HTMLInputElement;
-  const inExport = document.getElementById('val-export') as HTMLInputElement;
-  const inInterstate = document.getElementById('val-interstate') as HTMLInputElement;
-  const btnReset = document.getElementById('btn-reset') as HTMLButtonElement;
-
-  const resTotal = document.getElementById('res-total')!;
-  const iconReg = document.getElementById('icon-reg')!;
-  const titleReg = document.getElementById('title-reg')!;
-  const descReg = document.getElementById('desc-reg')!;
-  const iconComp = document.getElementById('icon-comp')!;
-  const titleComp = document.getElementById('title-comp')!;
-  const descComp = document.getElementById('desc-comp')!;
-
-  function formatINR(val: number) {
-    return '₹' + val.toLocaleString('en-IN', { maximumFractionDigits: 0 });
+<script>
+let bizType = "goods";
+const typeBtns = document.querySelectorAll(".biz-type-btn");
+const stateCatSelect = document.getElementById("state-category");
+const inTaxable = document.getElementById("val-taxable");
+const inExempt = document.getElementById("val-exempt");
+const inExport = document.getElementById("val-export");
+const inInterstate = document.getElementById("val-interstate");
+const btnReset = document.getElementById("btn-reset");
+const resTotal = document.getElementById("res-total");
+const iconReg = document.getElementById("icon-reg");
+const titleReg = document.getElementById("title-reg");
+const descReg = document.getElementById("desc-reg");
+const iconComp = document.getElementById("icon-comp");
+const titleComp = document.getElementById("title-comp");
+const descComp = document.getElementById("desc-comp");
+function formatINR(val) {
+  return "\u20B9" + val.toLocaleString("en-IN", { maximumFractionDigits: 0 });
+}
+function formatThreshold(val) {
+  if (val >= 1e7) return `\u20B9${(val / 1e7).toFixed(1)} Crore`;
+  return `\u20B9${val / 1e5} Lakh`;
+}
+function calculate() {
+  const taxable = parseFloat(inTaxable.value) || 0;
+  const exempt = parseFloat(inExempt.value) || 0;
+  const exports = parseFloat(inExport.value) || 0;
+  const interstate = parseFloat(inInterstate.value) || 0;
+  const total = taxable + exempt + exports;
+  resTotal.textContent = formatINR(total);
+  const stateCat = stateCatSelect.value;
+  let threshold;
+  if (stateCat === "special10") {
+    threshold = 1e6;
+  } else if (stateCat === "special20") {
+    threshold = 2e6;
+  } else {
+    threshold = bizType === "goods" ? 4e6 : 2e6;
   }
-
-  function formatThreshold(val: number): string {
-    if (val >= 10000000) return `₹${(val / 10000000).toFixed(1)} Crore`;
-    return `₹${val / 100000} Lakh`;
+  let mustRegister = false;
+  let regReason = "";
+  if (bizType !== "services" && interstate > 0) {
+    mustRegister = true;
+    regReason = "Mandatory registration required due to inter-state supply of goods, regardless of turnover.";
+  } else if (total > threshold) {
+    mustRegister = true;
+    regReason = `Aggregate turnover of ${formatINR(total)} exceeds the ${formatThreshold(threshold)} mandatory registration limit for your category.`;
+  } else {
+    regReason = `You are below the ${formatThreshold(threshold)} limit. Registration is not mandatory yet.`;
   }
-
-  function calculate() {
-    const taxable = parseFloat(inTaxable.value) || 0;
-    const exempt = parseFloat(inExempt.value) || 0;
-    const exports = parseFloat(inExport.value) || 0;
-    const interstate = parseFloat(inInterstate.value) || 0;
-    
-    // Aggregate Turnover = Taxable + Exempt + Exports.
-    // Interstate supplies are already part of Taxable Supplies — entering them separately
-    // only helps determine the REGISTRATION RULE, not the turnover amount itself.
-    const total = taxable + exempt + exports;
-    resTotal.textContent = formatINR(total);
-
-    const stateCat = stateCatSelect.value;
-    
-    // Determine Registration Threshold based on state + business type
-    let threshold: number;
-    if (stateCat === 'special10') {
-      threshold = 1000000; // ₹10L
-    } else if (stateCat === 'special20') {
-      threshold = 2000000; // ₹20L
-    } else {
-      // Normal state: ₹40L for goods only, ₹20L for services/both
-      threshold = (bizType === 'goods') ? 4000000 : 2000000;
-    }
-
-    let mustRegister = false;
-    let regReason = '';
-
-    // Inter-state supply of goods always mandates registration regardless of turnover
-    if (bizType !== 'services' && interstate > 0) {
-      mustRegister = true;
-      regReason = 'Mandatory registration required due to inter-state supply of goods, regardless of turnover.';
-    } else if (total > threshold) {
-      mustRegister = true;
-      regReason = `Aggregate turnover of ${formatINR(total)} exceeds the ${formatThreshold(threshold)} mandatory registration limit for your category.`;
-    } else {
-      regReason = `You are below the ${formatThreshold(threshold)} limit. Registration is not mandatory yet.`;
-    }
-
-    if (mustRegister) {
-      iconReg.textContent = '🔴';
-      titleReg.textContent = 'Registration Mandatory';
-      titleReg.classList.add('text-red-500');
-      titleReg.classList.remove('text-green-500');
-    } else {
-      iconReg.textContent = '🟢';
-      titleReg.textContent = 'Registration Not Required';
-      titleReg.classList.remove('text-red-500');
-      titleReg.classList.add('text-green-500');
-    }
-    descReg.textContent = regReason;
-
-    // Composition Scheme Threshold
-    // Goods/mixed: ₹1.5Cr (normal states) or ₹75L (special)
-    // Services: ₹50L flat
-    let compThreshold: number;
-    if (bizType === 'services') {
-      compThreshold = 5000000; // ₹50L
-    } else {
-      compThreshold = (stateCat === 'normal') ? 15000000 : 7500000; // ₹1.5Cr or ₹75L
-    }
-
-    let canOptComp = true;
-    let compReason = '';
-
-    if (interstate > 0) {
-      canOptComp = false;
-      compReason = 'Not eligible: Businesses making inter-state supplies cannot opt for the Composition Scheme.';
-    } else if (exports > 0) {
-      canOptComp = false;
-      compReason = 'Not eligible: Exporters are not permitted under the Composition Scheme.';
-    } else if (total > compThreshold) {
-      canOptComp = false;
-      compReason = `Not eligible: Turnover of ${formatINR(total)} exceeds the ${formatThreshold(compThreshold)} Composition Scheme limit.`;
-    } else {
-      compReason = `Eligible! Turnover is within the ${formatThreshold(compThreshold)} limit and no inter-state sales detected.`;
-    }
-
-    if (canOptComp) {
-      iconComp.textContent = '✅';
-      titleComp.textContent = 'Eligible for Composition Scheme';
-      titleComp.classList.add('text-green-500');
-      titleComp.classList.remove('text-red-500');
-    } else {
-      iconComp.textContent = '❌';
-      titleComp.textContent = 'Not Eligible for Composition Scheme';
-      titleComp.classList.add('text-red-500');
-      titleComp.classList.remove('text-green-500');
-    }
-    descComp.textContent = compReason;
+  if (mustRegister) {
+    iconReg.textContent = "\u{1F534}";
+    titleReg.textContent = "Registration Mandatory";
+    titleReg.classList.add("text-red-500");
+    titleReg.classList.remove("text-green-500");
+  } else {
+    iconReg.textContent = "\u{1F7E2}";
+    titleReg.textContent = "Registration Not Required";
+    titleReg.classList.remove("text-red-500");
+    titleReg.classList.add("text-green-500");
   }
-
-  typeBtns.forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      const target = e.currentTarget as HTMLButtonElement;
-      bizType = target.dataset.type as BizType;
-      
-      typeBtns.forEach(b => {
-        const isSelected = b.dataset.type === bizType;
-        b.classList.toggle('border-accent', isSelected);
-        b.classList.toggle('bg-accent', isSelected);
-        b.classList.toggle('text-white', isSelected);
-        b.classList.toggle('border-base', !isSelected);
-        b.classList.toggle('bg-subtle', !isSelected);
-        b.classList.toggle('text-muted', !isSelected);
-      });
-      calculate();
+  descReg.textContent = regReason;
+  let compThreshold;
+  if (bizType === "services") {
+    compThreshold = 5e6;
+  } else {
+    compThreshold = stateCat === "normal" ? 15e6 : 75e5;
+  }
+  let canOptComp = true;
+  let compReason = "";
+  if (interstate > 0) {
+    canOptComp = false;
+    compReason = "Not eligible: Businesses making inter-state supplies cannot opt for the Composition Scheme.";
+  } else if (exports > 0) {
+    canOptComp = false;
+    compReason = "Not eligible: Exporters are not permitted under the Composition Scheme.";
+  } else if (total > compThreshold) {
+    canOptComp = false;
+    compReason = `Not eligible: Turnover of ${formatINR(total)} exceeds the ${formatThreshold(compThreshold)} Composition Scheme limit.`;
+  } else {
+    compReason = `Eligible! Turnover is within the ${formatThreshold(compThreshold)} limit and no inter-state sales detected.`;
+  }
+  if (canOptComp) {
+    iconComp.textContent = "\u2705";
+    titleComp.textContent = "Eligible for Composition Scheme";
+    titleComp.classList.add("text-green-500");
+    titleComp.classList.remove("text-red-500");
+  } else {
+    iconComp.textContent = "\u274C";
+    titleComp.textContent = "Not Eligible for Composition Scheme";
+    titleComp.classList.add("text-red-500");
+    titleComp.classList.remove("text-green-500");
+  }
+  descComp.textContent = compReason;
+}
+typeBtns.forEach((btn) => {
+  btn.addEventListener("click", (e) => {
+    const target = e.currentTarget;
+    bizType = target.dataset.type;
+    typeBtns.forEach((b) => {
+      const isSelected = b.dataset.type === bizType;
+      b.classList.toggle("border-accent", isSelected);
+      b.classList.toggle("bg-accent", isSelected);
+      b.classList.toggle("text-white", isSelected);
+      b.classList.toggle("border-base", !isSelected);
+      b.classList.toggle("bg-subtle", !isSelected);
+      b.classList.toggle("text-muted", !isSelected);
     });
-  });
-
-  [inTaxable, inExempt, inExport, inInterstate, stateCatSelect].forEach(el => {
-    el.addEventListener('input', calculate);
-  });
-
-  btnReset.addEventListener('click', () => {
-    inTaxable.value = '';
-    inExempt.value = '';
-    inExport.value = '';
-    inInterstate.value = '';
-    stateCatSelect.value = 'normal';
-    (document.getElementById('btn-goods') as HTMLButtonElement).click();
     calculate();
   });
-
+});
+[inTaxable, inExempt, inExport, inInterstate, stateCatSelect].forEach((el) => {
+  el.addEventListener("input", calculate);
+});
+btnReset.addEventListener("click", () => {
+  inTaxable.value = "";
+  inExempt.value = "";
+  inExport.value = "";
+  inInterstate.value = "";
+  stateCatSelect.value = "normal";
+  document.getElementById("btn-goods").click();
   calculate();
+});
+calculate();
 </script>

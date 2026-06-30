@@ -205,71 +205,47 @@ const structuredData = [
     </article>
   </div>
 
-  <script lang="ts">
-    const form = document.getElementById('distance-form') as HTMLFormElement;
-    const fromPin = document.getElementById('from-pin') as HTMLInputElement;
-    const toPin = document.getElementById('to-pin') as HTMLInputElement;
-    const loading = document.getElementById('loading')!;
-    const resultCard = document.getElementById('result-card')!;
-    const resDistance = document.getElementById('res-distance')!;
-    const resFrom = document.getElementById('res-from')!;
-    const resTo = document.getElementById('res-to')!;
-
-    // Pseudo-random but deterministic distance generator for demo purposes
-    // In a real app, this would call a mapping API or backend database
-    function getDeterministicMockDistance(pin1: string, pin2: string): number {
-      if (pin1 === pin2) return 5;
-      
-      const num1 = parseInt(pin1) || 0;
-      const num2 = parseInt(pin2) || 0;
-      
-      // Calculate a "distance" based on the difference in PIN codes
-      // Note: This is purely a front-end simulation for the UI
-      const diff = Math.abs(num1 - num2);
-      
-      // Scale it to look somewhat realistic (between 10km and 3000km)
-      let distance = (diff % 2800) + 15;
-      
-      // Same region (first digit matches) usually means closer
-      if (pin1[0] === pin2[0]) {
-        distance = (diff % 500) + 10;
-      }
-      
-      return distance;
-    }
-
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      
-      const p1 = fromPin.value.trim();
-      const p2 = toPin.value.trim();
-      
-      if (!/^\d{6}$/.test(p1) || !/^\d{6}$/.test(p2)) {
-        alert("Please enter valid 6-digit numeric PIN codes. Only numbers are allowed.");
-        return;
-      }
-
-      // Hide result, show loading
-      resultCard.classList.add('hidden');
-      loading.classList.remove('hidden');
-
-      // Simulate API call delay
-      setTimeout(() => {
-        loading.classList.add('hidden');
-        
-        const dist = getDeterministicMockDistance(p1, p2);
-        
-        resFrom.textContent = p1;
-        resTo.textContent = p2;
-        resDistance.innerHTML = `${dist} <span class="text-2xl text-muted">KM</span>`;
-        
-        resultCard.classList.remove('hidden');
-        
-        // Scroll to result
-        resultCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      }, 800);
-    });
-  </script>
+  <script>
+const form = document.getElementById("distance-form");
+const fromPin = document.getElementById("from-pin");
+const toPin = document.getElementById("to-pin");
+const loading = document.getElementById("loading");
+const resultCard = document.getElementById("result-card");
+const resDistance = document.getElementById("res-distance");
+const resFrom = document.getElementById("res-from");
+const resTo = document.getElementById("res-to");
+function getDeterministicMockDistance(pin1, pin2) {
+  if (pin1 === pin2) return 5;
+  const num1 = parseInt(pin1) || 0;
+  const num2 = parseInt(pin2) || 0;
+  const diff = Math.abs(num1 - num2);
+  let distance = diff % 2800 + 15;
+  if (pin1[0] === pin2[0]) {
+    distance = diff % 500 + 10;
+  }
+  return distance;
+}
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const p1 = fromPin.value.trim();
+  const p2 = toPin.value.trim();
+  if (!/^\d{6}$/.test(p1) || !/^\d{6}$/.test(p2)) {
+    alert("Please enter valid 6-digit numeric PIN codes. Only numbers are allowed.");
+    return;
+  }
+  resultCard.classList.add("hidden");
+  loading.classList.remove("hidden");
+  setTimeout(() => {
+    loading.classList.add("hidden");
+    const dist = getDeterministicMockDistance(p1, p2);
+    resFrom.textContent = p1;
+    resTo.textContent = p2;
+    resDistance.innerHTML = `${dist} <span class="text-2xl text-muted">KM</span>`;
+    resultCard.classList.remove("hidden");
+    resultCard.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }, 800);
+});
+</script>
 
   
   <!-- Related Guides -->

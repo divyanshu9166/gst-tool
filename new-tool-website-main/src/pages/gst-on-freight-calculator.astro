@@ -257,177 +257,146 @@ const structuredData = [
   </div>
 </BaseLayout>
 
-<script lang="ts">
-  const form = document.getElementById('freight-calculator-form');
-  const amountInput = document.getElementById('freightAmount') as HTMLInputElement;
-  const typeSelect = document.getElementById('transportType') as HTMLSelectElement;
-  const gtaOptions = document.getElementById('gta-options');
-  const gtaOptSelect = document.getElementById('gtaOpt') as HTMLSelectElement;
-  const recipientRadios = document.querySelectorAll('input[name="recipientStatus"]');
-  const gtaTaxMode = document.getElementById('gta-tax-mode');
-  
-  const resultsSection = document.getElementById('results-section');
-  const statusBadge = document.getElementById('status-badge');
-  const statusDesc = document.getElementById('status-description');
-  
-  const resBase = document.getElementById('res-base');
-  const resGst = document.getElementById('res-gst');
-  const resGstLabel = document.getElementById('res-gst-label');
-  const resTransporter = document.getElementById('res-transporter');
-  const resRcm = document.getElementById('res-rcm');
-  const rcmRow = document.getElementById('rcm-row');
-
-  function formatINR(number) {
-    return new Intl.NumberFormat('en-IN', {
-      style: 'currency',
-      currency: 'INR',
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
-    }).format(number);
-  }
-
-  function handleUI() {
-    if (typeSelect.value === 'gta') {
-      gtaOptions.classList.remove('hidden');
-      
-      let recipientType = 'registered';
-      recipientRadios.forEach((r: HTMLInputElement) => {
-        if (r.checked) recipientType = r.value;
-      });
-      
-      if (recipientType === 'unregistered') {
-          // If unregistered (B2C), usually exempt if not a specified person, but for simplicity we assume fully exempt or FCM.
-          // Actually, GTA to unregistered person is exempt under Notification No. 12/2017.
-          gtaTaxMode.classList.add('hidden');
-      } else {
-          gtaTaxMode.classList.remove('hidden');
-      }
-    } else {
-      gtaOptions.classList.add('hidden');
-    }
-    calculate();
-  }
-
-  function calculate() {
-    const amount = parseFloat(amountInput.value) || 0;
-    
-    if (amount <= 0) {
-      resultsSection.classList.add('hidden');
-      return;
-    }
-    
-    resultsSection.classList.remove('hidden');
-
-    const type = typeSelect.value;
-    let recipientType = 'registered';
-    recipientRadios.forEach((r: HTMLInputElement) => {
+<script>
+const form = document.getElementById("freight-calculator-form");
+const amountInput = document.getElementById("freightAmount");
+const typeSelect = document.getElementById("transportType");
+const gtaOptions = document.getElementById("gta-options");
+const gtaOptSelect = document.getElementById("gtaOpt");
+const recipientRadios = document.querySelectorAll('input[name="recipientStatus"]');
+const gtaTaxMode = document.getElementById("gta-tax-mode");
+const resultsSection = document.getElementById("results-section");
+const statusBadge = document.getElementById("status-badge");
+const statusDesc = document.getElementById("status-description");
+const resBase = document.getElementById("res-base");
+const resGst = document.getElementById("res-gst");
+const resGstLabel = document.getElementById("res-gst-label");
+const resTransporter = document.getElementById("res-transporter");
+const resRcm = document.getElementById("res-rcm");
+const rcmRow = document.getElementById("rcm-row");
+function formatINR(number) {
+  return new Intl.NumberFormat("en-IN", {
+    style: "currency",
+    currency: "INR",
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0
+  }).format(number);
+}
+function handleUI() {
+  if (typeSelect.value === "gta") {
+    gtaOptions.classList.remove("hidden");
+    let recipientType = "registered";
+    recipientRadios.forEach((r) => {
       if (r.checked) recipientType = r.value;
     });
-    
-    const gtaOpt = gtaOptSelect.value;
-
-    let isTaxable = false;
-    let isRcm = false;
-    let gstRate = 0;
-    
-    let badgeClass = '';
-    let badgeText = '';
-    let descHtml = '';
-    
-    resBase.textContent = formatINR(amount);
-
-    if (type === 'nongta') {
-      isTaxable = false;
-      badgeClass = 'bg-green-100 text-green-800';
-      badgeText = '<span class="w-1.5 h-1.5 rounded-full bg-green-600"></span> Exempt';
-      descHtml = 'Transport of goods by an ordinary goods carriage (without issuing a consignment note) is completely <strong>Exempt from GST</strong>.';
-      
-      resGstLabel.textContent = 'GST Amount';
-      resGst.textContent = '₹0';
-      resTransporter.textContent = formatINR(amount);
-      resTransporter.parentElement.parentElement.classList.remove('text-green-700');
-      rcmRow.classList.add('hidden');
-      
-    } else if (type === 'courier') {
-      isTaxable = true;
-      gstRate = 0.18;
-      badgeClass = 'bg-yellow-100 text-yellow-800';
-      badgeText = '<span class="w-1.5 h-1.5 rounded-full bg-yellow-600"></span> Taxable (Forward Charge 18%)';
-      descHtml = 'Courier services attract a flat <strong>18% GST under Forward Charge</strong>. The courier agency collects this from you.';
-      
-      const gstAmount = amount * gstRate;
-      resGstLabel.textContent = 'GST @ 18%';
-      resGst.textContent = formatINR(gstAmount);
-      resTransporter.textContent = formatINR(amount + gstAmount);
-      resTransporter.parentElement.parentElement.classList.add('text-green-700');
-      rcmRow.classList.add('hidden');
-      
-    } else if (type === 'gta') {
-        if (recipientType === 'unregistered') {
-            isTaxable = false;
-            badgeClass = 'bg-green-100 text-green-800';
-            badgeText = '<span class="w-1.5 h-1.5 rounded-full bg-green-600"></span> Exempt (B2C)';
-            descHtml = 'GTA services provided to unregistered individuals (B2C) are generally <strong>Exempt from GST</strong>.';
-            
-            resGstLabel.textContent = 'GST Amount';
-            resGst.textContent = '₹0';
-            resTransporter.textContent = formatINR(amount);
-            resTransporter.parentElement.parentElement.classList.remove('text-green-700');
-            rcmRow.classList.add('hidden');
-        } else {
-            isTaxable = true;
-            if (gtaOpt === 'rcm') {
-                isRcm = true;
-                gstRate = 0.05;
-                badgeClass = 'bg-red-100 text-red-800';
-                badgeText = '<span class="w-1.5 h-1.5 rounded-full bg-red-600"></span> Taxable under RCM (5%)';
-                descHtml = 'Since the GTA has not opted for forward charge, the <strong>Recipient pays 5% GST directly to the Govt</strong> via Reverse Charge Mechanism.';
-                
-                const gstAmount = amount * gstRate;
-                resGstLabel.textContent = 'GST @ 5% (RCM)';
-                resGst.textContent = formatINR(gstAmount);
-                resTransporter.textContent = formatINR(amount);
-                resTransporter.parentElement.parentElement.classList.remove('text-green-700');
-                
-                rcmRow.classList.remove('hidden');
-                resRcm.textContent = formatINR(gstAmount);
-            } else if (gtaOpt === 'fcm12') {
-                gstRate = 0.12;
-                badgeClass = 'bg-yellow-100 text-yellow-800';
-                badgeText = '<span class="w-1.5 h-1.5 rounded-full bg-yellow-600"></span> Taxable (FCM 12%)';
-                descHtml = 'The GTA has opted to pay tax at 12% under Forward Charge. They collect this from you and claim ITC on their inputs.';
-                
-                const gstAmount = amount * gstRate;
-                resGstLabel.textContent = 'GST @ 12%';
-                resGst.textContent = formatINR(gstAmount);
-                resTransporter.textContent = formatINR(amount + gstAmount);
-                resTransporter.parentElement.parentElement.classList.add('text-green-700');
-                rcmRow.classList.add('hidden');
-            } else if (gtaOpt === 'fcm5') {
-                gstRate = 0.05;
-                badgeClass = 'bg-yellow-100 text-yellow-800';
-                badgeText = '<span class="w-1.5 h-1.5 rounded-full bg-yellow-600"></span> Taxable (FCM 5%)';
-                descHtml = 'The GTA has opted to pay tax at 5% under Forward Charge (without claiming ITC on their inputs).';
-                
-                const gstAmount = amount * gstRate;
-                resGstLabel.textContent = 'GST @ 5%';
-                resGst.textContent = formatINR(gstAmount);
-                resTransporter.textContent = formatINR(amount + gstAmount);
-                resTransporter.parentElement.parentElement.classList.add('text-green-700');
-                rcmRow.classList.add('hidden');
-            }
-        }
+    if (recipientType === "unregistered") {
+      gtaTaxMode.classList.add("hidden");
+    } else {
+      gtaTaxMode.classList.remove("hidden");
     }
-    
-    statusBadge.className = `inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-sm font-medium ${badgeClass}`;
-    statusBadge.innerHTML = badgeText;
-    statusDesc.innerHTML = descHtml;
+  } else {
+    gtaOptions.classList.add("hidden");
   }
-
-  // Event Listeners
-  form.addEventListener('input', handleUI);
-  form.addEventListener('change', handleUI);
-  
-  // Initial UI Setup
-  handleUI();
+  calculate();
+}
+function calculate() {
+  const amount = parseFloat(amountInput.value) || 0;
+  if (amount <= 0) {
+    resultsSection.classList.add("hidden");
+    return;
+  }
+  resultsSection.classList.remove("hidden");
+  const type = typeSelect.value;
+  let recipientType = "registered";
+  recipientRadios.forEach((r) => {
+    if (r.checked) recipientType = r.value;
+  });
+  const gtaOpt = gtaOptSelect.value;
+  let isTaxable = false;
+  let isRcm = false;
+  let gstRate = 0;
+  let badgeClass = "";
+  let badgeText = "";
+  let descHtml = "";
+  resBase.textContent = formatINR(amount);
+  if (type === "nongta") {
+    isTaxable = false;
+    badgeClass = "bg-green-100 text-green-800";
+    badgeText = '<span class="w-1.5 h-1.5 rounded-full bg-green-600"></span> Exempt';
+    descHtml = "Transport of goods by an ordinary goods carriage (without issuing a consignment note) is completely <strong>Exempt from GST</strong>.";
+    resGstLabel.textContent = "GST Amount";
+    resGst.textContent = "\u20B90";
+    resTransporter.textContent = formatINR(amount);
+    resTransporter.parentElement.parentElement.classList.remove("text-green-700");
+    rcmRow.classList.add("hidden");
+  } else if (type === "courier") {
+    isTaxable = true;
+    gstRate = 0.18;
+    badgeClass = "bg-yellow-100 text-yellow-800";
+    badgeText = '<span class="w-1.5 h-1.5 rounded-full bg-yellow-600"></span> Taxable (Forward Charge 18%)';
+    descHtml = "Courier services attract a flat <strong>18% GST under Forward Charge</strong>. The courier agency collects this from you.";
+    const gstAmount = amount * gstRate;
+    resGstLabel.textContent = "GST @ 18%";
+    resGst.textContent = formatINR(gstAmount);
+    resTransporter.textContent = formatINR(amount + gstAmount);
+    resTransporter.parentElement.parentElement.classList.add("text-green-700");
+    rcmRow.classList.add("hidden");
+  } else if (type === "gta") {
+    if (recipientType === "unregistered") {
+      isTaxable = false;
+      badgeClass = "bg-green-100 text-green-800";
+      badgeText = '<span class="w-1.5 h-1.5 rounded-full bg-green-600"></span> Exempt (B2C)';
+      descHtml = "GTA services provided to unregistered individuals (B2C) are generally <strong>Exempt from GST</strong>.";
+      resGstLabel.textContent = "GST Amount";
+      resGst.textContent = "\u20B90";
+      resTransporter.textContent = formatINR(amount);
+      resTransporter.parentElement.parentElement.classList.remove("text-green-700");
+      rcmRow.classList.add("hidden");
+    } else {
+      isTaxable = true;
+      if (gtaOpt === "rcm") {
+        isRcm = true;
+        gstRate = 0.05;
+        badgeClass = "bg-red-100 text-red-800";
+        badgeText = '<span class="w-1.5 h-1.5 rounded-full bg-red-600"></span> Taxable under RCM (5%)';
+        descHtml = "Since the GTA has not opted for forward charge, the <strong>Recipient pays 5% GST directly to the Govt</strong> via Reverse Charge Mechanism.";
+        const gstAmount = amount * gstRate;
+        resGstLabel.textContent = "GST @ 5% (RCM)";
+        resGst.textContent = formatINR(gstAmount);
+        resTransporter.textContent = formatINR(amount);
+        resTransporter.parentElement.parentElement.classList.remove("text-green-700");
+        rcmRow.classList.remove("hidden");
+        resRcm.textContent = formatINR(gstAmount);
+      } else if (gtaOpt === "fcm12") {
+        gstRate = 0.12;
+        badgeClass = "bg-yellow-100 text-yellow-800";
+        badgeText = '<span class="w-1.5 h-1.5 rounded-full bg-yellow-600"></span> Taxable (FCM 12%)';
+        descHtml = "The GTA has opted to pay tax at 12% under Forward Charge. They collect this from you and claim ITC on their inputs.";
+        const gstAmount = amount * gstRate;
+        resGstLabel.textContent = "GST @ 12%";
+        resGst.textContent = formatINR(gstAmount);
+        resTransporter.textContent = formatINR(amount + gstAmount);
+        resTransporter.parentElement.parentElement.classList.add("text-green-700");
+        rcmRow.classList.add("hidden");
+      } else if (gtaOpt === "fcm5") {
+        gstRate = 0.05;
+        badgeClass = "bg-yellow-100 text-yellow-800";
+        badgeText = '<span class="w-1.5 h-1.5 rounded-full bg-yellow-600"></span> Taxable (FCM 5%)';
+        descHtml = "The GTA has opted to pay tax at 5% under Forward Charge (without claiming ITC on their inputs).";
+        const gstAmount = amount * gstRate;
+        resGstLabel.textContent = "GST @ 5%";
+        resGst.textContent = formatINR(gstAmount);
+        resTransporter.textContent = formatINR(amount + gstAmount);
+        resTransporter.parentElement.parentElement.classList.add("text-green-700");
+        rcmRow.classList.add("hidden");
+      }
+    }
+  }
+  statusBadge.className = `inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-sm font-medium ${badgeClass}`;
+  statusBadge.innerHTML = badgeText;
+  statusDesc.innerHTML = descHtml;
+}
+form.addEventListener("input", handleUI);
+form.addEventListener("change", handleUI);
+handleUI();
 </script>

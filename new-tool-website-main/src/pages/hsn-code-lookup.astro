@@ -286,82 +286,64 @@ const categories = [
 </BaseLayout>
 
 
-<script lang="ts">
-  // ── Client-side logic for massive HSN dataset ──────────────────────────────
-  let allCodes = [];
-  
-  const searchInput = document.getElementById('hsn-search');
-  const rowsContainer = document.getElementById('hsn-rows');
-  const emptyState = document.getElementById('hsn-empty');
-  const resultCount = document.getElementById('result-count');
-  const loadMoreBtn = document.getElementById('load-more-btn');
-  const loadingState = document.getElementById('loading-state');
-  const toolContainer = document.getElementById('tool-container');
-  
-  const typeBtns = document.querySelectorAll('.type-btn');
-  const categoryBtns = document.querySelectorAll('.category-btn');
-  const categorySelect = document.getElementById('category-select');
-
-  let currentTypeFilter = 'all';
-  let currentCategory = 'All Categories';
-  let debounceTimer = null;
-  
-  let currentFilteredCodes = [];
-  let displayLimit = 100;
-
-  // Initialize and fetch data
-  async function init() {
-    try {
-      const res = await fetch('/data/hsn_full.json');
-      allCodes = await res.json();
-      
-      loadingState.classList.add('hidden');
-      toolContainer.classList.remove('hidden');
-      
-      applyFilter();
-    } catch (err) {
-      loadingState.innerHTML = '<p class="text-red-500 py-8">Failed to load dataset. Please check your connection and refresh.</p>';
-      console.error(err);
-    }
+<script>
+let allCodes = [];
+const searchInput = document.getElementById("hsn-search");
+const rowsContainer = document.getElementById("hsn-rows");
+const emptyState = document.getElementById("hsn-empty");
+const resultCount = document.getElementById("result-count");
+const loadMoreBtn = document.getElementById("load-more-btn");
+const loadingState = document.getElementById("loading-state");
+const toolContainer = document.getElementById("tool-container");
+const typeBtns = document.querySelectorAll(".type-btn");
+const categoryBtns = document.querySelectorAll(".category-btn");
+const categorySelect = document.getElementById("category-select");
+let currentTypeFilter = "all";
+let currentCategory = "All Categories";
+let debounceTimer = null;
+let currentFilteredCodes = [];
+let displayLimit = 100;
+async function init() {
+  try {
+    const res = await fetch("/data/hsn_full.json");
+    allCodes = await res.json();
+    loadingState.classList.add("hidden");
+    toolContainer.classList.remove("hidden");
+    applyFilter();
+  } catch (err) {
+    loadingState.innerHTML = '<p class="text-red-500 py-8">Failed to load dataset. Please check your connection and refresh.</p>';
+    console.error(err);
   }
-
-  function rateBadgeClass(rate) {
-    if (rate === 0) return 'badge-rate-0';
-    if (rate <= 5) return 'badge-rate-5';
-    if (rate <= 12) return 'badge-rate-12';
-    if (rate <= 18) return 'badge-rate-18';
-    return 'badge-rate-28';
+}
+function rateBadgeClass(rate) {
+  if (rate === 0) return "badge-rate-0";
+  if (rate <= 5) return "badge-rate-5";
+  if (rate <= 12) return "badge-rate-12";
+  if (rate <= 18) return "badge-rate-18";
+  return "badge-rate-28";
+}
+function renderRows() {
+  if (!rowsContainer || !emptyState || !resultCount) return;
+  resultCount.textContent = String(currentFilteredCodes.length);
+  const sliced = currentFilteredCodes.slice(0, displayLimit);
+  if (currentFilteredCodes.length > displayLimit) {
+    if (loadMoreBtn) loadMoreBtn.classList.remove("hidden");
+  } else {
+    if (loadMoreBtn) loadMoreBtn.classList.add("hidden");
   }
-
-  function renderRows() {
-    if (!rowsContainer || !emptyState || !resultCount) return;
-
-    resultCount.textContent = String(currentFilteredCodes.length);
-    
-    // Virtualization / Dom Limit to prevent freeze
-    const sliced = currentFilteredCodes.slice(0, displayLimit);
-    
-    if (currentFilteredCodes.length > displayLimit) {
-        if(loadMoreBtn) loadMoreBtn.classList.remove('hidden');
-    } else {
-        if(loadMoreBtn) loadMoreBtn.classList.add('hidden');
-    }
-
-    if (currentFilteredCodes.length === 0) {
-      rowsContainer.innerHTML = '';
-      emptyState.classList.remove('hidden');
-      return;
-    }
-
-    emptyState.classList.add('hidden');
-
-    rowsContainer.innerHTML = sliced.map((entry) => `
+  if (currentFilteredCodes.length === 0) {
+    rowsContainer.innerHTML = "";
+    emptyState.classList.remove("hidden");
+    return;
+  }
+  emptyState.classList.add("hidden");
+  rowsContainer.innerHTML = sliced.map((entry) => `
       <div class="grid grid-cols-1 sm:grid-cols-12 gap-1 sm:gap-4 px-5 py-3 hover:bg-subtle transition-colors items-center">
         <div class="sm:col-span-2 flex items-center gap-2">
           <code class="font-mono text-sm font-semibold text-base">${entry.c}</code>
         </div>
         <div class="sm:col-span-2 flex items-center">
-          <span class="rounded-full px-2 py-0.5 text-xs font-medium ${entry.t === 'HSN' ? 'badge-hsn' : 'badge-sac'}">
+          <span class="rounded-full px-2 py-0.5 text-xs font-medium ${entry.t === "HSN" ? "badge-hsn" : "badge-sac"}">
             ${entry.t}
           </span>
           <span class="text-[10px] ml-1 text-muted sm:hidden">Ch: ${entry.ch}</span>
@@ -378,96 +360,68 @@ const categories = [
           </span>
         </div>
       </div>
-    `).join('');
+    `).join("");
+}
+function applyFilter() {
+  const query = (searchInput?.value ?? "").trim().toLowerCase();
+  let filtered = allCodes;
+  if (currentTypeFilter !== "all") {
+    filtered = filtered.filter((e) => e.t === currentTypeFilter);
   }
-
-  function applyFilter() {
-    const query = (searchInput?.value ?? '').trim().toLowerCase();
-    let filtered = allCodes;
-
-    // Type filter
-    if (currentTypeFilter !== 'all') {
-      filtered = filtered.filter((e) => e.t === currentTypeFilter);
-    }
-    
-    // Category filter
-    if (currentCategory !== 'All Categories') {
-      filtered = filtered.filter((e) => e.cat === currentCategory);
-    }
-
-    // Text search
-    if (query.length > 0) {
-      filtered = filtered.filter(
-        (e) =>
-          e.c.toLowerCase().includes(query) ||
-          e.d.toLowerCase().includes(query)
-      );
-    }
-
-    currentFilteredCodes = filtered;
-    displayLimit = 100; // Reset limit on new filter
+  if (currentCategory !== "All Categories") {
+    filtered = filtered.filter((e) => e.cat === currentCategory);
+  }
+  if (query.length > 0) {
+    filtered = filtered.filter(
+      (e) => e.c.toLowerCase().includes(query) || e.d.toLowerCase().includes(query)
+    );
+  }
+  currentFilteredCodes = filtered;
+  displayLimit = 100;
+  renderRows();
+}
+if (loadMoreBtn) {
+  loadMoreBtn.addEventListener("click", () => {
+    displayLimit += 100;
     renderRows();
-  }
-
-
-
-  // ── Event listeners ───────────────────────────────────────────────────────
-  
-  if (loadMoreBtn) {
-    loadMoreBtn.addEventListener('click', () => {
-        displayLimit += 100;
-        renderRows();
+  });
+}
+searchInput?.addEventListener("input", () => {
+  clearTimeout(debounceTimer);
+  debounceTimer = setTimeout(applyFilter, 200);
+});
+typeBtns.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    currentTypeFilter = btn.dataset.filter ?? "all";
+    typeBtns.forEach((b) => {
+      const isActive = b === btn;
+      b.classList.toggle("bg-accent", isActive);
+      b.classList.toggle("text-white", isActive);
+      b.classList.toggle("shadow-sm", isActive);
+      b.classList.toggle("text-muted", !isActive);
+      b.classList.toggle("hover:text-base", !isActive);
     });
-  }
-  
-  searchInput?.addEventListener('input', () => {
-    clearTimeout(debounceTimer);
-    debounceTimer = setTimeout(applyFilter, 200);
+    applyFilter();
   });
-
-  typeBtns.forEach((btn) => {
-    btn.addEventListener('click', () => {
-      currentTypeFilter = btn.dataset.filter ?? 'all';
-      
-      typeBtns.forEach((b) => {
-        const isActive = b === btn;
-        b.classList.toggle('bg-accent', isActive);
-        b.classList.toggle('text-white', isActive);
-        b.classList.toggle('shadow-sm', isActive);
-        b.classList.toggle('text-muted', !isActive);
-        b.classList.toggle('hover:text-base', !isActive);
-      });
-      applyFilter();
+});
+categoryBtns.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    currentCategory = btn.dataset.cat;
+    categoryBtns.forEach((b) => {
+      const isActive = b === btn;
+      b.setAttribute("aria-pressed", String(isActive));
     });
+    if (categorySelect) categorySelect.value = currentCategory;
+    applyFilter();
   });
-
-  // Desktop Categories
-  categoryBtns.forEach((btn) => {
-    btn.addEventListener('click', () => {
-      currentCategory = btn.dataset.cat;
-      
-      categoryBtns.forEach((b) => {
-        const isActive = b === btn;
-        b.setAttribute('aria-pressed', String(isActive));
-      });
-      
-      if(categorySelect) categorySelect.value = currentCategory;
-      applyFilter();
-    });
+});
+categorySelect?.addEventListener("change", (e) => {
+  currentCategory = e.target.value;
+  categoryBtns.forEach((b) => {
+    const isActive = b.dataset.cat === currentCategory;
+    b.setAttribute("aria-pressed", String(isActive));
   });
-  
-  // Mobile Categories
-  categorySelect?.addEventListener('change', (e) => {
-      currentCategory = e.target.value;
-      
-      categoryBtns.forEach((b) => {
-        const isActive = b.dataset.cat === currentCategory;
-        b.setAttribute('aria-pressed', String(isActive));
-      });
-      
-      applyFilter();
-  });
-
-  // Start!
-  init();
+  applyFilter();
+});
+init();
 </script>

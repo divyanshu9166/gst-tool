@@ -253,208 +253,155 @@ const structuredData = [
 </BaseLayout>
 
 
-<script lang="ts">
-  // ── GSTIN Validator — 100% client-side, no API ────────────────────────────
-  //
-  // Official GSTIN format:
-  //   Pos 1–2  : 2-digit state code (01–38)
-  //   Pos 3–12 : 10-char PAN (AAAAA9999A pattern)
-  //   Pos 13   : Entity number (1–9 or A–Z)
-  //   Pos 14   : Always 'Z'
-  //   Pos 15   : Checksum (computed via GSTIN checksum algorithm)
-
-  const STATE_CODES: Record<string, string> = {
-    '01': 'Jammu & Kashmir',
-    '02': 'Himachal Pradesh',
-    '03': 'Punjab',
-    '04': 'Chandigarh',
-    '05': 'Uttarakhand',
-    '06': 'Haryana',
-    '07': 'Delhi',
-    '08': 'Rajasthan',
-    '09': 'Uttar Pradesh',
-    '10': 'Bihar',
-    '11': 'Sikkim',
-    '12': 'Arunachal Pradesh',
-    '13': 'Nagaland',
-    '14': 'Manipur',
-    '15': 'Mizoram',
-    '16': 'Tripura',
-    '17': 'Meghalaya',
-    '18': 'Assam',
-    '19': 'West Bengal',
-    '20': 'Jharkhand',
-    '21': 'Odisha',
-    '22': 'Chhattisgarh',
-    '23': 'Madhya Pradesh',
-    '24': 'Gujarat',
-    '25': 'Daman & Diu (merged with Dadra & Nagar Haveli)',
-    '26': 'Dadra & Nagar Haveli and Daman & Diu',
-    '27': 'Maharashtra',
-    '28': 'Andhra Pradesh (old)',
-    '29': 'Karnataka',
-    '30': 'Goa',
-    '31': 'Lakshadweep',
-    '32': 'Kerala',
-    '33': 'Tamil Nadu',
-    '34': 'Puducherry',
-    '35': 'Andaman & Nicobar Islands',
-    '36': 'Telangana',
-    '37': 'Andhra Pradesh',
-    '38': 'Ladakh',
-    '97': 'Other Territory',
-    '99': 'Centre Jurisdiction',
-  };
-
-  /**
-   * Compute the GSTIN checksum digit using the official algorithm.
-   * Returns the expected checksum character.
-   */
-  function computeChecksum(gstin: string): string {
-    // Character set used in GSTIN
-    const CHARS = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    let sum = 0;
-    for (let i = 0; i < 14; i++) {
-      const charVal = CHARS.indexOf(gstin[i]);
-      if (charVal === -1) return '';
-      // Alternate multiply by 1 and 2
-      const product = charVal * (i % 2 === 0 ? 1 : 2);
-      // Add digit-sum of product
-      sum += Math.floor(product / 36) + (product % 36);
-    }
-    const remainder = sum % 36;
-    return CHARS[(36 - remainder) % 36];
+<script>
+const STATE_CODES = {
+  "01": "Jammu & Kashmir",
+  "02": "Himachal Pradesh",
+  "03": "Punjab",
+  "04": "Chandigarh",
+  "05": "Uttarakhand",
+  "06": "Haryana",
+  "07": "Delhi",
+  "08": "Rajasthan",
+  "09": "Uttar Pradesh",
+  "10": "Bihar",
+  "11": "Sikkim",
+  "12": "Arunachal Pradesh",
+  "13": "Nagaland",
+  "14": "Manipur",
+  "15": "Mizoram",
+  "16": "Tripura",
+  "17": "Meghalaya",
+  "18": "Assam",
+  "19": "West Bengal",
+  "20": "Jharkhand",
+  "21": "Odisha",
+  "22": "Chhattisgarh",
+  "23": "Madhya Pradesh",
+  "24": "Gujarat",
+  "25": "Daman & Diu (merged with Dadra & Nagar Haveli)",
+  "26": "Dadra & Nagar Haveli and Daman & Diu",
+  "27": "Maharashtra",
+  "28": "Andhra Pradesh (old)",
+  "29": "Karnataka",
+  "30": "Goa",
+  "31": "Lakshadweep",
+  "32": "Kerala",
+  "33": "Tamil Nadu",
+  "34": "Puducherry",
+  "35": "Andaman & Nicobar Islands",
+  "36": "Telangana",
+  "37": "Andhra Pradesh",
+  "38": "Ladakh",
+  "97": "Other Territory",
+  "99": "Centre Jurisdiction"
+};
+function computeChecksum(gstin) {
+  const CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  let sum = 0;
+  for (let i = 0; i < 14; i++) {
+    const charVal = CHARS.indexOf(gstin[i]);
+    if (charVal === -1) return "";
+    const product = charVal * (i % 2 === 0 ? 1 : 2);
+    sum += Math.floor(product / 36) + product % 36;
   }
-
-  interface ValidationResult {
-    valid: boolean;
-    error?: string;
-    stateCode?: string;
-    stateName?: string;
-    pan?: string;
-    entityNumber?: string;
-    checksumDigit?: string;
+  const remainder = sum % 36;
+  return CHARS[(36 - remainder) % 36];
+}
+function validateGSTIN(raw) {
+  const gstin = raw.trim().toUpperCase();
+  if (gstin.length === 0) {
+    return { valid: false, error: "Please enter a GSTIN." };
   }
-
-  function validateGSTIN(raw: string): ValidationResult {
-    const gstin = raw.trim().toUpperCase();
-
-    if (gstin.length === 0) {
-      return { valid: false, error: 'Please enter a GSTIN.' };
-    }
-    if (gstin.length !== 15) {
-      return { valid: false, error: `GSTIN must be exactly 15 characters. You entered ${gstin.length}.` };
-    }
-
-    // Overall pattern check
-    const pattern = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/;
-    if (!pattern.test(gstin)) {
-      return {
-        valid: false,
-        error: 'GSTIN format is invalid. Expected: 2-digit state code + 10-char PAN + entity number + "Z" + checksum.',
-      };
-    }
-
-    const stateCode = gstin.substring(0, 2);
-    const pan = gstin.substring(2, 12);
-    const entityNumber = gstin[12];
-    const zChar = gstin[13];
-    const checksumDigit = gstin[14];
-
-    // State code check
-    if (!STATE_CODES[stateCode]) {
-      return { valid: false, error: `Unknown state code "${stateCode}". Valid codes are 01–38, 97, 99.` };
-    }
-
-    // Char 14 must be 'Z'
-    if (zChar !== 'Z') {
-      return { valid: false, error: `Character 14 must be "Z", but found "${zChar}".` };
-    }
-
-    // Checksum verification
-    const expectedChecksum = computeChecksum(gstin);
-    if (!expectedChecksum) {
-      return { valid: false, error: 'Could not compute checksum — GSTIN contains invalid characters.' };
-    }
-    if (checksumDigit !== expectedChecksum) {
-      return {
-        valid: false,
-        error: `Checksum mismatch. Expected "${expectedChecksum}", found "${checksumDigit}". The GSTIN may be incorrect or fabricated.`,
-      };
-    }
-
+  if (gstin.length !== 15) {
+    return { valid: false, error: `GSTIN must be exactly 15 characters. You entered ${gstin.length}.` };
+  }
+  const pattern = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/;
+  if (!pattern.test(gstin)) {
     return {
-      valid: true,
-      stateCode,
-      stateName: STATE_CODES[stateCode],
-      pan,
-      entityNumber,
-      checksumDigit,
+      valid: false,
+      error: 'GSTIN format is invalid. Expected: 2-digit state code + 10-char PAN + entity number + "Z" + checksum.'
     };
   }
-
-  // ── DOM wiring ────────────────────────────────────────────────────────────
-  const gstinInput = document.getElementById('gstin-input') as HTMLInputElement;
-  const btnValidate = document.getElementById('btn-validate') as HTMLButtonElement;
-  const btnClear = document.getElementById('btn-clear') as HTMLButtonElement;
-  const resultPanel = document.getElementById('result-panel')!;
-  const resultValid = document.getElementById('result-valid')!;
-  const resultInvalid = document.getElementById('result-invalid')!;
-  const errorMessage = document.getElementById('error-message')!;
-
-  // Decoded fields
-  const decodedGstin = document.getElementById('decoded-gstin')!;
-  const decodedStateCode = document.getElementById('decoded-state-code')!;
-  const decodedState = document.getElementById('decoded-state')!;
-  const decodedPan = document.getElementById('decoded-pan')!;
-  const decodedEntity = document.getElementById('decoded-entity')!;
-  const decodedChecksum = document.getElementById('decoded-checksum')!;
-
-  function showResult(result: ValidationResult, rawInput: string) {
-    resultPanel.classList.remove('hidden');
-
-    if (result.valid) {
-      resultValid.classList.remove('hidden');
-      resultInvalid.classList.add('hidden');
-
-      decodedGstin.textContent = rawInput.trim().toUpperCase();
-      decodedStateCode.textContent = result.stateCode ?? '—';
-      decodedState.textContent = result.stateName ?? '—';
-      decodedPan.textContent = result.pan ?? '—';
-      decodedEntity.textContent = result.entityNumber ?? '—';
-      decodedChecksum.textContent = result.checksumDigit ?? '—';
-    } else {
-      resultValid.classList.add('hidden');
-      resultInvalid.classList.remove('hidden');
-      errorMessage.textContent = result.error ?? 'Unknown error.';
-    }
+  const stateCode = gstin.substring(0, 2);
+  const pan = gstin.substring(2, 12);
+  const entityNumber = gstin[12];
+  const zChar = gstin[13];
+  const checksumDigit = gstin[14];
+  if (!STATE_CODES[stateCode]) {
+    return { valid: false, error: `Unknown state code "${stateCode}". Valid codes are 01\u201338, 97, 99.` };
   }
-
-  btnValidate.addEventListener('click', () => {
+  if (zChar !== "Z") {
+    return { valid: false, error: `Character 14 must be "Z", but found "${zChar}".` };
+  }
+  const expectedChecksum = computeChecksum(gstin);
+  if (!expectedChecksum) {
+    return { valid: false, error: "Could not compute checksum \u2014 GSTIN contains invalid characters." };
+  }
+  if (checksumDigit !== expectedChecksum) {
+    return {
+      valid: false,
+      error: `Checksum mismatch. Expected "${expectedChecksum}", found "${checksumDigit}". The GSTIN may be incorrect or fabricated.`
+    };
+  }
+  return {
+    valid: true,
+    stateCode,
+    stateName: STATE_CODES[stateCode],
+    pan,
+    entityNumber,
+    checksumDigit
+  };
+}
+const gstinInput = document.getElementById("gstin-input");
+const btnValidate = document.getElementById("btn-validate");
+const btnClear = document.getElementById("btn-clear");
+const resultPanel = document.getElementById("result-panel");
+const resultValid = document.getElementById("result-valid");
+const resultInvalid = document.getElementById("result-invalid");
+const errorMessage = document.getElementById("error-message");
+const decodedGstin = document.getElementById("decoded-gstin");
+const decodedStateCode = document.getElementById("decoded-state-code");
+const decodedState = document.getElementById("decoded-state");
+const decodedPan = document.getElementById("decoded-pan");
+const decodedEntity = document.getElementById("decoded-entity");
+const decodedChecksum = document.getElementById("decoded-checksum");
+function showResult(result, rawInput) {
+  resultPanel.classList.remove("hidden");
+  if (result.valid) {
+    resultValid.classList.remove("hidden");
+    resultInvalid.classList.add("hidden");
+    decodedGstin.textContent = rawInput.trim().toUpperCase();
+    decodedStateCode.textContent = result.stateCode ?? "\u2014";
+    decodedState.textContent = result.stateName ?? "\u2014";
+    decodedPan.textContent = result.pan ?? "\u2014";
+    decodedEntity.textContent = result.entityNumber ?? "\u2014";
+    decodedChecksum.textContent = result.checksumDigit ?? "\u2014";
+  } else {
+    resultValid.classList.add("hidden");
+    resultInvalid.classList.remove("hidden");
+    errorMessage.textContent = result.error ?? "Unknown error.";
+  }
+}
+btnValidate.addEventListener("click", () => {
+  const result = validateGSTIN(gstinInput.value);
+  showResult(result, gstinInput.value);
+});
+gstinInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
     const result = validateGSTIN(gstinInput.value);
     showResult(result, gstinInput.value);
-  });
-
-  // Also validate on Enter key
-  gstinInput.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') {
-      const result = validateGSTIN(gstinInput.value);
-      showResult(result, gstinInput.value);
-    }
-  });
-
-  // Auto-uppercase as user types
-  gstinInput.addEventListener('input', () => {
-    const pos = gstinInput.selectionStart ?? 0;
-    gstinInput.value = gstinInput.value.toUpperCase();
-    gstinInput.setSelectionRange(pos, pos);
-    // Hide result panel when input changes
-    resultPanel.classList.add('hidden');
-  });
-
-  btnClear.addEventListener('click', () => {
-    gstinInput.value = '';
-    resultPanel.classList.add('hidden');
-    gstinInput.focus();
-  });
+  }
+});
+gstinInput.addEventListener("input", () => {
+  const pos = gstinInput.selectionStart ?? 0;
+  gstinInput.value = gstinInput.value.toUpperCase();
+  gstinInput.setSelectionRange(pos, pos);
+  resultPanel.classList.add("hidden");
+});
+btnClear.addEventListener("click", () => {
+  gstinInput.value = "";
+  resultPanel.classList.add("hidden");
+  gstinInput.focus();
+});
 </script>

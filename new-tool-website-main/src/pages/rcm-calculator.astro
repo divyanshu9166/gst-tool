@@ -18,6 +18,8 @@ const structuredData = [
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
     mainEntity: [
+      { '@type': 'Question', name: "What is the Reverse Charge Mechanism (RCM)?", acceptedAnswer: { '@type': 'Answer', text: "Under normal circumstances, the supplier pays GST. Under RCM, the liability to pay GST falls on the recipient of the goods or services." } },
+      { '@type': 'Question', name: "Can I claim ITC on tax paid under RCM?", acceptedAnswer: { '@type': 'Answer', text: "Yes. You must first pay the RCM liability in cash, and then you can claim it back as Input Tax Credit in the same month's GSTR-3B, provided it's used for business." } },
       {
         '@type': 'Question',
         name: 'What is Reverse Charge Mechanism (RCM) under GST?',
@@ -270,164 +272,77 @@ const rcmServices = [
       </ul>
     </div>
   </div>
-<!-- FAQ Section -->
-    <section class="mt-16 pt-12 border-t border-base" aria-labelledby="faq-heading">
-      <h2 id="faq-heading" class="text-2xl sm:text-3xl font-bold text-base mb-8">
-        Frequently Asked Questions
-      </h2>
+<script>
+const valInput = document.getElementById("service-value");
+const typeSelect = document.getElementById("transaction-type");
+const catSelect = document.getElementById("service-type");
+const rateInput = document.getElementById("custom-rate");
+const resVal = document.getElementById("res-val");
+const resCgstBox = document.getElementById("res-cgst-box");
+const resCgst = document.getElementById("res-cgst");
+const resSgstBox = document.getElementById("res-sgst-box");
+const resSgst = document.getElementById("res-sgst");
+const resIgstBox = document.getElementById("res-igst-box");
+const resIgst = document.getElementById("res-igst");
+const resTotal = document.getElementById("res-total");
+function formatCur(num) {
+  return "\u20B9" + num.toLocaleString("en-IN", { maximumFractionDigits: 2, minimumFractionDigits: 2 });
+}
+function calculate() {
+  const val = parseFloat(valInput.value) || 0;
+  const type = typeSelect.value;
+  const rate = parseFloat(rateInput.value) || 0;
+  const totalGst = val * (rate / 100);
+  resVal.textContent = formatCur(val);
+  resTotal.textContent = formatCur(totalGst);
+  if (type === "intra") {
+    resCgstBox.classList.remove("hidden");
+    resCgstBox.classList.add("flex");
+    resSgstBox.classList.remove("hidden");
+    resSgstBox.classList.add("flex");
+    resIgstBox.classList.remove("flex");
+    resIgstBox.classList.add("hidden");
+    resCgst.textContent = formatCur(totalGst / 2);
+    resSgst.textContent = formatCur(totalGst / 2);
+  } else {
+    resCgstBox.classList.remove("flex");
+    resCgstBox.classList.add("hidden");
+    resSgstBox.classList.remove("flex");
+    resSgstBox.classList.add("hidden");
+    resIgstBox.classList.remove("hidden");
+    resIgstBox.classList.add("flex");
+    resIgst.textContent = formatCur(totalGst);
+  }
+}
+catSelect.addEventListener("change", () => {
+  if (catSelect.options[catSelect.selectedIndex].text.includes("Custom")) {
+    rateInput.readOnly = false;
+    rateInput.classList.remove("bg-subtle");
+    rateInput.classList.add("bg-surface");
+  } else {
+    rateInput.value = catSelect.value;
+    rateInput.readOnly = true;
+    rateInput.classList.add("bg-subtle");
+    rateInput.classList.remove("bg-surface");
+  }
+  calculate();
+});
+[valInput, typeSelect, rateInput].forEach((el) => el.addEventListener("input", calculate));
+</script>
+
+    <!-- FAQ Section -->
+    <section class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 pb-20 mt-16 pt-12 border-t border-base" aria-labelledby="faq-heading">
+      <h2 id="faq-heading" class="text-2xl sm:text-3xl font-bold text-base mb-8">Frequently Asked Questions</h2>
       <div class="space-y-4">
-        
-        <details class="group rounded-xl border border-base bg-surface overflow-hidden">
-          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
-            <span>What is Reverse Charge Mechanism (RCM) under GST?</span>
-            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
-          </summary>
-          <div class="px-6 pb-5 text-sm text-muted leading-relaxed border-t border-base pt-4">
-            Under normal circumstances, the supplier of goods or services collects GST from the buyer and pays it to the government. Under RCM, the liability to pay GST is reversed—the receiver of the goods/services must pay the tax directly to the government.
-          </div>
-        </details>
-
-        <details class="group rounded-xl border border-base bg-surface overflow-hidden">
-          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
-            <span>Which services fall under RCM?</span>
-            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
-          </summary>
-          <div class="px-6 pb-5 text-sm text-muted leading-relaxed border-t border-base pt-4">
-            Common services under RCM include Goods Transport Agency (GTA) services (5%), Legal services by advocates (18%), Sponsorship services (18%), Security services (18%), and Renting of Motor Vehicles (5%).
-          </div>
-        </details>
-
-        <details class="group rounded-xl border border-base bg-surface overflow-hidden">
-          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
-            <span>Can I claim Input Tax Credit (ITC) on RCM payments?</span>
-            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
-          </summary>
-          <div class="px-6 pb-5 text-sm text-muted leading-relaxed border-t border-base pt-4">
-            Yes, the recipient who pays GST under RCM can claim Input Tax Credit (ITC) for the tax paid, provided the goods or services are used for business purposes. The ITC can be claimed in the same month's GSTR-3B return.
-          </div>
-        </details>
-
-        <details class="group rounded-xl border border-base bg-surface overflow-hidden">
-          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
-            <span>Do I need to pay RCM in cash or can I use ITC?</span>
-            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
-          </summary>
-          <div class="px-6 pb-5 text-sm text-muted leading-relaxed border-t border-base pt-4">
-            You must pay your RCM liability entirely in cash through a GST challan. You cannot use your existing Input Tax Credit (ITC) balance in the electronic credit ledger to offset an RCM liability.
-          </div>
-        </details>
-
-        <details class="group rounded-xl border border-base bg-surface overflow-hidden">
-          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
-            <span>When can I claim ITC on the RCM paid?</span>
-            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
-          </summary>
-          <div class="px-6 pb-5 text-sm text-muted leading-relaxed border-t border-base pt-4">
-            You can claim the ITC in the exact same month you pay the RCM liability in cash. Simply declare the liability in table 3.1(d) of GSTR-3B and claim the corresponding ITC in table 4(A)(3).
-          </div>
-        </details>
-
-        <details class="group rounded-xl border border-base bg-surface overflow-hidden">
-          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
-            <span>Are unregistered dealers liable for RCM?</span>
-            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
-          </summary>
-          <div class="px-6 pb-5 text-sm text-muted leading-relaxed border-t border-base pt-4">
-            If an unregistered person is legally required to pay tax under reverse charge (for example, by importing a service for business), they must compulsorily register for GST immediately. The ₹20 Lakh / ₹40 Lakh threshold limit does not apply to them.
-          </div>
-        </details>
-
-        <details class="group rounded-xl border border-base bg-surface overflow-hidden">
-          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
-            <span>What is the RCM rate for Goods Transport Agency (GTA)?</span>
-            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
-          </summary>
-          <div class="px-6 pb-5 text-sm text-muted leading-relaxed border-t border-base pt-4">
-            If the GTA does not opt to pay forward charge at 12%, the recipient of the GTA services (if they belong to the specified category of persons like a factory, society, or registered business) must pay RCM at the rate of 5%.
-          </div>
-        </details>
-
-        <details class="group rounded-xl border border-base bg-surface overflow-hidden">
-          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
-            <span>What happens if I forget to pay RCM?</span>
-            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
-          </summary>
-          <div class="px-6 pb-5 text-sm text-muted leading-relaxed border-t border-base pt-4">
-            Failing to pay RCM attracts interest at the rate of 18% per annum from the original due date of payment until the actual date of payment. Furthermore, the GST department can levy penalties under Section 122 for non-payment of tax.
-          </div>
-        </details>
-
+        {structuredData[1].mainEntity.map((faq, i) => (
+          <details class="group rounded-xl border border-base bg-surface overflow-hidden" id={`faq-${i}`}>
+            <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+              <span>{faq.name}</span>
+              <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+            </summary>
+            <div class="px-6 pb-5 text-[15px] text-muted leading-relaxed border-t border-base pt-4">{faq.acceptedAnswer.text}</div>
+          </details>
+        ))}
       </div>
     </section>
-
-  </div>
-
-  <script lang="ts">
-    const valInput = document.getElementById('service-value') as HTMLInputElement;
-    const typeSelect = document.getElementById('transaction-type') as HTMLSelectElement;
-    const catSelect = document.getElementById('service-type') as HTMLSelectElement;
-    const rateInput = document.getElementById('custom-rate') as HTMLInputElement;
-
-    const resVal = document.getElementById('res-val')!;
-    const resCgstBox = document.getElementById('res-cgst-box')!;
-    const resCgst = document.getElementById('res-cgst')!;
-    const resSgstBox = document.getElementById('res-sgst-box')!;
-    const resSgst = document.getElementById('res-sgst')!;
-    const resIgstBox = document.getElementById('res-igst-box')!;
-    const resIgst = document.getElementById('res-igst')!;
-    const resTotal = document.getElementById('res-total')!;
-
-    function formatCur(num: number) {
-      return '₹' + num.toLocaleString('en-IN', { maximumFractionDigits: 2, minimumFractionDigits: 2 });
-    }
-
-    function calculate() {
-      const val = parseFloat(valInput.value) || 0;
-      const type = typeSelect.value;
-      const rate = parseFloat(rateInput.value) || 0;
-
-      const totalGst = val * (rate / 100);
-
-      resVal.textContent = formatCur(val);
-      resTotal.textContent = formatCur(totalGst);
-
-      if (type === 'intra') {
-        resCgstBox.classList.remove('hidden');
-        resCgstBox.classList.add('flex');
-        resSgstBox.classList.remove('hidden');
-        resSgstBox.classList.add('flex');
-        resIgstBox.classList.remove('flex');
-        resIgstBox.classList.add('hidden');
-
-        resCgst.textContent = formatCur(totalGst / 2);
-        resSgst.textContent = formatCur(totalGst / 2);
-      } else {
-        resCgstBox.classList.remove('flex');
-        resCgstBox.classList.add('hidden');
-        resSgstBox.classList.remove('flex');
-        resSgstBox.classList.add('hidden');
-        resIgstBox.classList.remove('hidden');
-        resIgstBox.classList.add('flex');
-
-        resIgst.textContent = formatCur(totalGst);
-      }
-    }
-
-    catSelect.addEventListener('change', () => {
-      if (catSelect.options[catSelect.selectedIndex].text.includes('Custom')) {
-        rateInput.readOnly = false;
-        rateInput.classList.remove('bg-subtle');
-        rateInput.classList.add('bg-surface');
-      } else {
-        rateInput.value = catSelect.value;
-        rateInput.readOnly = true;
-        rateInput.classList.add('bg-subtle');
-        rateInput.classList.remove('bg-surface');
-      }
-      calculate();
-    });
-
-    [valInput, typeSelect, rateInput].forEach(el => el.addEventListener('input', calculate));
-    
-  </script>
 </BaseLayout>

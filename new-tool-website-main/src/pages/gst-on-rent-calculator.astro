@@ -251,9 +251,9 @@ const structuredData = [
   </div>
 </BaseLayout>
 
-<script lang="ts">
+<script>
   const form = document.getElementById('rent-calculator-form');
-  const rentInput = document.getElementById('rentAmount') as HTMLInputElement;
+  const rentInput = document.getElementById('rentAmount');
   const radioProperty = document.querySelectorAll('input[name="propertyType"]');
   const radioTenant = document.querySelectorAll('input[name="tenantStatus"]');
   
@@ -283,11 +283,11 @@ const structuredData = [
     let propType = 'commercial';
     let tenantReg = 'yes';
     
-    radioProperty.forEach((r: HTMLInputElement) => {
+    radioProperty.forEach((r) => {
       if (r.checked) propType = r.value;
     });
     
-    radioTenant.forEach((r: HTMLInputElement) => {
+    radioTenant.forEach((r) => {
       if (r.checked) tenantReg = r.value;
     });
 
@@ -336,7 +336,7 @@ const structuredData = [
       } else {
         statusBadge.className = 'inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-sm font-medium bg-yellow-100 text-yellow-800';
         statusBadge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-yellow-600"></span> Taxable (Forward Charge)';
-        statusDesc.innerHTML = 'Commercial property rent attracts 18% GST. The <strong>Landlord</strong> collects this amount from the tenant and pays it to the government (assuming landlord\\'s turnover > ₹20L).';
+        statusDesc.innerHTML = "Commercial property rent attracts 18% GST. The <strong>Landlord</strong> collects this amount from the tenant and pays it to the government (assuming landlord's turnover > ₹20L).";
         
         resLandlord.textContent = formatINR(rent + gstAmount);
         resLandlord.parentElement.parentElement.classList.add('text-green-700');

@@ -1,7 +1,7 @@
 {
-  "name": "gst-hsn-lookup",
+  "name": "taxzentic",
   "version": "1.0.0",
-  "description": "GST HSN Lookup — Free GST Tools for India: Calculator, HSN/SAC Code Lookup, GSTIN Validator",
+  "description": "Taxzentic — Free GST & Finance Tools for India: Calculator, HSN/SAC Code Lookup, GSTIN Validator",
   "type": "module",
   "scripts": {
     "dev": "astro dev",
