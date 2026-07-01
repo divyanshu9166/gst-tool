@@ -4,7 +4,7 @@
 # ── Prevent indexing of *.pages.dev preview deployments ──────────────────────
 # This stops Google from indexing your staging/preview URLs.
 # Your production domain (set via Custom Domain in Cloudflare Pages) is unaffected.
-https://*.pages.dev/*
+https://taxzentic.pages.dev/*
   X-Robots-Tag: noindex
 
 # ── Security headers for all pages ───────────────────────────────────────────
