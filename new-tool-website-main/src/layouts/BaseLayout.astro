@@ -72,7 +72,7 @@ const jsonLd = structuredData ? JSON.stringify(structuredData) : null;
     <meta name="twitter:image" content={ogImage} />
 
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
     <!-- Fonts are now imported in BaseLayout setup script via @fontsource -->
@@ -80,17 +80,14 @@ const jsonLd = structuredData ? JSON.stringify(structuredData) : null;
     <!-- JSON-LD Structured Data -->
     {jsonLd && <script type="application/ld+json" set:html={jsonLd} />}
 
-    <!-- ─── Google Analytics 4 ────────────────────────────────────────────────
-         TODO: Replace G-XXXXXXXXXX with your real GA4 Measurement ID.
-         You can find it in Google Analytics → Admin → Data Streams.
-    ──────────────────────────────────────────────────────────────────────── -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-    <script>
-      // @ts-nocheck
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQHLMNL4M"></script>
+    <script is:inline>
       window.dataLayer = window.dataLayer || [];
-      function gtag() { dataLayer.push(arguments); }
+      function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', 'G-XXXXXXXXXX');
+
+      gtag('config', 'G-SNQHLMNL4M');
     </script>
 
     <!-- Dark mode: read preference before paint to avoid flash -->

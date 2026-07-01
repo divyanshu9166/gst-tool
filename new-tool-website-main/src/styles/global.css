@@ -1,5 +1,6 @@
-/* Tailwind CSS v4 — single import, no config file needed */
 @import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
 
 /* ─── Custom CSS variables & theme tokens ─────────────────────────────────── */
 @layer base {
