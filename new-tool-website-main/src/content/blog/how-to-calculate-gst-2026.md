@@ -105,4 +105,4 @@ Understanding the gst calculation formula is a great skill, but doing manual mat
 
 Save your mental energy for growing your business. Bookmark our [GST Calculator](/gst-calculator) to get instant, mathematically perfect tax figures and CGST/SGST splits every single time.
 
-*(Read next: [New GST Rates 2026: Full Slab List After GST 2.0](/blog/new-gst-rates-2026))*
+*(Read next: [New GST Rates 2026: Full Slab List After GST 2.0](/blog/gst-2-0-rate-changes-product-list))*
