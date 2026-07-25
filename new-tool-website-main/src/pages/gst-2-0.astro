@@ -1,0 +1,176 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ToolIcon from '../components/ToolIcon.astro';
+
+const title = 'GST 2.0 (2026) — Complete Guide, New Rates & Tools';
+const description = 'Everything you need to know about the GST 2.0 tax reform in India. Explore the new 5%, 18%, and 40% slabs, check product rates, and use our free GST 2.0 calculators.';
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://taxzentic.com';
+const canonical = `${siteUrl}/gst-2-0`;
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'GST 2.0 Resource Center',
+    url: canonical,
+    description,
+    publisher: {
+      '@type': 'Organization',
+      name: 'Taxzentic',
+      url: siteUrl,
+    },
+    hasPart: [
+      { '@type': 'WebApplication', name: 'GST 2.0 Calculator', url: `${siteUrl}/gst-calculator` },
+      { '@type': 'WebApplication', name: 'Old vs New Rate Checker', url: `${siteUrl}/gst-rate-comparison` },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What is GST 2.0?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'GST 2.0 refers to the proposed simplification of India\'s GST structure from 4 slabs (5%, 12%, 18%, 28%) to 3 slabs (5%, 18%, and a new 40% luxury rate). It aims to reduce classification disputes and improve compliance.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'What are the new GST 2.0 rates?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Under GST 2.0, the proposed rates are: 5% for essentials, 18% for standard goods & services, and 40% for luxury items like premium automobiles and high-end electronics. The existing 12% and 28% slabs would be absorbed into these three.',
+        },
+      },
+    ],
+  },
+];
+
+const breadcrumb = [
+  { name: 'Home', href: '/' },
+  { name: 'GST 2.0 Hub', href: '/gst-2-0' },
+];
+
+const lastUpdated = '2026-07-25';
+---
+
+<BaseLayout {title} {description} {canonical} {structuredData} {breadcrumb} {lastUpdated}>
+  <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-16">
+    <!-- Hub Header -->
+    <div class="text-center mb-16">
+      <span class="inline-block px-3 py-1 text-xs font-semibold bg-accent/10 text-accent rounded-full mb-4 border border-accent/20">Taxzentic Hub</span>
+      <h1 class="text-4xl sm:text-5xl font-bold tracking-tight text-base mb-6">
+        The <span class="text-accent">GST 2.0</span> Resource Center
+      </h1>
+      <p class="text-[18px] text-muted max-w-2xl mx-auto leading-relaxed">
+        India's transition to the simplified 3-slab GST structure (5%, 18%, 40%) brings major changes to compliance, invoicing, and ITC. Find all the tools and guides you need to adapt.
+      </p>
+    </div>
+
+    <!-- Featured Tools -->
+    <div class="mb-16">
+      <div class="flex items-center gap-3 mb-8 border-b border-base pb-4">
+        <ToolIcon name="receipt" class="w-6 h-6 text-accent" />
+        <h2 class="text-2xl font-bold text-base">Essential GST 2.0 Tools</h2>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <a href="/gst-calculator" class="group relative rounded-2xl border border-base bg-surface p-6 overflow-hidden hover:border-accent transition-all shadow-sm">
+          <div class="absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-xl font-semibold text-base group-hover:text-accent transition-colors">GST 2.0 Calculator</h3>
+            <span class="text-xs font-semibold bg-accent text-white px-2 py-1 rounded-full">Updated</span>
+          </div>
+          <p class="text-muted text-[15px] leading-relaxed">Calculate exact tax amounts using the new 5%, 18%, and 40% slabs. Instantly split CGST/SGST or reverse-calculate from MRP.</p>
+        </a>
+
+        <a href="/gst-rate-comparison" class="group relative rounded-2xl border border-base bg-surface p-6 overflow-hidden hover:border-accent transition-all shadow-sm">
+          <div class="absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-xl font-semibold text-base group-hover:text-accent transition-colors">Old vs New Rate Checker</h3>
+          </div>
+          <p class="text-muted text-[15px] leading-relaxed">Compare the tax impact on your products. See how the transition from 12% to 18% or 28% to 40% affects your working capital.</p>
+        </a>
+
+        <a href="/mrp-revision-calculator" class="group relative rounded-2xl border border-base bg-surface p-6 overflow-hidden hover:border-accent transition-all shadow-sm">
+          <div class="absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-xl font-semibold text-base group-hover:text-accent transition-colors">MRP Revision Calculator</h3>
+          </div>
+          <p class="text-muted text-[15px] leading-relaxed">Reverse-calculate your new MRP after a GST rate change. Automatically preserves your exact profit margin.</p>
+        </a>
+
+        <a href="/itc-reversal-checker" class="group relative rounded-2xl border border-base bg-surface p-6 overflow-hidden hover:border-accent transition-all shadow-sm">
+          <div class="absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-xl font-semibold text-base group-hover:text-accent transition-colors">ITC Reversal Checker</h3>
+          </div>
+          <p class="text-muted text-[15px] leading-relaxed">A decision-tree tool to determine if a GST rate drop on your product legally requires you to surrender Input Tax Credit.</p>
+        </a>
+      </div>
+    </div>
+
+    <!-- Core Guides -->
+    <div class="mb-16">
+      <div class="flex items-center gap-3 mb-8 border-b border-base pb-4">
+        <ToolIcon name="book" class="w-6 h-6 text-accent" />
+        <h2 class="text-2xl font-bold text-base">In-Depth Guides & Analysis</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+        <a href="/blog/new-gst-rates-2026" class="group block">
+          <h3 class="text-lg font-medium text-base group-hover:text-accent transition-colors mb-1">GST 2.0 New Rates (Complete List)</h3>
+          <p class="text-sm text-muted">A comprehensive breakdown of which items moved to 5%, 18%, and the new 40% luxury slab.</p>
+        </a>
+        <a href="/blog/gst-40-percent-luxury-slab" class="group block">
+          <h3 class="text-lg font-medium text-base group-hover:text-accent transition-colors mb-1">Understanding the 40% Luxury Slab</h3>
+          <p class="text-sm text-muted">What qualifies as "luxury"? How the 40% rate impacts automobiles, high-end electronics, and real estate.</p>
+        </a>
+        <a href="/blog/mrp-revision-gst-rate-change" class="group block">
+          <h3 class="text-lg font-medium text-base group-hover:text-accent transition-colors mb-1">How to Handle MRP Revisions</h3>
+          <p class="text-sm text-muted">Legal requirements for restickering inventory and declaring new MRPs after rate changes.</p>
+        </a>
+        <a href="/blog/itc-reversal-gst-rate-drop" class="group block">
+          <h3 class="text-lg font-medium text-base group-hover:text-accent transition-colors mb-1">ITC Reversals on Rate Drops</h3>
+          <p class="text-sm text-muted">Step-by-step guide on how to handle Input Tax Credit when your product's GST rate decreases.</p>
+        </a>
+        <a href="/blog/gst-2-0-rate-changes-product-list" class="group block">
+          <h3 class="text-lg font-medium text-base group-hover:text-accent transition-colors mb-1">Product-wise Rate Changes</h3>
+          <p class="text-sm text-muted">A product-by-product listing of all items affected by the GST 2.0 rate revision.</p>
+        </a>
+        <a href="/blog/post-sale-discount-gst-2026" class="group block">
+          <h3 class="text-lg font-medium text-base group-hover:text-accent transition-colors mb-1">Post-Sale Discounts Under GST 2.0</h3>
+          <p class="text-sm text-muted">How trade discounts, rebates, and dealer incentives are treated after a rate change under GST.</p>
+        </a>
+      </div>
+    </div>
+
+    <!-- FAQ Section -->
+    <div class="mb-16 border-t border-base pt-12">
+      <h2 class="text-2xl font-bold text-base mb-8">Frequently Asked Questions</h2>
+      <div class="space-y-3">
+        <details class="group rounded-[8px] border border-base bg-surface overflow-hidden" open>
+          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+            <span class="text-[15px]">What is GST 2.0?</span>
+            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </summary>
+          <div class="px-6 pb-5 text-[14px] text-muted leading-relaxed border-t border-base pt-4">
+            GST 2.0 refers to the proposed rationalisation of India's GST rate structure from 4 slabs (5%, 12%, 18%, 28%) down to 3 slabs: 5% for essentials, 18% for standard goods and services, and a new 40% slab for luxury items. The current 12% and 28% slabs would be merged into 18% or 40% respectively. This is aimed at reducing classification disputes, cascading errors, and improving overall compliance.
+          </div>
+        </details>
+        <details class="group rounded-[8px] border border-base bg-surface overflow-hidden">
+          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+            <span class="text-[15px]">Which products will now fall under the 40% GST slab?</span>
+            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </summary>
+          <div class="px-6 pb-5 text-[14px] text-muted leading-relaxed border-t border-base pt-4">
+            The 40% slab is proposed for luxury goods currently taxed at the highest rates. This includes premium and large-engine automobiles, aerated drinks (which carry a cess in addition), tobacco products, and high-end consumer electronics. The exact list is subject to the GST Council's final notification.
+          </div>
+        </details>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

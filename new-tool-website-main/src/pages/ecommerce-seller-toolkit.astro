@@ -1,0 +1,275 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ToolIcon from '../components/ToolIcon.astro';
+
+const title = 'E-commerce Seller Toolkit — Amazon/Flipkart Net Payout Calculator';
+const description = 'Calculate your exact net payout after deducting marketplace commission, shipping fees, 18% GST on fees, 1% GST TCS, and 1% Income Tax TDS. Perfect for Amazon, Flipkart, and Meesho sellers in India.';
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://taxzentic.com';
+const canonical = `${siteUrl}/ecommerce-seller-toolkit`;
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'E-commerce Net Payout Calculator',
+    url: canonical,
+    description: 'Calculate net payout for e-commerce sellers including TCS and GST on marketplace fees.',
+    applicationCategory: 'FinanceApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR' },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What is TCS for e-commerce sellers under GST?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Under GST, e-commerce operators like Amazon and Flipkart are required to collect Tax Collected at Source (TCS) at the rate of 1% (0.5% CGST + 0.5% SGST or 1% IGST) on the net value of taxable supplies made through their platform.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'What is Section 194-O TDS for e-commerce?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Section 194-O of the Income Tax Act mandates that e-commerce operators deduct 1% TDS on the gross amount of sales of goods or provision of services. This is in addition to the 1% GST TCS.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Is GST charged on Amazon/Flipkart seller fees?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Yes, marketplaces charge an 18% GST on their commission, fixed fees, and shipping fees. You can claim Input Tax Credit (ITC) for this GST amount.',
+        },
+      }
+    ],
+  }
+];
+
+const breadcrumb = [
+  { name: 'Home', href: '/' },
+  { name: 'Calculators', href: '/#tools-heading' },
+  { name: 'E-commerce Seller Toolkit', href: '/ecommerce-seller-toolkit' },
+];
+
+const lastUpdated = '2026-07-25';
+---
+
+<BaseLayout {title} {description} {canonical} {structuredData} {breadcrumb} {lastUpdated}>
+  <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Hero Section -->
+    <div class="text-center mb-10">
+      <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-accent/10 to-indigo-500/10 mb-6 tool-icon-wrap shadow-sm">
+        <ToolIcon name="chart-pie" class="w-8 h-8 text-accent" />
+      </div>
+      <h1 class="text-4xl sm:text-5xl font-bold tracking-tight text-base mb-4">
+        E-commerce <span class="text-accent">Seller Toolkit</span>
+      </h1>
+      <p class="text-[18px] text-muted max-w-2xl mx-auto leading-relaxed">
+        Instantly calculate your true net payout for Amazon, Flipkart, and Meesho sales. Automatically deducts commission, shipping, GST on fees, 1% GST TCS, and 1% Income Tax TDS.
+      </p>
+    </div>
+
+    <!-- Main Calculator Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+      <!-- Input Column -->
+      <div class="rounded-2xl border border-base bg-surface p-6 shadow-sm">
+        <h2 class="text-xl font-semibold text-base mb-6 border-b border-base pb-4">Sale Details</h2>
+        
+        <div class="space-y-5">
+          <div>
+            <label class="block text-sm font-medium text-base mb-2">Selling Price (incl. GST) ₹</label>
+            <input type="number" id="selling-price" class="w-full rounded-lg border border-base bg-white dark:bg-[#111] px-4 py-2.5 text-base focus:border-accent focus:ring-1 focus:ring-accent outline-none" placeholder="e.g. 1000" value="1000" />
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-base mb-2">Marketplace Commission (%)</label>
+              <input type="number" id="commission-rate" class="w-full rounded-lg border border-base bg-white dark:bg-[#111] px-4 py-2.5 text-base focus:border-accent focus:ring-1 focus:ring-accent outline-none" placeholder="e.g. 10" value="10" />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-base mb-2">Fixed Fee (₹)</label>
+              <input type="number" id="fixed-fee" class="w-full rounded-lg border border-base bg-white dark:bg-[#111] px-4 py-2.5 text-base focus:border-accent focus:ring-1 focus:ring-accent outline-none" placeholder="e.g. 20" value="20" />
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-base mb-2">Shipping / Fulfillment Fee (₹)</label>
+            <input type="number" id="shipping-fee" class="w-full rounded-lg border border-base bg-white dark:bg-[#111] px-4 py-2.5 text-base focus:border-accent focus:ring-1 focus:ring-accent outline-none" placeholder="e.g. 60" value="60" />
+          </div>
+
+          <div class="pt-4 mt-4 border-t border-base">
+            <div class="flex items-center justify-between">
+              <label class="text-sm font-medium text-base">GST Rate on Product</label>
+              <select id="product-gst-rate" class="rounded-lg border border-base bg-white dark:bg-[#111] px-3 py-1.5 text-sm outline-none">
+                <option value="5">5%</option>
+                <option value="12">12%</option>
+                <option value="18" selected>18%</option>
+                <option value="28">28%</option>
+                <option value="40">40%</option>
+              </select>
+            </div>
+            <p class="text-[12px] text-muted mt-2">Needed to calculate the exclusive price for 1% TCS deduction.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Output Column -->
+      <div class="rounded-2xl border border-accent bg-accent/5 p-6 shadow-sm flex flex-col">
+        <h2 class="text-xl font-semibold text-base mb-6 border-b border-accent/20 pb-4">Net Payout Breakdown</h2>
+        
+        <div class="flex-1 space-y-4 text-[15px]">
+          <div class="flex justify-between items-center text-muted">
+            <span>Selling Price</span>
+            <span class="font-medium text-base" id="out-selling-price">₹0.00</span>
+          </div>
+
+          <div class="flex justify-between items-center text-red-500/80">
+            <span>Commission & Fixed Fee</span>
+            <span id="out-commission">- ₹0.00</span>
+          </div>
+
+          <div class="flex justify-between items-center text-red-500/80">
+            <span>Shipping Fee</span>
+            <span id="out-shipping">- ₹0.00</span>
+          </div>
+
+          <div class="flex justify-between items-center text-red-500/80 pb-3 border-b border-accent/10">
+            <span>GST on Fees (18%) <span class="text-[11px] text-muted">(ITC claimable)</span></span>
+            <span id="out-fee-gst">- ₹0.00</span>
+          </div>
+
+          <div class="flex justify-between items-center text-amber-600 dark:text-amber-500/90 pt-1">
+            <span>1% GST TCS <span class="text-[11px] text-muted">(on base price)</span></span>
+            <span id="out-tcs">- ₹0.00</span>
+          </div>
+
+          <div class="flex justify-between items-center text-amber-600 dark:text-amber-500/90 pt-1">
+            <span>1% Income Tax TDS <span class="text-[11px] text-muted">(on gross)</span></span>
+            <span id="out-tds">- ₹0.00</span>
+          </div>
+        </div>
+
+        <div class="mt-6 pt-6 border-t border-accent/20">
+          <div class="text-sm font-medium text-muted uppercase tracking-wider mb-1">Bank Account Payout</div>
+          <div class="text-4xl font-extrabold text-accent" id="out-net-payout">₹0.00</div>
+          
+          <div class="mt-4 flex justify-between items-center text-[13px] bg-white/50 dark:bg-black/20 p-3 rounded-lg border border-accent/10">
+            <span class="text-muted">Total Profit Margin:</span>
+            <span class="font-bold text-base" id="out-margin">0%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEO Content / FAQs -->
+    <div class="prose prose-neutral dark:prose-invert max-w-none text-[15px] leading-[1.7] border-t border-base pt-12">
+      <h2 class="text-[24px] font-semibold text-base mb-6 tracking-[-0.6px]">Understanding Amazon & Flipkart Seller Taxes</h2>
+      
+      <p>Selling on e-commerce platforms like Amazon, Flipkart, or Meesho in India involves multiple layers of deductions before the money reaches your bank account. As a seller, you must account for marketplace fees, 18% GST charged by the platform on those fees, and two statutory tax deductions: 1% GST TCS and 1% Income Tax TDS.</p>
+
+      <h3 class="text-[20px] font-semibold text-base mt-10 mb-4 tracking-[-0.6px]">TCS (GST) vs TDS (Income Tax)</h3>
+      <p>E-commerce sellers face two simultaneous 1% deductions:</p>
+      <ul>
+        <li><strong>1% GST TCS (Section 52):</strong> Calculated at 1% on the <em>net taxable value</em> of the goods (exclusive of GST). This can be claimed as cash balance on the GST portal.</li>
+        <li><strong>1% Income Tax TDS (Section 194-O):</strong> Calculated at 1% on the <em>gross amount of sales</em> (inclusive of GST). This reflects in your Form 26AS and can be claimed while filing your Income Tax Return.</li>
+      </ul>
+      <p><em>Example:</em> If you sell an 18% GST product for ₹1,180 (Gross), the taxable value is ₹1,000 (Base). The platform will deduct ₹10 for GST TCS (1% of 1,000) and ₹11.80 for Income Tax TDS (1% of 1,180).</p>
+
+      <h3 class="text-[20px] font-semibold text-base mt-10 mb-4 tracking-[-0.6px]">Frequently Asked Questions</h3>
+      
+      <div class="space-y-3 not-prose">
+        <details class="group rounded-[8px] border border-base bg-surface overflow-hidden" open>
+          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+            <span class="text-[15px]">Can I claim Input Tax Credit (ITC) for the 18% GST charged on Amazon fees?</span>
+            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </summary>
+          <div class="px-6 pb-5 text-[14px] text-muted leading-relaxed border-t border-base pt-4">
+            Yes, the 18% GST charged by Amazon/Flipkart on their commission, fixed fees, and shipping fees is fully eligible for ITC. It will reflect in your GSTR-2B, and you can use it to offset your outward GST liability.
+          </div>
+        </details>
+
+        <details class="group rounded-[8px] border border-base bg-surface overflow-hidden">
+          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+            <span class="text-[15px]">How do I claim the 1% TCS deducted by the marketplace?</span>
+            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </summary>
+          <div class="px-6 pb-5 text-[14px] text-muted leading-relaxed border-t border-base pt-4">
+            The 1% TCS collected by the marketplace is deposited against your GSTIN. You must accept these TCS returns in the "TDS and TCS Credit Received" section on the GST portal to transfer this amount to your Electronic Cash Ledger.
+          </div>
+        </details>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<script is:inline>
+  function updateCalc() {
+    const sp = parseFloat(document.getElementById('selling-price').value) || 0;
+    const commRate = parseFloat(document.getElementById('commission-rate').value) || 0;
+    const fixed = parseFloat(document.getElementById('fixed-fee').value) || 0;
+    const shipping = parseFloat(document.getElementById('shipping-fee').value) || 0;
+    const prodGst = parseFloat(document.getElementById('product-gst-rate').value) || 18;
+
+    // 1. Base Marketplace Fees
+    const commAmt = (sp * commRate) / 100;
+    const totalMarketplaceFees = commAmt + fixed;
+    
+    // 2. GST on Fees (18%)
+    const gstOnFees = (totalMarketplaceFees + shipping) * 0.18;
+
+    // 3. GST TCS Calculation (1% on net exclusive value)
+    const exclusivePrice = sp / (1 + (prodGst / 100));
+    const tcs = exclusivePrice * 0.01;
+
+    // 4. Income Tax TDS (1% on gross value under Sec 194-O)
+    const tds = sp * 0.01;
+
+    // 5. Net Payout
+    const netPayout = sp - totalMarketplaceFees - shipping - gstOnFees - tcs - tds;
+    const margin = sp > 0 ? (netPayout / sp) * 100 : 0;
+
+    // Render
+    document.getElementById('out-selling-price').textContent = '\u20b9' + sp.toFixed(2);
+    document.getElementById('out-commission').textContent = '- \u20b9' + totalMarketplaceFees.toFixed(2);
+    document.getElementById('out-shipping').textContent = '- \u20b9' + shipping.toFixed(2);
+    document.getElementById('out-fee-gst').textContent = '- \u20b9' + gstOnFees.toFixed(2);
+    document.getElementById('out-tcs').textContent = '- \u20b9' + tcs.toFixed(2);
+    document.getElementById('out-tds').textContent = '- \u20b9' + tds.toFixed(2);
+    
+    const payoutEl = document.getElementById('out-net-payout');
+    payoutEl.textContent = '\u20b9' + netPayout.toFixed(2);
+    payoutEl.style.color = netPayout < 0 ? '#ef4444' : '';
+
+    const marginEl = document.getElementById('out-margin');
+    marginEl.textContent = (sp > 0 ? margin.toFixed(1) : '0.0') + '%';
+    marginEl.style.color = margin < 0 ? '#ef4444' : margin < 15 ? '#f59e0b' : '#22c55e';
+
+    // Show warning if payout is negative
+    let warning = document.getElementById('payout-warning');
+    if (sp > 0 && netPayout < 0) {
+      if (!warning) {
+        warning = document.createElement('p');
+        warning.id = 'payout-warning';
+        warning.style.cssText = 'margin-top:12px;padding:10px 14px;border-radius:8px;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);color:#ef4444;font-size:13px;font-weight:500;';
+        warning.textContent = '\u26a0\ufe0f Warning: Your costs exceed your selling price. You are selling at a loss. Consider raising the price or negotiating lower fees.';
+        payoutEl.parentNode.appendChild(warning);
+      }
+    } else {
+      if (warning) warning.remove();
+    }
+  }
+
+  // Attach listeners
+  const inputs = ['selling-price', 'commission-rate', 'fixed-fee', 'shipping-fee', 'product-gst-rate'];
+  inputs.forEach(id => {
+    document.getElementById(id)?.addEventListener('input', updateCalc);
+  });
+
+  // Init
+  updateCalc();
+</script>

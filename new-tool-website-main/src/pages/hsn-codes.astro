@@ -1,0 +1,261 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ToolIcon from '../components/ToolIcon.astro';
+
+const title = 'HSN & SAC Codes India — Search, Finder Tools & Complete Guide';
+const description = 'Complete resource for HSN and SAC codes in India. Search by product name, find exact codes, and learn about 4-digit vs 6-digit HSN requirements for GST B2B invoices.';
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://taxzentic.com';
+const canonical = `${siteUrl}/hsn-codes`;
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'HSN & SAC Codes Resource Center',
+    url: canonical,
+    description,
+    publisher: {
+      '@type': 'Organization',
+      name: 'Taxzentic',
+      url: siteUrl,
+    },
+    hasPart: [
+      { '@type': 'WebApplication', name: 'GST Rate Finder by Product Name', url: `${siteUrl}/gst-rate-finder` },
+      { '@type': 'WebApplication', name: 'HSN / SAC Code Lookup', url: `${siteUrl}/hsn-code-lookup` },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What is an HSN code in GST?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'HSN stands for Harmonized System of Nomenclature. It is a 6 to 8-digit international code used to classify goods for taxation under GST. In India, taxpayers with turnover above ₹5 Crore must declare a 6-digit HSN code on all B2B invoices.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'What is the difference between HSN and SAC codes?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'HSN codes are used for goods (physical products), while SAC (Services Accounting Code) codes are used for services. Both are mandatory for GST invoicing. HSN codes typically start with chapters 1-98, while SAC codes for services start with "99".',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Is it mandatory to mention HSN code on all invoices?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Yes. Businesses with annual turnover up to ₹5 Crore must mention 4-digit HSN codes on B2B invoices. Businesses above ₹5 Crore must use 6-digit codes. Exporters must always use 8-digit HSN codes on their invoices and shipping bills.',
+        },
+      },
+    ],
+  },
+];
+
+const breadcrumb = [
+  { name: 'Home', href: '/' },
+  { name: 'HSN Codes Hub', href: '/hsn-codes' },
+];
+
+const lastUpdated = '2026-07-25';
+
+// All 25 programmatic product pages
+const allProducts = [
+  { name: 'Mobile Phones', url: '/gst-rate-on-mobile-phones' },
+  { name: 'Laptops', url: '/gst-rate-on-laptops-computers' },
+  { name: 'Cement', url: '/gst-rate-on-cement' },
+  { name: 'Restaurant Food', url: '/gst-rate-on-restaurant-food' },
+  { name: 'Gold & Jewellery', url: '/gst-rate-on-gold-jewellery' },
+  { name: 'Cars', url: '/gst-rate-on-cars' },
+  { name: 'Commercial Rent', url: '/gst-rate-on-commercial-rent' },
+  { name: 'Software Services', url: '/gst-rate-on-software-services' },
+  { name: 'Medicines', url: '/gst-rate-on-medicines' },
+  { name: 'Insurance', url: '/gst-rate-on-insurance' },
+  { name: 'Solar Panels', url: '/gst-rate-on-solar-panels' },
+  { name: 'Clothing & Garments', url: '/gst-rate-on-clothing-garments' },
+  { name: 'Shoes & Footwear', url: '/gst-rate-on-shoes-footwear' },
+  { name: 'Furniture', url: '/gst-rate-on-furniture' },
+  { name: 'Electric Vehicles', url: '/gst-rate-on-electric-vehicles' },
+  { name: 'Books', url: '/gst-rate-on-books' },
+  { name: 'Freelance Services', url: '/gst-rate-on-freelance-services' },
+  { name: 'Hotel Rooms', url: '/gst-rate-on-hotel-rooms' },
+  { name: 'Gym Memberships', url: '/gst-rate-on-gym-memberships' },
+  { name: 'Coaching Classes', url: '/gst-rate-on-coaching-classes' },
+  { name: 'Air Tickets', url: '/gst-rate-on-air-tickets' },
+  { name: 'Interior Designing', url: '/gst-rate-on-interior-designing' },
+  { name: 'Event Management', url: '/gst-rate-on-event-management' },
+  { name: 'Beauty Parlour', url: '/gst-rate-on-beauty-parlour' },
+  { name: 'Diamonds', url: '/gst-rate-on-diamonds' },
+];
+---
+
+<BaseLayout {title} {description} {canonical} {structuredData} {breadcrumb} {lastUpdated}>
+  <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-16">
+    <!-- Hub Header -->
+    <div class="text-center mb-16">
+      <span class="inline-block px-3 py-1 text-xs font-semibold bg-accent/10 text-accent rounded-full mb-4 border border-accent/20">Taxzentic Hub</span>
+      <h1 class="text-4xl sm:text-5xl font-bold tracking-tight text-base mb-6">
+        The <span class="text-accent">HSN & SAC</span> Resource Center
+      </h1>
+      <p class="text-[18px] text-muted max-w-2xl mx-auto leading-relaxed">
+        Harmonized System of Nomenclature (HSN) and Services Accounting Code (SAC) are mandatory for Indian GST compliance. Use our tools to find the exact code and rate for your business.
+      </p>
+    </div>
+
+    <!-- Featured Tools -->
+    <div class="mb-16">
+      <div class="flex items-center gap-3 mb-8 border-b border-base pb-4">
+        <ToolIcon name="search" class="w-6 h-6 text-accent" />
+        <h2 class="text-2xl font-bold text-base">HSN & Rate Finder Tools</h2>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <a href="/gst-rate-finder" class="group relative rounded-2xl border border-base bg-surface p-6 overflow-hidden hover:border-accent transition-all shadow-sm">
+          <div class="absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-xl font-semibold text-base group-hover:text-accent transition-colors">Search by Product Name</h3>
+            <span class="text-xs font-semibold bg-accent text-white px-2 py-1 rounded-full">Popular</span>
+          </div>
+          <p class="text-muted text-[15px] leading-relaxed">Don't know your HSN code? Just type "laptop" or "restaurant" and our fuzzy search will find the correct code and GST rate instantly.</p>
+        </a>
+
+        <a href="/hsn-code-lookup" class="group relative rounded-2xl border border-base bg-surface p-6 overflow-hidden hover:border-accent transition-all shadow-sm">
+          <div class="absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-xl font-semibold text-base group-hover:text-accent transition-colors">HSN / SAC Code Lookup</h3>
+          </div>
+          <p class="text-muted text-[15px] leading-relaxed">Already have a code? Enter a 4, 6, or 8-digit HSN code to verify its description and current GST tax slab.</p>
+        </a>
+      </div>
+    </div>
+
+    <!-- ALL Product Rates -->
+    <div class="mb-16">
+      <div class="flex items-center gap-3 mb-8 border-b border-base pb-4">
+        <ToolIcon name="tag" class="w-6 h-6 text-accent" />
+        <h2 class="text-2xl font-bold text-base">GST Rates by Product — Quick Look</h2>
+      </div>
+      <p class="text-[14px] text-muted mb-5">Browse GST rates for 25+ popular products. Each page has the HSN code, tax split, a mini-calculator, and FAQs.</p>
+
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+        {allProducts.map((item) => (
+          <a href={item.url} class="group p-3 rounded-xl border border-base bg-surface hover:border-accent hover:bg-accent/5 transition-all text-center">
+            <span class="text-[13px] font-medium text-base group-hover:text-accent transition-colors leading-tight">{item.name}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+
+    <!-- HSN Mandate Quick Reference -->
+    <div class="mb-16 rounded-2xl border border-base bg-surface p-6 sm:p-8">
+      <h2 class="text-xl font-bold text-base mb-5">HSN Digit Requirement — Quick Reference</h2>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="bg-subtle text-[13px] uppercase tracking-wider text-muted">
+              <th class="p-3 border-b border-base font-semibold">Annual Turnover</th>
+              <th class="p-3 border-b border-base font-semibold">Invoice Type</th>
+              <th class="p-3 border-b border-base font-semibold">Required Digits</th>
+            </tr>
+          </thead>
+          <tbody class="text-sm">
+            <tr>
+              <td class="p-3 border-b border-base">Up to ₹5 Crore</td>
+              <td class="p-3 border-b border-base">B2B (Business to Business)</td>
+              <td class="p-3 border-b border-base font-semibold text-accent">4-digit HSN</td>
+            </tr>
+            <tr>
+              <td class="p-3 border-b border-base">Up to ₹5 Crore</td>
+              <td class="p-3 border-b border-base">B2C (Business to Consumer)</td>
+              <td class="p-3 border-b border-base text-muted">Optional</td>
+            </tr>
+            <tr>
+              <td class="p-3 border-b border-base">Above ₹5 Crore</td>
+              <td class="p-3 border-b border-base">All Invoices</td>
+              <td class="p-3 border-b border-base font-semibold text-accent">6-digit HSN</td>
+            </tr>
+            <tr>
+              <td class="p-3 border-b border-base">All Exporters</td>
+              <td class="p-3 border-b border-base">Export Invoice & Shipping Bill</td>
+              <td class="p-3 border-b border-base font-semibold text-accent">8-digit HSN</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Core Guides -->
+    <div class="mb-16">
+      <div class="flex items-center gap-3 mb-8 border-b border-base pb-4">
+        <ToolIcon name="book" class="w-6 h-6 text-accent" />
+        <h2 class="text-2xl font-bold text-base">In-Depth Guides</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+        <a href="/blog/4-digit-vs-6-digit-hsn-codes" class="group block">
+          <h3 class="text-lg font-medium text-base group-hover:text-accent transition-colors mb-1">4-Digit vs 6-Digit HSN Codes</h3>
+          <p class="text-sm text-muted">When is a 6-digit code mandatory? A guide to the ₹5 Crore threshold, B2B vs B2C invoice rules, and penalties for wrong classification.</p>
+        </a>
+        <a href="/blog/sac-codes-vs-hsn-codes" class="group block">
+          <h3 class="text-lg font-medium text-base group-hover:text-accent transition-colors mb-1">SAC vs HSN: What's the Difference?</h3>
+          <p class="text-sm text-muted">Understanding how goods (HSN) and services (SAC) are classified differently under the Indian GST system.</p>
+        </a>
+        <a href="/blog/hsn-code-importance" class="group block">
+          <h3 class="text-lg font-medium text-base group-hover:text-accent transition-colors mb-1">Why HSN Codes Matter for ITC</h3>
+          <p class="text-sm text-muted">How incorrect HSN codes lead to GSTR-1 mismatches, denied Input Tax Credit, and department notices under Section 73.</p>
+        </a>
+        <a href="/blog/finding-hsn-codes-for-exports" class="group block">
+          <h3 class="text-lg font-medium text-base group-hover:text-accent transition-colors mb-1">HSN Codes for Exports</h3>
+          <p class="text-sm text-muted">Special rules for declaring 8-digit HSN codes on export invoices, shipping bills, and claiming IGST refunds.</p>
+        </a>
+        <a href="/blog/how-to-find-hsn-code-2026" class="group block">
+          <h3 class="text-lg font-medium text-base group-hover:text-accent transition-colors mb-1">How to Find Your HSN Code (2026)</h3>
+          <p class="text-sm text-muted">A step-by-step guide to finding the correct HSN code using the GST portal, tariff schedule, or product name search.</p>
+        </a>
+        <a href="/blog/hsn-code-mobile-phones-2025" class="group block">
+          <h3 class="text-lg font-medium text-base group-hover:text-accent transition-colors mb-1">HSN Code for Mobile Phones</h3>
+          <p class="text-sm text-muted">Complete guide to HSN 8517 — the correct code for smartphones, feature phones, and accessories with 18% GST.</p>
+        </a>
+      </div>
+    </div>
+
+    <!-- FAQ Section -->
+    <div class="border-t border-base pt-12">
+      <h2 class="text-2xl font-bold text-base mb-8">Frequently Asked Questions</h2>
+      <div class="space-y-3">
+        <details class="group rounded-[8px] border border-base bg-surface overflow-hidden" open>
+          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+            <span class="text-[15px]">What is an HSN code in GST?</span>
+            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </summary>
+          <div class="px-6 pb-5 text-[14px] text-muted leading-relaxed border-t border-base pt-4">
+            HSN stands for Harmonized System of Nomenclature, a 6-to-8 digit international code system developed by the World Customs Organization. In India's GST system, it is mandatory for classifying goods on tax invoices. Businesses above ₹5 Crore turnover must use 6-digit codes; exporters must always use 8-digit codes.
+          </div>
+        </details>
+        <details class="group rounded-[8px] border border-base bg-surface overflow-hidden">
+          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+            <span class="text-[15px]">What is the difference between HSN and SAC codes?</span>
+            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </summary>
+          <div class="px-6 pb-5 text-[14px] text-muted leading-relaxed border-t border-base pt-4">
+            HSN codes are used for goods (physical products, classified under chapters 1-98 of the Customs Tariff), while SAC (Services Accounting Code) codes are used for services (all SAC codes start with "99"). Both appear in the same field on a GST invoice. A single invoice can have both if it includes both goods and services.
+          </div>
+        </details>
+        <details class="group rounded-[8px] border border-base bg-surface overflow-hidden">
+          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+            <span class="text-[15px]">What happens if I use a wrong HSN code on my invoice?</span>
+            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </summary>
+          <div class="px-6 pb-5 text-[14px] text-muted leading-relaxed border-t border-base pt-4">
+            Using a wrong HSN code can lead to: (1) ITC mismatch in your buyer's GSTR-2B, causing their ITC to be blocked, (2) Scrutiny notices from the GST department, (3) Differential tax demand if the wrong code carries a lower rate than the correct one, and (4) Penalties under Section 125 of the CGST Act (up to ₹25,000).
+          </div>
+        </details>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

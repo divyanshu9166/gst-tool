@@ -343,7 +343,7 @@ const breadcrumb = [
       } else {
         statusBadge.className = 'inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-sm font-medium bg-yellow-100 text-yellow-800';
         statusBadge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-yellow-600"></span> Taxable (Forward Charge)';
-        statusDesc.innerHTML = "Commercial property rent attracts 18% GST. The <strong>Landlord</strong> collects this amount from the tenant and pays it to the government (assuming landlord's turnover > ₹20L).";
+        statusDesc.innerHTML = "Commercial property rent attracts 18% GST. The <strong>Landlord</strong> collects this amount from the tenant and pays it to the government <em>(Note: This assumes the landlord is GST-registered with turnover > ₹20L)</em>.";
         
         resLandlord.textContent = formatINR(rent + gstAmount);
         resLandlord.parentElement.parentElement.classList.add('text-green-700');

@@ -205,6 +205,22 @@ function calculate() {
   const exports = parseFloat(inExport.value) || 0;
   const interstate = parseFloat(inInterstate.value) || 0;
   const total = taxable + exempt + exports;
+  
+  if (taxable === 0 && exempt === 0 && exports === 0 && interstate === 0) {
+    iconReg.textContent = '\u{2139}\u{FE0F}';
+    titleReg.textContent = 'Enter Your Turnover Details';
+    titleReg.classList.remove('text-red-500', 'text-green-500');
+    descReg.textContent = 'Enter your turnover values above to determine if GST registration is mandatory.';
+    
+    iconComp.textContent = '\u{2139}\u{FE0F}';
+    titleComp.textContent = 'Check Composition Eligibility';
+    titleComp.classList.remove('text-red-500', 'text-green-500');
+    descComp.textContent = 'Enter your turnover to see if you can opt for the Composition Scheme.';
+    
+    resTotal.textContent = '₹0';
+    return;
+  }
+  
   resTotal.textContent = formatINR(total);
   const stateCat = stateCatSelect.value;
   let threshold;

@@ -246,9 +246,30 @@ const breadcrumb = [
     if (!regType) {
       card.className = 'mt-8 rounded-xl border-2 border-amber-300 bg-amber-50 dark:bg-amber-900/20 dark:border-amber-800 p-6 transition-all';
       icon.className = 'flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center text-2xl bg-amber-100 dark:bg-amber-900/30';
-      icon.textContent = '⚠';
+      icon.textContent = '\u26A0';
       title.textContent = 'Please select your registration type';
       desc.textContent = 'Select one of the four registration types above to check eligibility.';
+      steps.classList.add('hidden');
+      return;
+    }
+    
+    const turnoverInput = (document.getElementById('turnover') as HTMLInputElement).value;
+    if (!turnoverInput || isNaN(parseFloat(turnoverInput))) {
+      card.className = 'mt-8 rounded-xl border-2 border-amber-300 bg-amber-50 dark:bg-amber-900/20 dark:border-amber-800 p-6 transition-all';
+      icon.className = 'flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center text-2xl bg-amber-100 dark:bg-amber-900/30';
+      icon.textContent = '\u26A0';
+      title.textContent = 'Please enter aggregate turnover';
+      desc.textContent = 'Enter your aggregate turnover in the preceding financial year to check eligibility.';
+      steps.classList.add('hidden');
+      return;
+    }
+    
+    if (!returnsFiled) {
+      card.className = 'mt-8 rounded-xl border-2 border-amber-300 bg-amber-50 dark:bg-amber-900/20 dark:border-amber-800 p-6 transition-all';
+      icon.className = 'flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center text-2xl bg-amber-100 dark:bg-amber-900/30';
+      icon.textContent = '\u26A0';
+      title.textContent = 'Please select return filing status';
+      desc.textContent = 'Select whether you have filed all pending GST returns.';
       steps.classList.add('hidden');
       return;
     }
