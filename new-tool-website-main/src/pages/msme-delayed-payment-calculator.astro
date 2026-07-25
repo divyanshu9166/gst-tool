@@ -1,0 +1,246 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'MSME Delayed Payment Interest Calculator';
+const description = 'Calculate interest on delayed payments to MSMEs under Section 16 of the MSME Development Act. Free compound interest calculator for suppliers.';
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://taxzentic.com';
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'MSME Delayed Payment Interest Calculator',
+    url: `${siteUrl}/msme-delayed-payment-calculator`,
+    description: 'Calculate interest on delayed payments to MSMEs under Section 16 of MSME Development Act.',
+    applicationCategory: 'FinanceApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR' },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What is the interest rate on delayed payments to MSMEs?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Under Section 16 of the MSME Development Act 2006, the interest rate on delayed payments is three times the bank rate notified by RBI (currently 6.5%). So the applicable rate is approximately 19.5% per annum, compounded monthly.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'What is the maximum payment period for MSMEs?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Buyers must pay MSME suppliers within 45 days from the date of acceptance or deemed acceptance of goods/services. If payment exceeds 45 days, interest is automatically applicable.',
+        },
+      },
+    ],
+  },
+];
+
+const lastUpdated = '2026-07-25';
+const breadcrumb = [
+  { name: 'Home', href: '/' },
+  { name: 'Calculators', href: '/#tools-heading' },
+  { name: 'MSME Delayed Payment', href: '/msme-delayed-payment-calculator' },
+];
+---
+
+<BaseLayout {title} {description} {structuredData} {breadcrumb} {lastUpdated}>
+  <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-12">
+    <div class="mb-10 text-center">
+      <h1 class="text-3xl sm:text-4xl font-bold text-base mb-3 tracking-[-1.28px]">
+        MSME Delayed Payment Interest Calculator
+      </h1>
+      <p class="text-[16px] text-muted max-w-2xl mx-auto leading-relaxed">
+        Calculate compound interest payable on delayed payments to MSME suppliers under <strong>Section 16</strong> of the MSME Development Act, 2006. Interest rate = 3× RBI bank rate.
+      </p>
+      <p class="text-[13px] text-muted mt-2">Last updated: July 2026 · RBI Bank Rate: 6.5%</p>
+    </div>
+
+    <!-- Calculator -->
+    <div class="mx-auto max-w-2xl rounded-2xl border border-base bg-surface p-6 sm:p-8 shadow-sm">
+      <div class="space-y-5">
+        <!-- Invoice Amount -->
+        <div>
+          <label for="invoice-amount" class="block text-sm font-medium text-base mb-1.5">Invoice Amount (₹)</label>
+          <div class="relative">
+            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-muted font-medium select-none" aria-hidden="true">₹</span>
+            <input id="invoice-amount" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0.00"
+              class="w-full rounded-xl border border-base bg-subtle pl-9 pr-4 py-3.5 text-[16px] font-medium focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 transition-all" />
+          </div>
+        </div>
+
+        <!-- Due Date -->
+        <div>
+          <label for="due-date" class="block text-sm font-medium text-base mb-1.5">Payment Due Date (45 days from supply)</label>
+          <input id="due-date" type="date"
+            class="w-full rounded-xl border border-base bg-subtle px-4 py-3.5 text-[16px] font-medium focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 transition-all" />
+        </div>
+
+        <!-- Actual Payment Date -->
+        <div>
+          <label for="payment-date" class="block text-sm font-medium text-base mb-1.5">Actual Payment Date</label>
+          <input id="payment-date" type="date"
+            class="w-full rounded-xl border border-base bg-subtle px-4 py-3.5 text-[16px] font-medium focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 transition-all" />
+        </div>
+
+        <!-- Bank Rate -->
+        <div>
+          <label for="bank-rate" class="block text-sm font-medium text-base mb-1.5">RBI Bank Rate (%)</label>
+          <input id="bank-rate" type="number" inputmode="decimal" value="6.5" min="0" max="25" step="0.25"
+            class="w-full rounded-xl border border-base bg-subtle px-4 py-3.5 text-[16px] font-medium focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 transition-all" />
+          <p class="mt-1 text-xs text-muted">Current RBI bank rate is 6.5%. Interest = 3 × bank rate = 19.5% p.a.</p>
+        </div>
+      </div>
+
+      <!-- Results -->
+      <div class="mt-8 rounded-xl border border-base bg-subtle p-6 space-y-4">
+        <div class="flex justify-between items-center py-2 border-b border-base">
+          <span class="text-sm text-muted">Days Delayed</span>
+          <span id="result-days" class="text-lg font-bold text-base">0 days</span>
+        </div>
+        <div class="flex justify-between items-center py-2 border-b border-base">
+          <span class="text-sm text-muted">Applicable Interest Rate (3× bank rate)</span>
+          <span id="result-rate" class="text-lg font-bold text-base">19.50% p.a.</span>
+        </div>
+        <div class="flex justify-between items-center py-2 border-b border-base">
+          <span class="text-sm text-muted">Interest Amount</span>
+          <span id="result-interest" class="text-lg font-bold text-accent">₹0.00</span>
+        </div>
+        <div class="flex justify-between items-center py-2">
+          <span class="text-sm font-medium text-base">Total Payable (Principal + Interest)</span>
+          <span id="result-total" class="text-xl font-bold text-accent">₹0.00</span>
+        </div>
+      </div>
+
+      <button id="btn-reset" type="button" class="mt-4 w-full rounded-xl border border-base bg-surface py-2.5 text-[14px] font-medium text-muted hover:text-base hover:bg-subtle transition-colors">
+        Reset
+      </button>
+    </div>
+
+    <!-- SEO Content -->
+    <div class="mt-16 border-t border-base pt-12">
+      <h2 class="text-[24px] font-semibold text-base mb-6 tracking-[-0.6px]">MSME Delayed Payment Rules — Section 16 Explained</h2>
+      <div class="prose prose-neutral dark:prose-invert max-w-none text-[15px] leading-[1.7]">
+        <p>
+          The <strong>Micro, Small and Medium Enterprises Development (MSMED) Act, 2006</strong> protects MSME suppliers from delayed payments by large buyers. Under <strong>Section 15</strong>, any buyer purchasing goods or services from an MSME supplier must make payment within 45 days from the date of acceptance.
+        </p>
+        <p>
+          If payment is not made within 45 days, <strong>Section 16</strong> mandates that the buyer pays compound interest at <strong>three times the bank rate</strong> notified by the Reserve Bank of India (RBI). As of July 2026, the RBI bank rate is 6.5%, making the applicable interest rate <strong>19.5% per annum</strong>, compounded monthly.
+        </p>
+
+        <h3>Key Points for MSME Suppliers</h3>
+        <ul>
+          <li><strong>45-day limit:</strong> Payment must be made within 45 days of acceptance of goods/services</li>
+          <li><strong>Interest rate:</strong> 3× RBI bank rate (currently 19.5% p.a.), compounded monthly</li>
+          <li><strong>No waiver:</strong> The buyer cannot contractually waive this interest — it is a statutory obligation</li>
+          <li><strong>Tax implication:</strong> The interest paid is <strong>not deductible</strong> as a business expense for the buyer under Income Tax</li>
+          <li><strong>Udyam registration:</strong> The supplier must have a valid Udyam registration to claim MSME benefits</li>
+        </ul>
+
+        <p>
+          Need to check if you qualify as an MSME? Learn more about <a href="/blog/gst-for-freelancers-india-2026" class="text-accent hover:underline">GST for freelancers</a> and small businesses. For GST-related calculations, use our <a href="/gst-calculator" class="text-accent hover:underline">GST Calculator</a>.
+        </p>
+      </div>
+    </div>
+
+    <!-- FAQ -->
+    <div class="mt-12 border-t border-base pt-10">
+      <h2 class="text-[24px] font-semibold text-base mb-6 tracking-[-0.6px]">Frequently Asked Questions</h2>
+      <div class="space-y-3">
+        {[
+          { q: 'Is interest compounded monthly or annually?', a: 'Under Section 16 of the MSMED Act, interest is compounded monthly. This means interest is calculated on the principal amount and any previously accumulated interest at the end of each month.' },
+          { q: 'Can the buyer refuse to pay MSME interest?', a: 'No. The interest is a statutory obligation under the MSMED Act. The buyer cannot waive this through any contractual agreement. Additionally, the interest paid is not deductible as a business expense for income tax purposes, creating a double penalty.' },
+          { q: 'Where can MSME suppliers file complaints for delayed payments?', a: 'MSME suppliers can file complaints with the Micro and Small Enterprise Facilitation Council (MSEFC) in their state. The complaint can be filed online through the MSME Samadhaan portal (samadhaan.msme.gov.in).' },
+          { q: 'Does the 45-day rule apply to all buyers?', a: 'The 45-day rule applies when the buyer purchases goods or services from a supplier registered as an MSME (with valid Udyam registration). The size of the buyer does not matter — even large corporates and government entities are bound by this rule.' },
+        ].map((faq, i) => (
+          <details class="group rounded-[8px] border border-base bg-surface overflow-hidden" id={`faq-msme-${i}`}>
+            <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+              <span class="text-[15px]">{faq.q}</span>
+              <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+            </summary>
+            <div class="px-6 pb-5 text-[14px] text-muted leading-relaxed border-t border-base pt-4">{faq.a}</div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  const invoiceInput = document.getElementById('invoice-amount') as HTMLInputElement;
+  const dueDateInput = document.getElementById('due-date') as HTMLInputElement;
+  const paymentDateInput = document.getElementById('payment-date') as HTMLInputElement;
+  const bankRateInput = document.getElementById('bank-rate') as HTMLInputElement;
+  const resultDays = document.getElementById('result-days')!;
+  const resultRate = document.getElementById('result-rate')!;
+  const resultInterest = document.getElementById('result-interest')!;
+  const resultTotal = document.getElementById('result-total')!;
+
+  function formatINR(value: number) {
+    return '₹' + value.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
+  function calculate() {
+    const principal = parseFloat(invoiceInput.value) || 0;
+    const bankRate = parseFloat(bankRateInput.value) || 6.5;
+    const annualRate = bankRate * 3; // 3× bank rate
+    const monthlyRate = annualRate / 100 / 12;
+
+    const dueDate = dueDateInput.value ? new Date(dueDateInput.value) : null;
+    const paymentDate = paymentDateInput.value ? new Date(paymentDateInput.value) : null;
+
+    resultRate.textContent = `${annualRate.toFixed(2)}% p.a.`;
+
+    if (!dueDate || !paymentDate || !principal) {
+      resultDays.textContent = '0 days';
+      resultInterest.textContent = '₹0.00';
+      resultTotal.textContent = formatINR(principal);
+      return;
+    }
+
+    const diffMs = paymentDate.getTime() - dueDate.getTime();
+    const delayDays = Math.max(0, Math.floor(diffMs / (1000 * 60 * 60 * 24)));
+    const delayMonths = delayDays / 30.44; // Average days per month
+
+    resultDays.textContent = `${delayDays} days`;
+
+    if (delayDays <= 0) {
+      resultInterest.textContent = '₹0.00';
+      resultTotal.textContent = formatINR(principal);
+      return;
+    }
+
+    // Compound interest: A = P(1 + r/n)^(nt) - P
+    const amount = principal * Math.pow(1 + monthlyRate, delayMonths);
+    const interest = amount - principal;
+
+    resultInterest.textContent = formatINR(interest);
+    resultTotal.textContent = formatINR(amount);
+  }
+
+  // Set default dates
+  const today = new Date();
+  const dueDefault = new Date(today);
+  dueDefault.setDate(dueDefault.getDate() - 30);
+  dueDateInput.value = dueDefault.toISOString().split('T')[0];
+  paymentDateInput.value = today.toISOString().split('T')[0];
+
+  [invoiceInput, dueDateInput, paymentDateInput, bankRateInput].forEach(el => {
+    el.addEventListener('input', calculate);
+  });
+
+  document.getElementById('btn-reset')?.addEventListener('click', () => {
+    invoiceInput.value = '';
+    bankRateInput.value = '6.5';
+    dueDateInput.value = dueDefault.toISOString().split('T')[0];
+    paymentDateInput.value = today.toISOString().split('T')[0];
+    calculate();
+  });
+
+  calculate();
+</script>

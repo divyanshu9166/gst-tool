@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const title = 'GSTR 1 JSON to Excel Converter | Free GST Tool Online';
+const title = 'GSTR-1 JSON to Excel Converter — Free';
 const description = 'Convert your GSTR 1 JSON files into Excel format quickly and easily. Free online GST tool to decode parsing, view B2B, B2C, EXP, and CDNUR details in an Excel spreadsheet.';
 
 const structuredData = [
@@ -38,9 +38,16 @@ const structuredData = [
     ]
   }
 ];
+
+const lastUpdated = '2026-07-25';
+const breadcrumb = [
+  { name: 'Home', href: '/' },
+  { name: 'Lookups \x26 Tools', href: '/#tools-heading' },
+  { name: 'Gstr1 Json To Excel', href: '/gstr1-json-to-excel' },
+];
 ---
 
-<BaseLayout {title} {description} {structuredData}>
+<BaseLayout {title} {description} {structuredData} {breadcrumb} {lastUpdated}>
   <div class="mx-auto max-w-4xl px-4 sm:px-6 py-12">
     <div class="text-center mb-10">
       <h1 class="text-3xl sm:text-4xl font-bold text-base mb-3">GSTR-1 JSON to Excel Converter</h1>

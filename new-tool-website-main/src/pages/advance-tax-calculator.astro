@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const title = 'Advance Tax Calculator FY 2025-26 | Due Dates & Installment Calculator India';
+const title = 'Advance Tax Calculator FY 2025-26 India';
 const description = 'Calculate your advance tax liability for FY 2025-26. Find due dates for all four installments (June, September, December, March) and avoid Section 234B/234C interest.';
 
 const structuredData = [
@@ -43,9 +43,16 @@ const installments = [
   { label: '3rd Installment', dueDate: '15 December 2025', cumPercent: 75, pct: 30 },
   { label: '4th Installment', dueDate: '15 March 2026', cumPercent: 100, pct: 25 },
 ];
+
+const lastUpdated = '2026-07-25';
+const breadcrumb = [
+  { name: 'Home', href: '/' },
+  { name: 'Calculators', href: '/#tools-heading' },
+  { name: 'Advance Tax Calculator', href: '/advance-tax-calculator' },
+];
 ---
 
-<BaseLayout {title} {description} {structuredData}>
+<BaseLayout {title} {description} {structuredData} {breadcrumb} {lastUpdated}>
   <div class="mx-auto max-w-3xl px-4 sm:px-6 py-12 lg:py-24">
 
     <!-- Header -->

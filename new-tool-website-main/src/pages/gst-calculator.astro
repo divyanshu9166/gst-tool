@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const title = 'Free GST Calculator for Small Business India | Add & Remove GST';
+const title = 'Free GST Calculator India — Add & Remove GST';
 const description = 'Free online GST calculator for India. Add GST or remove GST (reverse) with CGST/SGST split. Supports 5%, 18%, 40% (GST 2.0) slabs and custom rates. Instant results.';
 
 const structuredData = [
@@ -81,9 +81,16 @@ const structuredData = [
     ]
   }
 ];
+
+const lastUpdated = '2026-07-25';
+const breadcrumb = [
+  { name: 'Home', href: '/' },
+  { name: 'Calculators', href: '/#tools-heading' },
+  { name: 'GST Calculator', href: '/gst-calculator' },
+];
 ---
 
-<BaseLayout {title} {description} {structuredData}>
+<BaseLayout {title} {description} {structuredData} {breadcrumb} {lastUpdated}>
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
     <!-- Page header -->
     <div class="mb-10 text-center">

@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const title = 'GST Interest Calculator | Late Payment Interest @ 18%';
+const title = 'GST Interest Calculator — Late Payment';
 const description = 'Accurately calculate the exact interest payable on late GST payments under Section 50 of the CGST Act. Offline calculator for 18% p.a. interest.';
 
 const structuredData = [
@@ -87,9 +87,16 @@ const structuredData = [
     ]
   }
 ];
+
+const lastUpdated = '2026-07-25';
+const breadcrumb = [
+  { name: 'Home', href: '/' },
+  { name: 'Calculators', href: '/#tools-heading' },
+  { name: 'GST Interest Calculator', href: '/gst-interest-calculator' },
+];
 ---
 
-<BaseLayout {title} {description} {structuredData}>
+<BaseLayout {title} {description} {structuredData} {breadcrumb} {lastUpdated}>
   <div class="mx-auto max-w-3xl px-4 sm:px-6 py-12 lg:py-24">
     <!-- Header -->
     <div class="mb-10 text-center">

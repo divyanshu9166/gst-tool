@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const title = 'Reverse Charge Mechanism Calculator India | RCM Tool (2026)';
+const title = 'RCM Calculator India — Reverse Charge 2026';
 const description = 'Free offline Reverse Charge Mechanism Calculator to instantly compute your GST liability for GTA, Legal Services, Security, and Sponsorship under Indian GST laws.';
 
 const structuredData = [
@@ -98,9 +98,16 @@ const rcmServices = [
   { name: 'Copyright/Music Composer Services', rate: 12 },
   { name: 'Custom (Enter own rate)', rate: 0 }
 ];
+
+const lastUpdated = '2026-07-25';
+const breadcrumb = [
+  { name: 'Home', href: '/' },
+  { name: 'Calculators', href: '/#tools-heading' },
+  { name: 'RCM Calculator', href: '/rcm-calculator' },
+];
 ---
 
-<BaseLayout {title} {description} {structuredData}>
+<BaseLayout {title} {description} {structuredData} {breadcrumb} {lastUpdated}>
   <div class="mx-auto max-w-3xl px-4 sm:px-6 py-12 lg:py-24">
     <!-- Header -->
     <div class="mb-10 text-center">

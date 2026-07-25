@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const title = 'GST Return Due Dates Calendar 2025 — Deadlines & Penalties';
+const title = 'GST Due Dates Calendar 2026 — Deadlines';
 const description = 'Track GST return due dates for GSTR-1, GSTR-3B, GSTR-9, and CMP-08. Avoid late fees and penalties by filing before the deadline.';
 
 const structuredData = {
@@ -56,9 +56,16 @@ const dueDates = [
     applicableTo: 'Regular Taxpayers (Turnover > ₹2 Crore)',
   },
 ];
+
+const lastUpdated = '2026-07-25';
+const breadcrumb = [
+  { name: 'Home', href: '/' },
+  { name: 'Lookups \x26 Tools', href: '/#tools-heading' },
+  { name: 'GST Due Dates', href: '/gst-due-dates' },
+];
 ---
 
-<BaseLayout {title} {description} {structuredData}>
+<BaseLayout {title} {description} {structuredData} {breadcrumb} {lastUpdated}>
   <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-12 sm:py-20">
     <div class="mb-12 text-center">
       <h1 class="text-4xl sm:text-5xl font-semibold tracking-[-1.28px] text-base mb-4">GST Due Dates Calendar</h1>

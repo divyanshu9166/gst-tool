@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const title = 'GST on Director Remuneration Calculator & RCM Classifier';
+const title = 'GST on Director Remuneration Calculator';
 const description = 'Determine if GST is applicable on your Director\'s remuneration. Instantly classify between Salary (No GST) and Professional Fees (18% RCM).';
 
 const structuredData = [
@@ -100,6 +100,13 @@ const structuredData = [
       }
     ]
   }
+];
+
+const lastUpdated = '2026-07-25';
+const breadcrumb = [
+  { name: 'Home', href: '/' },
+  { name: 'Calculators', href: '/#tools-heading' },
+  { name: 'GST Director Remuneration Calculator', href: '/gst-director-remuneration-calculator' },
 ];
 ---
 

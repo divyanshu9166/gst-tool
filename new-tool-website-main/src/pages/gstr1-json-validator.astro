@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const title = 'GSTR 1 JSON Validator | Check GST JSON Files Online';
+const title = 'GSTR-1 JSON Validator — Check GST Files';
 const description = 'Validate your GSTR 1 JSON payload before uploading it to the GST Portal to prevent processing errors. Free offline semantic validation tool.';
 
 const structuredData = [
@@ -38,9 +38,16 @@ const structuredData = [
     ]
   }
 ];
+
+const lastUpdated = '2026-07-25';
+const breadcrumb = [
+  { name: 'Home', href: '/' },
+  { name: 'Lookups \x26 Tools', href: '/#tools-heading' },
+  { name: 'Gstr1 Json Validator', href: '/gstr1-json-validator' },
+];
 ---
 
-<BaseLayout {title} {description} {structuredData}>
+<BaseLayout {title} {description} {structuredData} {breadcrumb} {lastUpdated}>
   <div class="mx-auto max-w-4xl px-4 sm:px-6 py-12">
     <div class="text-center mb-10">
       <h1 class="text-3xl sm:text-4xl font-bold text-base mb-3">GSTR-1 JSON Validator</h1>

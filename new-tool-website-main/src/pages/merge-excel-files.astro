@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const title = 'Merge Excel Files Online | Combine Multiple Workbooks Tool';
+const title = 'Merge Excel Files Online — Free Tool';
 const description = 'Free tool to easily combine and merge multiple Excel (.xlsx, .xls) files into one single Excel document. Secure, offline merge right in your browser.';
 
 const structuredData = [
@@ -45,9 +45,16 @@ const structuredData = [
     ]
   }
 ];
+
+const lastUpdated = '2026-07-25';
+const breadcrumb = [
+  { name: 'Home', href: '/' },
+  { name: 'Lookups \x26 Tools', href: '/#tools-heading' },
+  { name: 'Merge Excel Files', href: '/merge-excel-files' },
+];
 ---
 
-<BaseLayout {title} {description} {structuredData}>
+<BaseLayout {title} {description} {structuredData} {breadcrumb} {lastUpdated}>
   <div class="mx-auto max-w-4xl px-4 sm:px-6 py-12">
     <div class="text-center mb-10">
       <h1 class="text-3xl sm:text-4xl font-bold text-base mb-3">Merge Excel Files</h1>

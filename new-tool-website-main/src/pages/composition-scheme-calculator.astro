@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const title = 'GST Composition Scheme Limit & Tax Calculator 2026';
+const title = 'GST Composition Scheme Calculator 2026';
 const description = 'Check your eligibility for the GST Composition Scheme and instantly calculate your flat tax liability (1%, 5%, 6%) for small businesses in India.';
 
 const structuredData = [
@@ -94,9 +94,16 @@ const businessTypes = [
   { id: 'restaurant', name: 'Restaurant (Non-Alcoholic)', rate: 5, limit: 15000000, splLimit: 7500000 },
   { id: 'service', name: 'Service Provider / Freelancer', rate: 6, limit: 5000000, splLimit: 5000000 },
 ];
+
+const lastUpdated = '2026-07-25';
+const breadcrumb = [
+  { name: 'Home', href: '/' },
+  { name: 'Calculators', href: '/#tools-heading' },
+  { name: 'Composition Scheme Calculator', href: '/composition-scheme-calculator' },
+];
 ---
 
-<BaseLayout {title} {description} {structuredData}>
+<BaseLayout {title} {description} {structuredData} {breadcrumb} {lastUpdated}>
   <div class="mx-auto max-w-3xl px-4 sm:px-6 py-12 lg:py-24">
     <!-- Header -->
     <div class="mb-10 text-center">

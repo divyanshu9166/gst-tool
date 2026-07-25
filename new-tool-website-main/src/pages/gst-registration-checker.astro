@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const title = 'GST Registration Limit Checker 2025-26 | Do I Need GST Registration?';
+const title = 'GST Registration Checker — Do I Need GST?';
 const description = 'Check if your business needs GST registration in India. Free online tool to verify GST registration threshold limit for 2025-26 based on your state, turnover, and business type.';
 
 const structuredData = [
@@ -51,9 +51,16 @@ const structuredData = [
     ]
   }
 ];
+
+const lastUpdated = '2026-07-25';
+const breadcrumb = [
+  { name: 'Home', href: '/' },
+  { name: 'Lookups \x26 Tools', href: '/#tools-heading' },
+  { name: 'GST Registration Checker', href: '/gst-registration-checker' },
+];
 ---
 
-<BaseLayout {title} {description} {structuredData}>
+<BaseLayout {title} {description} {structuredData} {breadcrumb} {lastUpdated}>
   <div class="mx-auto max-w-3xl px-4 sm:px-6 py-12 lg:py-24">
 
     <!-- Header -->

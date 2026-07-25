@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const title = 'GST ITC Calculator | Input Tax Credit Set-Off Calculator 2026';
+const title = 'ITC Set-Off Calculator — GST India 2026';
 const description = 'Accurately calculate your net GST payable in cash by setting off your Input Tax Credit (ITC) against your output tax liability according to new CBIC rules.';
 
 const structuredData = [
@@ -87,9 +87,16 @@ const structuredData = [
     ]
   }
 ];
+
+const lastUpdated = '2026-07-25';
+const breadcrumb = [
+  { name: 'Home', href: '/' },
+  { name: 'Calculators', href: '/#tools-heading' },
+  { name: 'ITC Calculator', href: '/itc-calculator' },
+];
 ---
 
-<BaseLayout {title} {description} {structuredData}>
+<BaseLayout {title} {description} {structuredData} {breadcrumb} {lastUpdated}>
   <div class="mx-auto max-w-[1000px] px-4 sm:px-6 py-12 lg:py-24">
     <!-- Header -->
     <div class="mb-10 text-center">

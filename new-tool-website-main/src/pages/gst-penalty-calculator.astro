@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const title = 'GST Penalty Calculator | Section 122, 73 & 74';
+const title = 'GST Penalty Calculator — Sec 122, 73 & 74';
 const description = 'Calculate GST penalties for late payment, fraud, short payment, and fake invoices under Section 122, 73, and 74 of the CGST Act. Free offline penalty calculator.';
 
 const structuredData = [
@@ -87,9 +87,16 @@ const structuredData = [
     ]
   }
 ];
+
+const lastUpdated = '2026-07-25';
+const breadcrumb = [
+  { name: 'Home', href: '/' },
+  { name: 'Calculators', href: '/#tools-heading' },
+  { name: 'GST Penalty Calculator', href: '/gst-penalty-calculator' },
+];
 ---
 
-<BaseLayout {title} {description} {structuredData}>
+<BaseLayout {title} {description} {structuredData} {breadcrumb} {lastUpdated}>
   <div class="mx-auto max-w-3xl px-4 sm:px-6 py-12 lg:py-24">
     <!-- Header -->
     <div class="mb-10 text-center">

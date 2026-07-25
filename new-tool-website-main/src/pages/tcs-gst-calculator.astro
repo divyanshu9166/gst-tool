@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const title = 'TCS under GST Calculator | 1% E-Commerce Tax Collection';
+const title = 'TCS under GST Calculator — E-Commerce';
 const description = 'Calculate the 1% Tax Collected at Source (TCS) on e-commerce transactions under Section 52 of the CGST Act. Accurate offline calculator for sellers and ECOs.';
 
 const structuredData = [
@@ -87,9 +87,16 @@ const structuredData = [
     ]
   }
 ];
+
+const lastUpdated = '2026-07-25';
+const breadcrumb = [
+  { name: 'Home', href: '/' },
+  { name: 'Calculators', href: '/#tools-heading' },
+  { name: 'TCS GST Calculator', href: '/tcs-gst-calculator' },
+];
 ---
 
-<BaseLayout {title} {description} {structuredData}>
+<BaseLayout {title} {description} {structuredData} {breadcrumb} {lastUpdated}>
   <div class="mx-auto max-w-3xl px-4 sm:px-6 py-12 lg:py-24">
     <!-- Header -->
     <div class="mb-10 text-center">

@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const title = 'GSTIN Format Checker | Check GSTIN Validity Offline';
+const title = 'GSTIN Validator — Check GST Number Offline';
 const description = 'Free offline GSTIN format checker. Instantly check GSTIN validity offline, verify the checksum, and decode the state code and PAN without any API calls.';
 
 const structuredData = [
@@ -50,9 +50,16 @@ const structuredData = [
     ]
   }
 ];
+
+const lastUpdated = '2026-07-25';
+const breadcrumb = [
+  { name: 'Home', href: '/' },
+  { name: 'Lookups \x26 Tools', href: '/#tools-heading' },
+  { name: 'GSTIN Validator', href: '/gstin-validator' },
+];
 ---
 
-<BaseLayout {title} {description} {structuredData}>
+<BaseLayout {title} {description} {structuredData} {breadcrumb} {lastUpdated}>
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
     <!-- Page header -->
     <div class="mb-10 text-center">

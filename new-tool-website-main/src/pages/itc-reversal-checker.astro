@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const title = 'ITC Reversal Rule 42 Calculator | Section 17(2) ITC Checker';
+const title = 'ITC Reversal Checker — Rule 42 & Sec 17(2)';
 const description = 'Free offline ITC Reversal Checker. Determine if you need to reverse Input Tax Credit under Rule 42 and Section 17(2) of the CGST Act.';
 
 const structuredData = [
@@ -32,9 +32,16 @@ const structuredData = [
     ]
   }
 ];
+
+const lastUpdated = '2026-07-25';
+const breadcrumb = [
+  { name: 'Home', href: '/' },
+  { name: 'Lookups \x26 Tools', href: '/#tools-heading' },
+  { name: 'ITC Reversal Checker', href: '/itc-reversal-checker' },
+];
 ---
 
-<BaseLayout {title} {description} {structuredData}>
+<BaseLayout {title} {description} {structuredData} {breadcrumb} {lastUpdated}>
   <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-12">
     <div class="mb-12 text-center">
       <h1 class="text-4xl sm:text-5xl font-semibold tracking-[-1.28px] text-base mb-4">ITC Reversal Rule 42 Calculator</h1>

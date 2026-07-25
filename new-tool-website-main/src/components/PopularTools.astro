@@ -1,0 +1,50 @@
+---
+/**
+ * PopularTools — reusable widget showing top tools as linked cards.
+ * Used in blog post footers and sidebars to drive internal linking.
+ */
+const tools = [
+  { href: '/gst-calculator', icon: 'calculator', title: 'GST Calculator', desc: 'Add or remove GST with CGST/SGST split' },
+  { href: '/hsn-code-lookup', icon: 'search', title: 'HSN Code Lookup', desc: 'Search HSN & SAC codes with rates' },
+  { href: '/gstin-validator', icon: 'check', title: 'GSTIN Validator', desc: 'Validate any 15-digit GST number offline' },
+  { href: '/invoice-generator', icon: 'file', title: 'Invoice Generator', desc: 'Create GST invoices & download PDF' },
+  { href: '/late-fee-calculator', icon: 'clock', title: 'Late Fee Calculator', desc: 'GSTR-1/3B late fees & interest' },
+  { href: '/gst-rate-comparison', icon: 'compare', title: 'Rate Comparison', desc: 'Old GST vs new GST 2.0 rates' },
+];
+
+// SVG icon paths for each tool icon
+const iconPaths: Record<string, string> = {
+  calculator: 'M4 4h16v16H4V4zm4 4h2v2H8V8zm0 4h2v2H8v-2zm0 4h2v2H8v-2zm4-8h4v2h-4V8zm4 4h-4v2h4v-2zm0 4h-4v2h4v-2z',
+  search: 'M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z',
+  check: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z',
+  file: 'M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM8 13h8m-8 4h5',
+  clock: 'M12 6v6l4 2m6-2a10 10 0 11-20 0 10 10 0 0120 0z',
+  compare: 'M9 19V6l7-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm7-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2z',
+};
+---
+
+<section class="mt-12 border-t border-base pt-10" aria-labelledby="popular-tools-heading">
+  <h3 id="popular-tools-heading" class="text-[20px] font-semibold text-base tracking-[-0.6px] mb-6">
+    Popular Free Tools
+  </h3>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    {tools.map((tool) => (
+      <a
+        href={tool.href}
+        class="group flex items-start gap-3 rounded-xl border border-base bg-surface p-4 transition-all duration-200 hover:border-accent hover:shadow-[0_2px_8px_rgba(var(--accent),0.08)] hover:-translate-y-0.5"
+      >
+        <div class="flex-shrink-0 mt-0.5 w-9 h-9 rounded-lg bg-subtle flex items-center justify-center group-hover:bg-accent/10 transition-colors">
+          <svg class="w-[18px] h-[18px] text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d={iconPaths[tool.icon] || iconPaths.calculator} />
+          </svg>
+        </div>
+        <div class="min-w-0">
+          <div class="text-[14px] font-semibold text-base group-hover:text-accent transition-colors leading-tight">
+            {tool.title}
+          </div>
+          <div class="text-[12px] text-muted leading-snug mt-1">{tool.desc}</div>
+        </div>
+      </a>
+    ))}
+  </div>
+</section>

@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const title = 'Free GST Invoice Generator Online | Create Tax Invoices';
+const title = 'Free GST Invoice Generator — PDF Download';
 const description = 'Use our free GST invoice generator online to create perfectly formatted tax invoices. Auto-calculates CGST, SGST, IGST. Download PDF instantly. 100% free and offline.';
 
 const structuredData = [
@@ -69,9 +69,16 @@ const states = [
   "Puducherry", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", 
   "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal"
 ];
+
+const lastUpdated = '2026-07-25';
+const breadcrumb = [
+  { name: 'Home', href: '/' },
+  { name: 'Calculators', href: '/#tools-heading' },
+  { name: 'Invoice Generator', href: '/invoice-generator' },
+];
 ---
 
-<BaseLayout {title} {description} {structuredData}>
+<BaseLayout {title} {description} {structuredData} {breadcrumb} {lastUpdated}>
   
   <style is:global>
     /* Minimal print resets that Tailwind doesn't cover */

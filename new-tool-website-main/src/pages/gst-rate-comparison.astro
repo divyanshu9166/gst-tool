@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const title = 'Old vs New GST Rate Comparison Tool | Rate Change Impact';
+const title = 'Old vs New GST Rate Comparison Tool';
 const description = 'Free offline old vs new GST rate comparison tool. Instantly calculate the GST 2.0 rate change impact on your prices and margins.';
 
 const structuredData = [
@@ -32,9 +32,16 @@ const structuredData = [
     ]
   }
 ];
+
+const lastUpdated = '2026-07-25';
+const breadcrumb = [
+  { name: 'Home', href: '/' },
+  { name: 'Calculators', href: '/#tools-heading' },
+  { name: 'GST Rate Comparison', href: '/gst-rate-comparison' },
+];
 ---
 
-<BaseLayout {title} {description} {structuredData}>
+<BaseLayout {title} {description} {structuredData} {breadcrumb} {lastUpdated}>
   <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-12">
     <div class="mb-12 text-center">
       <h1 class="text-4xl sm:text-5xl font-semibold tracking-[-1.28px] text-base mb-4">Old vs New GST Rate Comparison Tool</h1>

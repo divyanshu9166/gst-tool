@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const title = 'Place of Supply Calculator for GST India | CGST SGST or IGST?';
+const title = 'Place of Supply Calculator — GST India';
 const description = 'Instantly determine the place of supply under GST and find out whether to charge CGST+SGST or IGST on your invoice. Free, offline, updated for 2025-26.';
 
 const structuredData = [
@@ -34,9 +34,16 @@ const states = [
   'Sikkim', 'Tamil Nadu', 'Telangana', 'Tripura', 'Uttar Pradesh', 'Uttarakhand',
   'West Bengal', 'Outside India (Export)'
 ];
+
+const lastUpdated = '2026-07-25';
+const breadcrumb = [
+  { name: 'Home', href: '/' },
+  { name: 'Calculators', href: '/#tools-heading' },
+  { name: 'Place Of Supply Calculator', href: '/place-of-supply-calculator' },
+];
 ---
 
-<BaseLayout {title} {description} {structuredData}>
+<BaseLayout {title} {description} {structuredData} {breadcrumb} {lastUpdated}>
   <div class="mx-auto max-w-3xl px-4 sm:px-6 py-12 lg:py-24">
 
     <!-- Header -->

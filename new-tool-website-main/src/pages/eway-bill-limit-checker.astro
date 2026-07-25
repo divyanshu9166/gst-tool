@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const title = 'E-Way Bill Limit State Wise Checker 2026 | GST India';
+const title = 'E-Way Bill Limit Checker 2026 — GST India';
 const description = 'Instantly check the mandatory E-Way Bill threshold limits for intra-state and inter-state movement of goods across all Indian states in 2026.';
 
 const structuredData = [
@@ -97,9 +97,16 @@ const states = [
   "Puducherry", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", 
   "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal"
 ];
+
+const lastUpdated = '2026-07-25';
+const breadcrumb = [
+  { name: 'Home', href: '/' },
+  { name: 'Lookups \x26 Tools', href: '/#tools-heading' },
+  { name: 'Eway Bill Limit Checker', href: '/eway-bill-limit-checker' },
+];
 ---
 
-<BaseLayout {title} {description} {structuredData}>
+<BaseLayout {title} {description} {structuredData} {breadcrumb} {lastUpdated}>
   <div class="mx-auto max-w-3xl px-4 sm:px-6 py-12 lg:py-24">
     <!-- Header -->
     <div class="mb-10 text-center">

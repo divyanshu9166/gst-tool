@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const title = 'Multi-State GSTIN Invoice Splitter | IGST vs CGST/SGST';
+const title = 'Multi-GSTIN Invoice Splitter Tool';
 const description = 'Easily split invoices and allocate GST types (IGST or CGST/SGST) across multiple branches in different states. Free calculator for multi-GSTIN companies.';
 
 const structuredData = [
@@ -100,6 +100,13 @@ const structuredData = [
       }
     ]
   }
+];
+
+const lastUpdated = '2026-07-25';
+const breadcrumb = [
+  { name: 'Home', href: '/' },
+  { name: 'Calculators', href: '/#tools-heading' },
+  { name: 'Multi GSTIN Invoice Splitter', href: '/multi-gstin-invoice-splitter' },
 ];
 ---
 

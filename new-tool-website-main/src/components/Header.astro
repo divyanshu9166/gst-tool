@@ -8,10 +8,12 @@ const navCategories = [
     links: [
       { href: '/gst-calculator', label: 'GST Calculator' },
       { href: '/invoice-generator', label: 'Invoice Generator' },
+      { href: '/credit-debit-note-generator', label: 'Credit/Debit Note' },
       { href: '/advance-tax-calculator', label: 'Advance Tax Calculator' },
       { href: '/rcm-calculator', label: 'RCM Calculator' },
       { href: '/composition-scheme-calculator', label: 'Composition Scheme' },
       { href: '/itc-calculator', label: 'ITC Calculator' },
+      { href: '/msme-delayed-payment-calculator', label: 'MSME Payment Interest' },
       { href: '/gst-interest-calculator', label: 'Interest Calculator' },
       { href: '/tds-gst-calculator', label: 'TDS Calculator' },
       { href: '/tcs-gst-calculator', label: 'TCS Calculator' },
@@ -22,6 +24,8 @@ const navCategories = [
   {
     title: 'Lookups & Tools',
     links: [
+      { href: '/gst-rate-finder', label: 'GST Rate Finder' },
+      { href: '/qrmp-eligibility-checker', label: 'QRMP Eligibility' },
       { href: '/gst-registration-checker', label: 'Registration Checker' },
       { href: '/place-of-supply-calculator', label: 'Place of Supply' },
       { href: '/hsn-code-lookup', label: 'HSN Lookup' },
@@ -38,11 +42,12 @@ const currentPath = Astro.url.pathname;
 ---
 
 <header
-  class="print:hidden sticky top-0 z-50 w-full border-b border-base bg-white/90 dark:bg-[#0a0a0a]/90 backdrop-blur-md"
+  class="print:hidden sticky top-0 z-50 w-full bg-white/80 dark:bg-[#0a0a0a]/80 backdrop-blur-xl border-b border-base/50"
   role="banner"
+  style="box-shadow: 0 1px 0 0 rgba(37,99,235,0.08);"
 >
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-    <div class="flex h-16 items-center justify-between">
+    <div class="flex h-[60px] items-center justify-between">
 
       <!-- Logo / Brand -->
       <a
@@ -53,12 +58,18 @@ const currentPath = Astro.url.pathname;
         <img
           src="/taxzentic-logo.png"
           alt="Taxzentic Logo"
+          width="160"
+          height="40"
           class="h-10 w-36 sm:w-40 object-cover object-center dark:hidden"
+          loading="eager"
         />
         <img
           src="/taxzentic-logo-white.png"
           alt="Taxzentic Logo"
+          width="160"
+          height="40"
           class="h-10 w-36 sm:w-40 object-cover object-center hidden dark:block"
+          loading="eager"
         />
       </a>
 

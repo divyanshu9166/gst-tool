@@ -1,0 +1,363 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'GST Credit Note & Debit Note Generator';
+const description = 'Generate GST-compliant credit notes and debit notes instantly. Auto-calculates tax adjustments with CGST/SGST/IGST split. Free PDF download.';
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://taxzentic.com';
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'GST Credit Note & Debit Note Generator',
+    url: `${siteUrl}/credit-debit-note-generator`,
+    description: 'Generate GST-compliant credit and debit notes. Auto-calculates CGST/SGST/IGST adjustments. Free PDF download.',
+    applicationCategory: 'FinanceApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR' },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'When should a credit note be issued under GST?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'A credit note must be issued when: (1) the taxable value or tax charged in the original invoice exceeds the actual amount, (2) goods are returned by the buyer, (3) services are deficient, or (4) a post-sale discount is given. It must be reported in GSTR-1 of the month it is issued.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'What is the time limit for issuing credit notes under GST?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'A credit note must be issued on or before 30th November of the year following the financial year in which the original invoice was issued, or the date of filing the annual return (GSTR-9) for that year, whichever is earlier.',
+        },
+      },
+    ],
+  },
+];
+
+const lastUpdated = '2026-07-25';
+const breadcrumb = [
+  { name: 'Home', href: '/' },
+  { name: 'Lookups & Tools', href: '/#tools-heading' },
+  { name: 'Credit/Debit Note Generator', href: '/credit-debit-note-generator' },
+];
+---
+
+<BaseLayout {title} {description} {structuredData} {breadcrumb} {lastUpdated}>
+  <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-12">
+    <div class="mb-10 text-center">
+      <h1 class="text-3xl sm:text-4xl font-bold text-base mb-3 tracking-[-1.28px]">
+        Credit Note & Debit Note Generator
+      </h1>
+      <p class="text-[16px] text-muted max-w-2xl mx-auto leading-relaxed">
+        Generate GST-compliant <strong>credit notes</strong> (returns/discounts) and <strong>debit notes</strong> (price increases) instantly. Auto-calculates tax adjustments.
+      </p>
+    </div>
+
+    <!-- Note Type Toggle -->
+    <div class="mx-auto max-w-3xl">
+      <div class="rounded-2xl border border-base bg-surface p-6 sm:p-8 shadow-sm">
+        <!-- Type Toggle -->
+        <div class="flex rounded-xl bg-subtle p-1 mb-6">
+          <button id="btn-credit" type="button" class="flex-1 rounded-lg py-2.5 text-[14px] font-semibold text-white bg-accent transition-all">
+            Credit Note
+          </button>
+          <button id="btn-debit" type="button" class="flex-1 rounded-lg py-2.5 text-[14px] font-semibold text-muted transition-all">
+            Debit Note
+          </button>
+        </div>
+
+        <!-- Supply Type -->
+        <div class="flex gap-3 mb-6">
+          <button id="btn-intra" data-supply="intra" class="supply-btn flex-1 rounded-xl border-2 border-accent bg-accent/5 py-2.5 text-[13px] font-medium text-base transition-all">
+            Intra-State (CGST + SGST)
+          </button>
+          <button id="btn-inter" data-supply="inter" class="supply-btn flex-1 rounded-xl border-2 border-base bg-subtle py-2.5 text-[13px] font-medium text-base transition-all">
+            Inter-State (IGST)
+          </button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <!-- Left Column: Supplier & Buyer -->
+          <div class="space-y-4">
+            <h3 class="text-sm font-semibold text-base border-b border-base pb-2">Supplier Details</h3>
+            <input id="supplier-name" type="text" placeholder="Business Name" class="w-full rounded-lg border border-base bg-subtle px-4 py-2.5 text-sm focus:border-accent focus:outline-none transition-all" />
+            <input id="supplier-gstin" type="text" placeholder="GSTIN (15 digits)" maxlength="15" class="w-full rounded-lg border border-base bg-subtle px-4 py-2.5 text-sm font-mono focus:border-accent focus:outline-none transition-all uppercase" />
+            <input id="supplier-address" type="text" placeholder="Address" class="w-full rounded-lg border border-base bg-subtle px-4 py-2.5 text-sm focus:border-accent focus:outline-none transition-all" />
+
+            <h3 class="text-sm font-semibold text-base border-b border-base pb-2 pt-2">Buyer Details</h3>
+            <input id="buyer-name" type="text" placeholder="Business Name" class="w-full rounded-lg border border-base bg-subtle px-4 py-2.5 text-sm focus:border-accent focus:outline-none transition-all" />
+            <input id="buyer-gstin" type="text" placeholder="GSTIN (15 digits)" maxlength="15" class="w-full rounded-lg border border-base bg-subtle px-4 py-2.5 text-sm font-mono focus:border-accent focus:outline-none transition-all uppercase" />
+          </div>
+
+          <!-- Right Column: Note Details -->
+          <div class="space-y-4">
+            <h3 class="text-sm font-semibold text-base border-b border-base pb-2">Note Details</h3>
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="text-xs text-muted mb-1 block">Note Number</label>
+                <input id="note-number" type="text" placeholder="CN-001" class="w-full rounded-lg border border-base bg-subtle px-4 py-2.5 text-sm font-mono focus:border-accent focus:outline-none transition-all" />
+              </div>
+              <div>
+                <label class="text-xs text-muted mb-1 block">Note Date</label>
+                <input id="note-date" type="date" class="w-full rounded-lg border border-base bg-subtle px-4 py-2.5 text-sm focus:border-accent focus:outline-none transition-all" />
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="text-xs text-muted mb-1 block">Original Invoice No.</label>
+                <input id="orig-invoice" type="text" placeholder="INV-001" class="w-full rounded-lg border border-base bg-subtle px-4 py-2.5 text-sm font-mono focus:border-accent focus:outline-none transition-all" />
+              </div>
+              <div>
+                <label class="text-xs text-muted mb-1 block">Original Invoice Date</label>
+                <input id="orig-date" type="date" class="w-full rounded-lg border border-base bg-subtle px-4 py-2.5 text-sm focus:border-accent focus:outline-none transition-all" />
+              </div>
+            </div>
+
+            <h3 class="text-sm font-semibold text-base border-b border-base pb-2 pt-2" id="reason-label">Reason for Credit Note</h3>
+            <select id="reason" class="w-full rounded-lg border border-base bg-subtle px-4 py-2.5 text-sm focus:border-accent focus:outline-none transition-all">
+              <option value="goods-returned">Goods Returned</option>
+              <option value="deficiency">Deficiency in Services</option>
+              <option value="price-reduction">Price Reduction / Discount</option>
+              <option value="tax-excess">Excess Tax Charged</option>
+              <option value="other">Other</option>
+            </select>
+
+            <div>
+              <label class="text-xs text-muted mb-1 block">Taxable Value (₹)</label>
+              <input id="taxable-value" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0.00" class="w-full rounded-lg border border-base bg-subtle px-4 py-2.5 text-sm focus:border-accent focus:outline-none transition-all" />
+            </div>
+            <div>
+              <label class="text-xs text-muted mb-1 block">GST Rate (%)</label>
+              <div class="flex gap-2">
+                {[5, 12, 18, 28, 40].map((rate) => (
+                  <button data-rate={rate} class={`gst-rate-btn flex-1 rounded-lg border py-2 text-xs font-bold transition-all ${rate === 18 ? 'border-accent bg-accent text-white' : 'border-base bg-subtle text-muted hover:border-accent'}`}>{rate}%</button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tax Summary -->
+        <div class="mt-6 rounded-xl border border-base bg-subtle p-5">
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
+            <div>
+              <div class="text-xs text-muted mb-1">Taxable Value</div>
+              <div id="sum-taxable" class="text-lg font-bold text-base">₹0.00</div>
+            </div>
+            <div id="cgst-col">
+              <div class="text-xs text-muted mb-1">CGST</div>
+              <div id="sum-cgst" class="text-lg font-bold text-base">₹0.00</div>
+            </div>
+            <div id="sgst-col">
+              <div class="text-xs text-muted mb-1">SGST</div>
+              <div id="sum-sgst" class="text-lg font-bold text-base">₹0.00</div>
+            </div>
+            <div id="igst-col" class="hidden">
+              <div class="text-xs text-muted mb-1">IGST</div>
+              <div id="sum-igst" class="text-lg font-bold text-base">₹0.00</div>
+            </div>
+            <div>
+              <div class="text-xs text-muted mb-1" id="total-label">Total Credit</div>
+              <div id="sum-total" class="text-lg font-bold text-accent">₹0.00</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="mt-6 flex gap-3">
+          <button id="btn-print" type="button" class="flex-1 rounded-xl bg-accent px-6 py-3 text-[14px] font-medium text-white hover:opacity-90 transition-all">
+            Print / Save PDF
+          </button>
+          <button id="btn-reset" type="button" class="rounded-xl border border-base bg-surface px-6 py-3 text-[14px] font-medium text-muted hover:text-base hover:bg-subtle transition-all">
+            Reset
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEO Content -->
+    <div class="mt-16 border-t border-base pt-12">
+      <h2 class="text-[24px] font-semibold text-base mb-6 tracking-[-0.6px]">Credit Note vs Debit Note Under GST</h2>
+      <div class="prose prose-neutral dark:prose-invert max-w-none text-[15px] leading-[1.7]">
+        <div class="not-prose grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
+          <div class="rounded-xl border border-base bg-surface p-5">
+            <h3 class="font-bold text-base mb-2 text-green-600 dark:text-green-400">📄 Credit Note</h3>
+            <p class="text-sm text-muted mb-3">Issued by the <strong>supplier</strong> to reduce the taxable value or tax amount.</p>
+            <ul class="text-sm text-muted space-y-1">
+              <li>• Goods returned by buyer</li>
+              <li>• Post-sale discount given</li>
+              <li>• Excess tax charged</li>
+              <li>• Deficiency in services</li>
+            </ul>
+          </div>
+          <div class="rounded-xl border border-base bg-surface p-5">
+            <h3 class="font-bold text-base mb-2 text-red-600 dark:text-red-400">📄 Debit Note</h3>
+            <p class="text-sm text-muted mb-3">Issued by the <strong>supplier</strong> to increase the taxable value or tax amount.</p>
+            <ul class="text-sm text-muted space-y-1">
+              <li>• Price increase after invoice</li>
+              <li>• Additional charges</li>
+              <li>• Short billing in original</li>
+              <li>• Quality upgrade charges</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>Mandatory Fields in a GST Credit/Debit Note</h3>
+        <ul>
+          <li>Name, address, and GSTIN of supplier</li>
+          <li>Unique serial number (within 16 chars, for that FY)</li>
+          <li>Date of issue</li>
+          <li>Name, address, and GSTIN of the buyer</li>
+          <li>Reference to original invoice number and date</li>
+          <li>Taxable value, rate of tax, and amount of tax (CGST, SGST/IGST)</li>
+          <li>Reason for issuing the note</li>
+          <li>Signature or digital signature</li>
+        </ul>
+        <p>
+          Need to generate the original invoice? Use our <a href="/invoice-generator" class="text-accent hover:underline">GST Invoice Generator</a>. For calculating late fees on delayed returns, try our <a href="/late-fee-calculator" class="text-accent hover:underline">Late Fee Calculator</a>.
+        </p>
+      </div>
+    </div>
+
+    <!-- FAQ -->
+    <div class="mt-12 border-t border-base pt-10">
+      <h2 class="text-[24px] font-semibold text-base mb-6 tracking-[-0.6px]">Frequently Asked Questions</h2>
+      <div class="space-y-3">
+        {[
+          { q: 'What is the time limit for issuing a credit note under GST?', a: 'A credit note must be declared in the return for the month in which it is issued, but no later than 30th November following the end of the financial year of the original supply, or the date of filing annual return (GSTR-9), whichever is earlier.' },
+          { q: 'Does the buyer need to reverse ITC when a credit note is issued?', a: 'Yes. When a supplier issues a credit note, the corresponding ITC claimed by the buyer must be reversed. If the buyer does not reverse the ITC, the credit note will appear as a mismatch in GSTR-2B reconciliation.' },
+          { q: 'Can a credit note be issued without GST?', a: 'Yes. A financial or commercial credit note (without GST implications) can be issued for post-sale discounts if the discount was not part of the original agreement. However, this type of credit note cannot be used to adjust GST liability or ITC.' },
+          { q: 'How is a credit note reported in GSTR-1?', a: 'Credit notes are reported in Table 9B of GSTR-1. For B2B credit notes, you need to mention the original invoice number, GSTIN of the buyer, and the tax amounts. B2C credit notes are reported in aggregate.' },
+        ].map((faq, i) => (
+          <details class="group rounded-[8px] border border-base bg-surface overflow-hidden" id={`faq-cn-${i}`}>
+            <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+              <span class="text-[15px]">{faq.q}</span>
+              <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+            </summary>
+            <div class="px-6 pb-5 text-[14px] text-muted leading-relaxed border-t border-base pt-4">{faq.a}</div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  let noteType = 'credit';
+  let supplyType = 'intra';
+  let gstRate = 18;
+
+  function formatINR(v: number) {
+    return '₹' + v.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
+  function calculate() {
+    const taxable = parseFloat((document.getElementById('taxable-value') as HTMLInputElement).value) || 0;
+    const totalTax = taxable * gstRate / 100;
+    const total = taxable + totalTax;
+
+    (document.getElementById('sum-taxable') as HTMLElement).textContent = formatINR(taxable);
+    (document.getElementById('sum-total') as HTMLElement).textContent = formatINR(total);
+
+    if (supplyType === 'intra') {
+      (document.getElementById('sum-cgst') as HTMLElement).textContent = formatINR(totalTax / 2);
+      (document.getElementById('sum-sgst') as HTMLElement).textContent = formatINR(totalTax / 2);
+    } else {
+      (document.getElementById('sum-igst') as HTMLElement).textContent = formatINR(totalTax);
+    }
+
+    const label = noteType === 'credit' ? 'Total Credit' : 'Total Debit';
+    (document.getElementById('total-label') as HTMLElement).textContent = label;
+  }
+
+  // Note type toggle
+  document.getElementById('btn-credit')?.addEventListener('click', () => {
+    noteType = 'credit';
+    const bc = document.getElementById('btn-credit')!;
+    const bd = document.getElementById('btn-debit')!;
+    bc.classList.add('bg-accent', 'text-white'); bc.classList.remove('text-muted');
+    bd.classList.remove('bg-accent', 'text-white'); bd.classList.add('text-muted');
+    (document.getElementById('reason-label') as HTMLElement).textContent = 'Reason for Credit Note';
+    calculate();
+  });
+  document.getElementById('btn-debit')?.addEventListener('click', () => {
+    noteType = 'debit';
+    const bc = document.getElementById('btn-credit')!;
+    const bd = document.getElementById('btn-debit')!;
+    bd.classList.add('bg-accent', 'text-white'); bd.classList.remove('text-muted');
+    bc.classList.remove('bg-accent', 'text-white'); bc.classList.add('text-muted');
+    (document.getElementById('reason-label') as HTMLElement).textContent = 'Reason for Debit Note';
+    calculate();
+  });
+
+  // Supply type
+  document.querySelectorAll('.supply-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      supplyType = (btn as HTMLElement).dataset.supply || 'intra';
+      document.querySelectorAll('.supply-btn').forEach(b => {
+        b.classList.remove('border-accent', 'bg-accent/5');
+        b.classList.add('border-base', 'bg-subtle');
+      });
+      btn.classList.remove('border-base', 'bg-subtle');
+      btn.classList.add('border-accent', 'bg-accent/5');
+
+      const cgstCol = document.getElementById('cgst-col')!;
+      const sgstCol = document.getElementById('sgst-col')!;
+      const igstCol = document.getElementById('igst-col')!;
+      if (supplyType === 'intra') {
+        cgstCol.classList.remove('hidden'); sgstCol.classList.remove('hidden');
+        igstCol.classList.add('hidden');
+      } else {
+        cgstCol.classList.add('hidden'); sgstCol.classList.add('hidden');
+        igstCol.classList.remove('hidden');
+      }
+      calculate();
+    });
+  });
+
+  // GST rate
+  document.querySelectorAll('.gst-rate-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      gstRate = parseFloat((btn as HTMLElement).dataset.rate || '18');
+      document.querySelectorAll('.gst-rate-btn').forEach(b => {
+        b.classList.remove('border-accent', 'bg-accent', 'text-white');
+        b.classList.add('border-base', 'bg-subtle', 'text-muted');
+      });
+      btn.classList.remove('border-base', 'bg-subtle', 'text-muted');
+      btn.classList.add('border-accent', 'bg-accent', 'text-white');
+      calculate();
+    });
+  });
+
+  // Input
+  document.getElementById('taxable-value')?.addEventListener('input', calculate);
+
+  // Print
+  document.getElementById('btn-print')?.addEventListener('click', () => window.print());
+
+  // Reset
+  document.getElementById('btn-reset')?.addEventListener('click', () => {
+    document.querySelectorAll<HTMLInputElement>('input').forEach(i => { if (i.type !== 'date') i.value = ''; });
+    gstRate = 18; noteType = 'credit'; supplyType = 'intra';
+    document.getElementById('btn-credit')?.click();
+    document.getElementById('btn-intra')?.click();
+    document.querySelectorAll('.gst-rate-btn').forEach((b, i) => {
+      if (i === 2) { b.classList.add('border-accent', 'bg-accent', 'text-white'); b.classList.remove('border-base', 'bg-subtle', 'text-muted'); }
+      else { b.classList.remove('border-accent', 'bg-accent', 'text-white'); b.classList.add('border-base', 'bg-subtle', 'text-muted'); }
+    });
+    calculate();
+  });
+
+  // Set today's date as default
+  const today = new Date().toISOString().split('T')[0];
+  (document.getElementById('note-date') as HTMLInputElement).value = today;
+
+  calculate();
+</script>

@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const title = 'GSTR-9 Annual Return Filing Checklist (FY 2025-26)';
+const title = 'GSTR-9 Filing Checklist FY 2025-26';
 const description = 'Interactive online checklist for filing your GSTR-9 Annual Return. Ensure compliance, reconcile ITC, and avoid penalties before the 31st December deadline.';
 
 const structuredData = [
@@ -100,6 +100,13 @@ const structuredData = [
       }
     ]
   }
+];
+
+const lastUpdated = '2026-07-25';
+const breadcrumb = [
+  { name: 'Home', href: '/' },
+  { name: 'Lookups \x26 Tools', href: '/#tools-heading' },
+  { name: 'GSTR 9 Annual Return Checklist', href: '/gstr-9-annual-return-checklist' },
 ];
 ---
 

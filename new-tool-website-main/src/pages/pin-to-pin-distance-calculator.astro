@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const title = 'Pin to Pin Distance Calculator for Eway Bill Free | NIC Distance';
+const title = 'Pin to Pin Distance Calculator — E-Way Bill';
 const description = 'Free pin to pin distance calculator for eway bill. Check the exact distance between two pin codes as per NIC portal rules for GST Eway bill generation.';
 
 const structuredData = [
@@ -37,9 +37,16 @@ const structuredData = [
     ]
   }
 ];
+
+const lastUpdated = '2026-07-25';
+const breadcrumb = [
+  { name: 'Home', href: '/' },
+  { name: 'Calculators', href: '/#tools-heading' },
+  { name: 'Pin To Pin Distance Calculator', href: '/pin-to-pin-distance-calculator' },
+];
 ---
 
-<BaseLayout {title} {description} {structuredData}>
+<BaseLayout {title} {description} {structuredData} {breadcrumb} {lastUpdated}>
   <div class="mx-auto max-w-3xl px-4 sm:px-6 py-12 lg:py-24">
     <div class="mb-10 text-center">
       <div class="inline-flex items-center gap-2 rounded-full border border-base bg-surface px-4 py-1.5 text-[12px] font-mono uppercase tracking-wider text-muted mb-4 shadow-[0_1px_1px_#00000005]">

@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const title = 'GST HSN Code Finder 2026 | HSN & SAC Code Lookup India';
+const title = 'HSN Code Finder 2026 — GST Rate Lookup';
 const description = 'Search HSN codes for goods and SAC codes for services with their GST rates. Instant offline search by code or description. Free GST tool for India.';
 
 const structuredData = [
@@ -77,9 +77,16 @@ const categories = [
   "Services (SAC)",
   "Other"
 ];
+
+const lastUpdated = '2026-07-25';
+const breadcrumb = [
+  { name: 'Home', href: '/' },
+  { name: 'Lookups \x26 Tools', href: '/#tools-heading' },
+  { name: 'HSN Code Lookup', href: '/hsn-code-lookup' },
+];
 ---
 
-<BaseLayout {title} {description} {structuredData}>
+<BaseLayout {title} {description} {structuredData} {breadcrumb} {lastUpdated}>
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
     <!-- Page header -->
     <div class="mb-10 text-center">
