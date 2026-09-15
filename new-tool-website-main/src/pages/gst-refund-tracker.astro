@@ -1,0 +1,226 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ToolIcon from '../components/ToolIcon.astro';
+
+const title = 'GST Refund Tracker & Timeline Calculator (RFD-02 to RFD-06) | Taxzentic';
+const description = 'Calculate statutory timeline milestones for your GST refund application (ARN). Track RFD-02 (15 days), RFD-04 (7 days), RFD-06 (60 days), and Section 56 interest.';
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://taxzentic.com';
+const canonical = `${siteUrl}/gst-refund-tracker`;
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'GST Refund Tracker and Statutory Timeline Calculator',
+    url: canonical,
+    description: 'Track statutory milestone dates for GST refund applications from ARN generation to final order.',
+    applicationCategory: 'FinanceApplication',
+    operatingSystem: 'Any',
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'INR',
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What is the maximum time limit for the GST department to sanction a refund?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Under Section 54(7) of the CGST Act, the proper officer must issue the final sanction order in Form GST RFD-06 within 60 days from the date of receipt of the complete refund application (ARN date).',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'What interest rate is payable if the GST refund is delayed beyond 60 days?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Under Section 56 of the CGST Act, if a refund is not sanctioned within 60 days from the date of receipt of the application, interest at the rate of 6% per annum is payable from the 61st day until the actual date of refund credit.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'What is a provisional refund under RFD-04?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Under Section 54(6), in cases of zero-rated export supplies, the proper officer must provisionally sanction 90% of the total refund claimed in Form GST RFD-04 within 7 days of issuing the acknowledgement (RFD-02).',
+        },
+      },
+    ],
+  },
+];
+
+const breadcrumb = [
+  { name: 'Home', href: '/' },
+  { name: 'Tools', href: '/#tools-heading' },
+  { name: 'GST Refund Tracker', href: '/gst-refund-tracker' },
+];
+
+const lastUpdated = '2026-09-15';
+---
+
+<BaseLayout {title} {description} {canonical} {structuredData} {breadcrumb} {lastUpdated}>
+  <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+    <!-- Header -->
+    <div class="text-center mb-14">
+      <div class="inline-flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-50/50 dark:bg-blue-950/40 px-4 py-1.5 text-[12px] font-mono uppercase tracking-wider text-accent mb-4">
+        <span class="h-2 w-2 rounded-full bg-accent animate-pulse"></span>
+        Section 54(7) & Section 56 Interest Clock
+      </div>
+      <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-base mb-4">
+        GST Refund Timeline Tracker
+      </h1>
+      <p class="text-[17px] text-muted max-w-2xl mx-auto leading-relaxed">
+        Enter your ARN date to compute the statutory deadlines for acknowledgement, provisional sanction, final order, and statutory 6% delay interest.
+      </p>
+    </div>
+
+    <!-- Input Card -->
+    <div class="rounded-2xl border border-base bg-surface p-6 sm:p-8 shadow-sm mb-12">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
+        <div>
+          <label for="arn-date" class="block text-sm font-semibold text-base mb-2">
+            ARN Generation Date (Application Date)
+          </label>
+          <input
+            type="date"
+            id="arn-date"
+            class="w-full rounded-xl border border-base bg-subtle px-4 py-3 font-mono text-sm focus:border-accent focus:outline-none"
+          />
+        </div>
+
+        <div>
+          <label for="refund-type" class="block text-sm font-semibold text-base mb-2">
+            Refund Category
+          </label>
+          <select id="refund-type" class="w-full rounded-xl border border-base bg-subtle px-4 py-3 text-sm focus:border-accent focus:outline-none">
+            <option value="export-lut">Export of Goods / Services (under LUT)</option>
+            <option value="inverted">Inverted Duty Structure (Rule 89(5))</option>
+            <option value="cash-ledger">Excess Balance in Electronic Cash Ledger</option>
+            <option value="deemed-export">Deemed Export Supplies</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Interactive Milestone Timeline -->
+    <div class="rounded-2xl border border-base bg-surface p-6 sm:p-8 shadow-sm mb-12">
+      <h2 class="text-xl font-bold text-base mb-6 flex items-center gap-2">
+        <ToolIcon name="clock" class="w-5 h-5 text-accent" />
+        Statutory Progress Milestones
+      </h2>
+
+      <div class="space-y-6 relative before:absolute before:inset-0 before:left-4 before:h-full before:w-0.5 before:bg-base">
+        <!-- Milestone 1 -->
+        <div class="relative flex items-start gap-4">
+          <div class="flex-shrink-0 w-8 h-8 rounded-full bg-accent text-white flex items-center justify-center text-xs font-bold font-mono z-10">
+            01
+          </div>
+          <div class="flex-1 p-4 rounded-xl border border-base bg-subtle/50">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-1">
+              <h3 class="font-bold text-base text-sm">RFD-02 Acknowledgement / RFD-03 Deficiency Memo</h3>
+              <span class="text-xs font-mono font-bold text-accent" id="date-rfd02">Within 15 Days</span>
+            </div>
+            <p class="text-xs text-muted">
+              The proper officer must verify completeness and either issue an acknowledgement (RFD-02) or a deficiency memo (RFD-03) within 15 days of ARN receipt (Rule 90(2)).
+            </p>
+          </div>
+        </div>
+
+        <!-- Milestone 2 -->
+        <div class="relative flex items-start gap-4" id="row-provisional">
+          <div class="flex-shrink-0 w-8 h-8 rounded-full bg-emerald-600 text-white flex items-center justify-center text-xs font-bold font-mono z-10">
+            02
+          </div>
+          <div class="flex-1 p-4 rounded-xl border border-base bg-subtle/50">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-1">
+              <h3 class="font-bold text-base text-sm">RFD-04 Provisional Refund (90% Claim)</h3>
+              <span class="text-xs font-mono font-bold text-emerald-600" id="date-rfd04">Within 7 Days of RFD-02</span>
+            </div>
+            <p class="text-xs text-muted">
+              For zero-rated exports, 90% of the claimed amount must be provisionally sanctioned within 7 days of acknowledgement under Section 54(6).
+            </p>
+          </div>
+        </div>
+
+        <!-- Milestone 3 -->
+        <div class="relative flex items-start gap-4">
+          <div class="flex-shrink-0 w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold font-mono z-10">
+            03
+          </div>
+          <div class="flex-1 p-4 rounded-xl border border-base bg-subtle/50">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-1">
+              <h3 class="font-bold text-base text-sm">RFD-06 Final Sanction Order & RFD-05 Payment Advice</h3>
+              <span class="text-xs font-mono font-bold text-rose-600" id="date-rfd06">Within 60 Days (Strict Deadline)</span>
+            </div>
+            <p class="text-xs text-muted">
+              Statutory deadline under Section 54(7) for issuing final sanction order and payment disbursement advice to your validated bank account.
+            </p>
+          </div>
+        </div>
+
+        <!-- Milestone 4 -->
+        <div class="relative flex items-start gap-4">
+          <div class="flex-shrink-0 w-8 h-8 rounded-full bg-rose-600 text-white flex items-center justify-center text-xs font-bold font-mono z-10">
+            04
+          </div>
+          <div class="flex-1 p-4 rounded-xl border border-rose-500/30 bg-rose-50/40 dark:bg-rose-950/20">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-1">
+              <h3 class="font-bold text-rose-700 dark:text-rose-400 text-sm">Section 56 Statutory 6% Interest Starts</h3>
+              <span class="text-xs font-mono font-bold text-rose-700 dark:text-rose-400" id="date-interest">Day 61 Onward</span>
+            </div>
+            <p class="text-xs text-muted">
+              If the department fails to credit your refund within 60 days of the ARN date, interest automatically accrues at 6% p.a. until the payment is credited.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script is:inline>
+    const today = new Date();
+    const defaultDate = new Date(today.getTime() - 20 * 24 * 60 * 60 * 1000); // 20 days ago
+    document.getElementById('arn-date').value = defaultDate.toISOString().slice(0, 10);
+
+    function updateTimeline() {
+      const val = document.getElementById('arn-date').value;
+      if (!val) return;
+
+      const arn = new Date(val);
+      if (isNaN(arn.getTime())) return;
+      const isExport = document.getElementById('refund-type').value === 'export-lut';
+
+      // 15 days for RFD-02
+      const d15 = new Date(arn.getTime() + 15 * 24 * 60 * 60 * 1000);
+      // 7 days after acknowledgement = 22 days from ARN
+      const d22 = new Date(arn.getTime() + 22 * 24 * 60 * 60 * 1000);
+      // 60 days for final sanction
+      const d60 = new Date(arn.getTime() + 60 * 24 * 60 * 60 * 1000);
+      // 61 days for interest
+      const d61 = new Date(arn.getTime() + 61 * 24 * 60 * 60 * 1000);
+
+      const fmt = (d) => d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+
+      document.getElementById('date-rfd02').textContent = `Due by ${fmt(d15)}`;
+      document.getElementById('date-rfd04').textContent = isExport ? `Due by ${fmt(d22)}` : 'Not applicable (Exports only)';
+      document.getElementById('date-rfd06').textContent = `Final Deadline: ${fmt(d60)}`;
+      document.getElementById('date-interest').textContent = `Interest Accrues From: ${fmt(d61)}`;
+
+      const provRow = document.getElementById('row-provisional');
+      if (provRow) {
+        provRow.style.opacity = isExport ? '1' : '0.4';
+      }
+    }
+
+    document.getElementById('arn-date')?.addEventListener('input', updateTimeline);
+    document.getElementById('refund-type')?.addEventListener('change', updateTimeline);
+
+    updateTimeline();
+  </script>
+</BaseLayout>

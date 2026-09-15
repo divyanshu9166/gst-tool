@@ -276,7 +276,10 @@ function calculate() {
   resDays.textContent = `${diffDays} Days`;
   resInterest.textContent = `\u20B9${Math.round(interest).toLocaleString("en-IN")}`;
 }
-[taxInput, rateSelect, dueInput, payInput].forEach((el) => el.addEventListener("input", calculate));
+[taxInput, rateSelect, dueInput, payInput].forEach((el) => {
+  el?.addEventListener("input", calculate);
+  el?.addEventListener("change", calculate);
+});
 </script>
 
     <!-- FAQ Section -->

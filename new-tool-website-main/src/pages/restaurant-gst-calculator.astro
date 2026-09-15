@@ -1,0 +1,180 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ToolIcon from '../components/ToolIcon.astro';
+
+const title = 'Restaurant GST Calculator 2026 (5% vs 18% Slabs, Swiggy/Zomato) | Taxzentic';
+const description = 'Calculate GST on restaurants, cloud kitchens, and catering. Compare 5% without ITC vs 18% with ITC for hotels, and understand Section 9(5) Swiggy/Zomato rules.';
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://taxzentic.com';
+const canonical = `${siteUrl}/restaurant-gst-calculator`;
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Restaurant GST Calculator India',
+    url: canonical,
+    description: 'Calculate GST rates and billing for restaurants, cafes, cloud kitchens, and online food delivery.',
+    applicationCategory: 'FinanceApplication',
+    operatingSystem: 'Any',
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'INR',
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What is the GST rate on standalone restaurants in India?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Standalone restaurants (whether AC or Non-AC) are taxed at a flat rate of 5% (2.5% CGST + 2.5% SGST) without any Input Tax Credit (ITC).',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'When does a restaurant charge 18% GST with ITC?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Restaurants located within hotel premises where any room tariff is ₹7,500 or more per day must charge 18% GST (9% CGST + 9% SGST), and are entitled to claim full Input Tax Credit.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Who pays GST on food orders via Swiggy or Zomato?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Under Section 9(5) of the CGST Act, e-commerce food delivery platforms (Swiggy, Zomato) are liable to collect and deposit 5% GST directly to the government on restaurant food orders delivered through their apps.',
+        },
+      },
+    ],
+  },
+];
+
+const breadcrumb = [
+  { name: 'Home', href: '/' },
+  { name: 'Tools', href: '/#tools-heading' },
+  { name: 'Restaurant GST Calculator', href: '/restaurant-gst-calculator' },
+];
+
+const lastUpdated = '2026-09-15';
+---
+
+<BaseLayout {title} {description} {canonical} {structuredData} {breadcrumb} {lastUpdated}>
+  <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+    <!-- Header -->
+    <div class="text-center mb-14">
+      <div class="inline-flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-50/50 dark:bg-blue-950/40 px-4 py-1.5 text-[12px] font-mono uppercase tracking-wider text-accent mb-4">
+        <span class="h-2 w-2 rounded-full bg-accent animate-pulse"></span>
+        F&B Hospitality Tax Engine
+      </div>
+      <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-base mb-4">
+        Restaurant GST Calculator
+      </h1>
+      <p class="text-[17px] text-muted max-w-2xl mx-auto leading-relaxed">
+        Calculate tax liability for standalone eateries, cloud kitchens, luxury hotel dining (>₹7,500 tariff), and food delivery apps under Section 9(5).
+      </p>
+    </div>
+
+    <!-- Calculator Interface -->
+    <div class="rounded-2xl border border-base bg-surface p-6 sm:p-10 shadow-sm mb-12">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <div>
+          <label for="food-bill" class="block text-sm font-semibold text-base mb-2">
+            Food & Beverage Order Value (₹)
+          </label>
+          <input
+            type="number"
+            id="food-bill"
+            value="1500"
+            min="0"
+            step="50"
+            class="w-full rounded-xl border border-base bg-subtle px-4 py-3 font-mono text-base focus:border-accent focus:outline-none"
+          />
+        </div>
+
+        <div>
+          <label for="rest-type" class="block text-sm font-semibold text-base mb-2">
+            Restaurant Category
+          </label>
+          <select id="rest-type" class="w-full rounded-xl border border-base bg-subtle px-4 py-3 text-sm focus:border-accent focus:outline-none">
+            <option value="standalone-5">Standalone Restaurant / Cafe / Bakery — 5% (No ITC)</option>
+            <option value="cloud-5">Cloud Kitchen / Takeaway Only — 5% (No ITC)</option>
+            <option value="hotel-18">Hotel Restaurant (Room Tariff &ge; ₹7,500) — 18% (With ITC)</option>
+            <option value="catering-5">Outdoor Catering (Standard) — 5% (No ITC)</option>
+            <option value="eco-5">Swiggy / Zomato Order (Sec 9(5)) — 5% by App</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Bill Output Card -->
+      <div class="rounded-2xl border border-base bg-subtle/60 p-6 sm:p-8">
+        <h3 class="text-base font-bold text-base mb-4">Customer Bill Breakdown:</h3>
+
+        <div class="space-y-3 font-mono text-sm">
+          <div class="flex justify-between text-muted">
+            <span>Subtotal (Food & Drinks):</span>
+            <span class="font-bold text-base" id="out-subtotal">₹1,500.00</span>
+          </div>
+          <div class="flex justify-between text-muted">
+            <span id="label-cgst">CGST (2.5%):</span>
+            <span class="font-bold text-base" id="out-cgst">₹37.50</span>
+          </div>
+          <div class="flex justify-between text-muted">
+            <span id="label-sgst">SGST (2.5%):</span>
+            <span class="font-bold text-base" id="out-sgst">₹37.50</span>
+          </div>
+          <div class="flex justify-between border-t border-base/80 pt-3 text-base sm:text-lg font-bold text-accent">
+            <span>Final Customer Payable:</span>
+            <span id="out-total">₹1,575.00</span>
+          </div>
+        </div>
+
+        <div class="mt-6 pt-4 border-t border-base text-xs text-muted" id="itc-status">
+          <strong>ITC Status:</strong> Standalone restaurants cannot claim Input Tax Credit on ingredients, rent, or kitchen equipment.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script is:inline>
+    function updateBill() {
+      const bill = Math.max(0, parseFloat(document.getElementById('food-bill').value) || 0);
+      const type = document.getElementById('rest-type').value;
+
+      let rate = 5;
+      let itcText = 'Standalone eateries cannot claim Input Tax Credit on raw materials, rent, or equipment.';
+
+      if (type === 'hotel-18') {
+        rate = 18;
+        itcText = 'Eligible for full Input Tax Credit (ITC) on all business inputs, capital goods, and services.';
+      } else if (type === 'eco-5') {
+        itcText = 'GST is collected and paid directly by the delivery platform (Swiggy/Zomato) under Section 9(5). Restaurant does not pay this tax in GSTR-3B.';
+      }
+
+      const halfRate = rate / 2;
+      const cgst = (bill * halfRate) / 100;
+      const sgst = (bill * halfRate) / 100;
+      const total = bill + cgst + sgst;
+
+      const inr = (num) => '₹' + num.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+      document.getElementById('out-subtotal').textContent = inr(bill);
+      document.getElementById('label-cgst').textContent = `CGST (${halfRate}%):`;
+      document.getElementById('label-sgst').textContent = `SGST (${halfRate}%):`;
+      document.getElementById('out-cgst').textContent = inr(cgst);
+      document.getElementById('out-sgst').textContent = inr(sgst);
+      document.getElementById('out-total').textContent = inr(total);
+      document.getElementById('itc-status').innerHTML = `<strong>ITC Status:</strong> ${itcText}`;
+    }
+
+    document.getElementById('food-bill')?.addEventListener('input', updateBill);
+    document.getElementById('rest-type')?.addEventListener('change', updateBill);
+
+    updateBill();
+  </script>
+</BaseLayout>

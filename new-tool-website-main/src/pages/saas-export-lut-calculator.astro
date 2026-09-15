@@ -1,0 +1,171 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ToolIcon from '../components/ToolIcon.astro';
+
+const title = 'SaaS & Export LUT Calculator (Section 2(6) & Rule 96) | Taxzentic';
+const description = 'Validate Section 2(6) Export of Services criteria for SaaS and remote agencies. Track LUT renewal deadlines and compare LUT 0% refund vs paying IGST.';
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://taxzentic.com';
+const canonical = `${siteUrl}/saas-export-lut-calculator`;
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'SaaS and Export LUT Calculator India',
+    url: canonical,
+    description: 'Verify 5 statutory conditions for export of services and compare refund routes for SaaS companies.',
+    applicationCategory: 'FinanceApplication',
+    operatingSystem: 'Any',
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'INR',
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What are the 5 conditions for Export of Services under GST?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Under Section 2(6) of the IGST Act, a supply of service qualifies as an export only when: (1) Supplier is in India, (2) Recipient is outside India, (3) Place of supply is outside India (Section 13), (4) Payment is received in convertible foreign exchange or RBI-permitted INR, and (5) Supplier and recipient are not merely establishments of a distinct person.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'When does an LUT (Letter of Undertaking) expire?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'An LUT filed in Form GST RFD-11 is valid for the whole financial year in which it is submitted, and expires on 31st March of that financial year. A fresh LUT must be filed on the GST portal before 1st April of the next financial year.',
+        },
+      },
+    ],
+  },
+];
+
+const breadcrumb = [
+  { name: 'Home', href: '/' },
+  { name: 'Tools', href: '/#tools-heading' },
+  { name: 'SaaS LUT Calculator', href: '/saas-export-lut-calculator' },
+];
+
+const lastUpdated = '2026-09-15';
+---
+
+<BaseLayout {title} {description} {canonical} {structuredData} {breadcrumb} {lastUpdated}>
+  <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+    <!-- Header -->
+    <div class="text-center mb-14">
+      <div class="inline-flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-50/50 dark:bg-blue-950/40 px-4 py-1.5 text-[12px] font-mono uppercase tracking-wider text-accent mb-4">
+        <span class="h-2 w-2 rounded-full bg-accent animate-pulse"></span>
+        Section 2(6) & Section 16 Zero-Rated Supply
+      </div>
+      <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-base mb-4">
+        SaaS & Export LUT Calculator
+      </h1>
+      <p class="text-[17px] text-muted max-w-2xl mx-auto leading-relaxed">
+        Verify the 5 legal conditions for Export of Services, monitor your annual LUT validity, and optimize your cash flow between LUT refund vs paying IGST.
+      </p>
+    </div>
+
+    <!-- Diagnostic Checklist -->
+    <div class="rounded-2xl border border-base bg-surface p-6 sm:p-10 shadow-sm mb-12 space-y-6">
+      <h2 class="text-xl font-bold text-base flex items-center gap-2">
+        <ToolIcon name="check" class="w-5 h-5 text-accent" />
+        Section 2(6) Statutory Export of Services Diagnostic
+      </h2>
+      <p class="text-xs text-muted">All 5 conditions must be met cumulatively to enjoy 0% IGST treatment.</p>
+
+      <div class="space-y-3" id="checklist">
+        {[
+          { id: 'c1', title: '1. Supplier is located in India', desc: 'Your business has a physical establishment / GST registration in India.' },
+          { id: 'c2', title: '2. Recipient is located outside India', desc: 'Your overseas client or SaaS subscriber has their business outside India.' },
+          { id: 'c3', title: '3. Place of supply is outside India (Section 13)', desc: 'You are NOT an intermediary (broker/agent), and the service is not tied to physical immovable property in India.' },
+          { id: 'c4', title: '4. Payment in Convertible Foreign Currency (or RBI INR)', desc: 'Payment received via Stripe/PayPal/Wire transfer in USD/EUR, or via RBI-approved VOSTRO accounts with FIRC/e-BRC.' },
+          { id: 'c5', title: '5. Not merely establishments of a distinct person', desc: 'The Indian company and foreign recipient are separate legal entities, not merely head office and branch.' },
+        ].map((item) => (
+          <label class="flex items-start gap-3 p-4 rounded-xl border border-base bg-subtle/50 cursor-pointer hover:border-accent/40 transition-colors">
+            <input type="checkbox" id={item.id} checked class="mt-1 accent-emerald-600 rounded" />
+            <div>
+              <span class="font-bold text-base text-sm block">{item.title}</span>
+              <span class="text-xs text-muted">{item.desc}</span>
+            </div>
+          </label>
+        ))}
+      </div>
+
+      <!-- Verdict -->
+      <div class="p-5 rounded-2xl border border-emerald-500/30 bg-emerald-50/60 dark:bg-emerald-950/20" id="lut-verdict">
+        <div class="flex items-center gap-2 mb-1">
+          <span class="text-lg">✓</span>
+          <h3 class="font-bold text-emerald-800 dark:text-emerald-300 text-sm">Valid Export of Services (0% IGST under LUT)</h3>
+        </div>
+        <p class="text-xs text-muted">
+          Your revenue qualifies as Zero-Rated Supply under Section 16(1)(a). You can invoice at 0% IGST without paying tax, provided your Letter of Undertaking (LUT) is active.
+        </p>
+      </div>
+    </div>
+
+    <!-- LUT Route Comparison -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+      <div class="rounded-2xl border border-base bg-surface p-6 space-y-3">
+        <span class="text-xs font-mono font-bold text-accent uppercase">Option A (Recommended for SaaS)</span>
+        <h3 class="text-base font-bold text-base">Export Under LUT (0% Tax)</h3>
+        <p class="text-xs text-muted leading-relaxed">
+          File Form GST RFD-11 annually on the GST portal. Issue invoices with 0% IGST. You never block cash paying output tax. You can claim a cash refund of accumulated ITC on AWS/GCP servers, laptops, and SaaS tools via Form RFD-01 under Rule 89(4).
+        </p>
+      </div>
+
+      <div class="rounded-2xl border border-base bg-surface p-6 space-y-3">
+        <span class="text-xs font-mono font-bold text-muted uppercase">Option B</span>
+        <h3 class="text-base font-bold text-base">Export on Payment of IGST</h3>
+        <p class="text-xs text-muted leading-relaxed">
+          Charge 18% IGST on your invoice and pay it using your electronic credit ledger. The GST portal automatically refunds this IGST to your bank account without detailed scrutiny of input invoices under Rule 96. Useful if you have huge accumulated ITC from previous years.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script is:inline>
+    function updateLUT() {
+      const allChecked = ['c1', 'c2', 'c3', 'c4', 'c5'].every((id) => {
+        return document.getElementById(id)?.checked;
+      });
+
+      const verdict = document.getElementById('lut-verdict');
+      if (allChecked) {
+        verdict.className = 'p-5 rounded-2xl border border-emerald-500/30 bg-emerald-50/60 dark:bg-emerald-950/20';
+        verdict.innerHTML = `
+          <div class="flex items-center gap-2 mb-1">
+            <span class="text-lg">✓</span>
+            <h3 class="font-bold text-emerald-800 dark:text-emerald-300 text-sm">Valid Export of Services (0% IGST under LUT)</h3>
+          </div>
+          <p class="text-xs text-muted">
+            Your supply qualifies as Zero-Rated Supply under Section 16(1)(a). You can legally invoice foreign clients without paying GST under a valid LUT.
+          </p>
+        `;
+      } else {
+        verdict.className = 'p-5 rounded-2xl border border-rose-500/40 bg-rose-50/70 dark:bg-rose-950/40';
+        verdict.innerHTML = `
+          <div class="flex items-center gap-2 mb-1">
+            <span class="text-lg">⚠️</span>
+            <h3 class="font-bold text-rose-800 dark:text-rose-300 text-sm">Does NOT Qualify as Export of Services</h3>
+          </div>
+          <p class="text-xs text-muted">
+            If any of the 5 conditions is violated (e.g. payment in non-convertible INR without VOSTRO, or intermediary status under Section 13(8)(b)), the transaction is deemed a domestic supply and attracts 18% GST with interest!
+          </p>
+        `;
+      }
+    }
+
+    ['c1', 'c2', 'c3', 'c4', 'c5'].forEach((id) => {
+      document.getElementById(id)?.addEventListener('change', updateLUT);
+    });
+
+    updateLUT();
+  </script>
+</BaseLayout>

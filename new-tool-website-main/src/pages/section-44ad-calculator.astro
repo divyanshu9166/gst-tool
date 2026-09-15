@@ -1,0 +1,231 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ToolIcon from '../components/ToolIcon.astro';
+
+const title = 'Section 44AD Presumptive Tax Calculator 2025-26 | Taxzentic';
+const description = 'Calculate presumptive income and tax under Section 44AD for GST dealers and traders. Computes 6% digital vs 8% cash deemed profits and compares with regular ITR audit.';
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://taxzentic.com';
+const canonical = `${siteUrl}/section-44ad-calculator`;
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Section 44AD Presumptive Tax Calculator India',
+    url: canonical,
+    description: 'Calculate deemed profits (6% digital, 8% cash) and income tax under Section 44AD presumptive taxation.',
+    applicationCategory: 'FinanceApplication',
+    operatingSystem: 'Any',
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'INR',
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What is the turnover limit for Section 44AD in FY 2025-26 & 2026-27?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'The standard turnover limit is ₹2 Crores. However, if cash receipts do not exceed 5% of total turnover, the enhanced threshold limit is ₹3 Crores.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'What are the deemed profit rates under Section 44AD?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'The deemed minimum profit rate is 6% for turnover received via digital modes (banking channels, UPI, NEFT/RTGS, cards) and 8% for turnover received in cash.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'When is advance tax due under Section 44AD?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Taxpayers opting for Section 44AD presumptive scheme are exempt from quarterly advance tax installments. They only need to pay 100% of their advance tax in a single installment on or before 15th March.',
+        },
+      },
+    ],
+  },
+];
+
+const breadcrumb = [
+  { name: 'Home', href: '/' },
+  { name: 'Income Tax Tools', href: '/income-tax-tools' },
+  { name: 'Section 44AD Calculator', href: '/section-44ad-calculator' },
+];
+
+const lastUpdated = '2026-09-15';
+---
+
+<BaseLayout {title} {description} {canonical} {structuredData} {breadcrumb} {lastUpdated}>
+  <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+    <!-- Header -->
+    <div class="text-center mb-14">
+      <div class="inline-flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-50/50 dark:bg-blue-950/40 px-4 py-1.5 text-[12px] font-mono uppercase tracking-wider text-accent mb-4">
+        <span class="h-2 w-2 rounded-full bg-accent animate-pulse"></span>
+        Presumptive Taxation for Small Businesses & Traders
+      </div>
+      <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-base mb-4">
+        Section 44AD Presumptive Tax Calculator
+      </h1>
+      <p class="text-[17px] text-muted max-w-2xl mx-auto leading-relaxed">
+        Calculate your statutory deemed profit and total income tax under Section 44AD. No balance sheets, profit & loss statements, or mandatory CA audits required.
+      </p>
+    </div>
+
+    <!-- Calculator Card -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-16">
+      <!-- Inputs -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="rounded-2xl border border-base bg-surface p-6 sm:p-8 shadow-sm">
+          <h2 class="text-lg font-bold text-base mb-4 flex items-center gap-2">
+            <ToolIcon name="chart" class="w-5 h-5 text-accent" />
+            Turnover Breakdown (FY 2025-26)
+          </h2>
+
+          <div class="space-y-4">
+            <div>
+              <label for="digital-turnover" class="block text-sm font-semibold text-base mb-1.5">
+                Digital / Banking Turnover (₹) — 6% Rate
+              </label>
+              <input
+                type="number"
+                id="digital-turnover"
+                value="6000000"
+                min="0"
+                step="50000"
+                class="w-full rounded-xl border border-base bg-subtle px-4 py-3 font-mono text-base focus:border-accent focus:outline-none"
+              />
+              <p class="text-[11px] text-muted mt-1">UPI, Account Payee Cheque, NEFT/RTGS, Net Banking, Credit/Debit cards.</p>
+            </div>
+
+            <div>
+              <label for="cash-turnover" class="block text-sm font-semibold text-base mb-1.5">
+                Cash / Non-Digital Turnover (₹) — 8% Rate
+              </label>
+              <input
+                type="number"
+                id="cash-turnover"
+                value="200000"
+                min="0"
+                step="25000"
+                class="w-full rounded-xl border border-base bg-subtle px-4 py-3 font-mono text-base focus:border-accent focus:outline-none"
+              />
+              <p class="text-[11px] text-muted mt-1">Physical cash receipts.</p>
+            </div>
+
+            <div class="p-4 rounded-xl border border-base bg-subtle flex items-center justify-between text-xs">
+              <span class="text-muted">Total Gross Turnover:</span>
+              <span class="font-mono font-bold text-base text-sm" id="total-turnover">₹62,00,000</span>
+            </div>
+
+            <div id="turnover-status" class="p-3 rounded-xl text-xs font-semibold">
+              <!-- Dynamically shows whether eligible under ₹2Cr or ₹3Cr limit -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Results Panel -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="rounded-2xl border border-base bg-surface p-6 sm:p-8 shadow-sm">
+          <span class="text-xs font-mono uppercase tracking-wider text-muted block mb-1">Deemed Business Income</span>
+          <div class="text-3xl sm:text-4xl font-extrabold text-base font-mono mb-6" id="total-deemed-profit">
+            ₹3,76,000
+          </div>
+
+          <div class="space-y-3 border-t border-base pt-4 text-sm">
+            <div class="flex justify-between text-muted">
+              <span>6% Profit on Digital (₹60L)</span>
+              <span class="font-mono font-bold text-base" id="profit-digital">₹3,60,000</span>
+            </div>
+            <div class="flex justify-between text-muted">
+              <span>8% Profit on Cash (₹2L)</span>
+              <span class="font-mono font-bold text-base" id="profit-cash">₹16,000</span>
+            </div>
+            <div class="flex justify-between text-muted border-t border-base/50 pt-2">
+              <span>Cash % of Total Turnover</span>
+              <span class="font-mono font-bold text-base" id="cash-pct">3.2% (Eligible for ₹3 Cr Limit)</span>
+            </div>
+          </div>
+
+          <div class="mt-6 p-4 rounded-xl border border-emerald-500/30 bg-emerald-50/60 dark:bg-emerald-950/20 text-xs text-emerald-800 dark:text-emerald-300">
+            <strong>Advance Tax Rule:</strong> Under 44AD, pay 100% advance tax in one single installment by <strong>15th March 2026</strong>. No quarterly compliance needed.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 44AD Eligibility & Rules Table -->
+    <div class="rounded-2xl border border-base bg-surface p-8 shadow-sm">
+      <h2 class="text-xl font-bold text-base mb-4">Who is NOT Eligible for Section 44AD?</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs leading-relaxed text-muted">
+        <div class="p-4 rounded-xl border border-base bg-subtle">
+          <strong class="text-base block mb-1">Ineligible Business Types</strong>
+          <ul class="list-disc pl-4 space-y-1">
+            <li>Limited Liability Partnerships (LLPs) and Companies</li>
+            <li>Persons earning commission or brokerage (e.g. real estate brokers)</li>
+            <li>Agency businesses</li>
+            <li>Goods transport operators (they are covered under Section 44AE instead)</li>
+          </ul>
+        </div>
+        <div class="p-4 rounded-xl border border-base bg-subtle">
+          <strong class="text-base block mb-1">Key Compliance Benefits</strong>
+          <ul class="list-disc pl-4 space-y-1">
+            <li>File simple <strong>ITR-4 (Sugam)</strong> instead of complex ITR-3</li>
+            <li>No requirement to maintain books of accounts under Section 44AA</li>
+            <li>No mandatory Tax Audit under Section 44AB</li>
+            <li>1 single advance tax installment on 15 March</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script is:inline>
+    function update44AD() {
+      const digital = Math.max(0, parseFloat(document.getElementById('digital-turnover').value) || 0);
+      const cash = Math.max(0, parseFloat(document.getElementById('cash-turnover').value) || 0);
+      const total = digital + cash;
+
+      const pDigital = digital * 0.06;
+      const pCash = cash * 0.08;
+      const totalProfit = pDigital + pCash;
+
+      const cashPct = total > 0 ? (cash / total) * 100 : 0;
+
+      const inr = (num) => '₹' + Math.round(num).toLocaleString('en-IN');
+
+      document.getElementById('total-turnover').textContent = inr(total);
+      document.getElementById('total-deemed-profit').textContent = inr(totalProfit);
+      document.getElementById('profit-digital').textContent = inr(pDigital);
+      document.getElementById('profit-cash').textContent = inr(pCash);
+      document.getElementById('cash-pct').textContent = `${cashPct.toFixed(1)}% ${cashPct <= 5 ? '(Qualifies for ₹3 Cr Limit)' : '(Limit is ₹2 Cr)'}`;
+
+      const statusEl = document.getElementById('turnover-status');
+      const maxLimit = cashPct <= 5 ? 30000000 : 20000000;
+
+      if (total > maxLimit) {
+        statusEl.className = 'p-3 rounded-xl text-xs font-semibold bg-rose-50 text-rose-700 border border-rose-200 dark:bg-rose-950/40 dark:text-rose-300';
+        statusEl.textContent = `⚠️ Turnover exceeds maximum statutory limit of ${inr(maxLimit)}. You must maintain regular books of accounts u/s 44AA and conduct a Tax Audit u/s 44AB.`;
+      } else {
+        statusEl.className = 'p-3 rounded-xl text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300';
+        statusEl.textContent = `✓ Eligible for Section 44AD Presumptive Taxation (Turnover within ${inr(maxLimit)} limit).`;
+      }
+    }
+
+    ['digital-turnover', 'cash-turnover'].forEach((id) => {
+      document.getElementById(id)?.addEventListener('input', update44AD);
+      document.getElementById(id)?.addEventListener('change', update44AD);
+    });
+
+    update44AD();
+  </script>
+</BaseLayout>

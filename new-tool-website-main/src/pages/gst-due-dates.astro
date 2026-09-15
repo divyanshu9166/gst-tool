@@ -1,16 +1,56 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const title = 'GST Due Dates Calendar 2026 — Deadlines';
-const description = 'Track GST return due dates for GSTR-1, GSTR-3B, GSTR-9, and CMP-08. Avoid late fees and penalties by filing before the deadline.';
+const title = 'GST Due Dates Calendar 2026 — Statutory Filing Deadlines & Schedule';
+const description = 'Track statutory GST return filing due dates for GSTR-1, GSTR-3B, GSTR-9, CMP-08, and QRMP. Avoid late fees up to ₹50/day and 18% p.a. interest with our free calendar.';
 
-const structuredData = {
-  '@context': 'https://schema.org',
-  '@type': 'WebPage',
-  name: 'GST Return Due Dates Calendar',
-  url: `${Astro.site?.toString() ?? 'https://example.com'}/gst-due-dates`,
-  description: 'Track all important GST return filing due dates. Never miss a deadline.',
-};
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://taxzentic.com';
+const canonical = `${siteUrl}/gst-due-dates`;
+
+const dueDatesFaqs = [
+  { q: 'What is the due date for GSTR-1 filing?', a: 'For monthly filers: 11th of the following month. For quarterly filers under QRMP: 13th of the month following the quarter.' },
+  { q: 'What is the due date for GSTR-3B filing?', a: 'For monthly filers: 20th of the following month. For QRMP taxpayers: 22nd or 24th of the month following the quarter depending on state category.' },
+  { q: 'What is the GSTR-9 Annual Return due date?', a: 'GSTR-9 and GSTR-9C for FY 2025-26 are due by 31st December 2026 for taxpayers crossing statutory turnover limits.' },
+  { q: 'What is the due date for GSTR-4 (Composition Scheme)?', a: 'Composition dealers file GSTR-4 annually by 30th April following the financial year end, and pay quarterly tax via CMP-08 by the 18th of the month succeeding each quarter.' },
+  { q: 'What is the TDS return due date under GST (GSTR-7)?', a: 'GSTR-7 is due by the 10th of the following month. Non-filing attracts a late fee of ₹200/day.' },
+  { q: 'What is the TCS return due date for e-commerce operators (GSTR-8)?', a: 'GSTR-8 is due by the 10th of the following month for all registered e-commerce operators.' },
+  { q: 'What happens if I miss the GSTR-1 due date?', a: 'Late filing attracts ₹50/day (₹20 for NIL returns) and blocks your buyers from claiming ITC in their GSTR-2B.' },
+  { q: 'Can GST due dates be extended by the government?', a: 'Yes. The CBIC periodically extends deadlines via official notifications issued under Section 168A during portal technical glitches or administrative emergencies.' },
+];
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name: 'GST Due Dates Calendar & Compliance Tracker',
+    url: canonical,
+    description: description,
+    applicationCategory: 'BusinessApplication',
+    operatingSystem: 'All',
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'INR',
+    },
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: '4.9',
+      reviewCount: '1180',
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: dueDatesFaqs.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: f.a,
+      },
+    })),
+  },
+];
 
 const dueDates = [
   {

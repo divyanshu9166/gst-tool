@@ -1,0 +1,263 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ToolIcon from '../components/ToolIcon.astro';
+
+const title = 'Real Estate GST Calculator 2026 (1%, 5%, 12% Slabs & CC Exemption) | Taxzentic';
+const description = 'Calculate GST on flat, apartment, and commercial property purchases. Calculates affordable housing (1%), non-affordable (5%), commercial (12%), and CC exemption.';
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://taxzentic.com';
+const canonical = `${siteUrl}/real-estate-gst-calculator`;
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Real Estate GST Calculator India',
+    url: canonical,
+    description: 'Calculate GST on under-construction and commercial property with statutory 1/3rd land deduction.',
+    applicationCategory: 'FinanceApplication',
+    operatingSystem: 'Any',
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'INR',
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'Is GST applicable on ready-to-move flats with Completion Certificate (CC)?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'No. Under Schedule III of the CGST Act, sale of land and sale of completed building where the entire consideration is received after the issuance of completion certificate or first occupancy is outside the scope of GST (0% tax).',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'What qualifies as Affordable Housing for 1% GST?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'To qualify for the 1% effective GST rate, the apartment must have a carpet area of up to 60 sq. meters in metro cities (Delhi NCR, Mumbai, Kolkata, Chennai, Bengaluru, Hyderabad) or up to 90 sq. meters in non-metro cities, AND the total price must not exceed ₹45 Lakhs.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'How does the 1/3rd land value deduction work in real estate GST?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Under Notification No. 11/2017-Central Tax (Rate), the value of land is statutorily deemed to be one-third (33.33%) of the total agreement value. Therefore, GST is levied only on the remaining two-thirds (66.67%) of the property value, resulting in the effective rates of 1%, 5%, and 12%.',
+        },
+      },
+    ],
+  },
+];
+
+const breadcrumb = [
+  { name: 'Home', href: '/' },
+  { name: 'Tools', href: '/#tools-heading' },
+  { name: 'Real Estate GST Calculator', href: '/real-estate-gst-calculator' },
+];
+
+const lastUpdated = '2026-09-15';
+---
+
+<BaseLayout {title} {description} {canonical} {structuredData} {breadcrumb} {lastUpdated}>
+  <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+    <!-- Header -->
+    <div class="text-center mb-14">
+      <div class="inline-flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-50/50 dark:bg-blue-950/40 px-4 py-1.5 text-[12px] font-mono uppercase tracking-wider text-accent mb-4">
+        <span class="h-2 w-2 rounded-full bg-accent animate-pulse"></span>
+        Notification No. 03/2019-CT(R) Compliant
+      </div>
+      <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-base mb-4">
+        Real Estate GST Calculator
+      </h1>
+      <p class="text-[17px] text-muted max-w-2xl mx-auto leading-relaxed">
+        Determine exact GST liability for under-construction residential flats, affordable housing, commercial units, and ready-to-move properties with completion certificate.
+      </p>
+    </div>
+
+    <!-- Interface -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-16">
+      <div class="lg:col-span-6 space-y-6">
+        <div class="rounded-2xl border border-base bg-surface p-6 sm:p-8 shadow-sm space-y-5">
+          <div>
+            <label for="prop-price" class="block text-sm font-semibold text-base mb-1.5">
+              Property Total Agreement Value (₹)
+            </label>
+            <input
+              type="number"
+              id="prop-price"
+              value="6000000"
+              min="0"
+              step="50000"
+              class="w-full rounded-xl border border-base bg-subtle px-4 py-3 font-mono text-base focus:border-accent focus:outline-none"
+            />
+          </div>
+
+          <div>
+            <label for="prop-status" class="block text-sm font-semibold text-base mb-1.5">
+              Construction Status
+            </label>
+            <select id="prop-status" class="w-full rounded-xl border border-base bg-subtle px-4 py-3 text-sm focus:border-accent focus:outline-none">
+              <option value="under-construction">Under-Construction (GST Applicable)</option>
+              <option value="completed-cc">Completed with Completion Certificate (0% GST)</option>
+            </select>
+          </div>
+
+          <div id="under-const-options" class="space-y-4 pt-2 border-t border-base">
+            <div>
+              <label for="prop-category" class="block text-sm font-semibold text-base mb-1.5">
+                Property Category
+              </label>
+              <select id="prop-category" class="w-full rounded-xl border border-base bg-subtle px-4 py-2.5 text-sm focus:border-accent focus:outline-none">
+                <option value="residential">Residential Apartment</option>
+                <option value="commercial">Commercial Shop / Office</option>
+              </select>
+            </div>
+
+            <div id="carpet-wrap">
+              <label for="carpet-area" class="block text-sm font-semibold text-base mb-1.5">
+                Carpet Area (in sq. meters)
+              </label>
+              <input
+                type="number"
+                id="carpet-area"
+                value="75"
+                min="0"
+                step="5"
+                class="w-full rounded-xl border border-base bg-subtle px-4 py-2.5 font-mono text-sm focus:border-accent focus:outline-none"
+              />
+              <p class="text-[11px] text-muted mt-1">1 sq. meter ≈ 10.764 sq. feet.</p>
+            </div>
+
+            <div>
+              <label class="block text-sm font-semibold text-base mb-1.5">City Type</label>
+              <div class="grid grid-cols-2 gap-3 text-xs">
+                <label class="flex items-center gap-2 p-2.5 rounded-xl border border-base cursor-pointer bg-subtle">
+                  <input type="radio" name="city-type" value="metro" checked class="accent-blue-600" />
+                  <span>Metro City (Delhi NCR, Mumbai, Blr, Hyd, Kol, Chn)</span>
+                </label>
+                <label class="flex items-center gap-2 p-2.5 rounded-xl border border-base cursor-pointer bg-subtle">
+                  <input type="radio" name="city-type" value="non-metro" class="accent-blue-600" />
+                  <span>Non-Metro City</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Result Card -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="rounded-3xl border border-base bg-surface p-8 shadow-sm text-center">
+          <span class="text-xs font-mono uppercase tracking-wider text-muted block mb-2" id="prop-slab-badge">
+            Effective Rate: 5% (Residential)
+          </span>
+          <div class="text-4xl sm:text-5xl font-black font-mono text-base mb-2" id="gst-amount">
+            ₹3,00,000
+          </div>
+          <p class="text-xs text-muted mb-6">Total Goods and Services Tax Payable</p>
+
+          <div class="space-y-3 pt-6 border-t border-base text-left text-xs font-mono">
+            <div class="flex justify-between text-muted">
+              <span>Base Property Value:</span>
+              <span class="font-bold text-base" id="res-base">₹60,00,000</span>
+            </div>
+            <div class="flex justify-between text-muted">
+              <span>Deemed Land Value (1/3rd Deduction):</span>
+              <span class="font-bold text-base" id="res-land">₹20,00,000</span>
+            </div>
+            <div class="flex justify-between text-muted">
+              <span>Taxable Construction Value (2/3rd):</span>
+              <span class="font-bold text-base" id="res-taxable">₹40,00,000</span>
+            </div>
+            <div class="flex justify-between border-t border-base/60 pt-2 text-sm font-bold text-accent">
+              <span>Total Final Outlay:</span>
+              <span id="res-total">₹63,00,000</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="rounded-2xl border border-base bg-subtle p-5 text-xs text-muted leading-relaxed" id="policy-note">
+          <!-- Dynamic legal explanation -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script is:inline>
+    function updateRealEstate() {
+      const price = Math.max(0, parseFloat(document.getElementById('prop-price').value) || 0);
+      const status = document.getElementById('prop-status').value;
+      const category = document.getElementById('prop-category').value;
+      const carpet = Math.max(0, parseFloat(document.getElementById('carpet-area').value) || 0);
+      const isMetro = document.querySelector('input[name="city-type"]:checked')?.value === 'metro';
+
+      const underConstWrap = document.getElementById('under-const-options');
+
+      const inr = (num) => '₹' + Math.round(num).toLocaleString('en-IN');
+
+      if (status === 'completed-cc') {
+        underConstWrap?.classList.add('hidden');
+        document.getElementById('prop-slab-badge').textContent = 'EXEMPT (Schedule III) · 0% GST';
+        document.getElementById('gst-amount').textContent = '₹0';
+        document.getElementById('res-base').textContent = inr(price);
+        document.getElementById('res-land').textContent = 'Exempt';
+        document.getElementById('res-taxable').textContent = '₹0';
+        document.getElementById('res-total').textContent = inr(price);
+        document.getElementById('policy-note').innerHTML = '<strong>No GST Applicable:</strong> As per Schedule III of the CGST Act, purchase of completed flats with Completion Certificate (CC) or Occupancy Certificate is exempt from GST. Buyer pays only state stamp duty and registration fees.';
+        return;
+      }
+
+      underConstWrap?.classList.remove('hidden');
+
+      let effectiveRate = 5;
+      let badgeText = 'Effective Rate: 5% (Standard Residential)';
+      let note = 'Taxed at 5% without ITC. 1/3rd land deduction is legally factored in.';
+
+      if (category === 'commercial') {
+        effectiveRate = 12;
+        badgeText = 'Effective Rate: 12% (Commercial Property)';
+        note = 'Commercial properties are taxed at an effective rate of 12% (nominal 18% less 1/3rd land deduction). Full Input Tax Credit (ITC) is available to commercial buyers.';
+      } else {
+        // Check affordable housing criteria
+        const maxCarpet = isMetro ? 60 : 90;
+        const isAffordable = price <= 4500000 && carpet <= maxCarpet;
+
+        if (isAffordable) {
+          effectiveRate = 1;
+          badgeText = 'Effective Rate: 1% (Affordable Housing)';
+          note = `Qualifies as Affordable Housing (Price &le; ₹45 Lakhs & Carpet &le; ${maxCarpet} sq.m). Taxed at 1% without Input Tax Credit.`;
+        }
+      }
+
+      const landVal = price / 3;
+      const taxableVal = (price * 2) / 3;
+      const gst = (price * effectiveRate) / 100;
+      const total = price + gst;
+
+      document.getElementById('prop-slab-badge').textContent = badgeText;
+      document.getElementById('gst-amount').textContent = inr(gst);
+      document.getElementById('res-base').textContent = inr(price);
+      document.getElementById('res-land').textContent = inr(landVal);
+      document.getElementById('res-taxable').textContent = inr(taxableVal);
+      document.getElementById('res-total').textContent = inr(total);
+      document.getElementById('policy-note').innerHTML = `<strong>Statutory Rule:</strong> ${note}`;
+    }
+
+    ['prop-price', 'prop-status', 'prop-category', 'carpet-area'].forEach((id) => {
+      document.getElementById(id)?.addEventListener('input', updateRealEstate);
+      document.getElementById(id)?.addEventListener('change', updateRealEstate);
+    });
+
+    document.querySelectorAll('input[name="city-type"]').forEach((r) => {
+      r.addEventListener('change', updateRealEstate);
+    });
+
+    updateRealEstate();
+  </script>
+</BaseLayout>

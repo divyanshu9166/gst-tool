@@ -1,0 +1,308 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ToolIcon from '../components/ToolIcon.astro';
+
+const title = 'Income Tax Tools Hub (FY 2025-26 & 2026-27) — Calculators, Slabs & TDS';
+const description = 'Free Income Tax calculators for India: New vs Old Regime comparison, HRA exemption calculator, TDS section finder, Section 44AD calculator, and advance tax planner.';
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://taxzentic.com';
+const canonical = `${siteUrl}/income-tax-tools`;
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'Income Tax Tools Hub India',
+    url: canonical,
+    description,
+    publisher: {
+      '@type': 'Organization',
+      name: 'Taxzentic',
+      url: siteUrl,
+    },
+    hasPart: [
+      { '@type': 'WebApplication', name: 'New vs Old Tax Regime Calculator', url: `${siteUrl}/income-tax-calculator` },
+      { '@type': 'WebApplication', name: 'HRA Exemption Calculator', url: `${siteUrl}/hra-exemption-calculator` },
+      { '@type': 'WebApplication', name: 'TDS Section Finder', url: `${siteUrl}/tds-section-finder` },
+      { '@type': 'WebApplication', name: 'Section 44AD Presumptive Tax Calculator', url: `${siteUrl}/section-44ad-calculator` },
+      { '@type': 'WebApplication', name: 'Advance Tax Calculator', url: `${siteUrl}/advance-tax-calculator` },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What is the standard deduction in the New Tax Regime for FY 2025-26 and FY 2026-27?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Under the New Tax Regime (Section 115BAC), the standard deduction for salaried individuals is ₹75,000 (increased from ₹50,000). Under the Old Tax Regime, it remains ₹50,000.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Up to what salary is income tax zero under the New Regime?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Under the New Tax Regime, total taxable income up to ₹7,00,000 receives a full tax rebate under Section 87A. With the ₹75,000 standard deduction, salaried taxpayers with gross income up to ₹7,75,000 pay zero income tax.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Can business owners with GST registration use Section 44AD presumptive taxation?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Yes. Eligible resident individuals, HUFs, and partnership firms with gross turnover up to ₹2 Crores (or up to ₹3 Crores if cash receipts do not exceed 5%) can declare 6% profits on digital turnover and 8% on cash turnover without maintaining detailed books of accounts.',
+        },
+      },
+    ],
+  },
+];
+
+const breadcrumb = [
+  { name: 'Home', href: '/' },
+  { name: 'Income Tax Tools', href: '/income-tax-tools' },
+];
+
+const lastUpdated = '2026-09-15';
+---
+
+<BaseLayout {title} {description} {canonical} {structuredData} {breadcrumb} {lastUpdated}>
+  <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+    <!-- Hub Header -->
+    <div class="text-center mb-16">
+      <div class="inline-flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-50/50 dark:bg-blue-950/40 px-4 py-1.5 text-[12px] font-mono uppercase tracking-wider text-accent mb-4">
+        <span class="h-2 w-2 rounded-full bg-blue-600 animate-pulse"></span>
+        Direct Tax Suite · Updated for FY 2025-26 & 2026-27
+      </div>
+      <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-base mb-6">
+        The <span class="text-accent">Income Tax</span> Tools Hub
+      </h1>
+      <p class="text-[18px] text-muted max-w-2xl mx-auto leading-relaxed">
+        Compare New vs Old Tax Regimes, compute HRA deductions, look up TDS section rates, and plan advance tax payments—100% free, browser-calculated, and verified by Chartered Accountants.
+      </p>
+    </div>
+
+    <!-- Featured Income Tax Tools Grid -->
+    <div class="mb-16">
+      <div class="flex items-center gap-3 mb-8 border-b border-base pb-4">
+        <ToolIcon name="calculator" class="w-6 h-6 text-accent" />
+        <h2 class="text-2xl font-bold text-base">Flagship Income Tax Calculators</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- New vs Old Regime Calculator -->
+        <a href="/income-tax-calculator" class="group relative rounded-2xl border border-base bg-surface p-7 overflow-hidden hover:border-accent hover:shadow-xl transition-all">
+          <div class="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-xl font-bold text-base group-hover:text-accent transition-colors">New vs Old Regime Calculator</h3>
+            <span class="text-xs font-bold bg-gradient-to-r from-blue-600 to-cyan-600 text-white px-3 py-1 rounded-full shadow-sm">★ Most Popular</span>
+          </div>
+          <p class="text-muted text-[15px] leading-relaxed mb-4">
+            Instant side-by-side tax comparison with updated slabs, ₹75,000 standard deduction, Sec 87A zero tax up to ₹7.75L, and 80C/80D/HRA deductions.
+          </p>
+          <div class="flex items-center gap-1.5 text-sm font-semibold text-accent">
+            Calculate Tax Savings →
+          </div>
+        </a>
+
+        <!-- HRA Exemption Calculator -->
+        <a href="/hra-exemption-calculator" class="group relative rounded-2xl border border-base bg-surface p-7 overflow-hidden hover:border-accent hover:shadow-xl transition-all">
+          <div class="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-xl font-bold text-base group-hover:text-accent transition-colors">HRA Exemption Calculator</h3>
+            <span class="text-xs font-semibold bg-blue-100 text-accent dark:bg-blue-900/50 px-2.5 py-1 rounded-full">Section 10(13A)</span>
+          </div>
+          <p class="text-muted text-[15px] leading-relaxed mb-4">
+            Compute your exact house rent allowance tax exemption under Rule 2A across Metro (50%) and Non-Metro (40%) cities with zero hassle.
+          </p>
+          <div class="flex items-center gap-1.5 text-sm font-semibold text-accent">
+            Calculate HRA Exemption →
+          </div>
+        </a>
+
+        <!-- TDS Section Finder -->
+        <a href="/tds-section-finder" class="group relative rounded-2xl border border-base bg-surface p-7 overflow-hidden hover:border-accent hover:shadow-xl transition-all">
+          <div class="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-xl font-bold text-base group-hover:text-accent transition-colors">TDS Section & Rate Finder</h3>
+            <span class="text-xs font-semibold bg-emerald-100 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300 px-2.5 py-1 rounded-full">Interactive</span>
+          </div>
+          <p class="text-muted text-[15px] leading-relaxed mb-4">
+            Instant search for 194C, 194J, 194I, 194H, 194Q, 194A, and more. Filter by payment nature or section code with threshold limits and PAN rates.
+          </p>
+          <div class="flex items-center gap-1.5 text-sm font-semibold text-accent">
+            Search TDS Sections →
+          </div>
+        </a>
+
+        <!-- Section 44AD Presumptive Tax Calculator -->
+        <a href="/section-44ad-calculator" class="group relative rounded-2xl border border-base bg-surface p-7 overflow-hidden hover:border-accent hover:shadow-xl transition-all">
+          <div class="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-xl font-bold text-base group-hover:text-accent transition-colors">Section 44AD Presumptive Tax</h3>
+            <span class="text-xs font-semibold bg-amber-100 text-amber-800 dark:bg-amber-950/60 dark:text-amber-300 px-2.5 py-1 rounded-full">For GST Dealers</span>
+          </div>
+          <p class="text-muted text-[15px] leading-relaxed mb-4">
+            Compute 6% digital vs 8% cash deemed profits for businesses with turnover up to ₹3 Crores. Compare tax without audit or detailed books.
+          </p>
+          <div class="flex items-center gap-1.5 text-sm font-semibold text-accent">
+            Calculate 44AD Profits →
+          </div>
+        </a>
+
+        <!-- Advance Tax Calculator -->
+        <a href="/advance-tax-calculator" class="group relative rounded-2xl border border-base bg-surface p-7 overflow-hidden hover:border-accent hover:shadow-xl transition-all">
+          <div class="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-xl font-bold text-base group-hover:text-accent transition-colors">Advance Tax Calculator</h3>
+            <span class="text-xs font-semibold bg-accent/10 text-accent px-2.5 py-1 rounded-full">4 Installments</span>
+          </div>
+          <p class="text-muted text-[15px] leading-relaxed mb-4">
+            Calculate your quarterly advance tax installments (15%, 45%, 75%, 100%) and prevent penal interest under Sections 234B and 234C.
+          </p>
+          <div class="flex items-center gap-1.5 text-sm font-semibold text-accent">
+            Plan Advance Tax →
+          </div>
+        </a>
+
+        <!-- TDS Rate Finder -->
+        <a href="/tds-rate-finder" class="group relative rounded-2xl border border-base bg-surface p-7 overflow-hidden hover:border-accent hover:shadow-xl transition-all">
+          <div class="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-xl font-bold text-base group-hover:text-accent transition-colors">TDS Rate Finder by Payment Type</h3>
+            <span class="text-xs font-semibold bg-violet-100 text-violet-700 dark:bg-violet-950/60 dark:text-violet-300 px-2.5 py-1 rounded-full">Quick Lookup</span>
+          </div>
+          <p class="text-muted text-[15px] leading-relaxed mb-4">
+            Find the statutory TDS rate on salary, contractor bills, rent, professional services, dividend, and property purchase.
+          </p>
+          <div class="flex items-center gap-1.5 text-sm font-semibold text-accent">
+            Look up TDS Rates →
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Income Tax Slabs Comparison Table (New vs Old) -->
+    <div class="mb-16 rounded-2xl border border-base bg-surface p-8 overflow-x-auto shadow-sm">
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <h2 class="text-2xl font-bold text-base tracking-tight">Income Tax Slabs: New vs Old Regime</h2>
+          <p class="text-sm text-muted">Applicable for Financial Year 2025-26 & 2026-27 (AY 2026-27 & AY 2027-28)</p>
+        </div>
+        <span class="text-xs font-mono px-3 py-1 rounded-full bg-accent/10 text-accent font-semibold">Section 115BAC Default</span>
+      </div>
+
+      <table class="w-full text-left text-sm border-collapse">
+        <thead>
+          <tr class="border-b border-base text-xs font-mono uppercase text-muted">
+            <th class="py-3 px-4">Income Slab (New Regime)</th>
+            <th class="py-3 px-4">New Tax Rate</th>
+            <th class="py-3 px-4">Income Slab (Old Regime)</th>
+            <th class="py-3 px-4">Old Tax Rate</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-base/50 text-[14px]">
+          <tr>
+            <td class="py-3.5 px-4 font-medium">Up to ₹3,00,000</td>
+            <td class="py-3.5 px-4 text-emerald-600 font-semibold">NIL</td>
+            <td class="py-3.5 px-4 font-medium">Up to ₹2,50,000</td>
+            <td class="py-3.5 px-4 text-emerald-600 font-semibold">NIL</td>
+          </tr>
+          <tr>
+            <td class="py-3.5 px-4">₹3,00,001 – ₹7,00,000</td>
+            <td class="py-3.5 px-4">5% (Rebate u/s 87A makes it 0)</td>
+            <td class="py-3.5 px-4">₹2,50,001 – ₹5,00,000</td>
+            <td class="py-3.5 px-4">5% (Rebate u/s 87A makes it 0)</td>
+          </tr>
+          <tr>
+            <td class="py-3.5 px-4">₹7,00,001 – ₹10,00,000</td>
+            <td class="py-3.5 px-4">10%</td>
+            <td class="py-3.5 px-4">₹5,00,001 – ₹10,00,000</td>
+            <td class="py-3.5 px-4">20%</td>
+          </tr>
+          <tr>
+            <td class="py-3.5 px-4">₹10,00,001 – ₹12,00,000</td>
+            <td class="py-3.5 px-4">15%</td>
+            <td class="py-3.5 px-4">Above ₹10,00,000</td>
+            <td class="py-3.5 px-4">30%</td>
+          </tr>
+          <tr>
+            <td class="py-3.5 px-4">₹12,00,001 – ₹15,00,000</td>
+            <td class="py-3.5 px-4">20%</td>
+            <td class="py-3.5 px-4">—</td>
+            <td class="py-3.5 px-4">—</td>
+          </tr>
+          <tr>
+            <td class="py-3.5 px-4 font-semibold">Above ₹15,00,000</td>
+            <td class="py-3.5 px-4 font-semibold text-rose-600">30%</td>
+            <td class="py-3.5 px-4 font-semibold">Above ₹10,00,000</td>
+            <td class="py-3.5 px-4 font-semibold text-rose-600">30%</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="mt-6 pt-4 border-t border-base grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-muted">
+        <div>
+          <strong class="text-base">Standard Deduction:</strong> ₹75,000 under New Regime vs ₹50,000 under Old Regime.
+        </div>
+        <div>
+          <strong class="text-base">Health & Education Cess:</strong> 4% applied on total income tax across both regimes.
+        </div>
+      </div>
+    </div>
+
+    <!-- Income Tax Guides & Analysis -->
+    <div class="mb-16">
+      <div class="flex items-center gap-3 mb-8 border-b border-base pb-4">
+        <ToolIcon name="book" class="w-6 h-6 text-accent" />
+        <h2 class="text-2xl font-bold text-base">Expert Income Tax Guides</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <a href="/blog/hra-exemption-calculation-guide-2026" class="p-5 rounded-xl border border-base bg-surface hover:border-accent transition-colors block">
+          <h3 class="font-bold text-base mb-1.5 hover:text-accent">HRA Exemption Calculation Guide 2025-26 with Worked Examples</h3>
+          <p class="text-xs text-muted leading-relaxed">Full rule 2A step-by-step calculation with salary breakdown, metro vs non-metro difference, and rent receipts.</p>
+        </a>
+        <a href="/blog/new-vs-old-tax-regime-comparison-2026" class="p-5 rounded-xl border border-base bg-surface hover:border-accent transition-colors block">
+          <h3 class="font-bold text-base mb-1.5 hover:text-accent">New vs Old Tax Regime 2026: Which Saves More Money?</h3>
+          <p class="text-xs text-muted leading-relaxed">Comprehensive breakdown at ₹7.5L, ₹10L, ₹15L, and ₹25L salary levels with real tax saving calculations.</p>
+        </a>
+        <a href="/blog/tds-section-old-vs-new-rate-chart-2026" class="p-5 rounded-xl border border-base bg-surface hover:border-accent transition-colors block">
+          <h3 class="font-bold text-base mb-1.5 hover:text-accent">TDS Section List & Rate Chart 2025-26: Thresholds & Sections</h3>
+          <p class="text-xs text-muted leading-relaxed">Complete table covering 194C, 194J, 194I, 194H, 194Q with updated budget provisions and PAN penalties.</p>
+        </a>
+        <a href="/blog/section-44ad-for-gst-dealers-presumptive-tax" class="p-5 rounded-xl border border-base bg-surface hover:border-accent transition-colors block">
+          <h3 class="font-bold text-base mb-1.5 hover:text-accent">Section 44AD for GST Dealers: 6% vs 8% Presumptive Tax</h3>
+          <p class="text-xs text-muted leading-relaxed">How GST-registered traders and MSMEs can legally declare presumptive income and eliminate bookkeeping burdens.</p>
+        </a>
+      </div>
+    </div>
+
+    <!-- FAQ Section -->
+    <div class="border-t border-base pt-12">
+      <h2 class="text-2xl font-bold text-base mb-8">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        <details class="group rounded-xl border border-base bg-surface overflow-hidden" open>
+          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-semibold text-base hover:bg-subtle transition-colors list-none">
+            <span>Can I switch between the New and Old Tax Regime every year?</span>
+            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-muted leading-relaxed border-t border-base pt-4">
+            Salaried individuals without business income can freely switch between the New and Old Tax Regime every financial year at the time of filing their ITR. However, individuals with business or professional income (including Section 44AD/44ADA) can only opt out of the new regime once in a lifetime, and once opted out, they can only return to the new regime once.
+          </div>
+        </details>
+        <details class="group rounded-xl border border-base bg-surface overflow-hidden">
+          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-semibold text-base hover:bg-subtle transition-colors list-none">
+            <span>Is HRA exemption available under the New Tax Regime?</span>
+            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-muted leading-relaxed border-t border-base pt-4">
+            No. HRA exemption under Section 10(13A) is only claimable if you choose the Old Tax Regime. Under the New Tax Regime (Section 115BAC), most personal exemptions (HRA, LTA, 80C, 80D) are foregone in exchange for significantly lower tax slab rates and an enhanced ₹75,000 standard deduction.
+          </div>
+        </details>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

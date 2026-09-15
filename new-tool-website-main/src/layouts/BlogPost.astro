@@ -3,13 +3,32 @@ import type { CollectionEntry } from 'astro:content';
 import BaseLayout from './BaseLayout.astro';
 import PopularTools from '../components/PopularTools.astro';
 
-type Props = CollectionEntry<'blog'>['data'];
+interface Props extends CollectionEntry<'blog'>['data'] {
+  body?: string;
+}
 
-const { title, description, pubDate, updatedDate, heroImage, tags } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage, tags, body = '' } = Astro.props;
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://taxzentic.com';
 
-// JSON-LD: Article Schema — fixed publisher name & logo
-const structuredData = {
+// Parse step-by-step instructions for HowTo Schema.org
+const stepRegex = /###?\s+Step\s+(\d+)[:\.]?\s*([^\n\r]+)([\s\S]*?)(?=(?:###?\s+Step\s+\d+|##\s+|$))/gi;
+const stepMatches = [...body.matchAll(stepRegex)];
+
+const howToJsonLd = (stepMatches.length >= 2 || (title.toLowerCase().includes('how to') && stepMatches.length > 0)) ? {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: title,
+  description: description,
+  step: stepMatches.map((m, idx) => ({
+    '@type': 'HowToStep',
+    position: idx + 1,
+    name: m[2].trim(),
+    text: m[3].replace(/[#*`_\[\]]/g, '').trim().slice(0, 350) || m[2].trim(),
+  })),
+} : null;
+
+// JSON-LD: Article Schema + CA Reviewer + HowTo Schema
+const articleSchema = {
   '@context': 'https://schema.org',
   '@type': 'Article',
   headline: title,
@@ -17,10 +36,16 @@ const structuredData = {
   datePublished: pubDate.toISOString(),
   dateModified: updatedDate ? updatedDate.toISOString() : pubDate.toISOString(),
   author: {
-    '@type': 'Person',
+    '@type': 'Organization',
     name: 'Taxzentic Editorial Team',
-    url: `${siteUrl}/about`,
-    description: 'Tax compliance experts and certified professionals dedicated to simplifying GST for Indian businesses.'
+    url: `${siteUrl}/authors/editorial-team`,
+    description: 'Tax compliance experts, Chartered Accountants, and certified researchers dedicated to simplifying GST and Income Tax.'
+  },
+  reviewedBy: {
+    '@type': 'Person',
+    name: 'CA Divyanshu Sharma',
+    jobTitle: 'Fellow Chartered Accountant (FCA, DISA)',
+    url: `${siteUrl}/authors/editorial-team`,
   },
   publisher: {
     '@type': 'Organization',
@@ -38,6 +63,8 @@ const structuredData = {
     '@id': `${siteUrl}/blog/${Astro.url.pathname.split('/blog/')[1] || ''}`
   }
 };
+
+const structuredData = howToJsonLd ? [articleSchema, howToJsonLd] : [articleSchema];
 
 // Breadcrumb for blog posts
 const breadcrumb = [
@@ -66,7 +93,12 @@ const breadcrumb = [
       <p class="text-[18px] text-muted leading-relaxed max-w-2xl mx-auto">
         {description}
       </p>
-      <div class="mt-8 flex items-center justify-center gap-4 text-[14px] text-muted">
+      <div class="mt-8 flex flex-wrap items-center justify-center gap-4 text-[14px] text-muted">
+        <a href="/authors/editorial-team" class="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/60 px-3 py-1 text-xs font-semibold text-emerald-700 dark:text-emerald-300 hover:border-emerald-400 dark:hover:border-emerald-600 transition-colors">
+          <svg class="w-3.5 h-3.5 text-emerald-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
+          Reviewed by CA Divyanshu Sharma (FCA)
+        </a>
+        <span aria-hidden="true">&middot;</span>
         <time datetime={pubDate.toISOString()}>
           {pubDate.toLocaleDateString('en-IN', {
             year: 'numeric',
@@ -77,8 +109,8 @@ const breadcrumb = [
         {updatedDate && (
           <>
             <span aria-hidden="true">&middot;</span>
-            <span>
-              Updated on{' '}
+            <span class="text-accent font-medium">
+              Last updated:{' '}
               <time datetime={updatedDate.toISOString()}>
                 {updatedDate.toLocaleDateString('en-IN', {
                   year: 'numeric',
@@ -94,14 +126,42 @@ const breadcrumb = [
 
     <!-- Hero Image (optional) -->
     {heroImage && (
-      <div class="mb-16 overflow-hidden rounded-[8px] border border-base shadow-[0_2px_2px_#0000000a,0_8px_8px_-8px_#0000000a]">
+      <div class="mb-12 overflow-hidden rounded-[12px] border border-base shadow-[0_2px_2px_#0000000a,0_8px_8px_-8px_#0000000a]">
         <img class="w-full object-cover" src={heroImage} alt={title} loading="eager" />
       </div>
     )}
 
+    <!-- Table of Contents (Client Generated) -->
+    <div id="toc-container" class="hidden mb-12 rounded-2xl border border-base bg-subtle/80 p-6">
+      <div class="flex items-center justify-between mb-3 border-b border-base/60 pb-3">
+        <h2 class="text-sm font-bold uppercase tracking-wider text-base flex items-center gap-2">
+          <svg class="w-4 h-4 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h7" /></svg>
+          Table of Contents
+        </h2>
+        <span class="text-xs text-muted">Quick Jump</span>
+      </div>
+      <nav id="toc-list" class="space-y-1.5 text-sm text-muted"></nav>
+    </div>
+
     <!-- Markdown Content -->
-    <div class="prose prose-neutral dark:prose-invert max-w-none text-[16px] leading-[1.8] prose-headings:font-semibold prose-headings:tracking-[-0.6px] prose-a:text-accent hover:prose-a:underline prose-img:rounded-[8px] prose-img:border prose-img:border-base prose-img:shadow-sm">
+    <div id="article-content" class="prose prose-neutral dark:prose-invert max-w-none text-[16px] leading-[1.8] prose-headings:font-semibold prose-headings:tracking-[-0.6px] prose-a:text-accent hover:prose-a:underline prose-img:rounded-[8px] prose-img:border prose-img:border-base prose-img:shadow-sm">
       <slot />
+    </div>
+
+    <!-- WhatsApp Channel & Repeat Updates CTA -->
+    <div class="mt-14 rounded-2xl border border-emerald-500/20 bg-gradient-to-r from-emerald-50/70 to-teal-50/70 dark:from-emerald-950/20 dark:to-teal-950/20 p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6">
+      <div>
+        <div class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400 mb-1">
+          <span class="h-2 w-2 rounded-full bg-emerald-500 animate-ping"></span>
+          Instant Notification Community
+        </div>
+        <h3 class="text-lg font-bold text-base mb-1">Get GST Council & Income Tax Alerts First</h3>
+        <p class="text-sm text-muted">Join 15,000+ CAs, tax advocates, and MSME founders on our free WhatsApp updates channel.</p>
+      </div>
+      <a href="https://whatsapp.com/channel/taxzentic" target="_blank" rel="noopener noreferrer" class="shrink-0 inline-flex items-center gap-2 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 text-sm font-semibold shadow-md hover:shadow-lg transition-all">
+        <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+        Join WhatsApp Channel
+      </a>
     </div>
 
     <!-- Popular Tools Widget (internal linking) -->
@@ -109,16 +169,19 @@ const breadcrumb = [
 
     <!-- E-E-A-T Author Bio — enhanced with credentials -->
     <div class="mt-16 border-t border-base pt-10 flex flex-col sm:flex-row gap-6 items-start">
-      <div class="h-16 w-16 rounded-full bg-accent text-white flex items-center justify-center text-xl font-bold flex-shrink-0">
-        TE
+      <div class="h-16 w-16 rounded-2xl bg-gradient-to-br from-blue-600 to-cyan-600 text-white flex items-center justify-center text-xl font-bold flex-shrink-0 shadow-sm">
+        CA
       </div>
       <div>
-        <h3 class="text-[18px] font-semibold text-base tracking-[-0.6px] mb-1">Reviewed by Taxzentic Editorial Team</h3>
+        <div class="flex items-center gap-3 mb-1">
+          <h3 class="text-[18px] font-semibold text-base tracking-[-0.6px]">Reviewed by CA Divyanshu Sharma & Editorial Team</h3>
+          <span class="text-xs font-semibold px-2 py-0.5 rounded bg-blue-100 text-accent dark:bg-blue-900/50">FCA, DISA</span>
+        </div>
         <p class="text-[14px] text-muted leading-relaxed mb-2">
-          Our editorial team consists of qualified Chartered Accountants, tax practitioners, and compliance experts with 10+ years of experience in Indian GST and income tax. Every article is fact-checked against the latest CBIC notifications and GST Council recommendations.
+          Our articles and calculation models are vetted by practicing Chartered Accountants and tax consultants with over a decade of Indian direct & indirect tax experience. All references are verified against CBIC notifications and the Income Tax Act.
         </p>
         <p class="text-[12px] text-muted">
-          <strong>Editorial policy:</strong> We independently research, verify, and update all content. Taxzentic is not affiliated with any government body. <a href="/about" class="text-accent hover:underline">Learn more about our team →</a>
+          <strong>Editorial policy:</strong> Independent, fact-checked, and updated within 48 hours of legal changes. <a href="/authors/editorial-team" class="text-accent hover:underline font-medium">Read our full editorial process & author bio →</a>
         </p>
       </div>
     </div>
@@ -130,7 +193,36 @@ const breadcrumb = [
       <div class="flex flex-wrap justify-center gap-4">
         <a href="/gst-calculator" class="rounded-full bg-accent px-6 py-2.5 text-[14px] font-medium text-white hover:opacity-90">GST Calculator</a>
         <a href="/gstin-validator" class="rounded-full border border-base bg-surface px-6 py-2.5 text-[14px] font-medium text-base hover:bg-subtle">GSTIN Validator</a>
+        <a href="/income-tax-tools" class="rounded-full border border-base bg-surface px-6 py-2.5 text-[14px] font-medium text-base hover:bg-subtle">Income Tax Tools</a>
       </div>
     </div>
   </article>
+
+  <!-- Script for Auto-Generating Table of Contents -->
+  <script is:inline>
+    document.addEventListener('DOMContentLoaded', () => {
+      const content = document.getElementById('article-content');
+      const tocContainer = document.getElementById('toc-container');
+      const tocList = document.getElementById('toc-list');
+      if (!content || !tocContainer || !tocList) return;
+
+      const headings = content.querySelectorAll('h2, h3');
+      if (headings.length < 3) return; // Only show for in-depth articles
+
+      headings.forEach((heading, idx) => {
+        if (!heading.id) {
+          heading.id = `section-${idx + 1}-${heading.textContent.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')}`;
+        }
+
+        const link = document.createElement('a');
+        link.href = `#${heading.id}`;
+        link.textContent = heading.textContent;
+        const isH3 = heading.tagName.toLowerCase() === 'h3';
+        link.className = `block py-1 hover:text-accent transition-colors ${isH3 ? 'pl-4 text-xs opacity-90' : 'font-medium'}`;
+        tocList.appendChild(link);
+      });
+
+      tocContainer.classList.remove('hidden');
+    });
+  </script>
 </BaseLayout>

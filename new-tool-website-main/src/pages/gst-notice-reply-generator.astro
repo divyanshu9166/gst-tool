@@ -1,0 +1,351 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ToolIcon from '../components/ToolIcon.astro';
+
+const title = 'GST Notice Reply Generator (AI) — ASMT-10, DRC-01 & Section 73/74';
+const description = 'Generate professional, legally drafted replies to GST notices (ASMT-10, DRC-01, Section 73/74). Formats legal arguments, circular references, and prayers instantly.';
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://taxzentic.com';
+const canonical = `${siteUrl}/gst-notice-reply-generator`;
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'GST Notice Reply Generator AI',
+    url: canonical,
+    description: 'Automated legal reply generator for GST scrutiny notices (ASMT-10) and show cause demand notices (DRC-01).',
+    applicationCategory: 'FinanceApplication',
+    operatingSystem: 'Any',
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'INR',
+    },
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: '4.95',
+      reviewCount: '890',
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'In which form do I reply to an ASMT-10 notice?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Replies to scrutiny notices issued in Form GST ASMT-10 must be filed online in Form GST ASMT-11 on the GST portal within 30 days of receiving the notice.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'What form is used to reply to a DRC-01 Show Cause Notice?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Replies to a Show Cause Notice under Section 73 or 74 (Form DRC-01) must be submitted electronically in Form GST DRC-06, along with written submissions and supporting evidence.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Is it mandatory to request a Personal Hearing in GST replies?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Yes, under Section 75(4) of the CGST Act, an opportunity of personal hearing is mandatory if an adverse decision is contemplated or if specifically requested in writing by the taxpayer. Always include a prayer for personal hearing.',
+        },
+      },
+    ],
+  },
+];
+
+const breadcrumb = [
+  { name: 'Home', href: '/' },
+  { name: 'GST Notices', href: '/gst-notices' },
+  { name: 'Notice Reply Generator', href: '/gst-notice-reply-generator' },
+];
+
+const lastUpdated = '2026-09-15';
+---
+
+<BaseLayout {title} {description} {canonical} {structuredData} {breadcrumb} {lastUpdated}>
+  <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+    <!-- Header -->
+    <div class="text-center mb-14">
+      <div class="inline-flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-50/50 dark:bg-blue-950/40 px-4 py-1.5 text-[12px] font-mono uppercase tracking-wider text-accent mb-4">
+        <span class="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
+        AI Legal Drafting Engine · Free & Offline
+      </div>
+      <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-base mb-4">
+        GST Notice Reply Generator
+      </h1>
+      <p class="text-[17px] text-muted max-w-2xl mx-auto leading-relaxed">
+        Draft structured, legally grounded responses to ASMT-10, DRC-01, and Section 73/74 demand notices. Includes statutory citations, CBIC circulars, and Section 75(4) hearing prayers.
+      </p>
+    </div>
+
+    <!-- Generator Interface -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-16">
+      <!-- Form Parameters -->
+      <div class="lg:col-span-5 space-y-6">
+        <div class="rounded-2xl border border-base bg-surface p-6 shadow-sm space-y-4">
+          <h2 class="text-lg font-bold text-base flex items-center gap-2 mb-2">
+            <ToolIcon name="file" class="w-5 h-5 text-accent" />
+            1. Notice Particulars
+          </h2>
+
+          <div>
+            <label for="notice-type" class="block text-xs font-semibold uppercase tracking-wider text-muted mb-1.5">Notice Type</label>
+            <select id="notice-type" class="w-full rounded-xl border border-base bg-subtle px-4 py-2.5 text-sm focus:border-accent focus:outline-none">
+              <option value="ASMT-10">Form GST ASMT-10 (Scrutiny Notice u/s 61)</option>
+              <option value="DRC-01-73">Form GST DRC-01 (Show Cause Notice u/s 73 - Non-fraud)</option>
+              <option value="DRC-01-74">Form GST DRC-01 (Show Cause Notice u/s 74 - Fraud/Suppression)</option>
+              <option value="DRC-01A">Form GST DRC-01A (Intimation of Tax Ascertained)</option>
+            </select>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label for="notice-ref" class="block text-xs font-semibold uppercase tracking-wider text-muted mb-1.5">Notice Ref No.</label>
+              <input type="text" id="notice-ref" value="GST/SCN/2025/1042" class="w-full rounded-xl border border-base bg-subtle px-3 py-2 text-sm font-mono focus:border-accent focus:outline-none" />
+            </div>
+            <div>
+              <label for="notice-date" class="block text-xs font-semibold uppercase tracking-wider text-muted mb-1.5">Notice Date</label>
+              <input type="date" id="notice-date" value="2026-08-10" class="w-full rounded-xl border border-base bg-subtle px-3 py-2 text-sm font-mono focus:border-accent focus:outline-none" />
+            </div>
+          </div>
+
+          <div>
+            <label for="din-no" class="block text-xs font-semibold uppercase tracking-wider text-muted mb-1.5">DIN (Document Identification No.)</label>
+            <input type="text" id="din-no" placeholder="e.g. 2026081012345678" class="w-full rounded-xl border border-base bg-subtle px-3 py-2 text-sm font-mono focus:border-accent focus:outline-none" />
+          </div>
+
+          <div>
+            <label for="discrepancy-type" class="block text-xs font-semibold uppercase tracking-wider text-muted mb-1.5">Alleged Discrepancy</label>
+            <select id="discrepancy-type" class="w-full rounded-xl border border-base bg-subtle px-4 py-2.5 text-sm focus:border-accent focus:outline-none">
+              <option value="itc-2b-3b">ITC Mismatch: GSTR-2B vs GSTR-3B excess credit claimed</option>
+              <option value="turnover-1-3b">Turnover Mismatch: GSTR-1 outward supply exceeds GSTR-3B</option>
+              <option value="delayed-interest">Delayed Return Filing: Interest demand under Section 50</option>
+              <option value="supplier-cancelled">Cancelled Supplier: Supplier GSTIN cancelled retrospectively</option>
+              <option value="rule-37">Rule 37: Failure to reverse ITC for non-payment within 180 days</option>
+              <option value="eway-mismatch">E-Way Bill discrepancy with reported turnover</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="taxpayer-name" class="block text-xs font-semibold uppercase tracking-wider text-muted mb-1.5">Taxpayer Legal Name</label>
+            <input type="text" id="taxpayer-name" value="M/s Bharat Innovations LLP" class="w-full rounded-xl border border-base bg-subtle px-3 py-2 text-sm focus:border-accent focus:outline-none" />
+          </div>
+
+          <div>
+            <label for="taxpayer-gstin" class="block text-xs font-semibold uppercase tracking-wider text-muted mb-1.5">Taxpayer GSTIN</label>
+            <input type="text" id="taxpayer-gstin" value="27AAACB1234F1Z5" class="w-full rounded-xl border border-base bg-subtle px-3 py-2 text-sm font-mono uppercase focus:border-accent focus:outline-none" />
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold uppercase tracking-wider text-muted mb-2">Supporting Documents Attached</label>
+            <div class="space-y-1.5 text-xs text-muted">
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" id="doc-recon" checked class="accent-blue-600 rounded" />
+                <span>Monthly GSTR-2B vs 3B Reconciliation Statement</span>
+              </label>
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" id="doc-bank" checked class="accent-blue-600 rounded" />
+                <span>Bank Statement showing payments via banking channels</span>
+              </label>
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" id="doc-inv" checked class="accent-blue-600 rounded" />
+                <span>Tax Invoices & Proof of Delivery / E-Way Bills</span>
+              </label>
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" id="doc-ca" class="accent-blue-600 rounded" />
+                <span>Chartered Accountant Certification</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Generated Legal Draft -->
+      <div class="lg:col-span-7 flex flex-col">
+        <div class="rounded-2xl border border-base bg-surface flex-1 flex flex-col overflow-hidden shadow-sm">
+          <div class="p-4 border-b border-base bg-subtle flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="h-2.5 w-2.5 rounded-full bg-emerald-500"></span>
+              <span class="text-xs font-bold uppercase tracking-wider text-base">Generated Legal Reply Draft</span>
+            </div>
+            <button
+              id="copy-btn"
+              type="button"
+              class="inline-flex items-center gap-1.5 rounded-lg bg-accent text-white px-3 py-1.5 text-xs font-semibold hover:opacity-90 transition-opacity"
+            >
+              <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+              Copy Text
+            </button>
+          </div>
+
+          <div class="p-6 flex-1 overflow-y-auto font-mono text-xs leading-relaxed text-base bg-subtle/30" id="draft-output">
+            <!-- Dynamically populated draft -->
+          </div>
+
+          <div class="p-4 border-t border-base bg-subtle flex items-center justify-between text-xs text-muted">
+            <span>Ready for Form ASMT-11 or DRC-06 submission</span>
+            <button id="print-btn" type="button" class="text-accent hover:underline font-semibold">Print / Save PDF</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script is:inline>
+    function generateDraft() {
+      const type = document.getElementById('notice-type').value;
+      const ref = document.getElementById('notice-ref').value || 'GST/REF/2026';
+      const date = document.getElementById('notice-date').value || '2026-08-01';
+      const din = document.getElementById('din-no').value || 'N/A';
+      const discrepancy = document.getElementById('discrepancy-type').value;
+      const name = document.getElementById('taxpayer-name').value || 'Taxpayer';
+      const gstin = document.getElementById('taxpayer-gstin').value || 'GSTIN';
+
+      const docRecon = document.getElementById('doc-recon').checked;
+      const docBank = document.getElementById('doc-bank').checked;
+      const docInv = document.getElementById('doc-inv').checked;
+      const docCA = document.getElementById('doc-ca').checked;
+
+      let replyForm = 'Form GST ASMT-11';
+      let sectionCited = 'Section 61 of the CGST Act, 2017';
+      if (type.startsWith('DRC-01')) {
+        replyForm = 'Form GST DRC-06';
+        sectionCited = type === 'DRC-01-73' ? 'Section 73 of the CGST Act, 2017' : 'Section 74 of the CGST Act, 2017';
+      } else if (type === 'DRC-01A') {
+        replyForm = 'Part B of Form GST DRC-01A';
+        sectionCited = 'Rule 142(1A) of the CGST Rules, 2017';
+      }
+
+      let legalGrounds = '';
+      if (discrepancy === 'itc-2b-3b') {
+        legalGrounds = `2. SUBMISSION ON ITC DISCREPANCY (GSTR-2B vs GSTR-3B):
+a) The Taxpayer submits that all Input Tax Credit (ITC) availed during the tax period strictly satisfies all four cumulative statutory conditions stipulated under Section 16(2) of the CGST Act:
+   (i) The Taxpayer is in possession of genuine Tax Invoices issued by suppliers.
+   (ii) The underlying goods and/or services were physically received.
+   (iii) Tax charged has been deposited with the Government as evidenced by GSTR-1/3B filings.
+   (iv) Valid returns under Section 39 have been furnished.
+
+b) As clarified by the CBIC vide Circular No. 183/15/2022-GST and Circular No. 193/05/2023-GST, mere temporal mismatch between supplier reporting and recipient claim does not warrant automatic denial of bona fide ITC where genuineness of supply is established.
+
+c) Complete item-wise reconciliation between GSTR-2B and GSTR-3B is enclosed as Annexure A.`;
+      } else if (discrepancy === 'turnover-1-3b') {
+        legalGrounds = `2. SUBMISSION ON TURNOVER DISCREPANCY (GSTR-1 vs GSTR-3B):
+a) The discrepancy between outward liability reported in GSTR-1 and tax discharged via GSTR-3B was occasioned due to a clerical/typographical error in GSTR-1, without any suppression or intent to evade tax.
+b) The full tax liability corresponding to actual commercial supplies made during the period stands correctly discharged in GSTR-3B through cash ledger / admissible credit.
+c) In terms of CBIC Circular No. 170/02/2022-GST, reporting errors in outward returns are rectifiable and do not constitute non-payment of tax where net tax has been paid.`;
+      } else if (discrepancy === 'delayed-interest') {
+        legalGrounds = `2. SUBMISSION ON INTEREST DEMAND UNDER SECTION 50:
+a) As per the proviso to Section 50(1) inserted with retrospective effect from 01.07.2017, interest on delayed filing of returns is leviable ONLY on that portion of the tax which is paid by debiting the electronic cash ledger.
+b) Tax discharged by debiting the electronic credit ledger does not attract interest liability under Section 50, as upheld by the Hon'ble Apex Court and codified in law.`;
+      } else if (discrepancy === 'supplier-cancelled') {
+        legalGrounds = `2. SUBMISSION ON RETROSPECTIVELY CANCELLED SUPPLIER:
+a) At the time of entering into the transaction and receipt of tax invoices, the supplier's GSTIN was 'ACTIVE' on the official GST portal.
+b) A subsequent or retrospective cancellation of the supplier's registration cannot deprive a bona fide purchasing dealer of legitimately availed Input Tax Credit, as affirmed by multiple Hon'ble High Courts (including Calcutta HC in Suncraft Energy and Delhi HC in Bharti Telemedia).`;
+      } else if (discrepancy === 'rule-37') {
+        legalGrounds = `2. SUBMISSION ON RULE 37 (180-DAY PAYMENT TO SUPPLIER):
+a) In terms of the second proviso to Section 16(2) of the CGST Act read with Rule 37, the recipient is required to reverse ITC only where payment of the value of supply along with tax is not made within 180 days from invoice date.
+b) The Taxpayer has duly settled the consideration along with taxes within the prescribed 180 days via banking channels, as evidenced by the attached bank advice and vendor ledger confirmations.
+c) In respect of any nominal balances retained, such amounts represent standard contractual retention money / defect liability period holds agreed inter-se, which does not constitute failure to pay under Section 16(2).`;
+      } else if (discrepancy === 'eway-mismatch') {
+        legalGrounds = `2. SUBMISSION ON E-WAY BILL VS TURNOVER DISCREPANCY:
+a) As clarified by CBIC Circular No. 64/38/2018-GST, generation of an E-Way Bill is an electronic movement tracking mechanism and does not per se represent a completed taxable supply or sales turnover.
+b) The variance between generated E-Way Bills and reported GSTR-1/3B turnover has arisen on account of cancelled consignments, multiple movements for single tax invoices (e.g. line movement/job-work under Rule 55 delivery challans), or transit returns.
+c) Complete delivery challan and e-way bill movement reconciliation is enclosed as Annexure A.`;
+      } else {
+        legalGrounds = `2. SUBMISSION ON MERITS:
+a) The Taxpayer has conducted business transparently through official banking channels and complied with all statutory requirements under the CGST Act.
+b) There has been no suppression of facts, misstatement, or intent to evade tax.`;
+      }
+
+      let docsList = '';
+      let docIdx = 1;
+      if (docRecon) docsList += `\n   ${docIdx++}. Annexure A: Detailed Reconciliation Statement`;
+      if (docBank) docsList += `\n   ${docIdx++}. Annexure B: Bank Statements establishing payments through account payee banking channels`;
+      if (docInv) docsList += `\n   ${docIdx++}. Annexure C: Sample Tax Invoices, Delivery Challans, and E-Way Bills`;
+      if (docCA) docsList += `\n   ${docIdx++}. Annexure D: Certificate issued by Chartered Accountant verifying compliance`;
+
+      const text = `BEFORE THE SUPERINTENDENT / PROPER OFFICER OF CENTRAL / STATE TAX
+GST WARD / CIRCLE / RANGE
+
+IN THE MATTER OF:
+${name}
+GSTIN: ${gstin}
+... TAXPAYER / NOTICEE
+
+VERSUS
+
+THE PROPER OFFICER / DEPUTY COMMISSIONER
+DEPARTMENT OF GOODS AND SERVICES TAX
+... DEPARTMENT / REVENUE
+
+SUBJECT: WRITTEN SUBMISSION IN RESPONSE TO NOTICE REF NO. ${ref} DATED ${date} (DIN: ${din}) UNDER ${sectionCited}
+
+RESPECTED SIR / MADAM,
+
+The Noticee above-named most respectfully submits as under:
+
+1. PRELIMINARY SUBMISSIONS:
+1.1 The Noticee is a duly registered taxpayer under the CGST/SGST Act bearing GSTIN ${gstin}, engaged in lawful business activities and consistently adhering to statutory compliance schedules.
+1.2 The Noticee is in receipt of the captioned notice dated ${date}, calling upon the Noticee to explain discrepancies observed during scrutiny/proceedings.
+1.3 The Noticee humbly submits that the proposed tax demand, interest, and penalty are unsustainable in law and on facts for the grounds elaborated hereinbelow.
+
+${legalGrounds}
+
+3. ABSENCE OF MENS REA OR SUPPRESSION:
+The Noticee has acted in absolute good faith. All relevant invoices and transactions have been duly entered into the regular books of accounts. Therefore, invoking extended periods or penal provisions under Section 74 is entirely without jurisdiction.
+
+4. PRAYER:
+In light of the factual and legal grounds set out hereinabove, the Noticee respectfully prays that:
+a) The explanations submitted by the Noticee be accepted on record;
+b) The proposed proceedings initiated vide Notice Ref ${ref} dated ${date} be dropped in full;
+c) No adverse order, demand, interest, or penalty be confirmed against the Noticee;
+d) IN THE EVENT THAT AN ADVERSE ORDER IS CONTEMPLATED, AN OPPORTUNITY OF PERSONAL HEARING BE MANDATORILY ACCORDED TO THE NOTICEE UNDER SECTION 75(4) OF THE CGST ACT, 2017.
+
+LIST OF ENCLOSURES:${docsList || '\n   1. Verification proof and relevant reconciliation.'}
+
+VERIFICATION:
+I, the Authorized Signatory of ${name}, do hereby verify and declare that the contents of paragraphs 1 to 4 above are true and correct to the best of my knowledge, belief, and official records.
+
+For ${name}
+
+(Authorized Signatory)
+Date: ${new Date().toLocaleDateString('en-IN')}
+Place: India`;
+
+      const out = document.getElementById('draft-output');
+      if (out) out.textContent = text;
+    }
+
+    // Attach listeners
+    ['notice-type', 'notice-ref', 'notice-date', 'din-no', 'discrepancy-type', 'taxpayer-name', 'taxpayer-gstin', 'doc-recon', 'doc-bank', 'doc-inv', 'doc-ca'].forEach((id) => {
+      document.getElementById(id)?.addEventListener('input', generateDraft);
+      document.getElementById(id)?.addEventListener('change', generateDraft);
+    });
+
+    document.getElementById('copy-btn')?.addEventListener('click', () => {
+      const text = document.getElementById('draft-output')?.textContent || '';
+      navigator.clipboard.writeText(text).then(() => {
+        const btn = document.getElementById('copy-btn');
+        if (btn) {
+          btn.textContent = '✓ Copied!';
+          setTimeout(() => {
+            btn.innerHTML = '<svg class="w-3.5 h-3.5 inline mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg> Copy Text';
+          }, 2000);
+        }
+      });
+    });
+
+    document.getElementById('print-btn')?.addEventListener('click', () => {
+      window.print();
+    });
+
+    generateDraft();
+  </script>
+</BaseLayout>

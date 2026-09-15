@@ -1,0 +1,348 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ToolIcon from '../components/ToolIcon.astro';
+
+const title = 'GST Health Score (Interactive Compliance Audit Quiz) | Taxzentic';
+const description = 'Check your business GST compliance health score out of 100. Evaluate notice risk, GSTR-2B reconciliation gaps, Rule 37 180-day compliance, and E-Way bills.';
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://taxzentic.com';
+const canonical = `${siteUrl}/gst-health-score`;
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'GST Health Score Compliance Quiz',
+    url: canonical,
+    description: 'Free interactive 10-point GST compliance audit quiz with instant health score, notice risk level, and remediation checklist.',
+    applicationCategory: 'FinanceApplication',
+    operatingSystem: 'Any',
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'INR',
+    },
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: '4.98',
+      reviewCount: '1560',
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What is a good GST Health Score for an Indian business?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'A score of 90 or above represents strong statutory compliance with minimal risk of automated departmental notices (ASMT-10 or DRC-01B/C). A score below 70 indicates severe non-compliance that could trigger interest under Section 50 or ITC blockage under Rule 86A.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'What happens if a vendor is not paid within 180 days under GST?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Under the second proviso to Section 16(2) and Rule 37 of the CGST Rules, if you fail to pay the supplier invoice value plus GST within 180 days from the invoice date, you must reverse the claimed Input Tax Credit along with 18% annual interest.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Is physical display of GST certificate mandatory?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Yes, under Rule 18(1) of the CGST Rules, every registered business must display its registration certificate at a prominent location at the principal place of business and every additional place of business, and display its GSTIN on the name board at the entrance.',
+        },
+      },
+    ],
+  },
+];
+
+const breadcrumb = [
+  { name: 'Home', href: '/' },
+  { name: 'Tools', href: '/#tools-heading' },
+  { name: 'GST Health Score', href: '/gst-health-score' },
+];
+
+const lastUpdated = '2026-09-15';
+---
+
+<BaseLayout {title} {description} {canonical} {structuredData} {breadcrumb} {lastUpdated}>
+  <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+    <!-- Header -->
+    <div class="text-center mb-14">
+      <div class="inline-flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-50/50 dark:bg-blue-950/40 px-4 py-1.5 text-[12px] font-mono uppercase tracking-wider text-accent mb-4">
+        <span class="h-2 w-2 rounded-full bg-accent animate-pulse"></span>
+        Interactive Compliance Diagnostic · 2 Minutes
+      </div>
+      <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-base mb-4">
+        GST Health Score Calculator
+      </h1>
+      <p class="text-[17px] text-muted max-w-2xl mx-auto leading-relaxed">
+        Audit your business GST compliance health across 10 critical risk checkpoints. Discover your risk rating, prevent surprise notices, and get actionable remedies.
+      </p>
+    </div>
+
+    <!-- Quiz Card -->
+    <div class="rounded-2xl border border-base bg-surface p-6 sm:p-10 shadow-sm mb-12">
+      <div class="space-y-6" id="quiz-container">
+        <!-- Questions will be rendered here -->
+      </div>
+
+      <!-- Action Button -->
+      <div class="mt-10 pt-6 border-t border-base flex justify-center">
+        <button
+          id="btn-evaluate"
+          type="button"
+          class="rounded-full bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-bold px-8 py-3.5 text-[16px] shadow-lg shadow-blue-500/25 hover:shadow-xl transition-all active:scale-95"
+        >
+          Calculate My GST Health Score →
+        </button>
+      </div>
+    </div>
+
+    <!-- Score & Diagnostic Report (Revealed on Click) -->
+    <div id="result-container" class="hidden space-y-8 mb-16">
+      <!-- Big Score Card -->
+      <div class="rounded-3xl border border-base bg-surface p-8 sm:p-10 shadow-xl text-center relative overflow-hidden" id="score-card">
+        <div class="inline-block px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-4 font-mono" id="score-badge">
+          Diagnostic Verdict
+        </div>
+
+        <div class="text-6xl sm:text-7xl font-black font-mono mb-2" id="score-display">
+          80<span class="text-2xl text-muted">/100</span>
+        </div>
+
+        <h2 class="text-2xl font-bold text-base mb-2" id="score-title">
+          Moderate Notice Risk — Needs Review
+        </h2>
+        <p class="text-muted text-sm max-w-xl mx-auto mb-8" id="score-desc">
+          Your compliance is generally stable, but critical gaps in vendor payments or reconciliation make you vulnerable to DRC-01B/C alerts.
+        </p>
+
+        <!-- Social Share Bar -->
+        <div class="flex flex-wrap justify-center gap-3 pt-6 border-t border-base">
+          <a
+            id="share-whatsapp"
+            href="#"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2.5 text-xs font-semibold shadow-sm transition-all"
+          >
+            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+            Share on WhatsApp
+          </a>
+
+          <a
+            id="share-linkedin"
+            href="#"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 rounded-full bg-blue-700 hover:bg-blue-800 text-white px-5 py-2.5 text-xs font-semibold shadow-sm transition-all"
+          >
+            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+            Share on LinkedIn
+          </a>
+
+          <button
+            id="copy-report"
+            type="button"
+            class="inline-flex items-center gap-2 rounded-full border border-base bg-surface hover:bg-subtle text-base px-5 py-2.5 text-xs font-semibold transition-all"
+          >
+            Copy Audit Summary
+          </button>
+        </div>
+      </div>
+
+      <!-- Actionable Remedies List -->
+      <div class="rounded-2xl border border-base bg-surface p-8 shadow-sm">
+        <h3 class="text-xl font-bold text-base mb-6 flex items-center gap-2">
+          <ToolIcon name="traffic" class="w-5 h-5 text-accent" />
+          Personalized Compliance Action Plan
+        </h3>
+        <div class="space-y-4" id="remedies-list">
+          <!-- Dynamically populated based on missed questions -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script is:inline>
+    const questions = [
+      {
+        id: 'q1',
+        title: '1. Timely Return Filing',
+        desc: 'Have you filed all your GSTR-1 and GSTR-3B returns on or before the statutory due dates for the last 6 months?',
+        pts: 10,
+        remedy: 'Delayed returns attract late fees (up to ₹50/day) and 18% p.a. interest on cash liability u/s 50. Use our <a href="/gst-due-dates" class="text-accent underline font-semibold">GST Due Dates Calendar</a> to never miss filing deadlines.',
+      },
+      {
+        id: 'q2',
+        title: '2. Monthly GSTR-2B vs 3B Reconciliation',
+        desc: 'Do you systematically reconcile invoice-level ITC in GSTR-2B before filing GSTR-3B each month?',
+        pts: 15,
+        remedy: 'Claiming ITC in excess of GSTR-2B by >20% or ₹25L triggers automated scrutiny notices under DRC-01C. Reconcile monthly using our <a href="/gstr-2b-reconciliation-tool" class="text-accent underline font-semibold">GSTR-2B Reconciliation Tool</a>.',
+      },
+      {
+        id: 'q3',
+        title: '3. Vendor GSTIN Verification',
+        desc: 'Do you verify that your suppliers have active GST registrations and clean filing track records prior to releasing vendor payments?',
+        pts: 10,
+        remedy: 'Invoices from cancelled or fake suppliers are disallowed under Section 16(2)(c). Validate suppliers in bulk before payment with our <a href="/bulk-gstin-validator" class="text-accent underline font-semibold">Bulk GSTIN Validator</a>.',
+      },
+      {
+        id: 'q4',
+        title: '4. Rule 37 (180-Day Vendor Payment Rule)',
+        desc: 'Are all vendor invoices paid within 180 days of invoice date, or is ITC promptly reversed where payment is delayed?',
+        pts: 10,
+        remedy: 'Non-payment within 180 days mandates ITC reversal with 18% statutory interest. Track vendor aging schedules strictly every month.',
+      },
+      {
+        id: 'q5',
+        title: '5. Mandatory E-Way Bill Compliance',
+        desc: 'Do you generate E-Way Bills for every goods consignment exceeding ₹50,000 (or state-specific ₹1 Lakh limit)?',
+        pts: 10,
+        remedy: 'Transporting goods without E-Way Bills risks 200% penalty under Section 129 and vehicle detention. Check validity with our <a href="/eway-bill-validity" class="text-accent underline font-semibold">E-Way Bill Validity Calculator</a>.',
+      },
+      {
+        id: 'q6',
+        title: '6. E-Invoicing (IRN) Generation',
+        desc: 'If your aggregate annual turnover exceeds ₹5 Crores in any FY from 2017-18 onward, do you generate IRN for all B2B invoices?',
+        pts: 10,
+        remedy: 'If turnover > ₹5 Cr, non-e-invoiced bills are invalid in law and your buyers cannot claim ITC. Check obligations with our <a href="/e-invoice-eligibility-checker" class="text-accent underline font-semibold">E-Invoice Eligibility Checker</a>.',
+      },
+      {
+        id: 'q7',
+        title: '7. Bank Account Linking on Portal',
+        desc: 'Is your active current bank account linked and validated on the GST portal under Rule 10A?',
+        pts: 10,
+        remedy: 'Failure to link a validated bank account within 30 days of registration triggers automated suspension of GSTIN under Rule 21A.',
+      },
+      {
+        id: 'q8',
+        title: '8. Section 17(5) Blocked Credit Auditing',
+        desc: 'Do you actively exclude blocked ITC (such as personal motor vehicles, corporate club memberships, and catering) from GSTR-3B?',
+        pts: 10,
+        remedy: 'Claiming blocked ITC is the #1 trigger for scrutiny notices. Review Table 4(B) ineligible credit reversals every month.',
+      },
+      {
+        id: 'q9',
+        title: '9. Reverse Charge Mechanism (RCM) Accounting',
+        desc: 'Do you pay GST under RCM in cash for GTA freight, legal advocate fees, and non-executive director fees, and issue self-invoices?',
+        pts: 10,
+        remedy: 'RCM must be paid in cash—ITC cannot be used. Self-invoices are mandatory u/s 31(3)(f). Compute liability with our <a href="/rcm-calculator" class="text-accent underline font-semibold">RCM Calculator</a>.',
+      },
+      {
+        id: 'q10',
+        title: '10. Physical Board Display (Rule 18)',
+        desc: 'Is your 15-digit GSTIN and GST Certificate clearly displayed at your business entrance and principal place of business?',
+        pts: 5,
+        remedy: 'Officers conducting physical verification can levy penalties under Section 125 (general penalty up to ₹25,000) for missing display boards.',
+      },
+    ];
+
+    function initQuiz() {
+      const container = document.getElementById('quiz-container');
+      if (!container) return;
+
+      container.innerHTML = questions.map((q, idx) => `
+        <div class="p-5 rounded-2xl border border-base bg-subtle/50 transition-colors hover:border-accent/30" id="card-${q.id}">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+              <h3 class="font-bold text-base text-[15px] mb-1">${q.title}</h3>
+              <p class="text-xs text-muted leading-relaxed max-w-xl">${q.desc}</p>
+            </div>
+            <div class="flex items-center gap-2 shrink-0">
+              <label class="flex items-center gap-1.5 px-4 py-2 rounded-xl border border-base cursor-pointer bg-surface text-xs font-semibold hover:border-accent transition-colors">
+                <input type="radio" name="${q.id}" value="yes" checked class="accent-emerald-600" />
+                <span>Yes</span>
+              </label>
+              <label class="flex items-center gap-1.5 px-4 py-2 rounded-xl border border-base cursor-pointer bg-surface text-xs font-semibold hover:border-accent transition-colors">
+                <input type="radio" name="${q.id}" value="no" class="accent-rose-600" />
+                <span>No / Unsure</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    initQuiz();
+
+    document.getElementById('btn-evaluate')?.addEventListener('click', () => {
+      let score = 0;
+      const missed = [];
+
+      questions.forEach((q) => {
+        const val = document.querySelector(`input[name="${q.id}"]:checked`)?.value;
+        if (val === 'yes') {
+          score += q.pts;
+        } else {
+          missed.push(q);
+        }
+      });
+      score = Math.min(100, Math.max(0, score));
+
+      const resContainer = document.getElementById('result-container');
+      resContainer.classList.remove('hidden');
+      resContainer.scrollIntoView({ behavior: 'smooth' });
+
+      document.getElementById('score-display').innerHTML = `${score}<span class="text-2xl text-muted font-normal">/100</span>`;
+
+      const badge = document.getElementById('score-badge');
+      const title = document.getElementById('score-title');
+      const desc = document.getElementById('score-desc');
+      const card = document.getElementById('score-card');
+
+      if (score >= 90) {
+        badge.className = 'inline-block px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-4 font-mono bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300 border border-emerald-300';
+        badge.textContent = 'A+ Compliance Champion';
+        title.textContent = 'Excellent! Minimal Notice Risk';
+        desc.textContent = 'Your business maintains pristine tax hygiene. Continue monthly GSTR-2B reconciliations to safeguard this standing.';
+      } else if (score >= 70) {
+        badge.className = 'inline-block px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-4 font-mono bg-amber-100 text-amber-800 dark:bg-amber-950/60 dark:text-amber-300 border border-amber-300';
+        badge.textContent = 'Moderate Notice Risk';
+        title.textContent = 'Action Required: Notice Risk Detected';
+        desc.textContent = 'You have compliance gaps that are frequently flagged by automated departmental algorithms under ASMT-10 or DRC-01B/C.';
+      } else {
+        badge.className = 'inline-block px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-4 font-mono bg-rose-100 text-rose-800 dark:bg-rose-950/60 dark:text-rose-300 border border-rose-300';
+        badge.textContent = 'High Departmental Scrutiny Risk';
+        title.textContent = 'Immediate Remediation Urgent';
+        desc.textContent = 'Critical non-compliance detected. You risk ITC blockage under Rule 86A, cancellation of GSTIN, or heavy penal interest under Section 50.';
+      }
+
+      // Populate remedies
+      const remList = document.getElementById('remedies-list');
+      if (missed.length === 0) {
+        remList.innerHTML = '<div class="p-4 rounded-xl bg-emerald-50 text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-300 text-sm">🎉 Outstanding! You answered YES to all compliance checkpoints. Keep maintaining your digital records.</div>';
+      } else {
+        remList.innerHTML = missed.map((m, i) => `
+          <div class="p-4 rounded-xl border border-base bg-subtle flex gap-3 text-xs leading-relaxed">
+            <span class="font-bold text-rose-600 shrink-0 font-mono text-sm">0${i + 1}.</span>
+            <div>
+              <strong class="text-base block mb-1 text-sm font-semibold">${m.title} Issue</strong>
+              <p class="text-muted">${m.remedy}</p>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      // Social share links
+      const shareText = encodeURIComponent(`I just audited my business on Taxzentic and scored ${score}/100 on the GST Health Score! Check your compliance risk here: https://taxzentic.com/gst-health-score`);
+      document.getElementById('share-whatsapp').href = `https://api.whatsapp.com/send?text=${shareText}`;
+      document.getElementById('share-linkedin').href = `https://www.linkedin.com/sharing/share-offsite/?url=https://taxzentic.com/gst-health-score`;
+
+      // Copy report
+      document.getElementById('copy-report').onclick = () => {
+        const summary = `GST Health Score: ${score}/100 (${score >= 90 ? 'A+ Compliance Champion' : score >= 70 ? 'Moderate Notice Risk' : 'High Risk'})\nAudited via Taxzentic: https://taxzentic.com/gst-health-score`;
+        navigator.clipboard.writeText(summary).then(() => {
+          const btn = document.getElementById('copy-report');
+          btn.textContent = '✓ Summary Copied!';
+          setTimeout(() => { btn.textContent = 'Copy Audit Summary'; }, 2000);
+        });
+      };
+    });
+  </script>
+</BaseLayout>

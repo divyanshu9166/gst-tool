@@ -1,0 +1,233 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ToolIcon from '../components/ToolIcon.astro';
+
+const title = 'TDS Rate Finder by Payment Type (FY 2025-26 & 2026-27) | Taxzentic';
+const description = 'Find TDS rates by payment type: Contractor, rent, freelance fees, salary, interest, property, and dividend. Check PAN vs Non-PAN rates and statutory threshold limits.';
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://taxzentic.com';
+const canonical = `${siteUrl}/tds-rate-finder`;
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'TDS Rate Finder by Payment Type India',
+    url: canonical,
+    description: 'Lookup TDS rates by nature of payment for FY 2025-26 & 2026-27.',
+    applicationCategory: 'FinanceApplication',
+    operatingSystem: 'Any',
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'INR',
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What is the TDS rate on rent paid by an individual tenant not in business?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Under Section 194-IB, an individual or HUF tenant who is not liable to tax audit must deduct TDS at 2% (reduced from 5%) if the monthly rent exceeds ₹50,000.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'What is the TDS rate on purchase of property under Section 194-IA?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'TDS is 1% on the entire sale consideration or stamp duty value (whichever is higher) if the property value is ₹50 Lakhs or more.',
+        },
+      },
+    ],
+  },
+];
+
+const breadcrumb = [
+  { name: 'Home', href: '/' },
+  { name: 'Income Tax Tools', href: '/income-tax-tools' },
+  { name: 'TDS Rate Finder', href: '/tds-rate-finder' },
+];
+
+const lastUpdated = '2026-09-15';
+---
+
+<BaseLayout {title} {description} {canonical} {structuredData} {breadcrumb} {lastUpdated}>
+  <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+    <!-- Header -->
+    <div class="text-center mb-14">
+      <div class="inline-flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-50/50 dark:bg-blue-950/40 px-4 py-1.5 text-[12px] font-mono uppercase tracking-wider text-accent mb-4">
+        <span class="h-2 w-2 rounded-full bg-accent animate-pulse"></span>
+        Nature-of-Payment Directory · FY 2025-26 & 2026-27
+      </div>
+      <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-base mb-4">
+        TDS Rate Finder by Payment Type
+      </h1>
+      <p class="text-[17px] text-muted max-w-2xl mx-auto leading-relaxed">
+        Select what you are paying (Rent, Salary, Freelance, Contractor, Property) to instantly determine the section code, deduction percentage, and threshold limits.
+      </p>
+    </div>
+
+    <!-- Quick Search Bar -->
+    <div class="max-w-md mx-auto mb-10">
+      <input
+        type="text"
+        id="payment-search"
+        placeholder="Type payment: e.g. Rent, Freelancer, Property, Brokerage..."
+        class="w-full rounded-2xl border border-base bg-surface px-5 py-3.5 text-sm focus:border-accent focus:outline-none shadow-sm"
+      />
+    </div>
+
+    <!-- Grid of Payment Cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-16" id="cards-container">
+      <!-- Generated dynamically -->
+    </div>
+  </div>
+
+  <script is:inline>
+    const payments = [
+      {
+        title: 'Contractor & Job Work',
+        section: 'Section 194C',
+        ratePan: '1% (Ind/HUF) / 2% (Co)',
+        rateNoPan: '20%',
+        threshold: '₹30,000 single / ₹1,00,000 annual',
+        desc: 'Civil construction, advertising, catering, transport contracts, packaging, manufacturing on customer specs.',
+      },
+      {
+        title: 'Professional Fees (Doctors, Lawyers, CAs)',
+        section: 'Section 194J',
+        ratePan: '10%',
+        rateNoPan: '20%',
+        threshold: '₹30,000 per financial year',
+        desc: 'Legal, medical, engineering, accountancy, architectural, interior decoration, and director remuneration.',
+      },
+      {
+        title: 'Technical Services & IT Fees (FTS)',
+        section: 'Section 194J',
+        ratePan: '2%',
+        rateNoPan: '20%',
+        threshold: '₹30,000 per financial year',
+        desc: 'Software development, website design, call centre operations, technical consultancy.',
+      },
+      {
+        title: 'Rent on Land, Building or Office',
+        section: 'Section 194I',
+        ratePan: '10%',
+        rateNoPan: '20%',
+        threshold: '₹2,40,000 per financial year',
+        desc: 'Commercial office rent, factory shed rent, commercial retail rent paid by audited entities.',
+      },
+      {
+        title: 'Rent by Individuals / Non-Audited Tenants',
+        section: 'Section 194-IB',
+        ratePan: '2%',
+        rateNoPan: '20%',
+        threshold: 'Exceeding ₹50,000 per month',
+        desc: 'Rent paid by salaried individuals or non-business tenants for residential or commercial property.',
+      },
+      {
+        title: 'Purchase of Immovable Property (Flat/Land)',
+        section: 'Section 194-IA',
+        ratePan: '1%',
+        rateNoPan: '20%',
+        threshold: 'Property value ≥ ₹50,00,000',
+        desc: 'Sale of residential/commercial property or plot (excluding agricultural land). Form 26QB filing required.',
+      },
+      {
+        title: 'Commission or Brokerage',
+        section: 'Section 194H',
+        ratePan: '2%',
+        rateNoPan: '20%',
+        threshold: '₹15,000 per financial year',
+        desc: 'Real estate brokers, insurance agents, sales commission agents, distributors.',
+      },
+      {
+        title: 'Purchase of Goods (> ₹50 Lakhs)',
+        section: 'Section 194Q',
+        ratePan: '0.1%',
+        rateNoPan: '5%',
+        threshold: 'Aggregate purchases > ₹50 Lakhs',
+        desc: 'Applicable to buyers whose gross annual turnover exceeded ₹10 Crores in the preceding financial year.',
+      },
+      {
+        title: 'E-Commerce Marketplace Sellers',
+        section: 'Section 194-O',
+        ratePan: '0.1%',
+        rateNoPan: '5%',
+        threshold: 'Gross sales > ₹5,00,000 (for Ind/HUF)',
+        desc: 'Deducted by Amazon, Flipkart, Swiggy, Zomato on gross sales value of merchandise or services.',
+      },
+      {
+        title: 'Interest on Bank Fixed Deposits (FD)',
+        section: 'Section 194A',
+        ratePan: '10%',
+        rateNoPan: '20%',
+        threshold: '₹40,000 (₹50,000 for Senior Citizens)',
+        desc: 'Interest credited on term deposits, recurring deposits, or loans by banking companies.',
+      },
+      {
+        title: 'Crypto / Virtual Digital Asset (VDA) Trading',
+        section: 'Section 194S',
+        ratePan: '1%',
+        rateNoPan: '20%',
+        threshold: '₹50,000 (₹10,000 for specified persons)',
+        desc: 'Transfer of cryptocurrency, NFT, and digital tokens on Indian and foreign crypto exchanges.',
+      },
+      {
+        title: 'Salaries Paid to Employees',
+        section: 'Section 192',
+        ratePan: 'Average Slab Rate',
+        rateNoPan: 'Maximum Marginal Rate',
+        threshold: 'Basic income tax exemption limit',
+        desc: 'Monthly TDS computed based on estimated annual taxable salary under New or Old Regime.',
+      },
+    ];
+
+    function renderCards(filter = '') {
+      const container = document.getElementById('cards-container');
+      if (!container) return;
+
+      const q = filter.toLowerCase().trim();
+      const filtered = payments.filter((p) =>
+        p.title.toLowerCase().includes(q) ||
+        p.section.toLowerCase().includes(q) ||
+        p.desc.toLowerCase().includes(q)
+      );
+
+      if (filtered.length === 0) {
+        container.innerHTML = '<div class="col-span-3 text-center py-12 text-muted">No payments found. Try searching "Rent", "Contractor", or "Property".</div>';
+        return;
+      }
+
+      container.innerHTML = filtered.map((p) => `
+        <div class="rounded-2xl border border-base bg-surface p-6 shadow-sm flex flex-col justify-between hover:border-accent/40 transition-all">
+          <div>
+            <div class="flex items-center justify-between gap-2 mb-2">
+              <span class="text-xs font-mono font-bold text-accent uppercase">${p.section}</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-subtle text-muted">Statutory</span>
+            </div>
+            <h3 class="text-base font-bold text-base mb-1.5">${p.title}</h3>
+            <p class="text-xs text-muted leading-relaxed mb-4">${p.desc}</p>
+          </div>
+
+          <div class="pt-4 border-t border-base/60 space-y-1.5 text-xs font-mono">
+            <div class="flex justify-between"><span class="text-muted">Rate with PAN:</span><span class="font-bold text-base text-emerald-600">${p.ratePan}</span></div>
+            <div class="flex justify-between"><span class="text-muted">Rate without PAN:</span><span class="font-bold text-rose-600">${p.rateNoPan}</span></div>
+            <div class="flex justify-between"><span class="text-muted">Threshold:</span><span class="font-bold text-base text-[11px]">${p.threshold}</span></div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    document.getElementById('payment-search')?.addEventListener('input', (e) => {
+      renderCards(e.target.value);
+    });
+
+    renderCards();
+  </script>
+</BaseLayout>

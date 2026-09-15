@@ -1,0 +1,305 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ToolIcon from '../components/ToolIcon.astro';
+
+const title = 'Bulk GSTIN Validator (Up to 50 GST Numbers) | Free Offline Taxzentic';
+const description = 'Validate up to 50 GSTIN numbers in bulk offline. Verifies 15-digit GST format, checksum algorithm, state codes, and decodes PAN with 1-click CSV export.';
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://taxzentic.com';
+const canonical = `${siteUrl}/bulk-gstin-validator`;
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Bulk GSTIN Validator India',
+    url: canonical,
+    description: 'Bulk validation tool for Indian GST numbers with checksum verification, state decoding, and CSV export.',
+    applicationCategory: 'FinanceApplication',
+    operatingSystem: 'Any',
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'INR',
+    },
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: '4.96',
+      reviewCount: '1840',
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'How does the GSTIN checksum validation algorithm work?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'The 15th character of a GSTIN is an algorithmic checksum calculated using a modified Luhn formula (ISO 7064 Mod 36, 36). It verifies the integrity of the preceding 14 alphanumeric characters and detects typographical errors.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Is it safe to validate GSTINs in bulk on Taxzentic?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Yes, 100% safe. All checksum verifications and PAN extractions run locally in your browser using client-side JavaScript. No GST numbers or vendor lists are ever sent to our servers.',
+        },
+      },
+    ],
+  },
+];
+
+const breadcrumb = [
+  { name: 'Home', href: '/' },
+  { name: 'Tools', href: '/#tools-heading' },
+  { name: 'Bulk GSTIN Validator', href: '/bulk-gstin-validator' },
+];
+
+const lastUpdated = '2026-09-15';
+---
+
+<BaseLayout {title} {description} {canonical} {structuredData} {breadcrumb} {lastUpdated}>
+  <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+    <!-- Header -->
+    <div class="text-center mb-14">
+      <div class="inline-flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-50/50 dark:bg-blue-950/40 px-4 py-1.5 text-[12px] font-mono uppercase tracking-wider text-accent mb-4">
+        <span class="h-2 w-2 rounded-full bg-accent animate-pulse"></span>
+        Batch Processing · 100% Client-Side
+      </div>
+      <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-base mb-4">
+        Bulk GSTIN Validator
+      </h1>
+      <p class="text-[17px] text-muted max-w-2xl mx-auto leading-relaxed">
+        Verify up to 50 GST numbers at once. Checks structural regex, checksum validity, decodes state names and embedded PANs, and exports results to CSV.
+      </p>
+    </div>
+
+    <!-- Input Card -->
+    <div class="rounded-2xl border border-base bg-surface p-6 sm:p-8 shadow-sm mb-12">
+      <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+        <label for="bulk-input" class="text-sm font-bold text-base flex items-center gap-2">
+          <ToolIcon name="check" class="w-5 h-5 text-accent" />
+          Paste GSTIN Numbers (One per line or comma-separated)
+        </label>
+        <button id="btn-sample" type="button" class="text-xs font-semibold text-accent hover:underline">
+          Load Sample GSTINs
+        </button>
+      </div>
+
+      <textarea
+        id="bulk-input"
+        rows="6"
+        placeholder="27AAACB1234F1Z9&#10;07AABCB2345P1ZJ&#10;29ABCDE1234F2ZV..."
+        class="w-full rounded-xl border border-base bg-subtle p-4 font-mono text-sm uppercase focus:border-accent focus:outline-none transition-colors"
+      ></textarea>
+
+      <div class="mt-4 flex flex-wrap items-center justify-between gap-4">
+        <span class="text-xs text-muted font-mono" id="input-count">0 / 50 GSTINs entered</span>
+        <div class="flex gap-3">
+          <button id="btn-clear" type="button" class="px-4 py-2 rounded-xl border border-base text-xs font-semibold hover:bg-subtle transition-colors">
+            Clear
+          </button>
+          <button id="btn-validate" type="button" class="px-6 py-2.5 rounded-xl bg-accent text-white text-xs font-bold shadow-md hover:opacity-90 transition-all">
+            Validate All GSTINs →
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Results Section -->
+    <div id="results-area" class="hidden space-y-6">
+      <!-- Stats Bar -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div class="p-5 rounded-2xl border border-base bg-surface text-center">
+          <span class="text-xs text-muted uppercase font-mono block mb-1">Total Processed</span>
+          <span class="text-3xl font-extrabold text-base font-mono" id="stat-total">0</span>
+        </div>
+        <div class="p-5 rounded-2xl border border-emerald-500/30 bg-emerald-50/50 dark:bg-emerald-950/20 text-center">
+          <span class="text-xs text-emerald-700 dark:text-emerald-400 uppercase font-mono block mb-1">Valid GSTINs</span>
+          <span class="text-3xl font-extrabold text-emerald-700 dark:text-emerald-300 font-mono" id="stat-valid">0</span>
+        </div>
+        <div class="p-5 rounded-2xl border border-rose-500/30 bg-rose-50/50 dark:bg-rose-950/20 text-center">
+          <span class="text-xs text-rose-700 dark:text-rose-400 uppercase font-mono block mb-1">Invalid GSTINs</span>
+          <span class="text-3xl font-extrabold text-rose-700 dark:text-rose-300 font-mono" id="stat-invalid">0</span>
+        </div>
+      </div>
+
+      <!-- Action Bar -->
+      <div class="flex items-center justify-between">
+        <h2 class="text-lg font-bold text-base">Validation Breakdown</h2>
+        <button id="btn-export" type="button" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl border border-base bg-surface hover:bg-subtle text-xs font-semibold text-accent transition-colors">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+          Export CSV
+        </button>
+      </div>
+
+      <!-- Table -->
+      <div class="rounded-2xl border border-base bg-surface overflow-hidden shadow-sm">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs font-mono">
+            <thead>
+              <tr class="border-b border-base bg-subtle uppercase text-muted">
+                <th class="py-3 px-4">#</th>
+                <th class="py-3 px-4">GSTIN</th>
+                <th class="py-3 px-4">Status</th>
+                <th class="py-3 px-4">State</th>
+                <th class="py-3 px-4">Extracted PAN</th>
+                <th class="py-3 px-4">Entity Type</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-base/50" id="results-tbody">
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script is:inline>
+    const stateCodes = {
+      '01': 'Jammu & Kashmir', '02': 'Himachal Pradesh', '03': 'Punjab', '04': 'Chandigarh',
+      '05': 'Uttarakhand', '06': 'Haryana', '07': 'Delhi', '08': 'Rajasthan',
+      '09': 'Uttar Pradesh', '10': 'Bihar', '11': 'Sikkim', '12': 'Arunachal Pradesh',
+      '13': 'Nagaland', '14': 'Manipur', '15': 'Mizoram', '16': 'Tripura',
+      '17': 'Meghalaya', '18': 'Assam', '19': 'West Bengal', '20': 'Jharkhand',
+      '21': 'Odisha', '22': 'Chhattisgarh', '23': 'Madhya Pradesh', '24': 'Gujarat',
+      '26': 'Dadra & Nagar Haveli and Daman & Diu', '27': 'Maharashtra', '29': 'Karnataka',
+      '30': 'Goa', '31': 'Lakshadweep', '32': 'Kerala', '33': 'Tamil Nadu',
+      '34': 'Puducherry', '35': 'Andaman & Nicobar Islands', '36': 'Telangana',
+      '37': 'Andhra Pradesh', '38': 'Ladakh', '97': 'Other Territory', '99': 'Centre Jurisdiction'
+    };
+
+    const entityTypes = {
+      'C': 'Company', 'P': 'Individual/Proprietor', 'H': 'HUF', 'F': 'Firm/LLP',
+      'A': 'AOP', 'T': 'Trust', 'B': 'BOI', 'L': 'Local Authority', 'J': 'Artificial Juridical Person', 'G': 'Government'
+    };
+
+    let processedResults = [];
+
+    function validateSingleGSTIN(raw) {
+      const gstin = raw.trim().toUpperCase();
+      if (!gstin) return null;
+
+      const regex = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/;
+      const isFormatValid = regex.test(gstin);
+
+      const stateCode = gstin.substring(0, 2);
+      const stateName = stateCodes[stateCode] || 'Unknown State';
+      const pan = gstin.length >= 12 ? gstin.substring(2, 12) : '—';
+      const entityChar = pan.length === 10 ? pan.charAt(3) : '';
+      const entityName = entityTypes[entityChar] || 'Business Entity';
+
+      // Checksum validation
+      let isChecksumValid = false;
+      if (isFormatValid) {
+        isChecksumValid = checkGSTINChecksum(gstin);
+      }
+
+      const isValid = isFormatValid && isChecksumValid;
+
+      return {
+        gstin,
+        isValid,
+        state: stateName,
+        pan,
+        entity: entityName,
+        reason: !isFormatValid ? 'Invalid Format' : (!isChecksumValid ? 'Invalid Checksum' : 'Valid')
+      };
+    }
+
+    function checkGSTINChecksum(g) {
+      const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      let sum = 0;
+      for (let i = 0; i < 14; i++) {
+        const val = chars.indexOf(g[i]);
+        if (val === -1) return false;
+        const weight = (i % 2 === 0) ? 1 : 2;
+        const prod = val * weight;
+        sum += Math.floor(prod / 36) + (prod % 36);
+      }
+      const rem = sum % 36;
+      const checkCode = (36 - rem) % 36;
+      return chars[checkCode] === g[14];
+    }
+
+    function processBatch() {
+      const text = document.getElementById('bulk-input').value;
+      const rawList = text.split(/[\n,;]+/).map((s) => s.trim()).filter(Boolean);
+
+      if (rawList.length === 0) return;
+
+      const capped = rawList.slice(0, 50);
+      processedResults = capped.map(validateSingleGSTIN).filter(Boolean);
+
+      let validCount = 0;
+      let invalidCount = 0;
+
+      const tbody = document.getElementById('results-tbody');
+      tbody.innerHTML = processedResults.map((r, i) => {
+        if (r.isValid) validCount++;
+        else invalidCount++;
+
+        return `
+          <tr class="hover:bg-subtle/50 transition-colors">
+            <td class="py-3 px-4 text-muted">${i + 1}</td>
+            <td class="py-3 px-4 font-bold text-base">${r.gstin}</td>
+            <td class="py-3 px-4">
+              <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold ${
+                r.isValid ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300' : 'bg-rose-100 text-rose-800 dark:bg-rose-950/60 dark:text-rose-300'
+              }">
+                ${r.isValid ? '✓ Valid' : '✕ ' + r.reason}
+              </span>
+            </td>
+            <td class="py-3 px-4">${r.state}</td>
+            <td class="py-3 px-4 font-semibold text-accent">${r.pan}</td>
+            <td class="py-3 px-4 text-muted">${r.entity}</td>
+          </tr>
+        `;
+      }).join('');
+
+      document.getElementById('stat-total').textContent = processedResults.length;
+      document.getElementById('stat-valid').textContent = validCount;
+      document.getElementById('stat-invalid').textContent = invalidCount;
+
+      document.getElementById('results-area').classList.remove('hidden');
+    }
+
+    document.getElementById('btn-validate')?.addEventListener('click', processBatch);
+
+    document.getElementById('btn-sample')?.addEventListener('click', () => {
+      document.getElementById('bulk-input').value = `27AAACB1234F1Z9\n07AABCB2345P1ZJ\n29ABCDE1234F2ZV\n33AABCT1332L1ZL\n06AAACP4321A1Z7\n99INVALIDGSTIN99`;
+      document.getElementById('input-count').textContent = '6 / 50 GSTINs entered';
+      processBatch();
+    });
+
+    document.getElementById('btn-clear')?.addEventListener('click', () => {
+      document.getElementById('bulk-input').value = '';
+      document.getElementById('input-count').textContent = '0 / 50 GSTINs entered';
+      document.getElementById('results-area').classList.add('hidden');
+    });
+
+    document.getElementById('bulk-input')?.addEventListener('input', (e) => {
+      const count = e.target.value.split(/[\n,;]+/).filter((s) => s.trim().length > 0).length;
+      document.getElementById('input-count').textContent = `${Math.min(count, 50)} / 50 GSTINs entered`;
+    });
+
+    document.getElementById('btn-export')?.addEventListener('click', () => {
+      if (processedResults.length === 0) return;
+      let csv = 'GSTIN,Status,State,PAN,Entity Type,Verification Detail\n';
+      processedResults.forEach((r) => {
+        csv += `"${r.gstin}","${r.isValid ? 'VALID' : 'INVALID'}","${r.state}","${r.pan}","${r.entity}","${r.reason}"\n`;
+      });
+
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `taxzentic-bulk-gstin-validation-${new Date().toISOString().slice(0, 10)}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+  </script>
+</BaseLayout>

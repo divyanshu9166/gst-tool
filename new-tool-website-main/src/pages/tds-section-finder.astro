@@ -1,0 +1,271 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ToolIcon from '../components/ToolIcon.astro';
+
+const title = 'TDS Section Finder & Rate Chart 2025-26 & 2026-27 | Taxzentic';
+const description = 'Searchable TDS Section Finder for India. Find exact TDS rates, thresholds, and sections (194C, 194J, 194I, 194H, 194Q, 194IA). Free interactive TDS calculator.';
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://taxzentic.com';
+const canonical = `${siteUrl}/tds-section-finder`;
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'TDS Section Finder and Calculator India',
+    url: canonical,
+    description: 'Lookup TDS rates, statutory exemption limits, and compute exact tax deducted at source.',
+    applicationCategory: 'FinanceApplication',
+    operatingSystem: 'Any',
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'INR',
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What is the TDS rate under Section 194C for contractors?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Under Section 194C, TDS is 1% if the contractor/subcontractor is an Individual or HUF, and 2% for Companies, Partnership Firms, or LLPs. TDS applies if a single invoice exceeds ₹30,000 or aggregate annual invoices exceed ₹1,00,000.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'What is the difference between Section 194J(a) and 194J(b)?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Section 194J taxes technical services (FTS), royalty, and call centre operations at 2%, whereas professional services (doctors, lawyers, CAs, architects) and company director remuneration are taxed at 10%. The statutory annual threshold is ₹30,000.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'What is the due date to deposit TDS with the government?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'TDS deducted in any month from April to February must be deposited by the 7th of the subsequent month. For the month of March, the deposit deadline is 30th April.',
+        },
+      },
+    ],
+  },
+];
+
+const breadcrumb = [
+  { name: 'Home', href: '/' },
+  { name: 'Income Tax Tools', href: '/income-tax-tools' },
+  { name: 'TDS Section Finder', href: '/tds-section-finder' },
+];
+
+const lastUpdated = '2026-09-15';
+---
+
+<BaseLayout {title} {description} {canonical} {structuredData} {breadcrumb} {lastUpdated}>
+  <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+    <!-- Header -->
+    <div class="text-center mb-14">
+      <div class="inline-flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-50/50 dark:bg-blue-950/40 px-4 py-1.5 text-[12px] font-mono uppercase tracking-wider text-accent mb-4">
+        <span class="h-2 w-2 rounded-full bg-accent animate-pulse"></span>
+        TDS Master Directory · FY 2025-26 & 2026-27
+      </div>
+      <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-base mb-4">
+        TDS Section Finder & Rate Chart
+      </h1>
+      <p class="text-[17px] text-muted max-w-2xl mx-auto leading-relaxed">
+        Search any TDS section by payment type (Contractor, Rent, Professional, Salary) or section code. Calculate exact deduction amount and net payout instantly.
+      </p>
+    </div>
+
+    <!-- Quick Interactive Calculator Widget -->
+    <div class="rounded-2xl border border-base bg-surface p-6 sm:p-8 shadow-sm mb-12">
+      <h2 class="text-xl font-bold text-base mb-6 flex items-center gap-2">
+        <ToolIcon name="calculator" class="w-5 h-5 text-accent" />
+        Instant TDS Deduction Calculator
+      </h2>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-6">
+        <div>
+          <label for="calc-section" class="block text-xs font-semibold uppercase tracking-wider text-muted mb-2">Select Section</label>
+          <select id="calc-section" class="w-full rounded-xl border border-base bg-subtle px-4 py-3 text-sm focus:border-accent focus:outline-none">
+            <option value="194C-ind">194C — Contractor (Individual/HUF) — 1%</option>
+            <option value="194C-co">194C — Contractor (Company/Firm) — 2%</option>
+            <option value="194J-prof">194J — Professional Fees — 10%</option>
+            <option value="194J-tech">194J — Technical Services (FTS) — 2%</option>
+            <option value="194I-rent-land">194I — Rent on Land/Building — 10%</option>
+            <option value="194I-rent-plant">194I — Rent on Plant/Machinery — 2%</option>
+            <option value="194IB-rent">194IB — Rent by Ind/HUF (&gt;₹50k/mo) — 2%</option>
+            <option value="194H-comm">194H — Commission / Brokerage — 2%</option>
+            <option value="194Q-goods">194Q — Purchase of Goods (&gt;₹50L) — 0.1%</option>
+            <option value="194IA-prop">194IA — Purchase of Property (&gt;₹50L) — 1%</option>
+            <option value="194A-int">194A — Interest other than Securities — 10%</option>
+            <option value="194S-crypto">194S — Virtual Digital Asset / Crypto — 1%</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="calc-amount" class="block text-xs font-semibold uppercase tracking-wider text-muted mb-2">Invoice / Payment (₹)</label>
+          <input type="number" id="calc-amount" value="100000" min="0" step="5000" class="w-full rounded-xl border border-base bg-subtle px-4 py-3 font-mono text-sm focus:border-accent focus:outline-none" />
+        </div>
+
+        <div>
+          <label for="calc-pan" class="block text-xs font-semibold uppercase tracking-wider text-muted mb-2">PAN Provided?</label>
+          <select id="calc-pan" class="w-full rounded-xl border border-base bg-subtle px-4 py-3 text-sm focus:border-accent focus:outline-none">
+            <option value="yes">Yes (Normal Statutory Rate)</option>
+            <option value="no">No (Sec 206AA Penal Rate — 20%)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Quick Result Bar -->
+      <div class="p-5 rounded-xl border border-accent/20 bg-accent/5 flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <span class="text-xs text-muted uppercase font-mono block">Applicable TDS Rate:</span>
+          <span class="text-xl font-bold text-accent font-mono" id="res-rate">1.0%</span>
+        </div>
+        <div>
+          <span class="text-xs text-muted uppercase font-mono block">TDS to Deduct:</span>
+          <span class="text-xl font-bold text-rose-600 font-mono" id="res-tds">₹1,000</span>
+        </div>
+        <div>
+          <span class="text-xs text-muted uppercase font-mono block">Net Payable to Payee:</span>
+          <span class="text-xl font-bold text-emerald-600 font-mono" id="res-net">₹99,000</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Searchable Directory -->
+    <div class="mb-12">
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6">
+        <div>
+          <h2 class="text-2xl font-bold text-base">Complete TDS Section Rate Chart</h2>
+          <p class="text-sm text-muted">Filter by section code, payment category, or threshold.</p>
+        </div>
+
+        <div class="w-full sm:w-72 relative">
+          <input
+            type="text"
+            id="search-box"
+            placeholder="Search e.g. 194C, Rent, Director..."
+            class="w-full rounded-xl border border-base bg-surface px-4 py-2.5 text-sm focus:border-accent focus:outline-none"
+          />
+        </div>
+      </div>
+
+      <!-- Sections Table -->
+      <div class="rounded-2xl border border-base bg-surface overflow-hidden shadow-sm">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm" id="tds-table">
+            <thead>
+              <tr class="border-b border-base bg-subtle text-xs font-mono uppercase text-muted">
+                <th class="py-3.5 px-4">Section</th>
+                <th class="py-3.5 px-4">Nature of Payment</th>
+                <th class="py-3.5 px-4">TDS Rate</th>
+                <th class="py-3.5 px-4">Threshold Limit</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-base/50 text-[14px]" id="tds-tbody">
+              <!-- Rendered via script for search filterability -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script is:inline>
+    const tdsData = [
+      { section: '194C', name: 'Payments to Contractors & Sub-contractors (Individual/HUF)', rate: '1%', threshold: '₹30,000 single / ₹1,00,000 aggregate', rateNum: 1 },
+      { section: '194C', name: 'Payments to Contractors & Sub-contractors (Company/Firm)', rate: '2%', threshold: '₹30,000 single / ₹1,00,000 aggregate', rateNum: 2 },
+      { section: '194J', name: 'Fees for Professional Services & Director Remuneration', rate: '10%', threshold: '₹30,000 per financial year', rateNum: 10 },
+      { section: '194J', name: 'Fees for Technical Services (FTS) & Call Centre Operations', rate: '2%', threshold: '₹30,000 per financial year', rateNum: 2 },
+      { section: '194I', name: 'Rent on Land, Building, or Furniture', rate: '10%', threshold: '₹2,40,000 per financial year', rateNum: 10 },
+      { section: '194I', name: 'Rent on Plant, Machinery, or Equipment', rate: '2%', threshold: '₹2,40,000 per financial year', rateNum: 2 },
+      { section: '194IB', name: 'Rent by Individuals/HUFs not liable for Tax Audit', rate: '2%', threshold: 'Exceeding ₹50,000 per month', rateNum: 2 },
+      { section: '194H', name: 'Commission or Brokerage', rate: '2%', threshold: '₹15,000 per financial year', rateNum: 2 },
+      { section: '194Q', name: 'Purchase of Goods (Buyer Turnover > ₹10 Cr)', rate: '0.1%', threshold: 'Purchase value > ₹50,00,000', rateNum: 0.1 },
+      { section: '194IA', name: 'Purchase of Immovable Property (other than agricultural)', rate: '1%', threshold: 'Property value ≥ ₹50,00,000', rateNum: 1 },
+      { section: '194A', name: 'Interest other than Interest on Securities (Banks)', rate: '10%', threshold: '₹40,000 (₹50,000 for Senior Citizens)', rateNum: 10 },
+      { section: '194DA', name: 'Maturity Payout of Life Insurance Policy', rate: '5%', threshold: 'Taxable profit > ₹1,00,000', rateNum: 5 },
+      { section: '194M', name: 'Contract / Commission payments by Individuals/HUFs', rate: '2%', threshold: 'Aggregate payments > ₹50,00,000', rateNum: 2 },
+      { section: '194S', name: 'Transfer of Virtual Digital Assets (VDA / Crypto)', rate: '1%', threshold: '₹50,000 (₹10,000 for specified persons)', rateNum: 1 },
+      { section: '192', name: 'Salaries', rate: 'Average Slab Rate', threshold: 'Basic exemption limit', rateNum: 0 },
+    ];
+
+    function renderTable(filterText = '') {
+      const tbody = document.getElementById('tds-tbody');
+      if (!tbody) return;
+
+      const q = filterText.toLowerCase().trim();
+      const filtered = tdsData.filter((item) =>
+        item.section.toLowerCase().includes(q) ||
+        item.name.toLowerCase().includes(q) ||
+        item.threshold.toLowerCase().includes(q)
+      );
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="4" class="text-center py-8 text-muted">No matching TDS sections found for "${filterText}".</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = filtered.map((row) => `
+        <tr class="hover:bg-subtle/50 transition-colors">
+          <td class="py-3.5 px-4 font-mono font-bold text-accent">${row.section}</td>
+          <td class="py-3.5 px-4 font-medium text-base">${row.name}</td>
+          <td class="py-3.5 px-4 font-mono font-bold">${row.rate}</td>
+          <td class="py-3.5 px-4 text-xs font-mono text-muted">${row.threshold}</td>
+        </tr>
+      `).join('');
+    }
+
+    document.getElementById('search-box')?.addEventListener('input', (e) => {
+      renderTable(e.target.value);
+    });
+
+    renderTable();
+
+    // Calculator engine
+    function calcTDS() {
+      const secKey = document.getElementById('calc-section').value;
+      const amount = Math.max(0, parseFloat(document.getElementById('calc-amount').value) || 0);
+      const hasPan = document.getElementById('calc-pan').value === 'yes';
+
+      const rates = {
+        '194C-ind': 1,
+        '194C-co': 2,
+        '194J-prof': 10,
+        '194J-tech': 2,
+        '194I-rent-land': 10,
+        '194I-rent-plant': 2,
+        '194IB-rent': 2,
+        '194H-comm': 2,
+        '194Q-goods': 0.1,
+        '194IA-prop': 1,
+        '194A-int': 10,
+        '194S-crypto': 1,
+      };
+
+      const baseRate = rates[secKey] || 1;
+      const finalRate = hasPan ? baseRate : Math.max(20, baseRate);
+
+      const tds = (amount * finalRate) / 100;
+      const net = amount - tds;
+
+      const inr = (num) => '₹' + Math.round(num).toLocaleString('en-IN');
+
+      document.getElementById('res-rate').textContent = finalRate + '% ' + (!hasPan ? '(Sec 206AA Penal Rate)' : '');
+      document.getElementById('res-tds').textContent = inr(tds);
+      document.getElementById('res-net').textContent = inr(net);
+    }
+
+    ['calc-section', 'calc-amount', 'calc-pan'].forEach((id) => {
+      document.getElementById(id)?.addEventListener('input', calcTDS);
+      document.getElementById(id)?.addEventListener('change', calcTDS);
+    });
+
+    calcTDS();
+  </script>
+</BaseLayout>

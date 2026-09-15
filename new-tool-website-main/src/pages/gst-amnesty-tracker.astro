@@ -1,0 +1,214 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ToolIcon from '../components/ToolIcon.astro';
+
+const title = 'GST Amnesty Scheme & Section 128A Waiver Tracker | Taxzentic';
+const description = 'Track live GST Amnesty Schemes and Section 128A interest and penalty waivers for FY 2017-18, 2018-19, and 2019-20. Interactive eligibility checker.';
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://taxzentic.com';
+const canonical = `${siteUrl}/gst-amnesty-tracker`;
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'GST Amnesty Scheme and Section 128A Waiver Tracker',
+    url: canonical,
+    description: 'Check eligibility for 100% waiver of interest and penalties under Section 128A for FY 2017-18 to 2019-20.',
+    applicationCategory: 'FinanceApplication',
+    operatingSystem: 'Any',
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'INR',
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What is Section 128A of the CGST Act?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Section 128A provides a statutory conditional waiver of full interest and penalties for demand notices or orders issued under Section 73 pertaining to Financial Years 2017-18, 2018-19, and 2019-20, provided the taxpayer pays the full underlying tax demand on or before the notified deadline (31st March 2025).',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Does Section 128A waiver apply to Section 74 notices?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'No. Section 128A specifically excludes notices issued under Section 74 (cases involving fraud, willful misstatement, or suppression of facts with intent to evade tax) as well as demands relating to erroneous refunds.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Can I claim a refund of penalties already paid before Section 128A was notified?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'No. The statute explicitly specifies that no refund of any interest and penalty already deposited prior to the scheme shall be granted.',
+        },
+      },
+    ],
+  },
+];
+
+const breadcrumb = [
+  { name: 'Home', href: '/' },
+  { name: 'Tools', href: '/#tools-heading' },
+  { name: 'GST Amnesty Tracker', href: '/gst-amnesty-tracker' },
+];
+
+const lastUpdated = '2026-09-15';
+---
+
+<BaseLayout {title} {description} {canonical} {structuredData} {breadcrumb} {lastUpdated}>
+  <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+    <!-- Header -->
+    <div class="text-center mb-14">
+      <div class="inline-flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-50/50 dark:bg-blue-950/40 px-4 py-1.5 text-[12px] font-mono uppercase tracking-wider text-accent mb-4">
+        <span class="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
+        Section 128A Waiver Scheme Tracker
+      </div>
+      <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-base mb-4">
+        GST Amnesty & Waiver Tracker
+      </h1>
+      <p class="text-[17px] text-muted max-w-2xl mx-auto leading-relaxed">
+        Check whether your pending demand notice or order qualifies for 100% waiver of interest and penalties under Section 128A.
+      </p>
+    </div>
+
+    <!-- Interactive Eligibility Wizard -->
+    <div class="rounded-2xl border border-base bg-surface p-6 sm:p-10 shadow-sm mb-12 space-y-6">
+      <h2 class="text-xl font-bold text-base flex items-center gap-2">
+        <ToolIcon name="scale" class="w-5 h-5 text-accent" />
+        Waiver Eligibility Diagnostic
+      </h2>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div>
+          <label for="fy-select" class="block text-xs font-semibold uppercase tracking-wider text-muted mb-2">
+            1. Financial Year of Demand Notice
+          </label>
+          <select id="fy-select" class="w-full rounded-xl border border-base bg-subtle px-4 py-3 text-sm focus:border-accent focus:outline-none">
+            <option value="covered">FY 2017-18, 2018-19, or 2019-20 (Eligible Years)</option>
+            <option value="not-covered">FY 2020-21 or Subsequent Years (Not Eligible)</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="section-select" class="block text-xs font-semibold uppercase tracking-wider text-muted mb-2">
+            2. Notice Section
+          </label>
+          <select id="section-select" class="w-full rounded-xl border border-base bg-subtle px-4 py-3 text-sm focus:border-accent focus:outline-none">
+            <option value="sec-73">Section 73 (Non-Fraud / General Scrutiny)</option>
+            <option value="sec-74">Section 74 (Fraud / Suppression / Willful Misstatement)</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="demand-nature" class="block text-xs font-semibold uppercase tracking-wider text-muted mb-2">
+            3. Nature of Demand
+          </label>
+          <select id="demand-nature" class="w-full rounded-xl border border-base bg-subtle px-4 py-3 text-sm focus:border-accent focus:outline-none">
+            <option value="tax-itc">Short Tax Payment / Excess ITC Availed</option>
+            <option value="erroneous-refund">Demand for Erroneous Refund Sanctioned</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="tax-paid" class="block text-xs font-semibold uppercase tracking-wider text-muted mb-2">
+            4. Tax Payment Status
+          </label>
+          <select id="tax-paid" class="w-full rounded-xl border border-base bg-subtle px-4 py-3 text-sm focus:border-accent focus:outline-none">
+            <option value="paid">Full Basic Tax Paid on/before 31 March 2025</option>
+            <option value="unpaid">Basic Tax Not Paid</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Result Card -->
+      <div class="rounded-2xl border p-6 sm:p-8 transition-all" id="amnesty-verdict">
+        <div class="flex items-center gap-3 mb-2">
+          <span class="text-2xl" id="amnesty-icon">🎉</span>
+          <h3 class="text-xl font-bold text-base" id="amnesty-title">100% Interest & Penalty Waived</h3>
+        </div>
+        <p class="text-sm text-muted leading-relaxed" id="amnesty-desc">
+          Your case fulfills all statutory conditions under Section 128A. File Form GST SPL-01 on the portal to close proceedings.
+        </p>
+      </div>
+    </div>
+
+    <!-- Section 128A Statutory Rules Summary -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 text-xs text-muted">
+      <div class="p-6 rounded-2xl border border-base bg-surface space-y-2">
+        <h3 class="text-sm font-bold text-base">Key Eligible Categories</h3>
+        <p>• Notices issued in Form GST DRC-01 under Section 73(1)</p>
+        <p>• Statements issued under Section 73(3)</p>
+        <p>• Orders passed under Section 73(9)</p>
+        <p>• Orders passed by Appellate Authority under Section 107(11) or Section 108(1)</p>
+      </div>
+
+      <div class="p-6 rounded-2xl border border-base bg-surface space-y-2">
+        <h3 class="text-sm font-bold text-base">Procedural Requirement</h3>
+        <p>• Pay full underlying basic tax via DRC-03</p>
+        <p>• File application electronically in Form GST SPL-01 or SPL-02</p>
+        <p>• Proper officer must issue waiver conclusion order in Form GST SPL-05 within 3 months</p>
+      </div>
+    </div>
+  </div>
+
+  <script is:inline>
+    function checkAmnesty() {
+      const fy = document.getElementById('fy-select').value;
+      const sec = document.getElementById('section-select').value;
+      const nature = document.getElementById('demand-nature').value;
+      const paid = document.getElementById('tax-paid').value;
+
+      const card = document.getElementById('amnesty-verdict');
+      const icon = document.getElementById('amnesty-icon');
+      const title = document.getElementById('amnesty-title');
+      const desc = document.getElementById('amnesty-desc');
+
+      if (fy !== 'covered') {
+        card.className = 'rounded-2xl border border-rose-500/40 bg-rose-50/70 dark:bg-rose-950/40 p-6 sm:p-8';
+        icon.textContent = '✕';
+        title.className = 'text-xl font-bold text-rose-800 dark:text-rose-300';
+        title.textContent = 'Ineligible: Financial Year Not Covered';
+        desc.textContent = 'Section 128A waiver applies exclusively to Financial Years 2017-18, 2018-19, and 2019-20. Demands for FY 2020-21 onwards cannot claim waiver.';
+      } else if (sec === 'sec-74') {
+        card.className = 'rounded-2xl border border-rose-500/40 bg-rose-50/70 dark:bg-rose-950/40 p-6 sm:p-8';
+        icon.textContent = '⚠️';
+        title.className = 'text-xl font-bold text-rose-800 dark:text-rose-300';
+        title.textContent = 'Ineligible: Section 74 Notices Excluded';
+        desc.textContent = 'Section 128A explicitly bars notices issued under Section 74 (fraud, suppression, or willful misstatement). You must challenge the notice on merits before appellate authorities.';
+      } else if (nature === 'erroneous-refund') {
+        card.className = 'rounded-2xl border border-rose-500/40 bg-rose-50/70 dark:bg-rose-950/40 p-6 sm:p-8';
+        icon.textContent = '✕';
+        title.className = 'text-xl font-bold text-rose-800 dark:text-rose-300';
+        title.textContent = 'Ineligible: Erroneous Refund Demands Excluded';
+        desc.textContent = 'Section 128A does not apply to demands raised for recovery of erroneous refunds sanctioned by the department.';
+      } else if (paid !== 'paid') {
+        card.className = 'rounded-2xl border border-amber-500/30 bg-amber-50/50 dark:bg-amber-950/20 p-6 sm:p-8';
+        icon.textContent = '⏳';
+        title.className = 'text-xl font-bold text-amber-800 dark:text-amber-300';
+        title.textContent = 'Action Required: Pay Basic Tax to Qualify';
+        desc.textContent = 'Your notice satisfies the legal grounds, but waiver is strictly conditional upon paying 100% of the underlying basic tax demand on or before 31 March 2025.';
+      } else {
+        card.className = 'rounded-2xl border border-emerald-500/30 bg-emerald-50/60 dark:bg-emerald-950/20 p-6 sm:p-8';
+        icon.textContent = '✓';
+        title.className = 'text-xl font-bold text-emerald-800 dark:text-emerald-300';
+        title.textContent = '100% Interest & Penalty Waived!';
+        desc.textContent = 'Congratulations! Your case fulfills all statutory conditions under Section 128A of the CGST Act. File your application on the GST portal to conclude all demand proceedings.';
+      }
+    }
+
+    ['fy-select', 'section-select', 'demand-nature', 'tax-paid'].forEach((id) => {
+      document.getElementById(id)?.addEventListener('change', checkAmnesty);
+    });
+
+    checkAmnesty();
+  </script>
+</BaseLayout>

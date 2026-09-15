@@ -1,0 +1,274 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ToolIcon from '../components/ToolIcon.astro';
+
+const title = 'GST Refund Calculator (Inverted Duty & Zero-Rated Exports) | Taxzentic';
+const description = 'Calculate maximum eligible GST refund under Rule 89(5) for Inverted Duty Structure and Rule 89(4) for Export / Zero-Rated Supplies without payment of tax under LUT.';
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://taxzentic.com';
+const canonical = `${siteUrl}/gst-refund-calculator`;
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'GST Refund Calculator India',
+    url: canonical,
+    description: 'Calculate maximum GST refund for inverted duty structure and zero-rated exports under Rule 89(4) and 89(5).',
+    applicationCategory: 'FinanceApplication',
+    operatingSystem: 'Any',
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'INR',
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What is Inverted Duty Structure in GST?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Inverted Duty Structure arises when the GST rate on inward supplies (inputs purchased) is higher than the GST rate on outward supplies (final goods sold), leading to an unutilized accumulation of Input Tax Credit. Taxpayers can claim a refund under Section 54(3) read with Rule 89(5).',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Can input services be included in Inverted Duty Refund?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'As per the amended Rule 89(5) and the Supreme Court decision in VKC Footsteps, refund of accumulated ITC under inverted duty structure is available only on inputs (goods), though the revised formula now proportionally accounts for input services in the tax payable deduction.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'What is the time limit to file Form RFD-01 for GST refund?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Under Section 54(1), any claim for refund must be filed within two years from the relevant date (e.g. date of export or end of the financial year for inverted duty).',
+        },
+      },
+    ],
+  },
+];
+
+const breadcrumb = [
+  { name: 'Home', href: '/' },
+  { name: 'Tools', href: '/#tools-heading' },
+  { name: 'GST Refund Calculator', href: '/gst-refund-calculator' },
+];
+
+const lastUpdated = '2026-09-15';
+---
+
+<BaseLayout {title} {description} {canonical} {structuredData} {breadcrumb} {lastUpdated}>
+  <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+    <!-- Header -->
+    <div class="text-center mb-14">
+      <div class="inline-flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-50/50 dark:bg-blue-950/40 px-4 py-1.5 text-[12px] font-mono uppercase tracking-wider text-accent mb-4">
+        <span class="h-2 w-2 rounded-full bg-accent animate-pulse"></span>
+        Section 54 · Rule 89(4) & 89(5)
+      </div>
+      <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-base mb-4">
+        GST Refund Calculator
+      </h1>
+      <p class="text-[17px] text-muted max-w-2xl mx-auto leading-relaxed">
+        Accurately compute maximum admissible refund for Inverted Duty Structure and Zero-Rated Export supplies under LUT. Form RFD-01 compliant.
+      </p>
+    </div>
+
+    <!-- Mode Selector Tabs -->
+    <div class="flex justify-center mb-10">
+      <div class="inline-flex p-1.5 rounded-2xl bg-subtle border border-base">
+        <button id="tab-inverted" type="button" class="px-6 py-2.5 rounded-xl text-xs font-bold text-accent bg-surface shadow-xs transition-all">
+          Inverted Duty Structure (Rule 89(5))
+        </button>
+        <button id="tab-export" type="button" class="px-6 py-2.5 rounded-xl text-xs font-bold text-muted hover:text-base transition-all">
+          Export / Zero-Rated under LUT (Rule 89(4))
+        </button>
+      </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-16">
+      <!-- Form Inputs -->
+      <div class="lg:col-span-6 space-y-6">
+        <!-- Inverted Duty Inputs -->
+        <div id="panel-inverted" class="rounded-2xl border border-base bg-surface p-6 sm:p-8 shadow-sm space-y-4">
+          <h2 class="text-base font-bold text-base mb-2">Inverted Supply Details</h2>
+
+          <div>
+            <label for="inv-turnover" class="block text-xs font-semibold uppercase tracking-wider text-muted mb-1.5">
+              Turnover of Inverted Rated Supply (₹)
+            </label>
+            <input type="number" id="inv-turnover" value="5000000" min="0" step="10000" class="w-full rounded-xl border border-base bg-subtle px-4 py-2.5 font-mono text-sm focus:border-accent focus:outline-none" />
+            <p class="text-[11px] text-muted mt-1">Value of outward goods sold at lower tax rate (e.g. 5%).</p>
+          </div>
+
+          <div>
+            <label for="inv-adj-turnover" class="block text-xs font-semibold uppercase tracking-wider text-muted mb-1.5">
+              Adjusted Total Turnover (₹)
+            </label>
+            <input type="number" id="inv-adj-turnover" value="6000000" min="0" step="10000" class="w-full rounded-xl border border-base bg-subtle px-4 py-2.5 font-mono text-sm focus:border-accent focus:outline-none" />
+          </div>
+
+          <div>
+            <label for="inv-net-itc" class="block text-xs font-semibold uppercase tracking-wider text-muted mb-1.5">
+              Net ITC Availed on Inputs Only (₹)
+            </label>
+            <input type="number" id="inv-net-itc" value="600000" min="0" step="5000" class="w-full rounded-xl border border-base bg-subtle px-4 py-2.5 font-mono text-sm focus:border-accent focus:outline-none" />
+            <p class="text-[11px] text-muted mt-1">Excludes ITC on capital goods and input services.</p>
+          </div>
+
+          <div>
+            <label for="inv-total-itc" class="block text-xs font-semibold uppercase tracking-wider text-muted mb-1.5">
+              Total ITC on Inputs & Input Services (₹)
+            </label>
+            <input type="number" id="inv-total-itc" value="700000" min="0" step="5000" class="w-full rounded-xl border border-base bg-subtle px-4 py-2.5 font-mono text-sm focus:border-accent focus:outline-none" />
+          </div>
+
+          <div>
+            <label for="inv-tax-payable" class="block text-xs font-semibold uppercase tracking-wider text-muted mb-1.5">
+              Tax Payable on Inverted Supply (₹)
+            </label>
+            <input type="number" id="inv-tax-payable" value="250000" min="0" step="5000" class="w-full rounded-xl border border-base bg-subtle px-4 py-2.5 font-mono text-sm focus:border-accent focus:outline-none" />
+            <p class="text-[11px] text-muted mt-1">Output tax on inverted supply before ITC adjustment.</p>
+          </div>
+        </div>
+
+        <!-- Export Inputs -->
+        <div id="panel-export" class="hidden rounded-2xl border border-base bg-surface p-6 sm:p-8 shadow-sm space-y-4">
+          <h2 class="text-base font-bold text-base mb-2">Export / Zero-Rated Details</h2>
+
+          <div>
+            <label for="exp-turnover" class="block text-xs font-semibold uppercase tracking-wider text-muted mb-1.5">
+              Turnover of Zero-Rated Supply (under LUT) (₹)
+            </label>
+            <input type="number" id="exp-turnover" value="4000000" min="0" step="10000" class="w-full rounded-xl border border-base bg-subtle px-4 py-2.5 font-mono text-sm focus:border-accent focus:outline-none" />
+          </div>
+
+          <div>
+            <label for="exp-adj-turnover" class="block text-xs font-semibold uppercase tracking-wider text-muted mb-1.5">
+              Adjusted Total Turnover (₹)
+            </label>
+            <input type="number" id="exp-adj-turnover" value="5000000" min="0" step="10000" class="w-full rounded-xl border border-base bg-subtle px-4 py-2.5 font-mono text-sm focus:border-accent focus:outline-none" />
+          </div>
+
+          <div>
+            <label for="exp-net-itc" class="block text-xs font-semibold uppercase tracking-wider text-muted mb-1.5">
+              Net ITC on Inputs & Input Services (₹)
+            </label>
+            <input type="number" id="exp-net-itc" value="500000" min="0" step="5000" class="w-full rounded-xl border border-base bg-subtle px-4 py-2.5 font-mono text-sm focus:border-accent focus:outline-none" />
+            <p class="text-[11px] text-muted mt-1">Excludes capital goods ITC.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Result Card -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="rounded-3xl border border-emerald-500/30 bg-emerald-50/40 dark:bg-emerald-950/20 p-8 shadow-sm text-center">
+          <span class="text-xs font-mono uppercase tracking-wider text-emerald-800 dark:text-emerald-400 font-bold block mb-2">
+            Maximum Eligible GST Refund
+          </span>
+          <div class="text-4xl sm:text-5xl font-black font-mono text-emerald-700 dark:text-emerald-300 mb-4" id="refund-result">
+            ₹2,85,714
+          </div>
+          <p class="text-xs text-muted max-w-md mx-auto mb-6 leading-relaxed" id="refund-note">
+            Calculated under amended Rule 89(5) formula (Circular No. 173/05/2022-GST).
+          </p>
+
+          <a href="/gst-refund-tracker" class="inline-flex items-center gap-1.5 text-xs font-bold text-accent hover:underline">
+            Track Refund Approval Timeline (RFD-02 to RFD-06) →
+          </a>
+        </div>
+
+        <div class="rounded-2xl border border-base bg-surface p-6 shadow-sm">
+          <h3 class="font-bold text-base text-sm mb-3">Statutory Formula Breakdown</h3>
+          <div class="space-y-2 text-xs font-mono text-muted" id="formula-breakdown">
+            <!-- Dynamic formula steps -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script is:inline>
+    let activeTab = 'inverted';
+
+    const tabInverted = document.getElementById('tab-inverted');
+    const tabExport = document.getElementById('tab-export');
+    const panelInverted = document.getElementById('panel-inverted');
+    const panelExport = document.getElementById('panel-export');
+
+    tabInverted?.addEventListener('click', () => {
+      activeTab = 'inverted';
+      tabInverted.className = 'px-6 py-2.5 rounded-xl text-xs font-bold text-accent bg-surface shadow-xs transition-all';
+      tabExport.className = 'px-6 py-2.5 rounded-xl text-xs font-bold text-muted hover:text-base transition-all';
+      panelInverted?.classList.remove('hidden');
+      panelExport?.classList.add('hidden');
+      calculateRefund();
+    });
+
+    tabExport?.addEventListener('click', () => {
+      activeTab = 'export';
+      tabExport.className = 'px-6 py-2.5 rounded-xl text-xs font-bold text-accent bg-surface shadow-xs transition-all';
+      tabInverted.className = 'px-6 py-2.5 rounded-xl text-xs font-bold text-muted hover:text-base transition-all';
+      panelExport?.classList.remove('hidden');
+      panelInverted?.classList.add('hidden');
+      calculateRefund();
+    });
+
+    function calculateRefund() {
+      const inr = (num) => '₹' + Math.round(num).toLocaleString('en-IN');
+
+      if (activeTab === 'inverted') {
+        const invTurnover = Math.max(0, parseFloat(document.getElementById('inv-turnover').value) || 0);
+        const adjTurnover = Math.max(1, parseFloat(document.getElementById('inv-adj-turnover').value) || 1);
+        const netItc = Math.max(0, parseFloat(document.getElementById('inv-net-itc').value) || 0);
+        const totalItc = Math.max(netItc, parseFloat(document.getElementById('inv-total-itc').value) || netItc);
+        const taxPayable = Math.max(0, parseFloat(document.getElementById('inv-tax-payable').value) || 0);
+
+        // Amended Rule 89(5) Formula:
+        // Refund = (InvTurnover * NetITC / AdjTurnover) - [TaxPayable * (NetITC / TotalITC)]
+        const term1 = (invTurnover * netItc) / adjTurnover;
+        const term2 = totalItc > 0 ? taxPayable * (netItc / totalItc) : 0;
+        const refund = Math.max(0, term1 - term2);
+
+        document.getElementById('refund-result').textContent = inr(refund);
+        document.getElementById('refund-note').textContent = 'Calculated under amended Rule 89(5) of CGST Rules with revised proportion.';
+
+        document.getElementById('formula-breakdown').innerHTML = `
+          <div class="flex justify-between"><span>Gross Proportional ITC:</span><span class="font-bold text-base">${inr(term1)}</span></div>
+          <div class="flex justify-between"><span>Less: Tax Payable Adjusted:</span><span class="font-bold text-rose-600">-${inr(term2)}</span></div>
+          <div class="flex justify-between border-t border-base pt-1 font-bold text-emerald-600"><span>Maximum Refund Claimable:</span><span>${inr(refund)}</span></div>
+        `;
+      } else {
+        const expTurnover = Math.max(0, parseFloat(document.getElementById('exp-turnover').value) || 0);
+        const adjTurnover = Math.max(1, parseFloat(document.getElementById('exp-adj-turnover').value) || 1);
+        const netItc = Math.max(0, parseFloat(document.getElementById('exp-net-itc').value) || 0);
+
+        // Rule 89(4) Formula:
+        // Refund = (ExportTurnover * NetITC) / AdjTurnover
+        const refund = Math.min(netItc, (expTurnover * netItc) / adjTurnover);
+
+        document.getElementById('refund-result').textContent = inr(refund);
+        document.getElementById('refund-note').textContent = 'Calculated under Rule 89(4) for Zero-Rated Exports without payment of tax (LUT).';
+
+        document.getElementById('formula-breakdown').innerHTML = `
+          <div class="flex justify-between"><span>Export Ratio:</span><span class="font-bold text-base">${((expTurnover / adjTurnover) * 100).toFixed(1)}%</span></div>
+          <div class="flex justify-between"><span>Net ITC on Inputs/Services:</span><span class="font-bold text-base">${inr(netItc)}</span></div>
+          <div class="flex justify-between border-t border-base pt-1 font-bold text-emerald-600"><span>Maximum Refund Claimable:</span><span>${inr(refund)}</span></div>
+        `;
+      }
+    }
+
+    ['inv-turnover', 'inv-adj-turnover', 'inv-net-itc', 'inv-total-itc', 'inv-tax-payable', 'exp-turnover', 'exp-adj-turnover', 'exp-net-itc'].forEach((id) => {
+      document.getElementById(id)?.addEventListener('input', calculateRefund);
+    });
+
+    calculateRefund();
+  </script>
+</BaseLayout>

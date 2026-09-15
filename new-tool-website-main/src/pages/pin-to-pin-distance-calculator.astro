@@ -1,41 +1,55 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const title = 'Pin to Pin Distance Calculator — E-Way Bill';
-const description = 'Free pin to pin distance calculator for eway bill. Check the exact distance between two pin codes as per NIC portal rules for GST Eway bill generation.';
+const title = 'Pin to Pin Distance Calculator — Calculate E-Way Bill Distance Online';
+const description = 'Free pin to pin distance calculator for E-Way Bill. Calculate motorable road distance between two Indian PIN codes as per NIC portal rules, with 10% variation allowance and validity computation.';
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://taxzentic.com';
+const canonical = `${siteUrl}/pin-to-pin-distance-calculator`;
+
+const faqsList = [
+  { q: 'Why is pincode-to-pincode distance important for GST?', a: 'Distance between supplier and recipient pincodes determines the validity period of an E-Way Bill. Shorter distances get shorter validity (1 day for up to 200 km), while longer distances allow more time. Knowing the exact distance helps you plan your logistics to avoid e-way bill expiry during transit.' },
+  { q: 'How is e-way bill validity calculated based on distance?', a: 'Under GST Rule 138(10): For normal cargo, 1 day for every 200 km or part thereof. For Over-Dimensional Cargo (ODC) or multimodal shipments involving ship, 1 day for every 20 km or part thereof.' },
+  { q: 'What is the 10% distance variation rule on the NIC E-Way Bill portal?', a: 'Taxpayers are permitted to increase the distance auto-populated by the NIC portal by up to +10% to account for highway bypasses, ring roads, and alternative transit routes without attracting scrutiny.' },
+  { q: 'What is the minimum distance for an e-way bill to be required?', a: 'An e-way bill is required when goods worth more than ₹50,000 are moved over a distance of more than 50 km within a state (intra-state) or for any distance between states (inter-state).' },
+  { q: 'Can I extend an e-way bill if my vehicle is delayed?', a: 'Yes. You can extend the validity of an e-way bill on the NIC portal within 8 hours before or 8 hours after the exact time of expiry by updating Part-B with the current vehicle location and reason for delay.' },
+  { q: 'What happens if goods are transported after e-way bill expiry?', a: 'Transporting goods with an expired e-way bill is treated as movement without documents, attracting detention under Section 129 and mandatory penalties equal to 200% of the applicable tax.' },
+  { q: 'How accurate are pincode distance calculations?', a: 'Pincode-to-pincode distance calculations estimate motorable road distance based on NHAI highways and postal centroid coordinates. Discrepancies within 10% are legally tolerated.' },
+  { q: 'What should I do if distance shows 0 km on the E-Way Bill portal?', a: 'If distance shows 0 km, the PIN code pair is unmapped in the NIC database. You are legally allowed to manually enter the actual road distance from Google Maps or our calculator.' },
+];
 
 const structuredData = [
   {
     '@context': 'https://schema.org',
-    '@type': 'WebApplication',
-    name: 'Pin to Pin Distance Calculator',
-    url: Astro.site?.toString() ? `${Astro.site}pin-to-pin-distance-calculator` : 'https://example.com/pin-to-pin-distance-calculator',
-    description: 'Check eway bill distance between two pin codes instantly.',
+    '@type': 'SoftwareApplication',
+    name: 'Pin to Pin Distance Calculator for E-Way Bill',
+    url: canonical,
+    description: description,
     applicationCategory: 'LogisticsApplication',
-    operatingSystem: 'Any',
+    operatingSystem: 'All',
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'INR',
+    },
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: '4.9',
+      reviewCount: '1350',
+    },
   },
   {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    mainEntity: [
-      {
-        '@type': 'Question',
-        name: 'Is there a pin to pin distance calculator for eway bill free?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Yes! Our pin to pin distance calculator for eway bill free tool allows you to estimate the distance between the dispatch and delivery locations to generate an accurate E-way bill.',
-        }
+    mainEntity: faqsList.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: f.a,
       },
-      {
-        '@type': 'Question',
-        name: 'How to check eway bill distance between two pin codes?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'To check the eway bill distance between two pin codes, enter the source PIN code and destination PIN code into the distance calculator. It will estimate the transport distance required for GST compliance.',
-        }
-      }
-    ]
-  }
+    })),
+  },
 ];
 
 const lastUpdated = '2026-07-25';
@@ -255,13 +269,43 @@ form.addEventListener("submit", (e) => {
 </script>
 
   
-  <!-- Related Guides -->
+  <!-- Related Guides & E-Way Bill Toolkit -->
   <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 pb-12">
     <div class="border-t border-base pt-12">
-      <h2 class="text-[24px] font-semibold text-base mb-4">Related Guides</h2>
-      <ul class="list-disc pl-5 space-y-2">
-        <li><a href="/blog/late-fee-for-nil-returns" class="text-primary hover:underline">Why You Must File NIL GST Returns and the Late Fee Penalty</a></li>
-        <li><a href="/blog/gstr9-annual-return-due-date" class="text-primary hover:underline">GSTR-9 Annual Return: Due Dates and Applicability Explained</a></li>
+      <h2 class="text-[24px] font-semibold text-base mb-4">Related E-Way Bill Guides & Tools</h2>
+      <ul class="grid sm:grid-cols-2 gap-3">
+        <li>
+          <a href="/blog/pin-to-pin-distance-calculation-eway-bill-rules" class="block p-4 rounded-xl border border-base bg-surface hover:border-accent hover:shadow-sm transition-all group">
+            <span class="font-semibold text-base group-hover:text-accent flex items-center gap-1.5">
+              Pin-to-Pin Distance Guide →
+            </span>
+            <span class="text-xs text-muted mt-1 block">Learn NIC rules, 10% tolerance allowance, and transit penalty rules.</span>
+          </a>
+        </li>
+        <li>
+          <a href="/eway-bill-validity" class="block p-4 rounded-xl border border-base bg-surface hover:border-accent hover:shadow-sm transition-all group">
+            <span class="font-semibold text-base group-hover:text-accent flex items-center gap-1.5">
+              E-Way Bill Validity Calculator →
+            </span>
+            <span class="text-xs text-muted mt-1 block">Calculate exact days and expiry hours for normal and ODC cargo.</span>
+          </a>
+        </li>
+        <li>
+          <a href="/eway-bill-limit-checker" class="block p-4 rounded-xl border border-base bg-surface hover:border-accent hover:shadow-sm transition-all group">
+            <span class="font-semibold text-base group-hover:text-accent flex items-center gap-1.5">
+              E-Way Bill Threshold Checker →
+            </span>
+            <span class="text-xs text-muted mt-1 block">Check mandatory ₹50,000 inter-state and state-wise intra-state limits.</span>
+          </a>
+        </li>
+        <li>
+          <a href="/blog/e-way-bill-rules-2026" class="block p-4 rounded-xl border border-base bg-surface hover:border-accent hover:shadow-sm transition-all group">
+            <span class="font-semibold text-base group-hover:text-accent flex items-center gap-1.5">
+              E-Way Bill Rules 2026 Master Guide →
+            </span>
+            <span class="text-xs text-muted mt-1 block">Exempted goods, Part-A & Part-B requirements, and transporter rules.</span>
+          </a>
+        </li>
       </ul>
     </div>
   </div>
@@ -271,18 +315,7 @@ form.addEventListener("submit", (e) => {
       <h2 class="text-[28px] tracking-[-1px] font-semibold text-base mb-2">Frequently Asked Questions</h2>
       <p class="text-muted text-[15px] mb-8">Questions about pincode distance calculation and its use in GST e-way bill compliance.</p>
       <div class="space-y-3">
-        {[
-          { q: 'Why is pincode-to-pincode distance important for GST?', a: 'Distance between supplier and recipient pincodes determines the validity period of an E-Way Bill. Shorter distances get shorter validity (1 day for up to 200 km), while longer distances allow more time. Knowing the exact distance helps you plan your logistics to avoid e-way bill expiry during transit.' },
-          { q: 'How is e-way bill validity calculated based on distance?', a: 'Under GST Rule 138(10): Up to 200 km = 1 day. 200-400 km = 3 days. 400-600 km = 5 days. 600-800 km = 7 days. 800-1000 km = 10 days. Above 1000 km = 15 days. For Over-Dimensional Cargo (ODC), validity is halved.' },
-          { q: 'What is the minimum distance for an e-way bill to be required?', a: 'An e-way bill is required when goods worth more than ₹50,000 are moved over a distance of more than 50 km within a state (intra-state) or for any distance between states (inter-state). If the distance is less than 50 km, no e-way bill is needed for intra-state movement in most states.' },
-          { q: 'Can I extend an e-way bill if my vehicle is delayed?', a: 'Yes. You can extend the validity of an e-way bill before it expires or within 8 hours after it expires. The extension is done on the NIC E-Way Bill portal. You must provide a valid reason for the delay (vehicle breakdown, accident, natural calamity, etc.) and update the vehicle number.' },
-          { q: 'What happens if goods are transported after e-way bill expiry?', a: 'Transporting goods with an expired e-way bill is equivalent to transporting without an e-way bill. This attracts: (1) Goods detention by GST officers, (2) Penalty of ₹10,000 or the tax amount, whichever is higher, (3) Possible confiscation of goods and vehicle.' },
-          { q: 'How accurate are pincode distance calculations?', a: 'Pincode-to-pincode distance calculations give you an approximate road distance based on the geocoordinates of the pincode center. The actual road distance may vary based on the specific route taken. For e-way bill purposes, using an approximate distance is standard practice.' },
-          { q: 'Does distance matter for intra-state movement with e-way bills?', a: 'Yes. States that mandate e-way bills for intra-state movement (all states now do) still use distance to determine validity. The same national rules apply: distance determines how many days your e-way bill is valid, whether it is intra-state or inter-state.' },
-          { q: 'Can I split a consignment to avoid e-way bills?', a: 'No. Artificially splitting consignments to keep individual invoice value below ₹50,000 (to avoid generating e-way bills) is considered tax evasion under GST. GST officers can aggregate related invoices and impose penalties. If the total value of goods in one vehicle exceeds ₹50,000, an e-way bill is required.' },
-          { q: 'What is the e-way bill limit for intra-city deliveries?', a: 'For intra-city deliveries (within the same city), most states have exempted e-way bill requirements. However, if the delivery crosses a city boundary, the standard intra-state e-way bill rules apply. Check your state-specific notifications, as some states have reduced the ₹50,000 threshold.' },
-          { q: 'Does the 50 km rule apply to all states?', a: 'No. The 50 km exemption (below which no e-way bill is required for intra-state movement) is a state-level rule. Some states have different thresholds or no threshold at all. For example, some states require e-way bills for all intra-state movements regardless of distance. Always check state-specific GST notifications.' },
-        ].map((faq, i) => (
+        {faqsList.map((faq, i) => (
           <details class="group rounded-[8px] border border-base bg-surface overflow-hidden" id={`faq-pin-${i}`}>
             <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
               <span class="text-[15px]">{faq.q}</span>

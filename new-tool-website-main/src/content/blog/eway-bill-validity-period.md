@@ -41,7 +41,7 @@ You are moving inventory from Chennai to Hyderabad. The distance is 630 km.
 - 601 to 630 km = 1 day
 - **Total Validity:** **4 days**.
 
-👉 Try it yourself: Stop doing mental math. Use our [E-Way Bill Validity](/eway-bill-validity) calculator to instantly determine exactly how many days your shipment has before it expires.
+👉 Try it yourself: Stop doing mental math. Use our **[E-Way Bill Validity Calculator](/eway-bill-validity)** to instantly determine exactly how many days your shipment has before it expires. Need to calculate the motorable road distance between your dispatch and delivery postal codes? Use our free **[Pin to Pin Distance Calculator](/pin-to-pin-distance-calculator)** and read the **[Pin to Pin Distance Rules Guide](/blog/pin-to-pin-distance-calculation-eway-bill-rules)**.
 
 ## Over Dimensional Cargo (ODC) Exception
 

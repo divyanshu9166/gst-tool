@@ -1,0 +1,193 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ToolIcon from '../components/ToolIcon.astro';
+
+const title = 'E-Invoice Eligibility Checker (Turnover & Exempt Sectors) | Taxzentic';
+const description = 'Check if your business is legally required to generate GST E-Invoices (IRN). Evaluates turnover thresholds (₹5 Cr) and statutory exempt sectors under Rule 48(4).';
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://taxzentic.com';
+const canonical = `${siteUrl}/e-invoice-eligibility-checker`;
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'GST E-Invoice Eligibility Checker India',
+    url: canonical,
+    description: 'Check GST E-Invoicing applicability based on historical turnover and sector exemptions under Rule 48(4).',
+    applicationCategory: 'FinanceApplication',
+    operatingSystem: 'Any',
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'INR',
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What is the current mandatory turnover threshold for E-Invoicing in India?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'From 1st August 2023 onward, E-Invoicing is mandatory for all registered businesses whose Aggregate Annual Turnover (AATO) exceeded ₹5 Crores in ANY preceding financial year from FY 2017-18 onwards.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Which entities are exempt from mandatory GST E-Invoicing?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Under the proviso to Rule 48(4), SEZ Units, Banking companies, NBFCs, Insurance firms, Goods Transport Agencies (GTAs), passenger transport providers, multiplex cinema operators, and Government departments are exempt from generating e-invoices irrespective of turnover.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'What is the penalty for issuing an invoice without IRN if E-Invoicing applies?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Under Rule 48(5), an invoice issued without an Invoice Reference Number (IRN) by an eligible entity is considered legally invalid. The buyer is barred from claiming ITC, and the issuer faces a penalty under Section 122(1) equal to 100% of tax evaded or ₹10,000, whichever is higher.',
+        },
+      },
+    ],
+  },
+];
+
+const breadcrumb = [
+  { name: 'Home', href: '/' },
+  { name: 'Tools', href: '/#tools-heading' },
+  { name: 'E-Invoice Checker', href: '/e-invoice-eligibility-checker' },
+];
+
+const lastUpdated = '2026-09-15';
+---
+
+<BaseLayout {title} {description} {canonical} {structuredData} {breadcrumb} {lastUpdated}>
+  <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+    <!-- Header -->
+    <div class="text-center mb-14">
+      <div class="inline-flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-50/50 dark:bg-blue-950/40 px-4 py-1.5 text-[12px] font-mono uppercase tracking-wider text-accent mb-4">
+        <span class="h-2 w-2 rounded-full bg-accent animate-pulse"></span>
+        Rule 48(4) & Rule 48(5) Verification
+      </div>
+      <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-base mb-4">
+        E-Invoice Eligibility Checker
+      </h1>
+      <p class="text-[17px] text-muted max-w-2xl mx-auto leading-relaxed">
+        Verify whether your company is legally obligated to generate e-invoices with Invoice Reference Numbers (IRN) and signed QR codes.
+      </p>
+    </div>
+
+    <!-- Interactive Checker Card -->
+    <div class="rounded-2xl border border-base bg-surface p-6 sm:p-10 shadow-sm mb-12 space-y-6">
+      <div>
+        <label for="highest-turnover" class="block text-sm font-semibold text-base mb-2">
+          1. Highest Annual Aggregate Turnover in ANY FY (2017-18 to Present)
+        </label>
+        <div class="relative">
+          <span class="absolute left-4 top-1/2 -translate-y-1/2 font-mono text-muted">₹</span>
+          <input
+            type="number"
+            id="highest-turnover"
+            value="75000000"
+            min="0"
+            step="500000"
+            class="w-full rounded-xl border border-base bg-subtle pl-9 pr-4 py-3 font-mono text-base focus:border-accent focus:outline-none"
+          />
+        </div>
+        <p class="text-xs text-muted mt-1.5">
+          Take the highest turnover from your GSTR-9 / audited financials for any single FY since 2017-18.
+        </p>
+      </div>
+
+      <div>
+        <label for="sector-select" class="block text-sm font-semibold text-base mb-2">
+          2. Nature of Entity / Sector Classification
+        </label>
+        <select id="sector-select" class="w-full rounded-xl border border-base bg-subtle px-4 py-3 text-sm focus:border-accent focus:outline-none">
+          <option value="standard">Standard Commercial / Manufacturing / Trading / Services Entity</option>
+          <option value="sez-unit">SEZ (Special Economic Zone) Unit</option>
+          <option value="bank">Bank / NBFC / Insurance Company / Financial Institution</option>
+          <option value="gta">Goods Transport Agency (GTA)</option>
+          <option value="passenger">Passenger Transportation Services</option>
+          <option value="cinema">Multiplex Cinema Screen Operator</option>
+          <option value="govt">Government Department / Local Authority</option>
+        </select>
+      </div>
+
+      <!-- Verdict Card -->
+      <div class="rounded-2xl border p-6 sm:p-8 transition-all" id="einv-verdict">
+        <div class="flex items-center gap-3 mb-2">
+          <span class="text-2xl" id="verdict-icon">⚡</span>
+          <h3 class="text-xl font-bold text-base" id="verdict-title">Mandatory: E-Invoicing Applies</h3>
+        </div>
+        <p class="text-sm text-muted leading-relaxed" id="verdict-desc">
+          Your turnover exceeds ₹5 Crores and your business is not in an exempt sector.
+        </p>
+      </div>
+    </div>
+
+    <!-- Threshold History & Consequences -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs text-muted">
+      <div class="rounded-2xl border border-base bg-surface p-6 space-y-3">
+        <h3 class="text-sm font-bold text-base">E-Invoicing Phased Rollout in India</h3>
+        <div class="space-y-1.5 font-mono">
+          <div class="flex justify-between"><span>Phase 1 (Oct 2020):</span><span class="font-bold">&gt; ₹500 Crores</span></div>
+          <div class="flex justify-between"><span>Phase 2 (Jan 2021):</span><span class="font-bold">&gt; ₹100 Crores</span></div>
+          <div class="flex justify-between"><span>Phase 3 (Apr 2021):</span><span class="font-bold">&gt; ₹50 Crores</span></div>
+          <div class="flex justify-between"><span>Phase 4 (Apr 2022):</span><span class="font-bold">&gt; ₹20 Crores</span></div>
+          <div class="flex justify-between"><span>Phase 5 (Oct 2022):</span><span class="font-bold">&gt; ₹10 Crores</span></div>
+          <div class="flex justify-between text-accent font-bold"><span>Phase 6 (Current):</span><span>&gt; ₹5 Crores</span></div>
+        </div>
+      </div>
+
+      <div class="rounded-2xl border border-base bg-surface p-6 space-y-3">
+        <h3 class="text-sm font-bold text-base">Legal Consequences of Missing IRN</h3>
+        <p><strong>Deemed Invalid (Rule 48(5)):</strong> An invoice without IRN is not treated as a valid tax invoice. Your buyer CANNOT claim Input Tax Credit.</p>
+        <p><strong>Section 122 Penalty:</strong> ₹10,000 or 100% of the tax due for issuing an incorrect invoice.</p>
+        <p><strong>E-Way Bill Blocking:</strong> E-Way bills cannot be generated without a valid IRN for eligible taxpayers.</p>
+      </div>
+    </div>
+  </div>
+
+  <script is:inline>
+    function evaluateEInvoice() {
+      const turnover = Math.max(0, parseFloat(document.getElementById('highest-turnover').value) || 0);
+      const sector = document.getElementById('sector-select').value;
+
+      const card = document.getElementById('einv-verdict');
+      const icon = document.getElementById('verdict-icon');
+      const title = document.getElementById('verdict-title');
+      const desc = document.getElementById('verdict-desc');
+
+      const isExemptSector = sector !== 'standard';
+
+      if (isExemptSector) {
+        card.className = 'rounded-2xl border border-emerald-500/30 bg-emerald-50/60 dark:bg-emerald-950/20 p-6 sm:p-8 transition-all';
+        icon.textContent = '🛡️';
+        title.className = 'text-xl font-bold text-emerald-800 dark:text-emerald-300';
+        title.textContent = 'Statutorily EXEMPT from E-Invoicing';
+        desc.textContent = 'Your selected entity type is specifically exempted from mandatory E-Invoicing under the proviso to Rule 48(4) of the CGST Rules, regardless of annual turnover.';
+      } else if (turnover >= 50000000) {
+        card.className = 'rounded-2xl border border-rose-500/40 bg-rose-50/70 dark:bg-rose-950/40 p-6 sm:p-8 transition-all';
+        icon.textContent = '🚨';
+        title.className = 'text-xl font-bold text-rose-800 dark:text-rose-300';
+        title.textContent = 'MANDATORY: E-Invoicing is Legally Required';
+        desc.textContent = `Your turnover exceeds ₹5 Crores (₹5,00,00,000). You MUST generate Invoice Reference Numbers (IRN) and signed QR codes for all B2B supplies, exports, and credit/debit notes.`;
+      } else {
+        card.className = 'rounded-2xl border border-emerald-500/30 bg-emerald-50/60 dark:bg-emerald-950/20 p-6 sm:p-8 transition-all';
+        icon.textContent = '✓';
+        title.className = 'text-xl font-bold text-emerald-800 dark:text-emerald-300';
+        title.textContent = 'NOT MANDATORY (Turnover Below ₹5 Cr)';
+        desc.textContent = 'Your historical aggregate turnover has never crossed the ₹5 Crore threshold. You can continue issuing regular tax invoices with standard invoicing software.';
+      }
+    }
+
+    document.getElementById('highest-turnover')?.addEventListener('input', evaluateEInvoice);
+    document.getElementById('sector-select')?.addEventListener('change', evaluateEInvoice);
+
+    evaluateEInvoice();
+  </script>
+</BaseLayout>

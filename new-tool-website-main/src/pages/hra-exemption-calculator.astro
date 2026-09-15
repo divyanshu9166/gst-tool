@@ -1,0 +1,322 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ToolIcon from '../components/ToolIcon.astro';
+
+const title = 'HRA Exemption Calculator 2025-26 & 2026-27 | Section 10(13A) Rule 2A';
+const description = 'Calculate your exact House Rent Allowance (HRA) tax exemption online under Section 10(13A). Compare Metro (50%) vs Non-Metro (40%) and find your exempt vs taxable HRA.';
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://taxzentic.com';
+const canonical = `${siteUrl}/hra-exemption-calculator`;
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'HRA Exemption Calculator India',
+    url: canonical,
+    description: 'Calculate HRA tax exemption under Section 10(13A) and Rule 2A of Income Tax Rules.',
+    applicationCategory: 'FinanceApplication',
+    operatingSystem: 'Any',
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'INR',
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What is the formula to calculate HRA exemption in India?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Under Rule 2A of the Income Tax Rules, HRA exemption is the MINIMUM of the following three: (1) Actual HRA received from employer, (2) Rent paid minus 10% of basic salary + DA, (3) 50% of basic salary for metro cities (Delhi, Mumbai, Kolkata, Chennai) or 40% for non-metro cities.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Is PAN of landlord mandatory to claim HRA?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Yes, if total annual rent paid exceeds ₹1,00,000 (i.e. more than ₹8,333 per month), it is mandatory to report the landlord’s PAN to your employer to claim HRA tax exemption.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Can I claim both HRA exemption and Home Loan tax deduction?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Yes! You can claim both HRA and home loan interest deduction (Section 24b) if your owned home is in a different city or you live in rented premises due to employment or distance from workplace, provided you do not receive rental income from the rented premises.',
+        },
+      },
+    ],
+  },
+];
+
+const breadcrumb = [
+  { name: 'Home', href: '/' },
+  { name: 'Income Tax Tools', href: '/income-tax-tools' },
+  { name: 'HRA Calculator', href: '/hra-exemption-calculator' },
+];
+
+const lastUpdated = '2026-09-15';
+---
+
+<BaseLayout {title} {description} {canonical} {structuredData} {breadcrumb} {lastUpdated}>
+  <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+    <!-- Header -->
+    <div class="text-center mb-14">
+      <div class="inline-flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-50/50 dark:bg-blue-950/40 px-4 py-1.5 text-[12px] font-mono uppercase tracking-wider text-accent mb-4">
+        <span class="h-2 w-2 rounded-full bg-accent animate-pulse"></span>
+        Section 10(13A) · Rule 2A
+      </div>
+      <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-base mb-4">
+        HRA Exemption Calculator
+      </h1>
+      <p class="text-[17px] text-muted max-w-2xl mx-auto leading-relaxed">
+        Determine how much of your House Rent Allowance is 100% tax-free under Income Tax rules. Works for both monthly and annual figures.
+      </p>
+    </div>
+
+    <!-- Calculator Card -->
+    <div class="rounded-2xl border border-base bg-surface p-6 sm:p-10 shadow-sm mb-12">
+      <!-- Frequency Selector -->
+      <div class="flex justify-center mb-8">
+        <div class="inline-flex p-1 rounded-xl bg-subtle border border-base">
+          <button id="btn-monthly" type="button" class="px-5 py-2 rounded-lg text-xs font-semibold text-accent bg-surface shadow-xs transition-all">
+            Monthly Values
+          </button>
+          <button id="btn-yearly" type="button" class="px-5 py-2 rounded-lg text-xs font-semibold text-muted hover:text-base transition-all">
+            Yearly Values
+          </button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <div>
+          <label for="basic-salary" class="block text-sm font-semibold text-base mb-2">
+            Basic Salary + Dearness Allowance (DA) (₹)
+          </label>
+          <input
+            type="number"
+            id="basic-salary"
+            value="50000"
+            min="0"
+            class="w-full rounded-xl border border-base bg-subtle px-4 py-3 font-mono text-base focus:border-accent focus:outline-none transition-colors"
+          />
+          <p class="text-[11px] text-muted mt-1">Include DA forming part of retirement benefits.</p>
+        </div>
+
+        <div>
+          <label for="hra-received" class="block text-sm font-semibold text-base mb-2">
+            Total HRA Received from Employer (₹)
+          </label>
+          <input
+            type="number"
+            id="hra-received"
+            value="25000"
+            min="0"
+            class="w-full rounded-xl border border-base bg-subtle px-4 py-3 font-mono text-base focus:border-accent focus:outline-none transition-colors"
+          />
+          <p class="text-[11px] text-muted mt-1">Found in your salary slip under HRA head.</p>
+        </div>
+
+        <div>
+          <label for="rent-paid" class="block text-sm font-semibold text-base mb-2">
+            Actual Rent Paid to Landlord (₹)
+          </label>
+          <input
+            type="number"
+            id="rent-paid"
+            value="20000"
+            min="0"
+            class="w-full rounded-xl border border-base bg-subtle px-4 py-3 font-mono text-base focus:border-accent focus:outline-none transition-colors"
+          />
+          <p class="text-[11px] text-muted mt-1">Total rent actually paid as per rent agreement.</p>
+        </div>
+
+        <div>
+          <label class="block text-sm font-semibold text-base mb-2">
+            Accommodation Location
+          </label>
+          <div class="grid grid-cols-2 gap-3">
+            <label class="flex items-center gap-2 p-3 rounded-xl border border-base cursor-pointer bg-subtle hover:border-accent transition-colors">
+              <input type="radio" name="city-type" value="metro" checked class="accent-blue-600" />
+              <div class="text-xs">
+                <span class="font-bold text-base block">Metro (50%)</span>
+                <span class="text-muted">Delhi, Mumbai, Kol, Chn</span>
+              </div>
+            </label>
+            <label class="flex items-center gap-2 p-3 rounded-xl border border-base cursor-pointer bg-subtle hover:border-accent transition-colors">
+              <input type="radio" name="city-type" value="non-metro" class="accent-blue-600" />
+              <div class="text-xs">
+                <span class="font-bold text-base block">Non-Metro (40%)</span>
+                <span class="text-muted">All Other Cities</span>
+              </div>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Results Display -->
+      <div class="rounded-2xl border border-emerald-500/30 bg-emerald-50/50 dark:bg-emerald-950/20 p-6 sm:p-8">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400 block mb-1">
+              ✓ 100% Tax-Free HRA Exemption
+            </span>
+            <div class="text-3xl sm:text-4xl font-extrabold text-emerald-700 dark:text-emerald-300 font-mono" id="exempt-hra">
+              ₹15,000 / mo
+            </div>
+            <p class="text-xs text-muted mt-2" id="exempt-annual">
+              Annual Exemption: ₹1,80,000
+            </p>
+          </div>
+
+          <div class="sm:border-l sm:border-base/50 sm:pl-6">
+            <span class="text-xs font-bold uppercase tracking-wider text-muted block mb-1">
+              Taxable Portion of HRA
+            </span>
+            <div class="text-3xl sm:text-4xl font-extrabold text-base font-mono" id="taxable-hra">
+              ₹10,000 / mo
+            </div>
+            <p class="text-xs text-muted mt-2" id="taxable-annual">
+              Annual Taxable: ₹1,20,000 added to salary
+            </p>
+          </div>
+        </div>
+
+        <!-- 3 Condition Step Breakdown -->
+        <div class="mt-8 pt-6 border-t border-emerald-500/20">
+          <h3 class="text-sm font-bold text-base mb-3">Statutory 3-Step Comparison (Rule 2A Minimum):</h3>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs font-mono">
+            <div class="p-3.5 rounded-xl border border-base bg-surface" id="cond-1-card">
+              <span class="text-muted block mb-1">1. Actual HRA</span>
+              <span class="font-bold text-base text-sm" id="val-cond-1">₹25,000</span>
+            </div>
+            <div class="p-3.5 rounded-xl border border-base bg-surface" id="cond-2-card">
+              <span class="text-muted block mb-1">2. Rent - 10% Salary</span>
+              <span class="font-bold text-base text-sm" id="val-cond-2">₹15,000</span>
+            </div>
+            <div class="p-3.5 rounded-xl border border-base bg-surface" id="cond-3-card">
+              <span class="text-muted block mb-1" id="label-cond-3">3. 50% of Basic</span>
+              <span class="font-bold text-base text-sm" id="val-cond-3">₹25,000</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Practical Insights & Guidelines -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12 text-sm">
+      <div class="rounded-2xl border border-base bg-surface p-6">
+        <h3 class="font-bold text-base mb-2">Can you pay rent to parents?</h3>
+        <p class="text-muted leading-relaxed">
+          Yes. You can claim HRA by paying rent to your parents, provided they own the property, you transfer the rent via bank transfer, and they declare this rental income in their respective Income Tax Returns.
+        </p>
+      </div>
+
+      <div class="rounded-2xl border border-base bg-surface p-6">
+        <h3 class="font-bold text-base mb-2">What if you pay rent without HRA in salary?</h3>
+        <p class="text-muted leading-relaxed">
+          If your employer does not provide HRA, or if you are self-employed, you can claim rent deduction under <strong>Section 80GG</strong> up to a statutory limit of ₹5,000 per month (₹60,000/year).
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script is:inline>
+    let isMonthly = true;
+
+    const btnMonthly = document.getElementById('btn-monthly');
+    const btnYearly = document.getElementById('btn-yearly');
+
+    btnMonthly?.addEventListener('click', () => {
+      if (!isMonthly) {
+        isMonthly = true;
+        btnMonthly.className = 'px-5 py-2 rounded-lg text-xs font-semibold text-accent bg-surface shadow-xs transition-all';
+        btnYearly.className = 'px-5 py-2 rounded-lg text-xs font-semibold text-muted hover:text-base transition-all';
+        scaleInputs(1 / 12);
+        calculateHra();
+      }
+    });
+
+    btnYearly?.addEventListener('click', () => {
+      if (isMonthly) {
+        isMonthly = false;
+        btnYearly.className = 'px-5 py-2 rounded-lg text-xs font-semibold text-accent bg-surface shadow-xs transition-all';
+        btnMonthly.className = 'px-5 py-2 rounded-lg text-xs font-semibold text-muted hover:text-base transition-all';
+        scaleInputs(12);
+        calculateHra();
+      }
+    });
+
+    function scaleInputs(factor) {
+      ['basic-salary', 'hra-received', 'rent-paid'].forEach((id) => {
+        const input = document.getElementById(id);
+        if (input) {
+          input.value = Math.round((parseFloat(input.value) || 0) * factor);
+        }
+      });
+    }
+
+    function calculateHra() {
+      const basic = Math.max(0, parseFloat(document.getElementById('basic-salary').value) || 0);
+      const hra = Math.max(0, parseFloat(document.getElementById('hra-received').value) || 0);
+      const rent = Math.max(0, parseFloat(document.getElementById('rent-paid').value) || 0);
+      const isMetro = document.querySelector('input[name="city-type"]:checked')?.value === 'metro';
+
+      const tenPercentBasic = basic * 0.10;
+      const cond1 = hra;
+      const cond2 = Math.max(0, rent - tenPercentBasic);
+      const cond3 = basic * (isMetro ? 0.50 : 0.40);
+
+      const exempt = Math.min(cond1, cond2, cond3);
+      const taxable = Math.max(0, hra - exempt);
+
+      const inr = (num) => '₹' + Math.round(num).toLocaleString('en-IN');
+      const suffix = isMonthly ? ' / mo' : ' / yr';
+
+      document.getElementById('exempt-hra').textContent = inr(exempt) + suffix;
+      document.getElementById('taxable-hra').textContent = inr(taxable) + suffix;
+
+      const annualMultiplier = isMonthly ? 12 : 1;
+      document.getElementById('exempt-annual').textContent = `Annual Exemption: ${inr(exempt * annualMultiplier)}`;
+      document.getElementById('taxable-annual').textContent = `Annual Taxable: ${inr(taxable * annualMultiplier)} added to salary`;
+
+      document.getElementById('val-cond-1').textContent = inr(cond1);
+      document.getElementById('val-cond-2').textContent = inr(cond2);
+      document.getElementById('label-cond-3').textContent = isMetro ? '3. 50% of Basic (Metro)' : '3. 40% of Basic (Non-Metro)';
+      document.getElementById('val-cond-3').textContent = inr(cond3);
+
+      // Highlight winning condition card
+      const cards = ['cond-1-card', 'cond-2-card', 'cond-3-card'];
+      cards.forEach((c) => {
+        const el = document.getElementById(c);
+        if (el) el.className = 'p-3.5 rounded-xl border border-base bg-surface';
+      });
+
+      let winningCard = 'cond-1-card';
+      if (exempt === cond2) winningCard = 'cond-2-card';
+      else if (exempt === cond3) winningCard = 'cond-3-card';
+
+      const winEl = document.getElementById(winningCard);
+      if (winEl) {
+        winEl.className = 'p-3.5 rounded-xl border border-emerald-500/50 bg-emerald-100/40 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-300 font-bold';
+      }
+    }
+
+    ['basic-salary', 'hra-received', 'rent-paid'].forEach((id) => {
+      document.getElementById(id)?.addEventListener('input', calculateHra);
+      document.getElementById(id)?.addEventListener('change', calculateHra);
+    });
+
+    document.querySelectorAll('input[name="city-type"]').forEach((radio) => {
+      radio.addEventListener('change', calculateHra);
+    });
+
+    calculateHra();
+  </script>
+</BaseLayout>

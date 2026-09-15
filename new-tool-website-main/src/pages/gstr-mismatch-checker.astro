@@ -1,0 +1,223 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ToolIcon from '../components/ToolIcon.astro';
+
+const title = 'GSTR Mismatch Checker (GSTR-1 vs 3B & 2B vs 3B) | Taxzentic';
+const description = 'Check return mismatches between GSTR-1 vs GSTR-3B liability and GSTR-2B vs 3B ITC. Detect DRC-01B and DRC-01C notice triggers (>20% or ₹25L) before filing.';
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://taxzentic.com';
+const canonical = `${siteUrl}/gstr-mismatch-checker`;
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'GSTR Mismatch Checker India',
+    url: canonical,
+    description: 'Reconcile GSTR-1 vs 3B liability and GSTR-2B vs 3B ITC to prevent automated DRC-01B and DRC-01C notices.',
+    applicationCategory: 'FinanceApplication',
+    operatingSystem: 'Any',
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'INR',
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What triggers a DRC-01B notice?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Form GST DRC-01B is automatically triggered under Rule 88C when the outward tax liability declared in GSTR-1 exceeds the liability paid in GSTR-3B by more than 20% AND more than ₹25 Lakhs. Taxpayers must either pay the differential tax via DRC-03 or submit an explanation within 7 days.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'What triggers a DRC-01C notice?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Form GST DRC-01C is automatically triggered under Rule 88D when the Input Tax Credit claimed in GSTR-3B exceeds the eligible credit available in auto-generated GSTR-2B by more than 20% AND more than ₹25 Lakhs. A reply in Part B is mandatory within 7 days.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'What happens if I do not respond to DRC-01B or DRC-01C within 7 days?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'If you fail to deposit the differential amount or provide reasons within 7 days, your ability to file outward supplies in Form GSTR-1 / IFF for subsequent tax periods is automatically blocked under Rule 59(6) of the CGST Rules.',
+        },
+      },
+    ],
+  },
+];
+
+const breadcrumb = [
+  { name: 'Home', href: '/' },
+  { name: 'Tools', href: '/#tools-heading' },
+  { name: 'GSTR Mismatch Checker', href: '/gstr-mismatch-checker' },
+];
+
+const lastUpdated = '2026-09-15';
+---
+
+<BaseLayout {title} {description} {canonical} {structuredData} {breadcrumb} {lastUpdated}>
+  <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+    <!-- Header -->
+    <div class="text-center mb-14">
+      <div class="inline-flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-50/50 dark:bg-blue-950/40 px-4 py-1.5 text-[12px] font-mono uppercase tracking-wider text-accent mb-4">
+        <span class="h-2 w-2 rounded-full bg-accent animate-pulse"></span>
+        Rule 88C (DRC-01B) & Rule 88D (DRC-01C) Warning Radar
+      </div>
+      <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-base mb-4">
+        GSTR Mismatch Checker
+      </h1>
+      <p class="text-[17px] text-muted max-w-2xl mx-auto leading-relaxed">
+        Compare GSTR-1 vs GSTR-3B (liability) and GSTR-2B vs GSTR-3B (ITC). Verify if your variances cross the statutory threshold of 20% or ₹25 Lakhs before filing.
+      </p>
+    </div>
+
+    <!-- Mode Selector Tabs -->
+    <div class="flex justify-center mb-10">
+      <div class="inline-flex p-1.5 rounded-2xl bg-subtle border border-base">
+        <button id="tab-liability" type="button" class="px-6 py-2.5 rounded-xl text-xs font-bold text-accent bg-surface shadow-xs transition-all">
+          GSTR-1 vs 3B (Liability / DRC-01B)
+        </button>
+        <button id="tab-itc" type="button" class="px-6 py-2.5 rounded-xl text-xs font-bold text-muted hover:text-base transition-all">
+          GSTR-2B vs 3B (ITC / DRC-01C)
+        </button>
+      </div>
+    </div>
+
+    <!-- Checker Workspace -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-16">
+      <!-- Input Column -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="rounded-2xl border border-base bg-surface p-6 sm:p-8 shadow-sm space-y-4">
+          <h2 class="text-base font-bold text-base mb-2" id="panel-title">
+            Enter Outward Tax Liability
+          </h2>
+
+          <div>
+            <label for="val-source" class="block text-xs font-semibold uppercase tracking-wider text-muted mb-1.5" id="label-source">
+              GSTR-1 Declared Liability (₹)
+            </label>
+            <input type="number" id="val-source" value="3000000" min="0" step="10000" class="w-full rounded-xl border border-base bg-subtle px-4 py-2.5 font-mono text-sm focus:border-accent focus:outline-none" />
+          </div>
+
+          <div>
+            <label for="val-target" class="block text-xs font-semibold uppercase tracking-wider text-muted mb-1.5" id="label-target">
+              GSTR-3B Paid Liability (₹)
+            </label>
+            <input type="number" id="val-target" value="2400000" min="0" step="10000" class="w-full rounded-xl border border-base bg-subtle px-4 py-2.5 font-mono text-sm focus:border-accent focus:outline-none" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Result Radar -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="rounded-3xl border p-8 shadow-sm text-center transition-all duration-300" id="radar-card">
+          <span class="text-xs font-mono uppercase tracking-wider block mb-2" id="radar-badge">
+            Scrutiny Assessment
+          </span>
+
+          <div class="text-4xl sm:text-5xl font-black font-mono mb-2" id="diff-amount">
+            ₹6,00,000
+          </div>
+          <div class="text-xs font-mono mb-6" id="diff-pct">
+            Variance: 25.0%
+          </div>
+
+          <h3 class="text-xl font-bold text-base mb-2" id="radar-title">
+            Notice Risk Evaluation
+          </h3>
+          <p class="text-xs text-muted leading-relaxed max-w-md mx-auto" id="radar-desc">
+            Variance details will update automatically.
+          </p>
+        </div>
+
+        <div class="rounded-2xl border border-base bg-surface p-6 shadow-sm text-xs text-muted space-y-2">
+          <strong class="text-base block mb-1">Rule 88C / 88D Statutory Criterion:</strong>
+          <p>Automated intimations (DRC-01B / DRC-01C) are generated when the discrepancy exceeds <strong>20% AND ₹25 Lakhs</strong>.</p>
+          <p>If you receive a notice, you must file a reply in Part B or pay tax via DRC-03 within <strong>7 days</strong> to avoid GSTR-1 blocking under Rule 59(6).</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script is:inline>
+    let mode = 'liability';
+
+    const tabLiability = document.getElementById('tab-liability');
+    const tabItc = document.getElementById('tab-itc');
+
+    tabLiability?.addEventListener('click', () => {
+      mode = 'liability';
+      tabLiability.className = 'px-6 py-2.5 rounded-xl text-xs font-bold text-accent bg-surface shadow-xs transition-all';
+      tabItc.className = 'px-6 py-2.5 rounded-xl text-xs font-bold text-muted hover:text-base transition-all';
+      document.getElementById('panel-title').textContent = 'Enter Outward Tax Liability';
+      document.getElementById('label-source').textContent = 'GSTR-1 Declared Liability (₹)';
+      document.getElementById('label-target').textContent = 'GSTR-3B Paid Liability (₹)';
+      checkMismatch();
+    });
+
+    tabItc?.addEventListener('click', () => {
+      mode = 'itc';
+      tabItc.className = 'px-6 py-2.5 rounded-xl text-xs font-bold text-accent bg-surface shadow-xs transition-all';
+      tabLiability.className = 'px-6 py-2.5 rounded-xl text-xs font-bold text-muted hover:text-base transition-all';
+      document.getElementById('panel-title').textContent = 'Enter Inward Input Tax Credit';
+      document.getElementById('label-source').textContent = 'GSTR-3B Claimed ITC (₹)';
+      document.getElementById('label-target').textContent = 'GSTR-2B Available Eligible ITC (₹)';
+      checkMismatch();
+    });
+
+    function checkMismatch() {
+      const src = Math.max(0, parseFloat(document.getElementById('val-source').value) || 0);
+      const tgt = Math.max(0, parseFloat(document.getElementById('val-target').value) || 0);
+
+      const diff = Math.max(0, src - tgt);
+      const pct = tgt > 0 ? (diff / tgt) * 100 : (diff > 0 ? 100 : 0);
+
+      const inr = (num) => '₹' + Math.round(num).toLocaleString('en-IN');
+
+      document.getElementById('diff-amount').textContent = inr(diff);
+      document.getElementById('diff-pct').textContent = `Variance: ${pct.toFixed(1)}%`;
+
+      const card = document.getElementById('radar-card');
+      const badge = document.getElementById('radar-badge');
+      const title = document.getElementById('radar-title');
+      const desc = document.getElementById('radar-desc');
+
+      const isCritical = diff > 2500000 && pct > 20;
+
+      if (diff === 0) {
+        card.className = 'rounded-3xl border border-emerald-500/30 bg-emerald-50/50 dark:bg-emerald-950/20 p-8 shadow-sm text-center';
+        badge.className = 'text-xs font-mono uppercase tracking-wider block mb-2 font-bold text-emerald-700 dark:text-emerald-300';
+        badge.textContent = '✓ Perfect Reconciliation';
+        title.textContent = 'Zero Variance Detected';
+        desc.textContent = mode === 'liability' ? 'Your GSTR-1 matches your GSTR-3B liability exactly.' : 'Your GSTR-3B claimed ITC matches GSTR-2B credit exactly.';
+      } else if (isCritical) {
+        card.className = 'rounded-3xl border border-rose-500/40 bg-rose-50/70 dark:bg-rose-950/40 p-8 shadow-sm text-center animate-pulse';
+        badge.className = 'text-xs font-mono uppercase tracking-wider block mb-2 font-bold text-rose-700 dark:text-rose-300';
+        badge.textContent = mode === 'liability' ? '⚠️ High DRC-01B Notice Trigger' : '⚠️ High DRC-01C Notice Trigger';
+        title.textContent = 'Severe Statutory Variance (>₹25L & >20%)';
+        desc.textContent = `Discrepancy of ${inr(diff)} (${pct.toFixed(1)}%) crosses both statutory threshold criteria! You will receive an automated notice with 7 days to pay via DRC-03 or subsequent GSTR-1 will be blocked under Rule 59(6).`;
+      } else {
+        card.className = 'rounded-3xl border border-amber-500/30 bg-amber-50/50 dark:bg-amber-950/20 p-8 shadow-sm text-center';
+        badge.className = 'text-xs font-mono uppercase tracking-wider block mb-2 font-bold text-amber-700 dark:text-amber-300';
+        badge.textContent = 'Moderate Discrepancy';
+        title.textContent = 'Variance Below Automated SCN Cap';
+        desc.textContent = `Discrepancy of ${inr(diff)} (${pct.toFixed(1)}%) does not simultaneously exceed ₹25 Lakhs and 20%, but manual audit scrutiny may still seek clarification. Maintain a reconciliation sheet.`;
+      }
+    }
+
+    ['val-source', 'val-target'].forEach((id) => {
+      document.getElementById(id)?.addEventListener('input', checkMismatch);
+    });
+
+    checkMismatch();
+  </script>
+</BaseLayout>

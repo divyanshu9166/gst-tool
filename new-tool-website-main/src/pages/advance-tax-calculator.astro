@@ -44,10 +44,10 @@ const installments = [
   { label: '4th Installment', dueDate: '15 March 2026', cumPercent: 100, pct: 25 },
 ];
 
-const lastUpdated = '2026-07-25';
+const lastUpdated = '2026-09-15';
 const breadcrumb = [
   { name: 'Home', href: '/' },
-  { name: 'Calculators', href: '/#tools-heading' },
+  { name: 'Income Tax Tools', href: '/income-tax-tools' },
   { name: 'Advance Tax Calculator', href: '/advance-tax-calculator' },
 ];
 ---
@@ -200,57 +200,78 @@ const breadcrumb = [
   <script>
 const fmt = (n) => "\u20B9" + Math.round(n).toLocaleString("en-IN");
 function calcNewRegimeTax(income, type) {
-  const slabs = [
-    { upto: 4e5, rate: 0 },
-    { upto: 8e5, rate: 0.05 },
-    { upto: 12e5, rate: 0.1 },
-    { upto: 16e5, rate: 0.15 },
-    { upto: 2e6, rate: 0.2 },
-    { upto: 24e5, rate: 0.25 },
-    { upto: Infinity, rate: 0.3 }
-  ];
-  let taxable = Math.max(0, income - 75e3);
-  if (income <= 12e5) return 0;
+  const stdDed = 75000;
+  const taxable = Math.max(0, income - stdDed);
+  if (taxable === 0) return 0;
+
   let tax = 0;
-  let prev = 0;
-  for (const slab of slabs) {
-    if (taxable <= prev) break;
-    const slice = Math.min(taxable, slab.upto) - prev;
-    tax += slice * slab.rate;
-    prev = slab.upto;
+  if (taxable > 1500000) {
+    tax += (taxable - 1500000) * 0.30 + (300000 * 0.20) + (200000 * 0.15) + (300000 * 0.10) + (400000 * 0.05);
+  } else if (taxable > 1200000) {
+    tax += (taxable - 1200000) * 0.20 + (200000 * 0.15) + (300000 * 0.10) + (400000 * 0.05);
+  } else if (taxable > 1000000) {
+    tax += (taxable - 1000000) * 0.15 + (300000 * 0.10) + (400000 * 0.05);
+  } else if (taxable > 700000) {
+    tax += (taxable - 700000) * 0.10 + (400000 * 0.05);
+  } else if (taxable > 300000) {
+    tax += (taxable - 300000) * 0.05;
   }
+
+  // Section 87A Rebate & Marginal Relief
+  if (taxable <= 700000) {
+    tax = 0;
+  } else {
+    const excess = taxable - 700000;
+    if (tax > excess) {
+      tax = excess;
+    }
+  }
+
+  // Surcharge (New Regime maximum surcharge is capped at 25%)
   let surcharge = 0;
-  if (income > 5e6 && income <= 1e7) surcharge = tax * 0.1;
-  else if (income > 1e7 && income <= 2e7) surcharge = tax * 0.15;
-  else if (income > 2e7 && income <= 5e7) surcharge = tax * 0.25;
-  else if (income > 5e7) surcharge = tax * 0.37;
+  if (taxable > 5000000 && taxable <= 10000000) surcharge = tax * 0.10;
+  else if (taxable > 10000000 && taxable <= 20000000) surcharge = tax * 0.15;
+  else if (taxable > 20000000) surcharge = tax * 0.25;
+
   const total = tax + surcharge;
   return total * 1.04;
 }
+
 function calcOldRegimeTax(income, type) {
-  let basicExemption = 25e4;
-  if (type === "senior") basicExemption = 3e5;
-  if (type === "verysenior") basicExemption = 5e5;
-  let taxable = Math.max(0, income - basicExemption);
+  const stdDed = 50000;
+  const grossTaxable = Math.max(0, income - stdDed);
+
+  let basicExemption = 250000;
+  if (type === "senior") basicExemption = 300000;
+  if (type === "verysenior") basicExemption = 500000;
+
+  if (grossTaxable <= basicExemption) return 0;
+
   let tax = 0;
-  if (income <= 5e5) return 0;
-  const slabs = [25e4, 25e4, Infinity];
-  const rates = [0.05, 0.2, 0.3];
-  let remaining = taxable;
-  for (let i = 0; i < slabs.length; i++) {
-    const slice = Math.min(remaining, slabs[i]);
-    tax += slice * rates[i];
-    remaining -= slice;
-    if (remaining <= 0) break;
+  if (grossTaxable > 1000000) {
+    tax += (grossTaxable - 1000000) * 0.30 + (500000 * 0.20) + ((Math.min(500000, 500000) - basicExemption) * 0.05);
+  } else if (grossTaxable > 500000) {
+    tax += (grossTaxable - 500000) * 0.20 + ((500000 - basicExemption) * 0.05);
+  } else if (grossTaxable > basicExemption) {
+    tax += (grossTaxable - basicExemption) * 0.05;
   }
+
+  // Section 87A Rebate under Old Regime (for taxable income up to ₹5,00,000)
+  if (grossTaxable <= 500000) {
+    tax = 0;
+  }
+
+  // Surcharge under Old Regime
   let surcharge = 0;
-  if (income > 5e6 && income <= 1e7) surcharge = tax * 0.1;
-  else if (income > 1e7 && income <= 2e7) surcharge = tax * 0.15;
-  else if (income > 2e7 && income <= 5e7) surcharge = tax * 0.25;
-  else if (income > 5e7) surcharge = tax * 0.37;
+  if (grossTaxable > 5000000 && grossTaxable <= 10000000) surcharge = tax * 0.10;
+  else if (grossTaxable > 10000000 && grossTaxable <= 20000000) surcharge = tax * 0.15;
+  else if (grossTaxable > 20000000 && grossTaxable <= 50000000) surcharge = tax * 0.25;
+  else if (grossTaxable > 50000000) surcharge = tax * 0.37;
+
   return (tax + surcharge) * 1.04;
 }
-document.getElementById("calc-btn").addEventListener("click", () => {
+
+function computeAdvanceTax() {
   const income = parseFloat(document.getElementById("est-income").value) || 0;
   const tds = parseFloat(document.getElementById("tds-deducted").value) || 0;
   const regime = document.getElementById("tax-regime").value;
@@ -279,30 +300,60 @@ document.getElementById("calc-btn").addEventListener("click", () => {
       const cumAmount = advanceTaxPayable * pct / 100;
       const thisPay = cumAmount - prevPaid;
       prevPaid = cumAmount;
-      list.innerHTML += `
-            <div class="flex items-center justify-between p-4 rounded-xl border border-base bg-subtle">
-              <div>
-                <div class="font-semibold text-base">${labels[i]}</div>
-                <div class="text-xs text-muted">Due by ${dates[i]} \xB7 Cumulative ${pct}%</div>
-              </div>
-              <div class="text-right">
-                <div class="text-xl font-mono font-bold text-accent">${fmt(thisPay)}</div>
-                <div class="text-xs text-muted">Cumulative: ${fmt(cumAmount)}</div>
-              </div>
-            </div>`;
+      const card = document.createElement("div");
+      card.className = "flex items-center justify-between p-4 rounded-xl border border-base bg-subtle";
+      card.innerHTML = `<div><div class="font-bold text-base text-[15px]">${labels[i]}</div><div class="text-xs text-muted">Due: ${dates[i]} (${pct}% cumulative)</div></div><div class="text-right font-mono"><div class="text-lg font-bold text-accent">${fmt(thisPay)}</div><div class="text-xs text-muted">Cum: ${fmt(cumAmount)}</div></div>`;
+      list.appendChild(card);
     });
   }
+}
+
+document.getElementById("calc-btn").addEventListener("click", computeAdvanceTax);
+["est-income", "tds-deducted"].forEach(id => {
+  document.getElementById(id)?.addEventListener("input", computeAdvanceTax);
+});
+["tax-regime", "taxpayer-type"].forEach(id => {
+  document.getElementById(id)?.addEventListener("change", computeAdvanceTax);
 });
 </script>
 
-  
   <!-- Related Guides -->
   <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 pb-12">
     <div class="border-t border-base pt-12">
-      <h2 class="text-[24px] font-semibold text-base mb-4">Related Guides</h2>
-      <ul class="list-disc pl-5 space-y-2">
-        <li><a href="/blog/gst-invoice-management-system-ims-guide" class="text-primary hover:underline">IMS is Now Mandatory: Invoice Management System 2026 Guide</a></li>
-        <li><a href="/blog/4-digit-vs-6-digit-hsn-codes" class="text-primary hover:underline">4-Digit vs 6-Digit HSN Codes: What is the Rule for 2026?</a></li>
+      <h2 class="text-[24px] font-semibold text-base mb-4">Related Income Tax Guides & Calculators</h2>
+      <ul class="grid sm:grid-cols-2 gap-3">
+        <li>
+          <a href="/blog/advance-tax-due-dates-schedule-penalty-2026" class="block p-4 rounded-xl border border-base bg-surface hover:border-accent hover:shadow-sm transition-all group">
+            <span class="font-semibold text-base group-hover:text-accent flex items-center gap-1.5">
+              Advance Tax Due Dates & Penalties →
+            </span>
+            <span class="text-xs text-muted mt-1 block">Full schedule and Section 234B & 234C interest penalty rules.</span>
+          </a>
+        </li>
+        <li>
+          <a href="/income-tax-calculator" class="block p-4 rounded-xl border border-base bg-surface hover:border-accent hover:shadow-sm transition-all group">
+            <span class="font-semibold text-base group-hover:text-accent flex items-center gap-1.5">
+              New vs Old Tax Regime Calculator →
+            </span>
+            <span class="text-xs text-muted mt-1 block">Compare Section 115BAC with standard deduction ₹75,000 and 87A rebate.</span>
+          </a>
+        </li>
+        <li>
+          <a href="/section-44ad-calculator" class="block p-4 rounded-xl border border-base bg-surface hover:border-accent hover:shadow-sm transition-all group">
+            <span class="font-semibold text-base group-hover:text-accent flex items-center gap-1.5">
+              Section 44AD Presumptive Tax →
+            </span>
+            <span class="text-xs text-muted mt-1 block">Pay 100% advance tax in 1 installment on 15 March for business income.</span>
+          </a>
+        </li>
+        <li>
+          <a href="/income-tax-tools" class="block p-4 rounded-xl border border-base bg-surface hover:border-accent hover:shadow-sm transition-all group">
+            <span class="font-semibold text-base group-hover:text-accent flex items-center gap-1.5">
+              Income Tax Tools Hub →
+            </span>
+            <span class="text-xs text-muted mt-1 block">Browse all direct tax calculators, TDS directories, and exemption tools.</span>
+          </a>
+        </li>
       </ul>
     </div>
   </div>

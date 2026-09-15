@@ -40,7 +40,7 @@ While the central default is ₹50,000, many industrialized states have pushed t
 - Tamil Nadu
 - West Bengal
 
-👉 Try it yourself: Don't guess and risk a fine. Use our [E-Way Bill Limit Checker](/eway-bill-limit-checker) to instantly check the exact threshold for your specific route and state combination.
+👉 Try it yourself: Don't guess and risk a fine. Use our [E-Way Bill Limit Checker](/eway-bill-limit-checker) to instantly check the exact threshold for your specific route and state combination, calculate motorable transit distance with our **[Pin to Pin Distance Calculator](/pin-to-pin-distance-calculator)**, or compute delivery expiry with the **[E-Way Bill Validity Calculator](/eway-bill-validity)**.
 
 ## Calculating the Consignment Value
 
