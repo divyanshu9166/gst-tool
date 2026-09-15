@@ -69,6 +69,9 @@ export async function onRequestPost(context) {
     noticeRef = 'GST/REF/2026',
     noticeDate = '2026-08-01',
     din = 'N/A',
+    financialYear = 'FY 2023-24',
+    demandAmount = '',
+    jurisdiction = 'GST Ward / Range / Division',
     discrepancyType = 'itc-2b-3b',
     taxpayerName = 'Taxpayer',
     taxpayerGstin = 'GSTIN',
@@ -82,32 +85,39 @@ export async function onRequestPost(context) {
 Your task is to draft a professional, legally sound written submission (reply) to a GST notice. The reply must:
 
 1. Follow the standard legal reply format used in Indian GST proceedings
-2. Begin with "BEFORE THE SUPERINTENDENT / PROPER OFFICER..." header
+2. Begin with "BEFORE THE SUPERINTENDENT / PROPER OFFICER / ASSISTANT COMMISSIONER..." header, mentioning the specific jurisdiction
 3. Include proper party descriptions (Noticee vs Department)
-4. Contain numbered paragraphs with PRELIMINARY SUBMISSIONS, SUBMISSIONS ON MERITS, ABSENCE OF MENS REA, and PRAYER sections
-5. Cite specific CGST Act sections, Rules, CBIC Circulars, and relevant High Court / Supreme Court judgments
-6. Include a prayer for personal hearing under Section 75(4) of the CGST Act
-7. End with a VERIFICATION clause and signature block
-8. Use formal legal language appropriate for Indian quasi-judicial proceedings
-9. Be factually accurate regarding GST law provisions — do NOT invent fake section numbers or circular numbers
-10. Include a LIST OF ENCLOSURES section based on the documents the taxpayer has
+4. Clearly state the Financial Year / Tax Period, Disputed Demand Amount (if provided), and Notice Reference
+5. Contain numbered paragraphs with PRELIMINARY SUBMISSIONS, SUBMISSIONS ON MERITS, ABSENCE OF MENS REA, and PRAYER sections
+6. Cite specific CGST Act sections, Rules, CBIC Circulars, and relevant High Court / Supreme Court judgments
+7. If DIN is missing or N/A, raise a preliminary objection under CBIC Circular No. 122/41/2019-GST and 128/47/2019-GST (notices without DIN are invalid and deemed non-est)
+8. For delayed ITC disputes up to FY 2020-21, cite the retrospective relief enacted under Section 16(5) & 16(6) of the CGST Act (Finance (No. 2) Act, 2024)
+9. For Section 73 notices for FY 2017-18 to 2019-20, cite eligibility under Section 128A Amnesty Scheme (Rule 164 & Circular 238/32/2024-GST)
+10. Include a mandatory prayer for personal hearing under Section 75(4) of the CGST Act
+11. End with a VERIFICATION clause and signature block
+12. Use formal legal language appropriate for Indian quasi-judicial proceedings
+13. Be factually accurate regarding GST law provisions — do NOT invent fake section numbers or circular numbers
+14. Include a LIST OF ENCLOSURES section based on the documents the taxpayer has
 
 Key legal references to consider:
 - Section 16(2) conditions for ITC eligibility
+- Section 16(5) & 16(6) retrospective relaxation for delayed ITC up to FY 2020-21
 - Section 73 (non-fraud demands, 3-year limitation) vs Section 74 (fraud/suppression, 5-year limitation)
-- Section 75(4) mandatory personal hearing
-- Section 50 interest on delayed payment (proviso on cash vs credit ledger)
+- Section 75(4) mandatory personal hearing before adverse order
+- Section 50 interest on delayed payment (proviso on net cash liability only)
+- Section 128A retrospective waiver of interest & penalty for FY 2017-20
 - Rule 88C (DRC-01B turnover mismatch) and Rule 88D (DRC-01C ITC mismatch)
 - Rule 37 (180-day payment reversal)
-- CBIC Circular 183/15/2022-GST, Circular 193/05/2023-GST, Circular 170/02/2022-GST
-- Section 128A retrospective waiver for FY 2017-20
+- CBIC Circular 183/15/2022-GST, Circular 193/05/2023-GST, Circular 170/02/2022-GST, Circular 122/41/2019-GST
 
-IMPORTANT: Generate ONLY the legal reply text. No markdown formatting. No explanations before or after. Just the reply document.`;
+IMPORTANT: Generate ONLY the legal reply text. No markdown formatting. No conversational explanations before or after. Just the complete formal legal reply document.`;
 
   // Build the user prompt with all notice details
   const docsDescription = documents.length > 0
     ? `Documents the taxpayer will attach: ${documents.join(', ')}`
     : 'No supporting documents specified.';
+
+  const demandText = demandAmount ? `Disputed Demand Amount: INR ${demandAmount}` : 'Disputed Demand Amount: As proposed in the notice';
 
   const userPrompt = `Draft a complete legal reply to the following GST notice:
 
@@ -115,6 +125,9 @@ Notice Type: ${noticeType}
 Notice Reference Number: ${noticeRef}
 Notice Date: ${noticeDate}
 DIN (Document Identification Number): ${din}
+Financial Year / Tax Period: ${financialYear}
+Jurisdiction / Office: ${jurisdiction}
+${demandText}
 Alleged Discrepancy: ${discrepancyType}
 Taxpayer Legal Name: ${taxpayerName}
 Taxpayer GSTIN: ${taxpayerGstin}
