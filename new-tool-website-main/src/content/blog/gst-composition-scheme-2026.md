@@ -42,6 +42,18 @@ Here are the rates for 2026:
 
 👉 Try it yourself: Wondering if the flat rate is cheaper than paying standard 18% GST? Use our [Composition Scheme tool](/composition-scheme-calculator) to compare your exact margins and see if switching will save you money.
 
+<div class="bg-amber-50 dark:bg-amber-950/20 border-l-4 border-amber-500 p-4 my-6">
+  <strong>Can Composition Dealers Claim Input Tax Credit (ITC)?</strong> No. Under Section 10(2)(c) of the CGST Act, composition dealers cannot claim any ITC on business purchases, capital goods, or raw materials. The GST paid to suppliers becomes a direct business expense.
+</div>
+
+<div class="bg-blue-50 dark:bg-blue-950/20 border-l-4 border-blue-500 p-4 my-6">
+  <strong>Bill of Supply vs Tax Invoice:</strong> Composition taxpayers cannot issue a GST Tax Invoice or charge GST from customers. Instead, they must issue a "Bill of Supply" mentioning the mandatory header: <em>"Composition taxable person, not eligible to collect tax on supplies."</em>
+</div>
+
+<div class="bg-emerald-50 dark:bg-emerald-950/20 border-l-4 border-emerald-500 p-4 my-6">
+  <strong>RCM Under Composition Scheme:</strong> If a composition dealer receives goods or services covered under Reverse Charge Mechanism (such as goods transport agency or legal fees), they must pay GST at normal regular rates (e.g. 5% or 18%) under RCM, not at their concessional 1.5% composition rate.
+</div>
+
 ## The Pros and Cons: Is It Worth It?
 
 Before you log into the portal and hit the "Opt-in" button, you must understand the trade-offs. 
@@ -72,6 +84,12 @@ The form only asks for four numbers:
 If you miss the deadline, the penalty is ₹50 per day. You can use our [Late Fee Calculator](/late-fee-calculator) if you ever slip up, but with only four filings a year, you should set calendar reminders to avoid giving the government free money.
 
 ## Frequently Asked Questions
+
+**Kya Composition Scheme mein ITC claim kar sakte hain?**
+Nahi, GST rules ke mutabik composition dealer purchase kiye gaye kisi bhi goods ya services par Input Tax Credit (ITC) claim nahi kar sakta. Aap jo GST apne supplier ko pay karte hain, wo aapki business cost me add ho jata hai.
+
+**Composition dealer dusre state me samaan bech sakta hai kya?**
+Nahi. Composition scheme ke tehat registered vyapari inter-state (state se bahar) sales nahi kar sakta. Halanki, aap dusre state se maal kharid (inward supply) zaroor sakte hain, lekin bechna sirf apne state ke andar hi permitted hai.
 
 **Can I charge composition tax to my customers?**
 No. A composition dealer cannot collect tax from the buyer. The 1.5%, 5%, or 6% must be paid out of your own pocket from your sales revenue.

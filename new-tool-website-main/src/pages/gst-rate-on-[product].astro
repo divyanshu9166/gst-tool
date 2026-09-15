@@ -29,6 +29,8 @@ export async function getStaticPaths() {
     { slug: 'event-management', name: 'Event Management', rate: '18%', hsn: '9985', desc: 'Support services (Event management)' },
     { slug: 'beauty-parlour', name: 'Beauty Parlour Services', rate: '18%', hsn: '9997', desc: 'Other services (Beauty and physical well-being services)' },
     { slug: 'diamonds', name: 'Diamonds', rate: '1.5%', hsn: '7102', desc: 'Diamonds, whether or not worked, but not mounted or set' },
+    { slug: 'cotton-trousers-pants', name: 'Cotton Trousers & Pants', rate: '5% / 12%', hsn: '6203', desc: "Men's and boys' cotton trousers, gift cotton pants, jeans, breeches, and woven cotton bottoms" },
+    { slug: 'borates-boron-compounds', name: 'Borates & Boron Compounds', rate: '18%', hsn: '2840', desc: 'Refined borates, HSN code 28401900 revised rate 2026, disodium tetraborate, and peroxoborates' },
   ];
 
   return popularProducts.map((product) => {
@@ -42,7 +44,7 @@ export async function getStaticPaths() {
 const { product } = Astro.props;
 
 const title = `GST Rate on ${product.name} (2026) | HSN Code ${product.hsn}`;
-const description = `Find the exact GST rate for ${product.name} in India. Applicable HSN/SAC code is ${product.hsn}. Check CGST/SGST split and calculate tax amount instantly.`;
+const description = `Find the exact GST rate for ${product.name} in India (HSN ${product.hsn}). Check CGST/SGST split and calculate tax amount instantly with our free tool.`;
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://taxzentic.com';
 const canonical = `${siteUrl}/gst-rate-on-${product.slug}`;
 

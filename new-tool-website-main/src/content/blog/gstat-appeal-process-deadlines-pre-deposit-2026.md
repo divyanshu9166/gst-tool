@@ -3,7 +3,7 @@ title: "GSTAT Appeal Process 2026: Filing Deadlines, Pre-Deposit Slabs & Form GS
 description: "Everything you need to know about appealing before the Goods and Services Tax Appellate Tribunal (GSTAT). Learn pre-deposit percentages, filing timelines, Form GST APL-05, and jurisdiction rules."
 pubDate: "2026-08-26"
 updatedDate: "2026-09-12"
-heroImage: "/images/blog/gst-amnesty-scheme-2025-section-128a.png"
+heroImage: "/images/blog/gst-late-fee-waivers.webp"
 tags: ["GSTAT", "GST Appeals", "Litigation", "Compliance", "Pre-Deposit"]
 ---
 

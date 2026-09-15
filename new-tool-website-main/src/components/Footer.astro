@@ -1,100 +1,168 @@
 ---
 /**
- * Footer — site-wide footer with tool links, legal links, and copyright.
+ * Footer — Premium, balanced site-wide footer with categorized navigation,
+ * privacy trust badges, WhatsApp community CTA, and statutory compliance disclaimers.
  */
 const year = new Date().getFullYear();
 
-const tools = [
-  { href: '/income-tax-tools', label: 'Income Tax Hub' },
-  { href: '/income-tax-calculator', label: 'New vs Old Regime' },
-  { href: '/gst-notices', label: 'GST Notices Hub' },
-  { href: '/gst-notice-reply-generator', label: 'AI Notice Reply' },
-  { href: '/gst-health-score', label: 'GST Health Score' },
+const gstCalculators = [
+  { href: '/gst-calculator', label: 'GST Calculator (Forward/Reverse)' },
+  { href: '/gst-2-0', label: 'GST 2.0 Reform Hub (5/18/40%)' },
+  { href: '/restaurant-gst-calculator', label: 'Restaurant GST Calculator' },
+  { href: '/real-estate-gst-calculator', label: 'Real Estate GST Calculator' },
+  { href: '/rcm-calculator', label: 'RCM & GTA Freight Calculator' },
+  { href: '/saas-export-lut-calculator', label: 'SaaS / Export LUT Calculator' },
+  { href: '/freelancer-invoice-generator', label: 'Freelancer Invoice Generator' },
+  { href: '/hsn-code-lookup', label: 'HSN & SAC Code Lookup' },
+];
+
+const complianceTools = [
+  { href: '/gst-notice-reply-generator', label: 'AI Notice Reply Generator' },
+  { href: '/gst-notices', label: 'GST Notices Resource Hub' },
+  { href: '/gst-due-dates', label: 'GST Return Due Dates Calendar' },
+  { href: '/gstr-mismatch-checker', label: 'GSTR-2B vs 3B Mismatch' },
   { href: '/bulk-gstin-validator', label: 'Bulk GSTIN Validator' },
-  { href: '/gst-refund-calculator', label: 'GST Refund Calculator' },
-  { href: '/gstr-mismatch-checker', label: 'GSTR Mismatch Checker' },
-  { href: '/e-invoice-eligibility-checker', label: 'E-Invoice Checker' },
-  { href: '/gst-calculator', label: 'GST Calculator' },
-  { href: '/restaurant-gst-calculator', label: 'Restaurant GST' },
-  { href: '/real-estate-gst-calculator', label: 'Real Estate GST' },
-  { href: '/freelancer-invoice-generator', label: 'Freelancer Invoicing' },
-  { href: '/hsn-code-lookup', label: 'HSN Code Lookup' },
-  { href: '/gstin-validator', label: 'GSTIN Validator' },
-  { href: '/gst-2-0', label: 'GST 2.0 Hub' },
-  { href: '/authors/editorial-team', label: 'CA Review Board' },
-  { href: '/blog', label: 'Tax Blog' },
+  { href: '/e-invoice-eligibility-checker', label: 'E-Invoice Eligibility Checker' },
+  { href: '/gst-health-score', label: 'GST Health Score Audit' },
+  { href: '/gst-amnesty-tracker', label: 'GST Amnesty & Waiver Tracker' },
 ];
 
-const company = [
-  { href: '/about', label: 'About Us' },
-  { href: '/authors/editorial-team', label: 'CA Review Team' },
-  { href: '/pricing', label: 'Pricing' },
-  { href: '/referral-program', label: 'Referral Program' },
-  { href: '/blog', label: 'Blog' }
-];
-
-const newTools = [
-  { href: '/gst-amnesty-tracker', label: 'GST Amnesty Tracker' },
-  { href: '/saas-export-lut-calculator', label: 'SaaS LUT Calculator' },
+const incomeTaxTools = [
+  { href: '/income-tax-tools', label: 'Income Tax Tools Hub' },
+  { href: '/income-tax-calculator', label: 'New vs Old Regime Calculator' },
   { href: '/hra-exemption-calculator', label: 'HRA Exemption Calculator' },
-  { href: '/tds-section-finder', label: 'TDS Section Finder' },
   { href: '/section-44ad-calculator', label: 'Section 44AD Presumptive' },
-  ...tools
+  { href: '/tds-section-finder', label: 'TDS Section Finder' },
+  { href: '/tds-rate-finder', label: 'TDS Rate Table Finder' },
+  { href: '/advance-tax-calculator', label: 'Advance Tax Calculator' },
+  { href: '/state-of-gst-compliance-2026', label: 'Compliance Facts & Trends' },
 ];
 
-const documentation = [
-  { href: '/privacy-policy', label: 'Privacy & Policy' },
+const companyAndLegal = [
+  { href: '/about', label: 'About Taxzentic' },
+  { href: '/authors/editorial-team', label: 'Editorial & Tax Team' },
+  { href: '/blog', label: 'Tax Blog & Guides' },
+  { href: '/contact', label: 'Contact & Support' },
+  { href: '/privacy-policy', label: 'Privacy Policy' },
   { href: '/terms', label: 'Terms & Conditions' },
   { href: '/refund-policy', label: 'Refund Policy' },
   { href: '/cancellation-policy', label: 'Cancellation Policy' },
 ];
-
-const resources = [
-  { href: '/help-center', label: 'Help Center' },
-  { href: '/contact', label: 'Contact Us' },
-  { href: '/your-account', label: 'Your Account' },
-];
 ---
 
-<footer class="print:hidden border-t border-base bg-subtle mt-16" role="contentinfo">
-  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
-    <div class="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-5">
+<footer class="print:hidden border-t border-base bg-subtle mt-20" role="contentinfo">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-12 pb-8">
 
-      <!-- Brand column -->
-      <div class="lg:col-span-1">
-        <a href="/" class="flex items-center gap-2 font-semibold text-base hover:text-accent transition-colors" aria-label="Taxzentic Home">
+    <!-- ── Value Proposition & Trust Strip ───────────────────────────── -->
+    <div class="border-b border-base/70 pb-10 mb-12">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+
+        <div class="flex items-start gap-3.5">
+          <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-500/10 text-accent dark:bg-blue-400/10">
+            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+            </svg>
+          </div>
+          <div>
+            <h4 class="text-sm font-semibold text-base">Client-Side Privacy</h4>
+            <p class="mt-1 text-xs text-muted leading-relaxed">All computations run locally inside your browser. No financial data or GSTIN records are ever sent to our servers.</p>
+          </div>
+        </div>
+
+        <div class="flex items-start gap-3.5">
+          <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 dark:bg-emerald-400/10">
+            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+            </svg>
+          </div>
+          <div>
+            <h4 class="text-sm font-semibold text-base">Statutory Accuracy</h4>
+            <p class="mt-1 text-xs text-muted leading-relaxed">Formulas and thresholds updated against official CBIC notifications, GST 2.0 slabs, and Union Budget provisions.</p>
+          </div>
+        </div>
+
+        <div class="flex items-start gap-3.5">
+          <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-purple-500/10 text-purple-600 dark:text-purple-400 dark:bg-purple-400/10">
+            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+            </svg>
+          </div>
+          <div>
+            <h4 class="text-sm font-semibold text-base">Free & Offline PWA</h4>
+            <p class="mt-1 text-xs text-muted leading-relaxed">Zero login, no paywalls, instant Excel/PDF export. Installable as a Progressive Web App for offline access.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── Main Navigation Grid ───────────────────────────────────────── -->
+    <div class="grid grid-cols-1 gap-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-12 mb-14">
+
+      <!-- Brand & Community Column (Span 4) -->
+      <div class="sm:col-span-2 md:col-span-3 lg:col-span-4 space-y-4">
+        <a href="/" class="inline-flex items-center gap-2 font-semibold text-base hover:text-accent transition-colors" aria-label="Taxzentic Home">
           <img
             src="/taxzentic-logo.png"
             alt="Taxzentic Logo"
-            width="192"
+            width="176"
             height="40"
-            class="h-10 w-36 sm:w-48 object-cover object-center dark:hidden"
+            class="h-10 w-36 sm:w-44 object-cover object-center dark:hidden"
             loading="lazy"
           />
           <img
             src="/taxzentic-logo-white.png"
             alt="Taxzentic Logo"
-            width="192"
+            width="176"
             height="40"
-            class="h-10 w-36 sm:w-48 object-cover object-center hidden dark:block"
+            class="h-10 w-36 sm:w-44 object-cover object-center hidden dark:block"
             loading="lazy"
           />
         </a>
-        <p class="mt-3 text-sm text-muted max-w-xs leading-relaxed">
-          Free, instant GST tools for Indian businesses and taxpayers. Calculate GST, look up HSN/SAC codes, and validate GSTIN numbers — all offline, no login required.
+
+        <p class="text-xs text-muted max-w-sm leading-relaxed">
+          Fast, privacy-first tax compliance and calculation tools for Indian businesses, Chartered Accountants, and taxpayers. Calculate GST, reconcile ITC, verify GSTINs, and plan Income Tax offline.
         </p>
-        <p class="mt-4 text-xs text-muted">
-          <strong>Disclaimer:</strong> This website is for informational purposes only. Always verify with the official GST portal at <a href="https://www.gst.gov.in" target="_blank" rel="noopener noreferrer" class="underline hover:text-accent">gst.gov.in</a>.
+
+        <!-- WhatsApp Channel Quick Card -->
+        <div class="pt-1">
+          <a
+            href="https://whatsapp.com/channel/taxzentic"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="group flex items-center gap-3 rounded-xl border border-emerald-500/30 bg-emerald-50/40 dark:bg-emerald-950/30 p-3 transition-all hover:border-emerald-500 hover:bg-emerald-50 dark:hover:bg-emerald-950/50 shadow-xs"
+          >
+            <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-emerald-600 text-white shadow-xs">
+              <svg class="h-4 w-4 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.634.058-1.72-.375-1.284-.51-2.148-1.782-2.215-1.87-.063-.087-.521-.692-.521-1.321 0-.629.33-.94.448-1.068.118-.127.258-.159.345-.159.087 0 .174.001.249.006.081.004.188-.031.295.225.109.262.375.918.407.986.033.067.054.148.01.236-.044.088-.067.143-.133.22-.066.077-.139.172-.199.231-.067.067-.137.14-.058.275.08.134.354.584.759.945.523.465.965.611 1.102.679.138.067.218.059.3-.035.081-.093.349-.406.442-.546.094-.139.187-.116.313-.07.127.046.804.38 1.05.502.247.123.411.185.472.287.061.101.061.587-.083.992zM12 2C6.477 2 2 6.477 2 12c0 1.891.528 3.66 1.448 5.17L2 22l4.981-1.306A9.957 9.957 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2z"/>
+              </svg>
+            </div>
+            <div class="min-w-0 flex-1">
+              <div class="flex items-center gap-1.5 font-semibold text-xs text-base">
+                <span>Free WhatsApp Channel</span>
+                <span class="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+              </div>
+              <p class="text-[11px] text-muted truncate">Daily notifications, rate changes & deadline alerts</p>
+            </div>
+            <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400 group-hover:translate-x-0.5 transition-transform" aria-hidden="true">→</span>
+          </a>
+        </div>
+
+        <p class="text-[11px] text-muted/80 leading-relaxed pt-1">
+          <span class="font-semibold text-base">Statutory Notice:</span> Taxzentic is an independent educational and utility tool suite. We are not affiliated with the Goods and Services Tax Network (GSTN), CBIC, or the Income Tax Department. Always cross-verify final filings at <a href="https://www.gst.gov.in" target="_blank" rel="noopener noreferrer" class="underline hover:text-accent">gst.gov.in</a>.
         </p>
       </div>
 
-      <!-- Company column -->
-      <div>
-        <h3 class="text-sm font-semibold text-base mb-4">Company</h3>
-        <ul class="space-y-2">
-          {company.map(({ href, label }) => (
+      <!-- Column 2: GST Calculators (Span 2) -->
+      <div class="lg:col-span-2">
+        <h3 class="text-xs font-bold uppercase tracking-wider text-base mb-4 flex items-center gap-1.5">
+          <span class="h-1.5 w-1.5 rounded-full bg-accent"></span>
+          GST Calculators
+        </h3>
+        <ul class="space-y-2.5 text-xs">
+          {gstCalculators.map(({ href, label }) => (
             <li>
-              <a href={href} class="text-sm text-muted hover:text-accent transition-colors">
+              <a href={href} class="text-muted hover:text-accent transition-colors block py-0.5">
                 {label}
               </a>
             </li>
@@ -102,13 +170,16 @@ const resources = [
         </ul>
       </div>
 
-      <!-- Tools column -->
-      <div>
-        <h3 class="text-sm font-semibold text-base mb-4">Our Free Tools</h3>
-        <ul class="space-y-2">
-          {newTools.map(({ href, label }) => (
+      <!-- Column 3: Compliance & Notices (Span 2) -->
+      <div class="lg:col-span-2">
+        <h3 class="text-xs font-bold uppercase tracking-wider text-base mb-4 flex items-center gap-1.5">
+          <span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
+          Compliance & Notices
+        </h3>
+        <ul class="space-y-2.5 text-xs">
+          {complianceTools.map(({ href, label }) => (
             <li>
-              <a href={href} class="text-sm text-muted hover:text-accent transition-colors">
+              <a href={href} class="text-muted hover:text-accent transition-colors block py-0.5">
                 {label}
               </a>
             </li>
@@ -116,13 +187,16 @@ const resources = [
         </ul>
       </div>
 
-      <!-- Documentation column -->
-      <div>
-        <h3 class="text-sm font-semibold text-base mb-4">Documentation</h3>
-        <ul class="space-y-2">
-          {documentation.map(({ href, label }) => (
+      <!-- Column 4: Income Tax Tools (Span 2) -->
+      <div class="lg:col-span-2">
+        <h3 class="text-xs font-bold uppercase tracking-wider text-base mb-4 flex items-center gap-1.5">
+          <span class="h-1.5 w-1.5 rounded-full bg-amber-500"></span>
+          Income Tax Tools
+        </h3>
+        <ul class="space-y-2.5 text-xs">
+          {incomeTaxTools.map(({ href, label }) => (
             <li>
-              <a href={href} class="text-sm text-muted hover:text-accent transition-colors">
+              <a href={href} class="text-muted hover:text-accent transition-colors block py-0.5">
                 {label}
               </a>
             </li>
@@ -130,29 +204,56 @@ const resources = [
         </ul>
       </div>
 
-      <!-- Resources column -->
-      <div>
-        <h3 class="text-sm font-semibold text-base mb-4">Resources</h3>
-        <ul class="space-y-2">
-          {resources.map(({ href, label }) => (
+      <!-- Column 5: Company & Legal (Span 2) -->
+      <div class="lg:col-span-2">
+        <h3 class="text-xs font-bold uppercase tracking-wider text-base mb-4 flex items-center gap-1.5">
+          <span class="h-1.5 w-1.5 rounded-full bg-purple-500"></span>
+          Company & Legal
+        </h3>
+        <ul class="space-y-2.5 text-xs">
+          {companyAndLegal.map(({ href, label }) => (
             <li>
-              <a href={href} class="text-sm text-muted hover:text-accent transition-colors">
+              <a href={href} class="text-muted hover:text-accent transition-colors block py-0.5">
                 {label}
               </a>
             </li>
           ))}
         </ul>
+      </div>
+
+    </div>
+
+    <!-- ── Bottom Bar: Copyright & System Status ──────────────────────── -->
+    <div class="border-t border-base pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p class="text-xs text-muted text-center sm:text-left">
+        &copy; {year} Taxzentic. Built with privacy & precision for Indian taxpayers, accountants, and businesses.
+      </p>
+
+      <div class="flex items-center gap-6 text-xs text-muted">
+        <div class="inline-flex items-center gap-1.5 text-[11px] font-mono">
+          <span class="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span>Aligned with CBIC & GSTN Portals</span>
+        </div>
+
+        <button
+          id="footer-back-to-top"
+          type="button"
+          class="hover:text-accent transition-colors inline-flex items-center gap-1 cursor-pointer"
+          aria-label="Back to top of page"
+        >
+          <span>Top</span>
+          <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
+          </svg>
+        </button>
       </div>
     </div>
 
-    <!-- Bottom bar -->
-    <div class="mt-10 pt-6 border-t border-base flex flex-col sm:flex-row items-center justify-between gap-4">
-      <p class="text-xs text-muted">
-        &copy; {year} Taxzentic. All rights reserved.
-      </p>
-      <p class="text-xs text-muted">
-        GST data is indicative. Rates subject to change per Government of India notifications.
-      </p>
-    </div>
   </div>
 </footer>
+
+<script is:inline>
+  document.getElementById('footer-back-to-top')?.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+</script>

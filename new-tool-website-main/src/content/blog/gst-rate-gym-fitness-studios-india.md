@@ -3,7 +3,7 @@ title: "GST Rate for Gyms, Fitness Studios & Yoga Centers in India: 18% Slabs, S
 description: "Master GST rules for gyms, CrossFit boxes, Zumba studios, and yoga centers in India. Learn the 18% membership rate, SAC 999723, charitable trust exemptions under Section 12AA, and equipment ITC."
 pubDate: "2026-09-12"
 updatedDate: "2026-09-12"
-heroImage: "/images/blog/calculate-gst-late-fees.png"
+heroImage: "/images/blog/calculate-gst-late-fees.webp"
 tags: ["Gyms", "Fitness", "GST Rates", "Yoga", "ITC"]
 ---
 

@@ -1,8 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const title = 'E-Way Bill Limit Checker 2026 — GST India';
-const description = 'Instantly check the mandatory E-Way Bill threshold limits for intra-state and inter-state movement of goods across all Indian states in 2026.';
+const title = 'E-Way Bill Limit Checker 2026 — State-Wise Thresholds';
+const description = 'Check E-Way Bill threshold limits for all 36 Indian states & UTs (2026). Compare intra-state vs inter-state limits (₹50,000 vs ₹1,00,000). Instant & free.';
 
 const structuredData = [
   {
@@ -18,6 +18,8 @@ const structuredData = [
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
     mainEntity: [
+      { '@type': 'Question', name: "Gujarat me local stock transfer ka exact e-way bill rule kya hai?", acceptedAnswer: { '@type': 'Answer', text: "Gujarat mein intra-state (state ke andar) stock transfer ya local goods transport par E-Way Bill limit ₹1,00,000 hai, basharte goods 19 notified sensitive items (jaise edible oils, iron & steel, yarn) me na hon. Inter-state stock transfer ke liye limit strictly ₹50,000 rehti hai." } },
+      { '@type': 'Question', name: "What is the Tamil Nadu E-Way Bill consignment value threshold limit?", acceptedAnswer: { '@type': 'Answer', text: "In Tamil Nadu, the intra-state (within the state) E-Way Bill threshold limit is ₹1,00,000. However, for any inter-state consignment crossing state borders into or out of Tamil Nadu, the threshold strictly remains ₹50,000 under Rule 138." } },
       { '@type': 'Question', name: "What is the e-way bill limit for inter-state transport?", acceptedAnswer: { '@type': 'Answer', text: "The threshold limit for generating an e-way bill for inter-state movement of goods is ₹50,000 (invoice value including GST)." } },
       { '@type': 'Question', name: "Are there different e-way bill limits for intra-state transport?", acceptedAnswer: { '@type': 'Answer', text: "Yes, intra-state limits vary by state. Some states have a limit of ₹50,000, while others like Maharashtra have increased it to ₹1,00,000 for certain goods." } },
       {

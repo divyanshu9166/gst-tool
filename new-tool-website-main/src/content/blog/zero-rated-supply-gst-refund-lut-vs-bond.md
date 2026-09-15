@@ -3,7 +3,7 @@ title: "Zero-Rated Supply GST Refund: LUT vs Bond, IGST Payment Route & Rule 89(
 description: "Master zero-rated supplies under Section 16 of the IGST Act. Compare Export with Payment of IGST vs Export without Payment under Letter of Undertaking (LUT), cash flows, and refund rules."
 pubDate: "2026-09-03"
 updatedDate: "2026-09-12"
-heroImage: "/images/blog/finding-hsn-codes-for-exports.png"
+heroImage: "/images/blog/finding-hsn-codes-for-exports.webp"
 tags: ["Exports", "Zero Rated", "LUT", "IGST", "GST Refund"]
 ---
 

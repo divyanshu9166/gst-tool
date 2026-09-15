@@ -3,7 +3,7 @@ title: "E-Commerce GST Compliance Checklist & Calendar: Amazon, Flipkart & Meesh
 description: "Master GST compliance for Amazon, Flipkart, and Meesho sellers. Learn Section 52 TCS credit claiming, GSTR-8 matching, state-wise FBA registration, customer returns, and monthly filing schedules."
 pubDate: "2026-09-14"
 updatedDate: "2026-09-14"
-heroImage: "/images/blog/gst-for-amazon-flipkart-sellers-2026.png"
+heroImage: "/images/blog/gst-for-amazon-flipkart-sellers-2026.webp"
 tags: ["E-Commerce", "Amazon Sellers", "Flipkart", "TCS Section 52", "Compliance Calendar"]
 ---
 

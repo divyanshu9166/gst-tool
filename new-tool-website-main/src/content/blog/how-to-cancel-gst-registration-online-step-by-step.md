@@ -3,7 +3,7 @@ title: "How to Cancel GST Registration Online: Step-by-Step Guide, Form REG-16 &
 description: "Master the online cancellation of GST registration. Learn eligible grounds under Section 29, Form GST REG-16 filing procedure, stock tax reversal rules, and the GSTR-10 Final Return deadline."
 pubDate: "2026-09-13"
 updatedDate: "2026-09-13"
-heroImage: "/images/blog/verify-gst-number-online.png"
+heroImage: "/images/blog/verify-gst-number-online.svg"
 tags: ["GST Cancellation", "REG-16", "GSTR-10", "Final Return", "Compliance"]
 ---
 

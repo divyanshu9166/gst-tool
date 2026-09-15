@@ -3,7 +3,7 @@ title: "Section 44AD for GST Registered Dealers: Presumptive Taxation, 6% vs 8% 
 description: "Can GST registered traders and businesses opt for Section 44AD presumptive taxation? Learn the ₹2 Cr / ₹3 Cr turnover limits, 6% digital vs 8% cash deemed profits, and ITR-4 filing rules."
 pubDate: "2026-08-14"
 updatedDate: "2026-09-12"
-heroImage: "/images/blog/gst-composition-scheme-2026.png"
+heroImage: "/images/blog/gst-composition-scheme-2026.svg"
 tags: ["Income Tax", "Section 44AD", "GST", "Small Business"]
 ---
 

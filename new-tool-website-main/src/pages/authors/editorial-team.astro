@@ -2,8 +2,8 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ToolIcon from '../../components/ToolIcon.astro';
 
-const title = 'Taxzentic Editorial Team & CA Review Board — E-E-A-T';
-const description = 'Meet the Chartered Accountants, tax practitioners, and financial analysts behind Taxzentic. Our content and tools are verified against official CBIC notifications.';
+const title = 'Taxzentic Editorial Team — Our Editorial Standards';
+const description = 'Learn about the Taxzentic editorial team and our fact-checking process. Our content and tools are verified against official CBIC notifications and the Income Tax Act.';
 
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://taxzentic.com';
 const canonical = `${siteUrl}/authors/editorial-team`;
@@ -12,18 +12,13 @@ const structuredData = [
   {
     '@context': 'https://schema.org',
     '@type': 'ProfilePage',
-    name: 'Taxzentic Editorial & CA Review Board',
+    name: 'Taxzentic Editorial Team',
     url: canonical,
     mainEntity: {
-      '@type': 'Person',
-      name: 'CA Divyanshu Sharma',
-      jobTitle: 'Lead Tax Reviewer & Fellow Chartered Accountant (FCA)',
-      worksFor: {
-        '@type': 'Organization',
-        name: 'Taxzentic',
-      },
-      description: 'Chartered Accountant (FCA) with 10+ years specializing in Indian GST compliance, Income Tax litigation, corporate tax advisory, and indirect tax technology automation.',
-      knowsAbout: ['Indian Goods and Services Tax (GST)', 'Income Tax Act 1961', 'Corporate Tax', 'GST Notices (ASMT-10, DRC-01)', 'Tax Technology'],
+      '@type': 'Organization',
+      name: 'Taxzentic Editorial Team',
+      url: siteUrl,
+      description: 'A team of tax compliance researchers and analysts dedicated to simplifying GST and Income Tax for Indian businesses.',
     },
   },
 ];
@@ -31,7 +26,7 @@ const structuredData = [
 const breadcrumb = [
   { name: 'Home', href: '/' },
   { name: 'About', href: '/about' },
-  { name: 'Editorial Board', href: '/authors/editorial-team' },
+  { name: 'Editorial Team', href: '/authors/editorial-team' },
 ];
 
 const lastUpdated = '2026-09-15';
@@ -43,49 +38,49 @@ const lastUpdated = '2026-09-15';
     <div class="text-center mb-16">
       <div class="inline-flex items-center gap-2 rounded-full border border-accent/20 bg-accent/5 px-4 py-1.5 text-[12px] font-mono uppercase tracking-wider text-accent mb-4">
         <span class="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
-        Certified Tax Practitioners & CAs
+        Fact-Checked Content
       </div>
       <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-base mb-6">
-        Taxzentic Editorial & Review Board
+        Taxzentic Editorial Team
       </h1>
       <p class="text-[18px] text-muted max-w-2xl mx-auto leading-relaxed">
-        Tax laws in India move fast. Every calculator formula, tax slab update, and compliance guide on Taxzentic is strictly reviewed and fact-checked by practicing Chartered Accountants and tax attorneys.
+        Tax laws in India move fast. Every calculator formula, tax slab update, and compliance guide on Taxzentic is researched and fact-checked by our editorial team against official government sources.
       </p>
     </div>
 
-    <!-- Lead Reviewer Profile -->
+    <!-- Team Profile -->
     <div class="rounded-2xl border border-base bg-surface p-8 sm:p-10 shadow-sm mb-12">
       <div class="flex flex-col sm:flex-row gap-6 items-start">
         <div class="h-24 w-24 rounded-2xl bg-gradient-to-br from-blue-600 to-cyan-600 text-white flex items-center justify-center text-3xl font-bold flex-shrink-0 shadow-md">
-          DS
+          TZ
         </div>
         <div class="flex-1">
           <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
             <div>
-              <h2 class="text-2xl font-bold text-base tracking-tight">CA Divyanshu Sharma</h2>
-              <p class="text-sm font-medium text-accent">FCA, DISA (ICAI) · Lead Tax Reviewer & Advisory Head</p>
+              <h2 class="text-2xl font-bold text-base tracking-tight">Taxzentic Editorial Team</h2>
+              <p class="text-sm font-medium text-accent">Tax Compliance Research & Content</p>
             </div>
             <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
-              Verified Practicing CA
+              Fact-Checked
             </span>
           </div>
 
           <p class="text-muted text-[15px] leading-relaxed mb-4">
-            Divyanshu is a Fellow Member of the Institute of Chartered Accountants of India (ICAI) with over a decade of extensive experience in indirect tax compliance, corporate tax structuring, and appellate litigation before GSTAT and departmental authorities. He spearheads the algorithmic accuracy checks on Taxzentic's GST, TDS, and Income Tax engines.
+            The Taxzentic editorial team comprises tax compliance researchers and analysts who specialize in Indian GST, Income Tax, and TDS regulations. We verify all calculations, rate tables, and compliance guidance against official CBIC/CBDT notifications and government circulars before publishing.
           </p>
 
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-4 border-t border-base text-xs font-mono text-muted">
             <div>
-              <span class="block text-base font-bold text-base">Specialization</span>
-              GST 2.0, DRC/ASMT Notices, RCM
+              <span class="block text-base font-bold text-base">Focus Areas</span>
+              GST 2.0, DRC/ASMT Notices, Income Tax, TDS
             </div>
             <div>
-              <span class="block text-base font-bold text-base">Experience</span>
-              10+ Years in Direct & Indirect Tax
+              <span class="block text-base font-bold text-base">Verification</span>
+              CBIC, CBDT & Government Portal Cross-Checks
             </div>
             <div>
-              <span class="block text-base font-bold text-base">Affiliation</span>
-              Fellow Chartered Accountant (FCA)
+              <span class="block text-base font-bold text-base">Update Speed</span>
+              Within 24–48 Hours of Legal Changes
             </div>
           </div>
         </div>
@@ -98,7 +93,7 @@ const lastUpdated = '2026-09-15';
         <div class="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-900/40 flex items-center justify-center text-accent mb-4">
           <ToolIcon name="scale" class="w-5 h-5" />
         </div>
-        <h3 class="text-lg font-bold text-base mb-2">Statutory Accuracy Guarantee</h3>
+        <h3 class="text-lg font-bold text-base mb-2">Statutory Accuracy</h3>
         <p class="text-sm text-muted leading-relaxed">
           Every tax calculation uses exact formulas defined by the Central Board of Indirect Taxes and Customs (CBIC) and the Income Tax Department (CBDT), including Rules 89, 42, 43, and 37.
         </p>
@@ -110,9 +105,17 @@ const lastUpdated = '2026-09-15';
         </div>
         <h3 class="text-lg font-bold text-base mb-2">24–48h Notification Updates</h3>
         <p class="text-sm text-muted leading-relaxed">
-          When the GST Council issues recommendations or the Union Budget amends Income Tax slabs, our editorial board updates our tool logic and rate engines within 24 to 48 hours.
+          When the GST Council issues recommendations or the Union Budget amends Income Tax slabs, our editorial team updates our tool logic and rate engines within 24 to 48 hours.
         </p>
       </div>
+    </div>
+
+    <!-- Important Disclaimer -->
+    <div class="rounded-2xl border border-amber-500/30 bg-amber-50/40 dark:bg-amber-950/20 p-6 mb-12">
+      <h3 class="text-lg font-bold text-base mb-2">⚠️ Important Disclaimer</h3>
+      <p class="text-sm text-muted leading-relaxed">
+        Taxzentic provides informational tools and educational content only. Our calculators and guides are not a substitute for professional tax advice. For specific tax decisions, GST registration matters, or Income Tax filing, please consult a qualified Chartered Accountant or GST practitioner.
+      </p>
     </div>
 
     <!-- Official Verification Sources -->

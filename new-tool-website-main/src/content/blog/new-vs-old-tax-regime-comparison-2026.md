@@ -3,7 +3,7 @@ title: "New vs Old Tax Regime Comparison 2026: Slabs, ₹75k Standard Deduction 
 description: "Comprehensive comparison between New vs Old Tax Regime for FY 2025-26 & FY 2026-27. Compare slab rates, ₹7.75L zero tax rebate, 80C, 80D, HRA deductions, and discover your exact breakeven point."
 pubDate: "2026-08-18"
 updatedDate: "2026-09-12"
-heroImage: "/images/blog/gst-calculator-guide.png"
+heroImage: "/images/blog/gst-calculator-guide.webp"
 tags: ["Income Tax", "Tax Planning", "Old vs New Regime", "Salaried"]
 ---
 

@@ -3,7 +3,7 @@ title: "57th GST Council Meeting Recap: Key Decisions, Rate Rationalizations & C
 description: "Comprehensive recap of the 57th GST Council meeting decisions. Learn about Section 128A amnesty deadlines, GSTAT operationalization, insurance premium rate rationalizations, and biometric Aadhaar rollouts."
 pubDate: "2026-09-15"
 updatedDate: "2026-09-15"
-heroImage: "/images/blog/gst-amnesty-scheme-2025-section-128a.png"
+heroImage: "/images/blog/gst-late-fee-waivers.webp"
 tags: ["GST Council", "Amnesty Scheme", "Tax Reforms", "GSTAT", "Compliance Updates"]
 ---
 

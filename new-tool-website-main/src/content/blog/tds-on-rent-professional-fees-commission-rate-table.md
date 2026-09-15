@@ -3,7 +3,7 @@ title: "TDS on Rent, Professional Fees & Commission: Section 194I, 194IB, 194J &
 description: "Master TDS deductions on commercial & residential rent, professional & technical fees, and brokerage commissions. Learn threshold limits, rates, Form 26QC, and compliance deadlines."
 pubDate: "2026-08-20"
 updatedDate: "2026-09-12"
-heroImage: "/images/blog/gst-on-rent-india-2026-rcm.png"
+heroImage: "/images/blog/gst-on-rent-india-2026-rcm.webp"
 tags: ["Income Tax", "TDS", "Rent", "Professional Fees", "Compliance"]
 ---
 

@@ -3,7 +3,7 @@ title: "GST Registration Limit State-Wise 2026: ₹10L, ₹20L vs ₹40L Thresho
 description: "Master the state-wise GST registration thresholds in India. Compare ₹40 Lakhs for goods, ₹20 Lakhs for services, and ₹10 Lakhs for Special Category States, plus Section 24 mandatory cases."
 pubDate: "2026-09-13"
 updatedDate: "2026-09-13"
-heroImage: "/images/blog/state-codes-in-gstin.png"
+heroImage: "/images/blog/state-codes-in-gstin.webp"
 tags: ["GST Registration", "Threshold Limits", "Special Category States", "Compliance"]
 ---
 

@@ -3,7 +3,7 @@ title: "GST Refund Status Tracking & Statutory Timelines: RFD-02 to RFD-06 & 6% 
 description: "Track your GST refund from ARN generation to bank disbursement. Understand RFD-02 acknowledgement, RFD-03 deficiency memos, RFD-04 provisional sanction, and 6% interest under Section 56."
 pubDate: "2026-09-01"
 updatedDate: "2026-09-12"
-heroImage: "/images/blog/calculate-gst-late-fees.png"
+heroImage: "/images/blog/calculate-gst-late-fees.webp"
 tags: ["GST Refund", "RFD-02", "RFD-06", "Refund Tracking", "Section 56"]
 ---
 

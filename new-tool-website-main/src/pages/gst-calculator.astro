@@ -2,7 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const title = 'Free GST Calculator India — Add & Remove GST';
-const description = 'Free online GST calculator for India. Add GST or remove GST (reverse) with CGST/SGST split. Supports 5%, 18%, 40% (GST 2.0) slabs and custom rates. Instant results.';
+const description = 'Free online GST calculator for India. Add or remove GST with CGST/SGST split. Supports 5%, 12%, 18%, 28%, 40% slabs and custom rates. Instant results.';
 
 const structuredData = [
   {
@@ -23,6 +23,14 @@ const structuredData = [
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
     mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'Total bill me se GST kaise alag karein (Formula)?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Total bill me se GST alag karne ka formula hai: Base Price = Total Bill / (1 + GST Rate / 100). Jaise ₹1,180 par 18% GST ho toh ₹1,180 / 1.18 = ₹1,000 base amount, aur ₹180 GST amount hoga. Is tool me "Remove GST" button click karke aap direct calculate kar sakte hain.',
+        },
+      },
       {
         '@type': 'Question',
         name: 'How to calculate GST?',
@@ -267,6 +275,10 @@ const breadcrumb = [
 
         <h3 class="text-[20px] font-semibold text-base mt-8 mb-4 tracking-[-0.6px]">Frequently Asked Questions</h3>
         <div class="space-y-4 mt-4">
+          <div>
+            <h4 class="font-medium text-base">Total bill me se GST kaise alag karein (Formula)?</h4>
+            <p class="text-[15px] mt-1 text-muted">Total bill me se GST alag karne ka formula hai: Base Price = Total Bill / (1 + GST Rate / 100). Jaise ₹1,180 par 18% GST ho toh ₹1,180 / 1.18 = ₹1,000 base amount, aur ₹180 GST amount hoga. "Remove GST" option select karke aap direct calculation kar sakte hain.</p>
+          </div>
           <div>
             <h4 class="font-medium text-base">How to convert gst inclusive to exclusive price formula?</h4>
             <p class="text-[15px] mt-1 text-muted">The convert gst inclusive to exclusive price formula is simple: divide your inclusive price by (1 + (GST Rate / 100)). Use our reverse charge mechanism gst calculator free tool above to do this instantly.</p>

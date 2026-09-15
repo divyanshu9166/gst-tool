@@ -1,12 +1,22 @@
 ---
 title: "How to Revise MRP After GST Rate Change in 2026 — Step by Step"
-description: "A complete step-by-step guide for manufacturers and retailers on how to legally revise the Maximum Retail Price (MRP) of existing stock following the GST rate changes in 2026."
+description: "Learn how to revise MRP after GST rate changes (2026). Rules for writing revised price before or after old MRP, stamping guidelines, and anti-profiteering."
 heroImage: "/images/blog/mrp-revision-gst-rate-change.png"
 pubDate: "2026-06-27"
+updatedDate: "2026-09-15"
 tags: ["GST 2.0", "Compliance", "MRP Revision"]
 ---
 
 The landscape of indirect taxation in India underwent a monumental shift with the rollout of the much-anticipated **GST 2.0** structure. As the government rationalized tax slabs—merging the 12% and 28% categories into the new 5%, 18%, and 40% tiers—businesses across the country faced an immediate, practical challenge: **What happens to the existing stock already sitting on retail shelves or in distributor warehouses?**
+
+<div class="my-6 p-6 rounded-xl border-2 border-primary/20 bg-primary/5 dark:bg-primary/10 text-center not-prose">
+  <p class="text-xs font-mono uppercase tracking-wider text-primary font-semibold mb-1">Interactive Price Revision Tool</p>
+  <h3 class="text-xl font-bold text-base mb-2">Calculate Your New MRP in 1 Click</h3>
+  <p class="text-sm text-muted mb-4 max-w-lg mx-auto">Compute mathematically exact revised retail prices for upward and downward GST rate adjustments, with statutory rounding rules.</p>
+  <a href="/mrp-revision-calculator" class="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg bg-primary hover:bg-primary/90 text-white font-semibold transition-all shadow-sm">
+    Open MRP Revision Calculator →
+  </a>
+</div>
 
 When the Goods and Services Tax (GST) rate on a product changes, the Maximum Retail Price (MRP) printed on the packaging must often be adjusted to reflect the new tax burden. Under the Legal Metrology Act, 2009, and the Legal Metrology (Packaged Commodities) Rules, 2011, altering the MRP is a highly regulated process. You cannot simply cross out the old price with a marker and write a new one. Doing so can lead to severe penalties, confiscation of goods, and loss of consumer trust.
 
@@ -120,6 +130,25 @@ The Legal Metrology (Packaged Commodities) Rules allow the revised MRP to be dec
    `"Revised MRP: ₹[New Price] (Incl. of all taxes) due to GST rate change."`
 2. **Distribution of Stickers:** Dispatch these stickers to your distributors and sales teams.
 3. **Execution at Retail:** Sales representatives visiting retail outlets must physically affix these stickers adjacent to the old MRP on the packaging. For large distributors, they can apply the stickers in their warehouses before dispatching goods to small retailers.
+
+---
+
+## Should Revised MRP Price Be Written Before or After the Old Price?
+
+<div class="bg-blue-50 dark:bg-blue-950/20 border-l-4 border-blue-500 p-4 my-6">
+  <strong>Quick Answer:</strong> Under the Legal Metrology (Packaged Commodities) Rules, the revised MRP must be stamped or stickered <strong>adjacent to (alongside or after) the original printed MRP</strong> without obscuring, erasing, or overwriting the original price. Both the old price and the new price must remain legible simultaneously.
+</div>
+
+A very common practical question faced by warehouse managers and retailers is: *Where exactly do we affix the revised sticker? Does the revised MRP come before or after the old price?*
+
+### The Statutory Placement Guidelines:
+1. **Never Overwrite or Obliterate**: Placing a sticker directly over the old price so that the original MRP is hidden is a statutory offense under Section 36 of the Legal Metrology Act, attracting penalties up to ₹25,000 for the first offense and up to ₹50,000 for repeat offenses.
+2. **Adjacent Placement**: The revised MRP sticker must be placed directly **adjacent (alongside or immediately after)** the original declared MRP.
+3. **Recommended Sticker Format**: The sticker text should read clearly:
+   `"Revised MRP: ₹[New Price] (Old MRP: ₹[Old Price]) due to GST rate change."`
+4. **Font Size Legibility**: The revised price numerals must not be smaller than the minimum numeral height mandated for the package volume/weight under Rule 9 of the Packaged Commodities Rules.
+
+If you are calculating revised prices across multiple products, verify the exact figures with our **[MRP Revision Calculator](/mrp-revision-calculator)** before printing batch labels.
 
 ---
 

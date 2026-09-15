@@ -2,8 +2,8 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ToolIcon from '../components/ToolIcon.astro';
 
-const title = 'State of GST Compliance in India 2026 Report & Infographic | Taxzentic';
-const description = 'Annual research report on GST compliance trends, scrutiny notice frequencies, ITC reconciliation errors, and E-Way bill compliance across Indian MSMEs and enterprises.';
+const title = 'GST Compliance in India 2026 — Key Facts & Trends | Taxzentic';
+const description = 'Key GST compliance facts, filing trends, and government statistics for Indian businesses in 2026. Sourced from official CBIC, PIB, and GSTN data.';
 
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://taxzentic.com';
 const canonical = `${siteUrl}/state-of-gst-compliance-2026`;
@@ -22,7 +22,7 @@ const structuredData = [
     },
     author: {
       '@type': 'Organization',
-      name: 'Taxzentic Research Desk',
+      name: 'Taxzentic Editorial Team',
       url: `${siteUrl}/authors/editorial-team`,
     },
   },
@@ -30,7 +30,7 @@ const structuredData = [
 
 const breadcrumb = [
   { name: 'Home', href: '/' },
-  { name: 'Reports', href: '/state-of-gst-compliance-2026' },
+  { name: 'GST Compliance Trends', href: '/state-of-gst-compliance-2026' },
 ];
 
 const lastUpdated = '2026-09-15';
@@ -42,68 +42,96 @@ const lastUpdated = '2026-09-15';
     <div class="text-center mb-14">
       <div class="inline-flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-50/50 dark:bg-blue-950/40 px-4 py-1.5 text-[12px] font-mono uppercase tracking-wider text-accent mb-4">
         <span class="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
-        Annual Benchmark Study · September 2026 Edition
+        Key Facts & Government Data · Updated September 2026
       </div>
       <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-base mb-4">
-        State of GST Compliance in India 2026
+        GST Compliance in India — Key Facts & Trends
       </h1>
       <p class="text-[17px] text-muted max-w-2xl mx-auto leading-relaxed">
-        An in-depth empirical review of return filing efficiency, automated scrutiny notices (DRC-01B/C), E-Way bill detentions, and GST 2.0 rate transitions across 1.4 Crore active taxpayers.
+        A curated summary of official GST statistics, compliance milestones, and regulatory trends based on publicly available data from CBIC, PIB, and GSTN portals.
       </p>
     </div>
 
-    <!-- Infographic Stats Grid -->
+    <!-- Stats Grid — All sourced from public government data -->
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-16">
       <div class="p-6 rounded-2xl border border-base bg-surface text-center shadow-sm">
-        <span class="text-4xl font-black font-mono text-accent block mb-1">68.4%</span>
-        <span class="text-xs font-bold text-base block mb-1">Return Timeliness</span>
-        <p class="text-[11px] text-muted">Of regular taxpayers file GSTR-3B on or before the 20th due date.</p>
-      </div>
-
-      <div class="p-6 rounded-2xl border border-rose-500/30 bg-rose-50/40 dark:bg-rose-950/20 text-center shadow-sm">
-        <span class="text-4xl font-black font-mono text-rose-600 block mb-1">41.2%</span>
-        <span class="text-xs font-bold text-rose-700 dark:text-rose-400 block mb-1">Notice Prevalence</span>
-        <p class="text-[11px] text-muted">Businesses surveyed received at least one DRC-01B or ASMT-10 in FY25-26.</p>
+        <span class="text-4xl font-black font-mono text-accent block mb-1">₹1.87L Cr</span>
+        <span class="text-xs font-bold text-base block mb-1">Record Monthly Collection</span>
+        <p class="text-[11px] text-muted">April 2024 saw ₹2.10 Lakh Crore — the highest single-month GST collection as per PIB.</p>
+        <p class="text-[10px] text-muted/70 mt-1 italic">Source: PIB Press Release, May 2024</p>
       </div>
 
       <div class="p-6 rounded-2xl border border-emerald-500/30 bg-emerald-50/40 dark:bg-emerald-950/20 text-center shadow-sm">
-        <span class="text-4xl font-black font-mono text-emerald-600 block mb-1">₹1.87 Lakh Cr</span>
-        <span class="text-xs font-bold text-emerald-700 dark:text-emerald-400 block mb-1">Avg Monthly Collections</span>
-        <p class="text-[11px] text-muted">Steady indirect revenue collection baseline sustained in 2026.</p>
+        <span class="text-4xl font-black font-mono text-emerald-600 block mb-1">1.46 Cr+</span>
+        <span class="text-xs font-bold text-emerald-700 dark:text-emerald-400 block mb-1">Active GST Registrations</span>
+        <p class="text-[11px] text-muted">Total active GSTIN registrations as reported by GSTN in its annual statistics.</p>
+        <p class="text-[10px] text-muted/70 mt-1 italic">Source: GSTN Public Dashboard</p>
+      </div>
+
+      <div class="p-6 rounded-2xl border border-blue-500/30 bg-blue-50/40 dark:bg-blue-950/20 text-center shadow-sm">
+        <span class="text-4xl font-black font-mono text-blue-600 block mb-1">₹5 Cr</span>
+        <span class="text-xs font-bold text-blue-700 dark:text-blue-400 block mb-1">E-Invoice Threshold</span>
+        <p class="text-[11px] text-muted">E-Invoicing is now mandatory for all businesses with aggregate turnover exceeding ₹5 Crores.</p>
+        <p class="text-[10px] text-muted/70 mt-1 italic">Source: CBIC Notification 10/2023</p>
       </div>
     </div>
 
-    <!-- Executive Insights -->
+    <!-- Key Trends — sourced from real government notifications -->
     <div class="prose prose-neutral dark:prose-invert max-w-none text-base leading-relaxed space-y-6">
-      <h2 class="text-2xl font-bold text-base">Key Findings & Compliance Trends</h2>
+      <h2 class="text-2xl font-bold text-base">Key Compliance Developments</h2>
 
       <div class="p-6 rounded-2xl border border-base bg-subtle space-y-3 not-prose">
-        <h3 class="font-bold text-base text-base">1. Automated Scrutiny Under Rule 88C & 88D Replaced Manual Audits</h3>
+        <h3 class="font-bold text-base text-base">1. Automated Scrutiny Under Rule 88C & 88D</h3>
         <p class="text-xs text-muted leading-relaxed">
-          Over 78% of all departmental intimations in 2026 were algorithmically generated via Forms DRC-01B (turnover difference) and DRC-01C (ITC difference). Taxpayers with automated monthly reconciliation tools reduced notice incidence by 84%.
+          The CBIC introduced Rule 88C (turnover difference intimation via DRC-01B) and Rule 88D (ITC mismatch difference via DRC-01C) to replace manual audit triggers with automated system-generated notices. These rules compare GSTR-1 outward supply data with GSTR-3B liability declarations and GSTR-2B ITC data in real time.
         </p>
+        <p class="text-[10px] text-muted/70 italic">Source: CGST Rules 88C & 88D, CBIC Notification 26/2022</p>
       </div>
 
       <div class="p-6 rounded-2xl border border-base bg-subtle space-y-3 not-prose">
-        <h3 class="font-bold text-base text-base">2. Section 128A Amnesty Wave</h3>
+        <h3 class="font-bold text-base text-base">2. Section 128A — Retrospective Waiver of Interest & Penalties</h3>
         <p class="text-xs text-muted leading-relaxed">
-          The retrospective waiver of interest and penalties under Section 128A for FY 2017-18, 2018-19, and 2019-20 resolved over 3.2 Lakh pending disputes, saving MSMEs an estimated ₹4,200 Crores in statutory penalties.
+          Section 128A (inserted via Finance Act 2024) provides conditional waiver of interest and penalties for demands under Section 73 relating to FY 2017-18, 2018-19, and 2019-20. Taxpayers must pay the full tax demand by March 31, 2025 to avail the waiver.
         </p>
+        <p class="text-[10px] text-muted/70 italic">Source: Finance Act 2024, Section 128A; CBIC Circular 238/32/2024-GST</p>
       </div>
 
       <div class="p-6 rounded-2xl border border-base bg-subtle space-y-3 not-prose">
-        <h3 class="font-bold text-base text-base">3. E-Invoicing Expansion to ₹5 Cr Threshold</h3>
+        <h3 class="font-bold text-base text-base">3. GST Revenue Milestones</h3>
         <p class="text-xs text-muted leading-relaxed">
-          With E-Invoicing mandatory for entities exceeding ₹5 Crores turnover, over 95% of B2B tax credits are now verified in real time, virtually eliminating input credit delays between compliant counterparties.
+          Monthly GST collections have consistently exceeded ₹1.5 Lakh Crore since mid-2023, reflecting improved compliance and broader tax base. The government has attributed this to better return filing, E-Invoice mandates, and GSTR matching technology.
         </p>
+        <p class="text-[10px] text-muted/70 italic">Source: PIB Monthly GST Revenue Updates</p>
+      </div>
+
+      <div class="p-6 rounded-2xl border border-base bg-subtle space-y-3 not-prose">
+        <h3 class="font-bold text-base text-base">4. GSTR-1/IFF Filing Deadlines Remain Unchanged</h3>
+        <p class="text-xs text-muted leading-relaxed">
+          GSTR-1 filing deadline remains the 11th of the succeeding month. Quarterly filers (QRMP scheme) continue to file IFF by the 13th for months 1 and 2 of each quarter. GSTR-3B deadlines stay at the 20th (monthly filers) or 22nd/24th (quarterly filers).
+        </p>
+        <p class="text-[10px] text-muted/70 italic">Source: CBIC Notification 01/2017 (as amended)</p>
       </div>
     </div>
 
-    <!-- Citation & Media Attribution -->
-    <div class="mt-14 p-6 rounded-2xl border border-base bg-surface text-center space-y-3">
-      <h3 class="text-sm font-bold text-base">Citing This Report</h3>
+    <!-- Disclaimer & Attribution -->
+    <div class="mt-14 p-6 rounded-2xl border border-amber-500/30 bg-amber-50/40 dark:bg-amber-950/20 space-y-3">
+      <h3 class="text-sm font-bold text-base">⚠️ Disclaimer & Sources</h3>
+      <p class="text-xs text-muted leading-relaxed">
+        All statistics and data points on this page are sourced from official government publications including CBIC notifications, PIB press releases, and GSTN public dashboards. Taxzentic does not conduct independent surveys. This page is an editorial summary, not an original research report.
+      </p>
+      <p class="text-xs text-muted leading-relaxed">
+        <strong>Primary sources:</strong>
+        <a href="https://www.cbic.gov.in" target="_blank" rel="noopener noreferrer" class="text-accent underline">cbic.gov.in</a>,
+        <a href="https://pib.gov.in" target="_blank" rel="noopener noreferrer" class="text-accent underline">pib.gov.in</a>,
+        <a href="https://www.gst.gov.in" target="_blank" rel="noopener noreferrer" class="text-accent underline">gst.gov.in</a>
+      </p>
+    </div>
+
+    <!-- Citation Note -->
+    <div class="mt-8 p-6 rounded-2xl border border-base bg-surface text-center space-y-3">
+      <h3 class="text-sm font-bold text-base">Citing This Page</h3>
       <p class="text-xs text-muted max-w-lg mx-auto">
-        Journalists, researchers, and bloggers are free to cite data and charts from this report with contextual attribution to <a href="https://taxzentic.com" class="text-accent underline font-medium">Taxzentic</a>.
+        Journalists, researchers, and bloggers are welcome to reference data from this page. Please attribute to <a href="https://taxzentic.com" class="text-accent underline font-medium">Taxzentic</a> and cite the original government source mentioned alongside each data point.
       </p>
     </div>
   </div>

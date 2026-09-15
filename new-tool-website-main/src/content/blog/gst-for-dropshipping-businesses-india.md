@@ -3,7 +3,7 @@ title: "GST for Dropshipping Businesses in India: Domestic vs International Cros
 description: "Master GST rules for dropshipping in India. Learn the tax differences between domestic Shopify dropshipping vs cross-border dropshipping (China to USA), Schedule III exemptions, and intermediate supplies."
 pubDate: "2026-09-07"
 updatedDate: "2026-09-12"
-heroImage: "/images/blog/gst-for-amazon-flipkart-sellers-2026.png"
+heroImage: "/images/blog/gst-for-amazon-flipkart-sellers-2026.webp"
 tags: ["Dropshipping", "E-Commerce", "Cross-Border", "GST Compliance", "Shopify"]
 ---
 

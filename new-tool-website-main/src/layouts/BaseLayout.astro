@@ -53,24 +53,6 @@ const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://taxzentic.
 const fullTitle = title.includes(siteName) ? title : `${title} | ${siteName}`;
 const fullOgImage = ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogImage.startsWith('/') ? '' : '/'}${ogImage}`;
 
-// Deterministic rating helper for SoftwareApplication star-rating rich snippets
-function getDeterministicRating(seed: string) {
-  let hash = 0;
-  for (let i = 0; i < seed.length; i++) {
-    hash = ((hash << 5) - hash) + seed.charCodeAt(i);
-    hash |= 0;
-  }
-  const rating = (4.8 + (Math.abs(hash) % 2) * 0.1).toFixed(1);
-  const reviews = 380 + (Math.abs(hash) % 1120);
-  return {
-    '@type': 'AggregateRating',
-    ratingValue: rating,
-    reviewCount: reviews.toString(),
-    bestRating: '5',
-    worstRating: '1',
-  };
-}
-
 // Fallback breadcrumb generation for sitewide BreadcrumbList schema
 const effectiveBreadcrumb = (breadcrumb && breadcrumb.length > 0)
   ? breadcrumb
@@ -102,12 +84,15 @@ if (structuredData) {
   }
 }
 
+// Enrich SoftwareApplication/WebApplication with standard fields but do NOT
+// inject fabricated aggregateRating — only pass through if the page explicitly
+// provides one backed by real user reviews.
 const allStructuredData = rawStructuredData.map((item: any) => {
   if (!item || typeof item !== 'object') return item;
   const itemType = item['@type'];
   const isApp = itemType === 'WebApplication' || itemType === 'SoftwareApplication' || (Array.isArray(itemType) && (itemType.includes('WebApplication') || itemType.includes('SoftwareApplication')));
   if (isApp) {
-    return {
+    const enriched: any = {
       ...item,
       '@type': ['SoftwareApplication', 'WebApplication'],
       applicationCategory: item.applicationCategory || 'FinanceApplication',
@@ -117,8 +102,11 @@ const allStructuredData = rawStructuredData.map((item: any) => {
         price: '0',
         priceCurrency: 'INR',
       },
-      aggregateRating: item.aggregateRating || getDeterministicRating(item.name || title),
     };
+    // Only include aggregateRating if the page explicitly provided one
+    // (i.e. backed by real user-submitted reviews, not fabricated).
+    // Do NOT auto-generate fake ratings.
+    return enriched;
   }
   return item;
 });

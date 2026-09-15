@@ -3,7 +3,7 @@ title: "GST on Coaching Centres, EdTech & Online Courses in India: 18% Rate, Exe
 description: "Master GST rules for coaching institutes, EdTech startups, and online course creators in India. Learn the 18% rate, school/university exemptions under Entry 66, test series, and study material bundling."
 pubDate: "2026-09-11"
 updatedDate: "2026-09-12"
-heroImage: "/images/blog/sac-codes-vs-hsn-codes.png"
+heroImage: "/images/blog/sac-codes-vs-hsn-codes.webp"
 tags: ["EdTech", "Coaching", "Online Courses", "Education", "GST Rates"]
 ---
 

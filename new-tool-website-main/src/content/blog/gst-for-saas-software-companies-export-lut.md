@@ -3,7 +3,7 @@ title: "GST for SaaS & Software Companies in India: Export under LUT, Domestic 1
 description: "Master GST compliance for B2B and B2C software & SaaS companies in India. Learn the 5-point export test under Section 2(6), Letter of Undertaking (LUT) workflows, Stripe/PayPal setup, and OIDAR rules."
 pubDate: "2026-09-09"
 updatedDate: "2026-09-12"
-heroImage: "/images/blog/gst-offline-tool-guide-errors-json-to-excel.png"
+heroImage: "/images/blog/gst-offline-tool-guide.webp"
 tags: ["SaaS", "Software Exports", "LUT", "OIDAR", "IT Industry"]
 ---
 

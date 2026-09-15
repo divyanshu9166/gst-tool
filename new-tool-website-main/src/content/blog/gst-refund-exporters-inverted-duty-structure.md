@@ -3,7 +3,7 @@ title: "GST Refund for Inverted Duty Structure & Exporters: Rule 89(4) & 89(5) F
 description: "Master the statutory GST refund formulas for Inverted Duty Structure (Rule 89(5)) and Zero-Rated Exports under LUT (Rule 89(4)). Learn eligible Net ITC, input services restrictions, and filing workflows in Form RFD-01."
 pubDate: "2026-08-30"
 updatedDate: "2026-09-12"
-heroImage: "/images/blog/finding-hsn-codes-for-exports.png"
+heroImage: "/images/blog/finding-hsn-codes-for-exports.webp"
 tags: ["GST Refund", "Inverted Duty", "Exports", "Rule 89", "RFD-01"]
 ---
 

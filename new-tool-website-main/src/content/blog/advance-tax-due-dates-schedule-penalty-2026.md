@@ -3,7 +3,7 @@ title: "Advance Tax Due Dates, Schedule & Interest Penalties under Section 234B 
 description: "Master the advance tax installment schedule, 15%-45%-75%-100% deadlines, computation rules, and how to avoid Section 234B & 234C interest penalties."
 pubDate: "2026-08-16"
 updatedDate: "2026-09-12"
-heroImage: "/images/blog/never-miss-gst-due-dates.png"
+heroImage: "/images/blog/never-miss-gst-due-dates.webp"
 tags: ["Income Tax", "Advance Tax", "Compliance", "Tax Planning"]
 ---
 

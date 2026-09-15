@@ -3,7 +3,7 @@ title: "DRC-07 Notice Meaning & 90-Day Action Plan: Recovery Powers, Appeals & A
 description: "Received Form GST DRC-07 Summary of the Order? Understand what DRC-07 legally means, Section 79 recovery powers, the 90-day APL-01 appeal window, and Section 128A waiver relief."
 pubDate: "2026-08-28"
 updatedDate: "2026-09-12"
-heroImage: "/images/blog/gst-amnesty-scheme-2025-section-128a.png"
+heroImage: "/images/blog/gst-late-fee-waivers.webp"
 tags: ["GST Notices", "DRC-07", "GST Appeals", "Recovery", "Amnesty"]
 ---
 

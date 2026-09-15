@@ -3,7 +3,7 @@ title: "GST for Interior Designers & Architects: SAC Codes, 18% Rates, Works Con
 description: "Comprehensive GST guide for interior designers, architects, and turnkey contractors in India. Learn the 18% rate, SAC 998391 vs 9954 works contracts, pure consulting vs material supply, and billing rules."
 pubDate: "2026-09-10"
 updatedDate: "2026-09-12"
-heroImage: "/images/blog/sac-codes-vs-hsn-codes.png"
+heroImage: "/images/blog/sac-codes-vs-hsn-codes.webp"
 tags: ["Interior Design", "Architects", "SAC Codes", "Works Contract", "GST Rates"]
 ---
 

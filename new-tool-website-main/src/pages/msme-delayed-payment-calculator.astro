@@ -1,8 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const title = 'MSME Delayed Payment Interest Calculator';
-const description = 'Calculate interest on delayed payments to MSMEs under Section 16 of the MSME Development Act. Free compound interest calculator for suppliers.';
+const title = 'MSME Delayed Payment Interest Calculator (Section 16 Rules)';
+const description = 'Calculate compound interest on delayed payments to MSME suppliers under Section 16 of the MSMED Act. Free 3x RBI bank rate monthly compounding calculator.';
 
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://taxzentic.com';
 
@@ -23,10 +23,18 @@ const structuredData = [
     mainEntity: [
       {
         '@type': 'Question',
+        name: 'MSME payment delay hone par interest kitna lagta hai?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'MSME Act ke Section 16 ke mutabik 3x RBI bank rate compound interest lagta hai. Current bank rate ke hisaab se yeh lagbhag 19.5% se 20.25% p.a. banta hai aur monthly rests ke sath compound hota hai. Yeh interest mandatory hai aur contract se waive nahi ho sakta.',
+        },
+      },
+      {
+        '@type': 'Question',
         name: 'What is the interest rate on delayed payments to MSMEs?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Under Section 16 of the MSME Development Act 2006, the interest rate on delayed payments is three times the bank rate notified by RBI (currently 6.5%). So the applicable rate is approximately 19.5% per annum, compounded monthly.',
+          text: 'Under Section 16 of the MSME Development Act 2006, the interest rate on delayed payments is three times the bank rate notified by RBI (currently 6.5% to 6.75%). So the applicable rate is approximately 19.5% to 20.25% per annum, compounded monthly.',
         },
       },
       {
@@ -143,7 +151,7 @@ const breadcrumb = [
         </ul>
 
         <p>
-          Need to check if you qualify as an MSME? Learn more about <a href="/blog/gst-for-freelancers-india-2026" class="text-accent hover:underline">GST for freelancers</a> and small businesses. For GST-related calculations, use our <a href="/gst-calculator" class="text-accent hover:underline">GST Calculator</a>.
+          Read our in-depth legal analysis: <a href="/blog/msme-delayed-payment-interest-rate-rbi-rules-2026" class="text-accent hover:underline font-medium">MSME Delayed Payment Interest Rate: 3x RBI Bank Rate Rules &amp; Section 16 Calculation (2026)</a>. For small business tax planning, also check our <a href="/blog/gst-for-freelancers-india-2026" class="text-accent hover:underline">GST for freelancers</a> and our <a href="/gst-turnover-calculator" class="text-accent hover:underline">GST Turnover Calculator</a>.
         </p>
       </div>
     </div>
@@ -153,6 +161,7 @@ const breadcrumb = [
       <h2 class="text-[24px] font-semibold text-base mb-6 tracking-[-0.6px]">Frequently Asked Questions</h2>
       <div class="space-y-3">
         {[
+          { q: 'MSME payment delay hone par interest kitna lagta hai?', a: 'MSME Act ke Section 16 ke mutabik 3x RBI bank rate compound interest lagta hai. Current bank rate ke hisaab se yeh lagbhag 19.5% se 20.25% p.a. banta hai aur monthly rests ke sath compound hota hai. Yeh interest mandatory hai aur contract se waive nahi ho sakta.' },
           { q: 'Is interest compounded monthly or annually?', a: 'Under Section 16 of the MSMED Act, interest is compounded monthly. This means interest is calculated on the principal amount and any previously accumulated interest at the end of each month.' },
           { q: 'Can the buyer refuse to pay MSME interest?', a: 'No. The interest is a statutory obligation under the MSMED Act. The buyer cannot waive this through any contractual agreement. Additionally, the interest paid is not deductible as a business expense for income tax purposes, creating a double penalty.' },
           { q: 'Where can MSME suppliers file complaints for delayed payments?', a: 'MSME suppliers can file complaints with the Micro and Small Enterprise Facilitation Council (MSEFC) in their state. The complaint can be filed online through the MSME Samadhaan portal (samadhaan.msme.gov.in).' },

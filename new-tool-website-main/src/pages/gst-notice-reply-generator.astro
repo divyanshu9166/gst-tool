@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import ToolIcon from '../components/ToolIcon.astro';
 
 const title = 'GST Notice Reply Generator (AI) — ASMT-10, DRC-01 & Section 73/74';
-const description = 'Generate professional, legally drafted replies to GST notices (ASMT-10, DRC-01, Section 73/74). Formats legal arguments, circular references, and prayers instantly.';
+const description = 'AI-powered generator for professional GST notice replies. Drafts legal responses to ASMT-10, DRC-01, and Section 73/74 notices with statutory citations.';
 
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://taxzentic.com';
 const canonical = `${siteUrl}/gst-notice-reply-generator`;
@@ -14,18 +14,13 @@ const structuredData = [
     '@type': 'WebApplication',
     name: 'GST Notice Reply Generator AI',
     url: canonical,
-    description: 'Automated legal reply generator for GST scrutiny notices (ASMT-10) and show cause demand notices (DRC-01).',
+    description: 'AI-powered legal reply generator for GST scrutiny notices (ASMT-10) and show cause demand notices (DRC-01). Uses advanced language models for context-aware legal drafting.',
     applicationCategory: 'FinanceApplication',
     operatingSystem: 'Any',
     offers: {
       '@type': 'Offer',
       price: '0',
       priceCurrency: 'INR',
-    },
-    aggregateRating: {
-      '@type': 'AggregateRating',
-      ratingValue: '4.95',
-      reviewCount: '890',
     },
   },
   {
@@ -65,7 +60,6 @@ const breadcrumb = [
   { name: 'GST Notices', href: '/gst-notices' },
   { name: 'Notice Reply Generator', href: '/gst-notice-reply-generator' },
 ];
-
 const lastUpdated = '2026-09-15';
 ---
 
@@ -75,13 +69,13 @@ const lastUpdated = '2026-09-15';
     <div class="text-center mb-14">
       <div class="inline-flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-50/50 dark:bg-blue-950/40 px-4 py-1.5 text-[12px] font-mono uppercase tracking-wider text-accent mb-4">
         <span class="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
-        AI Legal Drafting Engine · Free & Offline
+        AI-Powered Legal Drafting · Powered by Groq LLM
       </div>
       <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-base mb-4">
         GST Notice Reply Generator
       </h1>
       <p class="text-[17px] text-muted max-w-2xl mx-auto leading-relaxed">
-        Draft structured, legally grounded responses to ASMT-10, DRC-01, and Section 73/74 demand notices. Includes statutory citations, CBIC circulars, and Section 75(4) hearing prayers.
+        Draft structured, legally grounded responses to ASMT-10, DRC-01, and Section 73/74 demand notices. AI generates context-aware replies with statutory citations, CBIC circulars, and Section 75(4) hearing prayers.
       </p>
     </div>
 
@@ -165,6 +159,40 @@ const lastUpdated = '2026-09-15';
             </div>
           </div>
         </div>
+
+        <!-- Custom Context for AI -->
+        <div class="rounded-2xl border border-emerald-500/20 bg-emerald-50/30 dark:bg-emerald-950/10 p-6 shadow-sm space-y-3">
+          <h2 class="text-lg font-bold text-base flex items-center gap-2">
+            <svg class="w-5 h-5 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456z" /></svg>
+            2. AI Context <span class="text-xs font-normal text-muted">(Optional)</span>
+          </h2>
+          <p class="text-xs text-muted">Describe your specific situation — the AI will incorporate these details into the legal reply. The more context you give, the better the draft.</p>
+          <textarea
+            id="custom-context"
+            rows="4"
+            placeholder="e.g. We have already paid the disputed amount of ₹2.4L via DRC-03 on 15-Jul-2026. The ITC difference was due to a timing lag where our supplier filed late GSTR-1 in Dec 2025 but we claimed credit in Nov 2025 based on invoice receipt..."
+            class="w-full rounded-xl border border-emerald-300/50 dark:border-emerald-800/50 bg-white dark:bg-gray-900 px-4 py-3 text-sm focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 resize-y transition-colors"
+          ></textarea>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex flex-col gap-3">
+          <button
+            id="ai-generate-btn"
+            type="button"
+            class="w-full rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white px-6 py-3.5 text-sm font-bold shadow-md hover:shadow-lg transition-all active:scale-[0.98] flex items-center justify-center gap-2"
+          >
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456z" /></svg>
+            Generate with AI
+          </button>
+          <button
+            id="template-btn"
+            type="button"
+            class="w-full rounded-xl border border-base bg-surface hover:bg-subtle text-base px-6 py-2.5 text-sm font-medium transition-colors"
+          >
+            Quick Template (Offline)
+          </button>
+        </div>
       </div>
 
       <!-- Generated Legal Draft -->
@@ -172,20 +200,26 @@ const lastUpdated = '2026-09-15';
         <div class="rounded-2xl border border-base bg-surface flex-1 flex flex-col overflow-hidden shadow-sm">
           <div class="p-4 border-b border-base bg-subtle flex items-center justify-between">
             <div class="flex items-center gap-2">
-              <span class="h-2.5 w-2.5 rounded-full bg-emerald-500"></span>
-              <span class="text-xs font-bold uppercase tracking-wider text-base">Generated Legal Reply Draft</span>
+              <span class="h-2.5 w-2.5 rounded-full bg-emerald-500" id="status-dot"></span>
+              <span class="text-xs font-bold uppercase tracking-wider text-base" id="status-label">Generated Legal Reply Draft</span>
             </div>
-            <button
-              id="copy-btn"
-              type="button"
-              class="inline-flex items-center gap-1.5 rounded-lg bg-accent text-white px-3 py-1.5 text-xs font-semibold hover:opacity-90 transition-opacity"
-            >
-              <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
-              Copy Text
-            </button>
+            <div class="flex items-center gap-2">
+              <span id="ai-badge" class="hidden items-center gap-1 rounded-full bg-emerald-100 dark:bg-emerald-900/40 px-2 py-0.5 text-[10px] font-bold text-emerald-700 dark:text-emerald-300">
+                <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" /></svg>
+                AI Generated
+              </span>
+              <button
+                id="copy-btn"
+                type="button"
+                class="inline-flex items-center gap-1.5 rounded-lg bg-accent text-white px-3 py-1.5 text-xs font-semibold hover:opacity-90 transition-opacity"
+              >
+                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+                Copy Text
+              </button>
+            </div>
           </div>
 
-          <div class="p-6 flex-1 overflow-y-auto font-mono text-xs leading-relaxed text-base bg-subtle/30" id="draft-output">
+          <div class="p-6 flex-1 overflow-y-auto font-mono text-xs leading-relaxed text-base bg-subtle/30 whitespace-pre-wrap" id="draft-output">
             <!-- Dynamically populated draft -->
           </div>
 
@@ -196,17 +230,40 @@ const lastUpdated = '2026-09-15';
         </div>
       </div>
     </div>
+
+    <!-- Disclaimer -->
+    <div class="rounded-2xl border border-amber-500/30 bg-amber-50/40 dark:bg-amber-950/20 p-6 mb-8">
+      <p class="text-xs text-muted leading-relaxed">
+        <strong>⚠️ Disclaimer:</strong> This tool generates draft replies for reference purposes only. AI-generated content should be reviewed by a qualified GST practitioner or Chartered Accountant before submission. Taxzentic is not responsible for any legal consequences arising from the use of generated drafts.
+      </p>
+    </div>
   </div>
 
   <script is:inline>
+    // ══════════════════════════════════════════════════════════════════
+    // Template-based draft generation (offline fallback)
+    // ══════════════════════════════════════════════════════════════════
+    function getFormData() {
+      return {
+        noticeType: document.getElementById('notice-type').value,
+        noticeRef: document.getElementById('notice-ref').value || 'GST/REF/2026',
+        noticeDate: document.getElementById('notice-date').value || '2026-08-01',
+        din: document.getElementById('din-no').value || 'N/A',
+        discrepancyType: document.getElementById('discrepancy-type').value,
+        taxpayerName: document.getElementById('taxpayer-name').value || 'Taxpayer',
+        taxpayerGstin: document.getElementById('taxpayer-gstin').value || 'GSTIN',
+        customContext: document.getElementById('custom-context').value || '',
+        documents: [
+          document.getElementById('doc-recon').checked ? 'GSTR-2B vs 3B Reconciliation Statement' : null,
+          document.getElementById('doc-bank').checked ? 'Bank Statements' : null,
+          document.getElementById('doc-inv').checked ? 'Tax Invoices & E-Way Bills' : null,
+          document.getElementById('doc-ca').checked ? 'CA Certification' : null,
+        ].filter(Boolean),
+      };
+    }
+
     function generateDraft() {
-      const type = document.getElementById('notice-type').value;
-      const ref = document.getElementById('notice-ref').value || 'GST/REF/2026';
-      const date = document.getElementById('notice-date').value || '2026-08-01';
-      const din = document.getElementById('din-no').value || 'N/A';
-      const discrepancy = document.getElementById('discrepancy-type').value;
-      const name = document.getElementById('taxpayer-name').value || 'Taxpayer';
-      const gstin = document.getElementById('taxpayer-gstin').value || 'GSTIN';
+      const { noticeType: type, noticeRef: ref, noticeDate: date, din, discrepancyType: discrepancy, taxpayerName: name, taxpayerGstin: gstin } = getFormData();
 
       const docRecon = document.getElementById('doc-recon').checked;
       const docBank = document.getElementById('doc-bank').checked;
@@ -321,20 +378,90 @@ Place: India`;
 
       const out = document.getElementById('draft-output');
       if (out) out.textContent = text;
+      showBadge(false);
     }
 
-    // Attach listeners
-    ['notice-type', 'notice-ref', 'notice-date', 'din-no', 'discrepancy-type', 'taxpayer-name', 'taxpayer-gstin', 'doc-recon', 'doc-bank', 'doc-inv', 'doc-ca'].forEach((id) => {
-      document.getElementById(id)?.addEventListener('input', generateDraft);
-      document.getElementById(id)?.addEventListener('change', generateDraft);
+    // ══════════════════════════════════════════════════════════════════
+    // AI-powered generation via Groq (through Cloudflare Function)
+    // ══════════════════════════════════════════════════════════════════
+    async function generateWithAI() {
+      const formData = getFormData();
+      const out = document.getElementById('draft-output');
+      const btn = document.getElementById('ai-generate-btn');
+      const statusDot = document.getElementById('status-dot');
+      const statusLabel = document.getElementById('status-label');
+
+      // Show loading state
+      btn.disabled = true;
+      btn.innerHTML = '<svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg> Generating with AI...';
+      statusDot.className = 'h-2.5 w-2.5 rounded-full bg-amber-500 animate-pulse';
+      statusLabel.textContent = 'AI is drafting your reply...';
+      out.textContent = 'Connecting to AI legal drafting engine...\n\nThis typically takes 10-20 seconds for a comprehensive legal reply.';
+
+      try {
+        const response = await fetch('/api/generate-reply', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || 'AI generation failed');
+        }
+
+        if (data.reply) {
+          out.textContent = data.reply;
+          showBadge(true);
+          statusDot.className = 'h-2.5 w-2.5 rounded-full bg-emerald-500';
+          statusLabel.textContent = 'AI-Generated Legal Reply Draft';
+        } else {
+          throw new Error('Empty response from AI');
+        }
+      } catch (err) {
+        console.error('AI generation error:', err);
+        statusDot.className = 'h-2.5 w-2.5 rounded-full bg-rose-500';
+        statusLabel.textContent = 'AI unavailable — using template';
+        out.textContent = '⚠ AI generation failed: ' + err.message + '\n\nFalling back to Quick Template...\n\n';
+
+        // Auto-fallback to template after 1.5s
+        setTimeout(() => {
+          generateDraft();
+          statusDot.className = 'h-2.5 w-2.5 rounded-full bg-blue-500';
+          statusLabel.textContent = 'Template-Generated Draft (Offline)';
+        }, 1500);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456z" /></svg> Generate with AI';
+      }
+    }
+
+    function showBadge(isAI) {
+      const badge = document.getElementById('ai-badge');
+      if (badge) {
+        badge.style.display = isAI ? 'inline-flex' : 'none';
+      }
+    }
+
+    // ══════════════════════════════════════════════════════════════════
+    // Event listeners
+    // ══════════════════════════════════════════════════════════════════
+    document.getElementById('ai-generate-btn').addEventListener('click', generateWithAI);
+    document.getElementById('template-btn').addEventListener('click', () => {
+      generateDraft();
+      const statusDot = document.getElementById('status-dot');
+      const statusLabel = document.getElementById('status-label');
+      statusDot.className = 'h-2.5 w-2.5 rounded-full bg-blue-500';
+      statusLabel.textContent = 'Template-Generated Draft (Offline)';
     });
 
-    document.getElementById('copy-btn')?.addEventListener('click', () => {
-      const text = document.getElementById('draft-output')?.textContent || '';
+    document.getElementById('copy-btn').addEventListener('click', () => {
+      const text = document.getElementById('draft-output').textContent || '';
       navigator.clipboard.writeText(text).then(() => {
         const btn = document.getElementById('copy-btn');
         if (btn) {
-          btn.textContent = '✓ Copied!';
+          btn.textContent = '\u2713 Copied!';
           setTimeout(() => {
             btn.innerHTML = '<svg class="w-3.5 h-3.5 inline mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg> Copy Text';
           }, 2000);
@@ -342,10 +469,11 @@ Place: India`;
       });
     });
 
-    document.getElementById('print-btn')?.addEventListener('click', () => {
+    document.getElementById('print-btn').addEventListener('click', () => {
       window.print();
     });
 
+    // Generate template on page load
     generateDraft();
   </script>
 </BaseLayout>

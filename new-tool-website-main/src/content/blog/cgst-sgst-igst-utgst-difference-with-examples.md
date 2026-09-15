@@ -3,7 +3,7 @@ title: "CGST, SGST, IGST & UTGST: Key Differences, Rules & Practical Calculation
 description: "Understand the four pillars of Indian GST: CGST, SGST, IGST, and UTGST. Learn intra-state vs inter-state supply rules, place of supply mechanisms, tax revenue sharing, and cross-utilization of ITC."
 pubDate: "2026-09-12"
 updatedDate: "2026-09-12"
-heroImage: "/images/blog/calculate-gst-on-freight.png"
+heroImage: "/images/blog/calculate-gst-on-freight.webp"
 tags: ["GST Basics", "CGST", "SGST", "IGST", "UTGST", "Tax Education"]
 ---
 

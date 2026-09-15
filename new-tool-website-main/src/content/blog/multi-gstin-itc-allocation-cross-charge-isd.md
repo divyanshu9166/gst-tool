@@ -3,7 +3,7 @@ title: "Multi-GSTIN ITC Allocation: Cross Charge vs Input Service Distributor (I
 description: "Master multi-state GST compliance for enterprise operations. Understand mandatory ISD registration under Section 20, Cross Charge mechanisms for common employee costs, and Rule 39 allocation formulas."
 pubDate: "2026-09-14"
 updatedDate: "2026-09-14"
-heroImage: "/images/blog/state-codes-in-gstin.png"
+heroImage: "/images/blog/state-codes-in-gstin.webp"
 tags: ["Multi-GSTIN", "ISD", "Cross Charge", "Enterprise Compliance", "ITC Allocation"]
 ---
 

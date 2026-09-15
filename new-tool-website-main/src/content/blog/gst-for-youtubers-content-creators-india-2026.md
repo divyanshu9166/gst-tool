@@ -3,7 +3,7 @@ title: "GST for YouTubers & Digital Content Creators in India: AdSense, Sponsors
 description: "Everything YouTubers, Instagram influencers, and digital creators in India need to know about GST registration, Google AdSense zero-rated exports, brand sponsorships at 18%, and FIRC compliances."
 pubDate: "2026-09-06"
 updatedDate: "2026-09-12"
-heroImage: "/images/blog/gst-for-freelancers-india-2026.png"
+heroImage: "/images/blog/gst-for-freelancers-india-2026.webp"
 tags: ["Content Creators", "YouTubers", "AdSense", "Exports", "LUT"]
 ---
 

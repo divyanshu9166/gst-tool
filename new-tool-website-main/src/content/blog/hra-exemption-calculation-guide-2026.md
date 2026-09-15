@@ -3,7 +3,7 @@ title: "HRA Exemption Calculation Guide 2026: Section 10(13A) Rules, Formula & M
 description: "Master House Rent Allowance (HRA) tax exemption under Section 10(13A) and Rule 2A. Learn the 3-part formula, metro vs non-metro rules, rent receipts, and calculate tax savings."
 pubDate: "2026-08-10"
 updatedDate: "2026-09-12"
-heroImage: "/images/blog/gst-calculator-guide.png"
+heroImage: "/images/blog/gst-calculator-guide.webp"
 tags: ["Income Tax", "HRA", "Tax Planning", "Salaried"]
 ---
 

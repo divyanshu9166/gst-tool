@@ -1,14 +1,15 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const title = 'Pin to Pin Distance Calculator — Calculate E-Way Bill Distance Online';
-const description = 'Free pin to pin distance calculator for E-Way Bill. Calculate motorable road distance between two Indian PIN codes as per NIC portal rules, with 10% variation allowance and validity computation.';
+const title = 'Pin to Pin Distance Calculator (Instant & Free) — E-Way Bill';
+const description = 'Calculate exact motorable road distance between Indian PIN codes for E-Way Bill generation. Includes official +10% NIC tolerance & validity days. 100% free.';
 
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://taxzentic.com';
 const canonical = `${siteUrl}/pin-to-pin-distance-calculator`;
 
 const faqsList = [
   { q: 'Why is pincode-to-pincode distance important for GST?', a: 'Distance between supplier and recipient pincodes determines the validity period of an E-Way Bill. Shorter distances get shorter validity (1 day for up to 200 km), while longer distances allow more time. Knowing the exact distance helps you plan your logistics to avoid e-way bill expiry during transit.' },
+  { q: 'E-way bill me pin to pin distance galat ho jaye toh kya kare?', a: 'Agar E-way bill me distance actual se kam ya jyada generate ho gaya hai, to GST rules ke mutabik ±10% variation allowed hai. Agar discrepancy 10% se jyada hai aur transport abhi start nahi hua, to 24 ghante ke andar E-way bill cancel karke naya generate karein. Transit start ho chuka hai toh Part-B me vehicle details update karein aur actual route record maintain karein.' },
   { q: 'How is e-way bill validity calculated based on distance?', a: 'Under GST Rule 138(10): For normal cargo, 1 day for every 200 km or part thereof. For Over-Dimensional Cargo (ODC) or multimodal shipments involving ship, 1 day for every 20 km or part thereof.' },
   { q: 'What is the 10% distance variation rule on the NIC E-Way Bill portal?', a: 'Taxpayers are permitted to increase the distance auto-populated by the NIC portal by up to +10% to account for highway bypasses, ring roads, and alternative transit routes without attracting scrutiny.' },
   { q: 'What is the minimum distance for an e-way bill to be required?', a: 'An e-way bill is required when goods worth more than ₹50,000 are moved over a distance of more than 50 km within a state (intra-state) or for any distance between states (inter-state).' },
@@ -31,11 +32,6 @@ const structuredData = [
       '@type': 'Offer',
       price: '0',
       priceCurrency: 'INR',
-    },
-    aggregateRating: {
-      '@type': 'AggregateRating',
-      ratingValue: '4.9',
-      reviewCount: '1350',
     },
   },
   {

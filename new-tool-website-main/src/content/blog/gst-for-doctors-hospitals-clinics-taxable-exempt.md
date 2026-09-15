@@ -3,7 +3,7 @@ title: "GST for Doctors, Hospitals & Clinics: Taxable vs Exempt Healthcare Servi
 description: "Master GST rules for medical professionals, clinics, and multi-specialty hospitals. Learn the ₹5,000 ICU room rent limit, cosmetic surgery rules, pharmacy retail, and SAC codes."
 pubDate: "2026-09-08"
 updatedDate: "2026-09-12"
-heroImage: "/images/blog/sac-codes-vs-hsn-codes.png"
+heroImage: "/images/blog/sac-codes-vs-hsn-codes.webp"
 tags: ["Healthcare", "Doctors", "Hospitals", "Exemptions", "GST Rates"]
 ---
 

@@ -3,7 +3,7 @@ title: "GST vs Income Tax: 10 Critical Differences, Interlinking & Reconciliatio
 description: "Master the key differences between GST (Indirect Tax) and Income Tax (Direct Tax) in India. Learn the differences in tax base, filing schedules, data cross-verification, and AIS reconciliation."
 pubDate: "2026-09-12"
 updatedDate: "2026-09-12"
-heroImage: "/images/blog/gst-calculator-guide.png"
+heroImage: "/images/blog/gst-calculator-guide.webp"
 tags: ["Tax Basics", "GST vs Income Tax", "Direct Tax", "Indirect Tax", "Compliance"]
 ---
 

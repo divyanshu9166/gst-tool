@@ -1,12 +1,26 @@
 ---
 title: "GST on Rent in India 2026: Residential, Commercial & RCM Guide"
-description: "Confused about GST on rent? Learn the 2026 rules for commercial vs. residential properties, the 18% tax rate, and how the Reverse Charge Mechanism (RCM) applies."
+description: "Check GST rules on residential & commercial rent (2026). Learn when 18% GST applies, RCM liability for registered tenants, and how to claim ITC legally."
 pubDate: "2026-06-19"
+updatedDate: "2026-09-15"
 heroImage: "/images/blog/gst-on-rent-india-2026-rcm.webp"
 tags: ["GST on Rent", "RCM", "Commercial Property", "Real Estate"]
 ---
 
 Renting out property in India is a lucrative business, but the intersection of real estate and the Goods and Services Tax (GST) is notoriously complex. Whether you are a landlord leasing out a small shop or a corporate entity renting a residential flat for a director, the tax implications can vary wildly.
+
+<div class="bg-blue-50 dark:bg-blue-950/20 border-l-4 border-blue-500 p-4 my-6">
+  <strong>Quick Answer (GST on Rent Residential Property 2026):</strong> If residential property is rented to an <em>unregistered person</em> for personal residence, GST is <strong>0% (NIL exempt)</strong>. However, if rented to a <em>GST-registered person</em> (company, proprietorship, or LLP), <strong>18% GST applies under Reverse Charge Mechanism (RCM)</strong> and must be paid by the tenant directly to the government.
+</div>
+
+<div class="my-6 p-6 rounded-xl border-2 border-emerald-500/30 bg-emerald-500/5 dark:bg-emerald-950/20 text-center not-prose">
+  <p class="text-xs font-mono uppercase tracking-wider text-emerald-700 dark:text-emerald-400 font-semibold mb-1">Instant Calculation Tool</p>
+  <h3 class="text-xl font-bold text-emerald-900 dark:text-emerald-200 mb-2">Check Your GST on Rent & RCM Liability</h3>
+  <p class="text-sm text-muted mb-4 max-w-lg mx-auto">Get your exact CGST, SGST, and RCM tax breakdown for residential flats or commercial shops in 10 seconds.</p>
+  <a href="/gst-on-rent-calculator" class="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-semibold transition-all shadow-sm hover:shadow">
+    Open GST on Rent Calculator →
+  </a>
+</div>
 
 In 2026, the GST department has aggressively cracked down on unregistered commercial renting and improper claims of Input Tax Credit (ITC) on rent. 
 

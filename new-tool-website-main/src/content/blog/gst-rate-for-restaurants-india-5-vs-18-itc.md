@@ -3,7 +3,7 @@ title: "GST Rate for Restaurants in India: 5% vs 18%, No-ITC Trap & Swiggy/Zomat
 description: "Master restaurant GST taxation in India. Compare 5% without ITC vs 18% with ITC in luxury hotels, cloud kitchen rules, alcoholic beverage exclusions, and e-commerce delivery under Section 9(5)."
 pubDate: "2026-09-05"
 updatedDate: "2026-09-12"
-heroImage: "/images/blog/calculate-gst-on-freight.png"
+heroImage: "/images/blog/calculate-gst-on-freight.webp"
 tags: ["Restaurants", "GST Rates", "Section 9(5)", "Swiggy Zomato", "ITC"]
 ---
 

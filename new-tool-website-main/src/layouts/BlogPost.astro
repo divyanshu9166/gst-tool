@@ -27,7 +27,7 @@ const howToJsonLd = (stepMatches.length >= 2 || (title.toLowerCase().includes('h
   })),
 } : null;
 
-// JSON-LD: Article Schema + CA Reviewer + HowTo Schema
+// JSON-LD: Article Schema + HowTo Schema
 const articleSchema = {
   '@context': 'https://schema.org',
   '@type': 'Article',
@@ -39,13 +39,7 @@ const articleSchema = {
     '@type': 'Organization',
     name: 'Taxzentic Editorial Team',
     url: `${siteUrl}/authors/editorial-team`,
-    description: 'Tax compliance experts, Chartered Accountants, and certified researchers dedicated to simplifying GST and Income Tax.'
-  },
-  reviewedBy: {
-    '@type': 'Person',
-    name: 'CA Divyanshu Sharma',
-    jobTitle: 'Fellow Chartered Accountant (FCA, DISA)',
-    url: `${siteUrl}/authors/editorial-team`,
+    description: 'Tax compliance experts and certified researchers dedicated to simplifying GST and Income Tax for Indian businesses.'
   },
   publisher: {
     '@type': 'Organization',
@@ -72,9 +66,11 @@ const breadcrumb = [
   { name: 'Blog', href: '/blog' },
   { name: title, href: Astro.url.pathname },
 ];
+// Use heroImage for social share previews if available
+const ogImage = heroImage || '/og-default.png';
 ---
 
-<BaseLayout {title} {description} {structuredData} {breadcrumb}>
+<BaseLayout {title} {description} {structuredData} {breadcrumb} {ogImage}>
   <article class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
     <!-- Article Header -->
     <header class="mb-12 text-center">
@@ -96,7 +92,7 @@ const breadcrumb = [
       <div class="mt-8 flex flex-wrap items-center justify-center gap-4 text-[14px] text-muted">
         <a href="/authors/editorial-team" class="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/60 px-3 py-1 text-xs font-semibold text-emerald-700 dark:text-emerald-300 hover:border-emerald-400 dark:hover:border-emerald-600 transition-colors">
           <svg class="w-3.5 h-3.5 text-emerald-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
-          Reviewed by CA Divyanshu Sharma (FCA)
+          Taxzentic Editorial Team
         </a>
         <span aria-hidden="true">&middot;</span>
         <time datetime={pubDate.toISOString()}>
@@ -156,7 +152,7 @@ const breadcrumb = [
           Instant Notification Community
         </div>
         <h3 class="text-lg font-bold text-base mb-1">Get GST Council & Income Tax Alerts First</h3>
-        <p class="text-sm text-muted">Join 15,000+ CAs, tax advocates, and MSME founders on our free WhatsApp updates channel.</p>
+        <p class="text-sm text-muted">Join CAs, tax advocates, and MSME founders on our free WhatsApp updates channel for instant notifications.</p>
       </div>
       <a href="https://whatsapp.com/channel/taxzentic" target="_blank" rel="noopener noreferrer" class="shrink-0 inline-flex items-center gap-2 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 text-sm font-semibold shadow-md hover:shadow-lg transition-all">
         <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
@@ -167,21 +163,21 @@ const breadcrumb = [
     <!-- Popular Tools Widget (internal linking) -->
     <PopularTools />
 
-    <!-- E-E-A-T Author Bio — enhanced with credentials -->
+    <!-- E-E-A-T Author Bio -->
     <div class="mt-16 border-t border-base pt-10 flex flex-col sm:flex-row gap-6 items-start">
       <div class="h-16 w-16 rounded-2xl bg-gradient-to-br from-blue-600 to-cyan-600 text-white flex items-center justify-center text-xl font-bold flex-shrink-0 shadow-sm">
-        CA
+        TZ
       </div>
       <div>
         <div class="flex items-center gap-3 mb-1">
-          <h3 class="text-[18px] font-semibold text-base tracking-[-0.6px]">Reviewed by CA Divyanshu Sharma & Editorial Team</h3>
-          <span class="text-xs font-semibold px-2 py-0.5 rounded bg-blue-100 text-accent dark:bg-blue-900/50">FCA, DISA</span>
+          <h3 class="text-[18px] font-semibold text-base tracking-[-0.6px]">Taxzentic Editorial Team</h3>
+          <span class="text-xs font-semibold px-2 py-0.5 rounded bg-blue-100 text-accent dark:bg-blue-900/50">Fact-Checked</span>
         </div>
         <p class="text-[14px] text-muted leading-relaxed mb-2">
-          Our articles and calculation models are vetted by practicing Chartered Accountants and tax consultants with over a decade of Indian direct & indirect tax experience. All references are verified against CBIC notifications and the Income Tax Act.
+          Our articles and calculation models are researched by tax compliance specialists and verified against official CBIC notifications, the Income Tax Act, and government circulars.
         </p>
         <p class="text-[12px] text-muted">
-          <strong>Editorial policy:</strong> Independent, fact-checked, and updated within 48 hours of legal changes. <a href="/authors/editorial-team" class="text-accent hover:underline font-medium">Read our full editorial process & author bio →</a>
+          <strong>Editorial policy:</strong> Independent, fact-checked, and updated within 48 hours of legal changes. <a href="/authors/editorial-team" class="text-accent hover:underline font-medium">Read our full editorial process →</a>
         </p>
       </div>
     </div>

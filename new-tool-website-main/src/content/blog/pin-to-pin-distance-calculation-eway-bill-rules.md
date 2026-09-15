@@ -1,17 +1,26 @@
 ---
-title: "Pin to Pin Distance for E-Way Bill: NIC Rules, 10% Variation Limit & How to Calculate"
-description: "Master pin-to-pin distance calculation for GST E-Way Bills. Understand the NIC algorithm, 10% tolerance limit, validity computation, and how to avoid transit penalties."
+title: "E-Way Bill Pin to Pin Distance: Motorable Road Rules, 10% Limit & How to Calculate"
+description: "Master E-Way Bill pin to pin distance rules (2026). Check NIC motorable road calculation, 10% tolerance limit, validity days, and transit penalty rules."
 pubDate: "2026-08-25"
-updatedDate: "2026-09-12"
-heroImage: "/images/blog/e-way-bill-rules-2026.webp"
+updatedDate: "2026-09-15"
+heroImage: "/images/blog/e-way-bill-rules-2026.svg"
 tags: ["E-Way Bill", "Pin to Pin Distance", "Logistics", "GST Compliance"]
 ---
 
 When generating a GST E-Way Bill under Rule 138 of the CGST Rules, entering the exact transit distance between the dispatch place and delivery location is not optional — it directly determines the **validity period** of the E-Way bill. An under-calculated distance causes premature expiry and risks vehicle detention u/s 129, while an over-calculated distance flags anti-evasion scrutinies.
 
-To eliminate arbitrary entries, the National Informatics Centre (NIC) integrated an automated **Pin-to-Pin distance calculation engine** directly into the E-Way Bill portal ([ewaybillgst.gov.in](https://ewaybillgst.gov.in)). 
+<div class="my-6 p-6 rounded-xl border-2 border-emerald-500/30 bg-emerald-500/5 dark:bg-emerald-950/20 text-center not-prose">
+  <p class="text-xs font-mono uppercase tracking-wider text-emerald-700 dark:text-emerald-400 font-semibold mb-1">Instant Distance Tool</p>
+  <h3 class="text-xl font-bold text-emerald-900 dark:text-emerald-200 mb-2">Check Motorable Distance Between 2 PIN Codes</h3>
+  <p class="text-sm text-muted mb-4 max-w-lg mx-auto">Calculate exact highway distance for E-Way Bill generation with the official +10% NIC tolerance allowance and validity days.</p>
+  <a href="/pin-to-pin-distance-calculator" class="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-semibold transition-all shadow-sm hover:shadow">
+    Open Pin-to-Pin Distance Calculator →
+  </a>
+</div>
 
-In this comprehensive guide, we explain how the NIC portal computes distance, what statutory variation is permitted, and how to use our free **[Pin to Pin Distance Calculator](/pin-to-pin-distance-calculator)** to ensure 100% compliant e-way bills.
+To eliminate arbitrary entries, the National Informatics Centre (NIC) integrated an automated **eway bill pin to pin distance** engine directly into the E-Way Bill portal ([ewaybillgst.gov.in](https://ewaybillgst.gov.in)). Whether searching for **e way bill distance pin to pin** or evaluating route validity for freight transport, knowing how this calculation works saves you from heavy transit penalties.
+
+In this comprehensive guide, we explain how the NIC portal computes motorable distance, what statutory variation is permitted under CBIC rules, and how to use our free **[Pin to Pin Distance Calculator](/pin-to-pin-distance-calculator)** to generate compliant e-way bills.
 
 ---
 
@@ -27,7 +36,7 @@ Need to calculate distance right now? Use our free **[Pin to Pin Distance Calcul
 
 ---
 
-## How Does the NIC Portal Calculate Distance?
+## E Way Bill Distance Pin to Pin: How Does the NIC Engine Calculate It?
 
 The e-way bill system uses an automated database populated from:
 - National Highway Authority of India (NHAI) road network data
@@ -110,6 +119,9 @@ Before releasing a consignment:
 ---
 
 ## Frequently Asked Questions (FAQ)
+
+### E-way bill me pin to pin distance galat ho jaye toh kya kare?
+Agar E-way bill me distance actual se kam ya jyada generate ho gaya hai, to GST rules ke anusaar ±10% variation completely allowed hai. Agar discrepancy 10% se jyada hai aur transport abhi start nahi hua, to 24 ghante ke andar E-way bill cancel karke naya E-way bill generate karein. Transit start ho chuka hai toh Part-B me vehicle details aur driver log maintain karein taaki checking ke waqt proof diya ja sake.
 
 ### Can the tax officer seize goods if distance is slightly incorrect?
 As per CBIC Circular No. 64/38/2018-GST, minor distance calculation errors within reasonable parameters do not warrant seizure under Section 129 if there is no intention to evade tax. A nominal penalty of ₹500 (₹250 CGST + ₹250 SGST) under Section 125 may be levied.
