@@ -16,10 +16,23 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const rootDir = path.resolve(__dirname, '..');
 
-const API_KEY = '9f8b472e3a1d4826b5d93e7f60c184ea';
 const HOST = 'taxzentic.com';
-const KEY_LOCATION = `https://${HOST}/${API_KEY}.txt`;
 const INDEXNOW_ENDPOINT = 'https://api.indexnow.org/IndexNow';
+
+function findIndexNowKey() {
+  if (process.env.INDEXNOW_KEY) {
+    return process.env.INDEXNOW_KEY.trim();
+  }
+  const publicDir = path.join(rootDir, 'public');
+  if (fs.existsSync(publicDir)) {
+    const files = fs.readdirSync(publicDir);
+    const keyFile = files.find((f) => /^[a-f0-9]{16,64}\.txt$/i.test(f));
+    if (keyFile) {
+      return fs.readFileSync(path.join(publicDir, keyFile), 'utf8').trim();
+    }
+  }
+  return null;
+}
 
 // Default high-priority URLs if sitemap is not built yet
 const DEFAULT_URLS = [
@@ -75,9 +88,17 @@ function resolveTargetUrls() {
 }
 
 async function submitToIndexNow() {
+  const key = findIndexNowKey();
+  if (!key) {
+    console.error('❌ IndexNow key file not found in public/*.txt directory.');
+    process.exit(1);
+  }
+
+  const keyLocation = `https://${HOST}/${key}.txt`;
+
   console.log('\n🚀 Starting IndexNow URL Submission...');
   console.log(`🌐 Host:         ${HOST}`);
-  console.log(`🔑 Key Location: ${KEY_LOCATION}`);
+  console.log(`🔑 Key Location: ${keyLocation}`);
 
   const rawUrls = resolveTargetUrls();
   // Filter unique valid URLs belonging to the host
@@ -99,8 +120,8 @@ async function submitToIndexNow() {
 
   const payload = {
     host: HOST,
-    key: API_KEY,
-    keyLocation: KEY_LOCATION,
+    key,
+    keyLocation,
     urlList: batch,
   };
 
@@ -124,9 +145,9 @@ async function submitToIndexNow() {
       console.error('❌ Bad Request (400): Invalid request format or parameters.');
     } else if (response.status === 403) {
       console.warn('⚠️ Forbidden (403): The IndexNow key file was not found or did not match at:');
-      console.warn(`   ${KEY_LOCATION}`);
+      console.warn(`   ${keyLocation}`);
       console.warn('   Note: If you have not yet deployed the new key file to production,');
-      console.warn('   deploy your website first so https://taxzentic.com/' + API_KEY + '.txt is reachable by Bing.');
+      console.warn(`   deploy your website first so https://${HOST}/${key}.txt is reachable by Bing.`);
     } else if (response.status === 422) {
       console.error('❌ Unprocessable Entity (422): URLs do not match the specified host.');
     } else if (response.status === 429) {
