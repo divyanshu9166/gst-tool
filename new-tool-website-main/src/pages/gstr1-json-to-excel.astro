@@ -9,7 +9,7 @@ const structuredData = [
     '@context': 'https://schema.org',
     '@type': 'WebApplication',
     name: 'GSTR 1 JSON to Excel',
-    url: `${Astro.site?.toString() ?? 'https://example.com'}/gstr1-json-to-excel`,
+    url: `${Astro.site?.toString() ?? 'https://taxzentic.com'}/gstr1-json-to-excel`,
     description: 'Easily convert GSTR 1 JSON files downloaded from GST portal to Excel sheets.',
     applicationCategory: 'BusinessApplication',
     operatingSystem: 'Any'
@@ -39,11 +39,11 @@ const structuredData = [
   }
 ];
 
-const lastUpdated = '2026-07-25';
+const lastUpdated = '2026-09-16';
 const breadcrumb = [
   { name: 'Home', href: '/' },
-  { name: 'Lookups \x26 Tools', href: '/#tools-heading' },
-  { name: 'Gstr1 Json To Excel', href: '/gstr1-json-to-excel' },
+  { name: 'Lookups & Tools', href: '/#tools-heading' },
+  { name: 'GSTR-1 JSON to Excel', href: '/gstr1-json-to-excel' },
 ];
 ---
 
@@ -81,11 +81,55 @@ const breadcrumb = [
       </div>
     </div>
     
-    <div class="mt-16 prose prose-slate max-w-none text-muted">
-      <h2>Why use our GSTR 1 JSON to Excel Tool?</h2>
-      <p>The Goods and Services Tax Network (GSTN) provides the GSTR-1 offline return data in JSON format which can be incredibly hard to read. Our <strong>GSTR-1 JSON to Excel Converter</strong> makes it simple by parsing all internal records (B2B, B2C, CDNR, etc.) and placing them in a structured Excel spreadsheet.</p>
-      
-      
+    <!-- Educational & Workflow Guide -->
+    <div class="mt-16 prose prose-slate dark:prose-invert max-w-none text-muted">
+      <h2 class="text-2xl font-bold text-base mb-4">Complete Guide: How to Convert GSTR-1 JSON to Excel Without Uploading</h2>
+      <p>
+        The Goods and Services Tax Network (GSTN) generates return backup files and ERP exports exclusively in JSON format. While JSON is ideal for automated server communication, human reviewers, tax auditors, and accounting teams cannot easily inspect invoice line items, tax heads, or customer GSTINs in raw JSON code.
+      </p>
+      <p>
+        Our <strong>GSTR-1 JSON to Excel Converter</strong> solves this problem by parsing all nested JSON return arrays directly inside your web browser and compiling them into structured, multi-sheet Excel (.xlsx) workbooks matching the official GST portal return tables.
+      </p>
+
+      <h3 class="text-xl font-semibold text-base mt-8 mb-3">Step-by-Step: How to Download &amp; Convert GSTR-1 JSON</h3>
+      <ol class="list-decimal pl-6 space-y-2">
+        <li><strong>Log in to the GST Portal:</strong> Navigate to <a href="https://www.gst.gov.in" target="_blank" rel="noopener noreferrer" class="text-accent hover:underline">gst.gov.in</a> &gt; <em>Services</em> &gt; <em>Returns</em> &gt; <em>Returns Dashboard</em>.</li>
+        <li><strong>Select Financial Year and Return Period:</strong> Choose the applicable quarter/month and open <strong>GSTR-1</strong>.</li>
+        <li><strong>Download JSON:</strong> Under the <em>Download</em> tab, click <em>Generate JSON File to Download</em>. When ready, click the generated link to save the <code>.json</code> file to your computer.</li>
+        <li><strong>Upload to Taxzentic:</strong> Select or drag-and-drop the downloaded JSON file into the converter box above.</li>
+        <li><strong>Instant Excel Download:</strong> Click <em>Convert to Excel</em>. Your structured <code>.xlsx</code> workbook downloads immediately with separate sheets for B2B, B2CL, B2CS, CDNR, EXP, and HSN summary.</li>
+      </ol>
+
+      <h3 class="text-xl font-semibold text-base mt-8 mb-3">100% Client-Side Privacy Guarantee</h3>
+      <p>
+        Invoice numbers, buyer GSTINs, and commercial transaction totals contain strictly confidential financial data. Unlike cloud converters that upload your financial files to third-party servers, Taxzentic processes your GSTR-1 file <strong>entirely inside your local browser runtime</strong> using the JavaScript <code>FileReader</code> API and SheetJS library. <strong>Zero bytes of invoice data leave your computer.</strong>
+      </p>
+
+      <!-- Contextual Toolkit Links -->
+      <div class="mt-10 rounded-2xl border border-base bg-surface p-6 not-prose">
+        <h3 class="text-lg font-bold text-base mb-3 flex items-center gap-2">
+          <span class="inline-block w-2.5 h-2.5 rounded-full bg-accent"></span>
+          Related GSTR Data Tools &amp; Return Resources
+        </h3>
+        <div class="grid sm:grid-cols-2 gap-3">
+          <a href="/gstr1-json-validator" class="p-3.5 rounded-xl border border-base bg-subtle hover:border-accent hover:shadow-sm transition-all group block">
+            <span class="font-semibold text-base group-hover:text-accent block">GSTR-1 JSON Validator →</span>
+            <span class="text-xs text-muted mt-0.5 block">Validate JSON schema, check missing mandatory fields, and verify GSTIN structures before filing.</span>
+          </a>
+          <a href="/gst-error-report" class="p-3.5 rounded-xl border border-base bg-subtle hover:border-accent hover:shadow-sm transition-all group block">
+            <span class="font-semibold text-base group-hover:text-accent block">GST Error Report Decoder →</span>
+            <span class="text-xs text-muted mt-0.5 block">Decode GST portal JSON error files with plain-English explanations and fix instructions.</span>
+          </a>
+          <a href="/gstr-2b-reconciliation-tool" class="p-3.5 rounded-xl border border-base bg-subtle hover:border-accent hover:shadow-sm transition-all group block">
+            <span class="font-semibold text-base group-hover:text-accent block">GSTR-2B Reconciliation Tool →</span>
+            <span class="text-xs text-muted mt-0.5 block">Reconcile purchase register books with GSTR-2B ITC download to eliminate missing claims.</span>
+          </a>
+          <a href="/gst-due-dates" class="p-3.5 rounded-xl border border-base bg-subtle hover:border-accent hover:shadow-sm transition-all group block">
+            <span class="font-semibold text-base group-hover:text-accent block">GST Return Due Dates Calendar →</span>
+            <span class="text-xs text-muted mt-0.5 block">Statutory monthly and quarterly deadlines for GSTR-1, GSTR-3B, CMP-08, and QRMP.</span>
+          </a>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -167,19 +211,19 @@ const breadcrumb = [
     });
   </script>
 
-    <!-- FAQ Section -->
-    <section class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 pb-20 mt-16 pt-12 border-t border-base" aria-labelledby="faq-heading">
-      <h2 id="faq-heading" class="text-2xl sm:text-3xl font-bold text-base mb-8">Frequently Asked Questions</h2>
-      <div class="space-y-4">
-        {structuredData[1].mainEntity.map((faq, i) => (
-          <details class="group rounded-xl border border-base bg-surface overflow-hidden" id={`faq-${i}`}>
-            <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
-              <span>{faq.name}</span>
-              <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
-            </summary>
-            <div class="px-6 pb-5 text-[15px] text-muted leading-relaxed border-t border-base pt-4">{faq.acceptedAnswer.text}</div>
-          </details>
-        ))}
-      </div>
-    </section>
+  <!-- FAQ Section -->
+  <section class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 pb-20 mt-16 pt-12 border-t border-base" aria-labelledby="faq-heading">
+    <h2 id="faq-heading" class="text-2xl sm:text-3xl font-bold text-base mb-8">Frequently Asked Questions</h2>
+    <div class="space-y-4">
+      {structuredData[1].mainEntity.map((faq, i) => (
+        <details class="group rounded-xl border border-base bg-surface overflow-hidden" id={`faq-${i}`}>
+          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+            <span>{faq.name}</span>
+            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </summary>
+          <div class="px-6 pb-5 text-[15px] text-muted leading-relaxed border-t border-base pt-4">{faq.acceptedAnswer.text}</div>
+        </details>
+      ))}
+    </div>
+  </section>
 </BaseLayout>

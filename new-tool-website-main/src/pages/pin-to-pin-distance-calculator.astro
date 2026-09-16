@@ -12,7 +12,7 @@ const faqsList = [
   { q: 'E-way bill me pin to pin distance galat ho jaye toh kya kare?', a: 'Agar E-way bill me distance actual se kam ya jyada generate ho gaya hai, to GST rules ke mutabik ±10% variation allowed hai. Agar discrepancy 10% se jyada hai aur transport abhi start nahi hua, to 24 ghante ke andar E-way bill cancel karke naya generate karein. Transit start ho chuka hai toh Part-B me vehicle details update karein aur actual route record maintain karein.' },
   { q: 'How is e-way bill validity calculated based on distance?', a: 'Under GST Rule 138(10): For normal cargo, 1 day for every 200 km or part thereof. For Over-Dimensional Cargo (ODC) or multimodal shipments involving ship, 1 day for every 20 km or part thereof.' },
   { q: 'What is the 10% distance variation rule on the NIC E-Way Bill portal?', a: 'Taxpayers are permitted to increase the distance auto-populated by the NIC portal by up to +10% to account for highway bypasses, ring roads, and alternative transit routes without attracting scrutiny.' },
-  { q: 'What is the minimum distance for an e-way bill to be required?', a: 'An e-way bill is required when goods worth more than ₹50,000 are moved over a distance of more than 50 km within a state (intra-state) or for any distance between states (inter-state).' },
+  { q: 'Is an e-way bill required for distances under 50 km?', a: 'Yes. If the consignment value exceeds ₹50,000 (or state-specific intra-state threshold), generating an E-Way Bill (Part A) is mandatory regardless of distance—even for 1 km. The 50-km rule under Rule 138(3) and Rule 138(5) is strictly an exemption from updating Part B (conveyance/vehicle details) when goods are moved intra-state between the consignor/consignee and the transporter\'s premises for further transit.' },
   { q: 'Can I extend an e-way bill if my vehicle is delayed?', a: 'Yes. You can extend the validity of an e-way bill on the NIC portal within 8 hours before or 8 hours after the exact time of expiry by updating Part-B with the current vehicle location and reason for delay.' },
   { q: 'What happens if goods are transported after e-way bill expiry?', a: 'Transporting goods with an expired e-way bill is treated as movement without documents, attracting detention under Section 129 and mandatory penalties equal to 200% of the applicable tax.' },
   { q: 'How accurate are pincode distance calculations?', a: 'Pincode-to-pincode distance calculations estimate motorable road distance based on NHAI highways and postal centroid coordinates. Discrepancies within 10% are legally tolerated.' },
@@ -48,7 +48,7 @@ const structuredData = [
   },
 ];
 
-const lastUpdated = '2026-07-25';
+const lastUpdated = '2026-09-16';
 const breadcrumb = [
   { name: 'Home', href: '/' },
   { name: 'Calculators', href: '/#tools-heading' },
@@ -214,6 +214,40 @@ const breadcrumb = [
       <p>
         If you miss this 16-hour window, the E-way bill cannot be extended under any circumstances. You must generate a fresh E-way bill, which requires linking to the original invoice and providing a valid reason for the delay.
       </p>
+
+      <h3 class="text-2xl font-semibold mt-8 mb-4">The 50-Kilometre Rule: Part-B Conveyance Exemption vs. Consignment Value</h3>
+
+      <p>
+        A widespread misconception in GST logistics is that <em>"an e-way bill is not required if the transit distance is below 50 km."</em> That is legally inaccurate. The requirement to generate an E-Way Bill is governed by consignment value, not distance:
+      </p>
+
+      <ul class="list-disc pl-6 space-y-2 mt-2">
+        <li><strong>Consignment Value Threshold (Mandatory Part-A):</strong> Under CGST Rule 138(1), whenever goods with a consignment value exceeding <strong>₹50,000</strong> (or your state's intra-state notification threshold) are moved, generating an E-Way Bill (Part A) is compulsory—even if the distance is only 1 kilometer.</li>
+        <li><strong>The 50-km Part-B Conveyance Exemption:</strong> Under the third proviso to Rule 138(3) and Rule 138(5), furnishing vehicle/conveyance details in <strong>Part B</strong> of Form GST EWB-01 is optional only when goods are transported for a distance of up to <strong>50 kilometers within the same State or Union Territory</strong>:
+          <ol class="list-decimal pl-6 space-y-1 mt-1">
+            <li>From the place of business of the consignor to the place of business of the transporter for further transit; or</li>
+            <li>From the place of business of the transporter finally to the place of business of the consignee.</li>
+          </ol>
+        </li>
+      </ul>
+
+      <p class="mt-3">
+        In summary: <strong>Part A is always compulsory</strong> when crossing the ₹50,000 threshold. Only <strong>Part B</strong> (vehicle details) is exempt for intra-state first-mile and last-mile transporter hops under 50 km.
+      </p>
+
+      <!-- Statutory Reference Box -->
+      <div class="rounded-xl border border-base bg-subtle p-5 my-6 text-[14px] not-prose">
+        <div class="font-semibold text-base mb-2 flex items-center gap-2">
+          <span class="inline-block w-2 h-2 rounded-full bg-accent"></span>
+          Primary Statutory Sources &amp; Official References
+        </div>
+        <ul class="space-y-1.5 text-muted text-[13px]">
+          <li>• <strong>CBIC CGST Rule 138:</strong> Information to be furnished prior to commencement of movement of goods &amp; generation of E-Way Bill · <a href="https://cbic.gov.in" target="_blank" rel="noopener noreferrer" class="text-accent hover:underline">cbic.gov.in ↗</a></li>
+          <li>• <strong>Rule 138(10):</strong> Validity period benchmarking (200 km/day for normal cargo; 20 km/day for ODC/multimodal).</li>
+          <li>• <strong>National Informatics Centre (NIC):</strong> Official E-Way Bill System &amp; PIN-to-PIN Database · <a href="https://ewaybillgst.gov.in/" target="_blank" rel="noopener noreferrer" class="text-accent hover:underline">ewaybillgst.gov.in ↗</a></li>
+          <li>• <strong>Section 129 CGST Act:</strong> Statutory penalties (200% of tax) for transit without valid or with expired documents.</li>
+        </ul>
+      </div>
 
       <div class="mt-10 rounded-[12px] bg-subtle border border-base p-6 text-[15px] text-muted">
         <h4 class="text-lg font-semibold text-base mb-2">Legal Disclaimer</h4>

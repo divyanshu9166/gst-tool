@@ -27,12 +27,17 @@ const howToJsonLd = (stepMatches.length >= 2 || (title.toLowerCase().includes('h
   })),
 } : null;
 
+// Use heroImage for social share previews and Article schema
+const ogImage = heroImage || '/og-default.png';
+const ogImageUrl = ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogImage.startsWith('/') ? '' : '/'}${ogImage}`;
+
 // JSON-LD: Article Schema + HowTo Schema
 const articleSchema = {
   '@context': 'https://schema.org',
   '@type': 'Article',
   headline: title,
   description: description,
+  image: [ogImageUrl],
   datePublished: pubDate.toISOString(),
   dateModified: updatedDate ? updatedDate.toISOString() : pubDate.toISOString(),
   author: {
@@ -66,8 +71,6 @@ const breadcrumb = [
   { name: 'Blog', href: '/blog' },
   { name: title, href: Astro.url.pathname },
 ];
-// Use heroImage for social share previews if available
-const ogImage = heroImage || '/og-default.png';
 ---
 
 <BaseLayout {title} {description} {structuredData} {breadcrumb} {ogImage}>

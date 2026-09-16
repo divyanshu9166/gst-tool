@@ -1,5 +1,5 @@
 ---
-title: "GST Composition Scheme 2026: Eligibility, Rates (1.5%/5%/6%) & How to Opt In"
+title: "GST Composition Scheme 2026: Eligibility, Rates (1%/5%/6%) & How to Opt In"
 description: "Everything you need to know about the GST composition scheme rate in 2026. Check the composition scheme limit, who can opt in, and how to file gst cmp-08."
 slug: "gst-composition-scheme-2026"
 pubDate: 2026-06-26
@@ -14,7 +14,7 @@ If your turnover is modest and you sell mostly to end consumers (B2C), the gover
 As we navigate 2026, here is exactly what the scheme entails, who is eligible, and how you can save both time and money by opting in.
 
 <div class="bg-blue-50 border-l-4 border-blue-500 p-4 my-6">
-  <strong>Quick Answer:</strong> The GST composition scheme rate is a flat 1.5% for traders/manufacturers, 5% for restaurants, and 6% for service providers. You are eligible if your annual turnover is under ₹1.5 Crore (₹75 Lakh for special category states) or ₹50 Lakh for service providers. You file a simple CMP-08 form quarterly instead of monthly GSTR-3B.
+  <strong>Quick Answer:</strong> The GST composition scheme rate is a flat 1% for traders/manufacturers, 5% for restaurants, and 6% for service providers. You are eligible if your annual turnover is under ₹1.5 Crore (₹75 Lakh for special category states) or ₹50 Lakh for service providers. You file a simple CMP-08 form quarterly instead of monthly GSTR-3B.
 </div>
 
 ## The Composition Scheme Limit and Eligibility
@@ -36,7 +36,7 @@ Not everyone can opt into the scheme. The government restricts it to micro and s
 If you are eligible, the tax math becomes incredibly simple. You do not look at HSN codes or standard 5%, 18%, or 40% slabs. You pay tax out of your own pocket based on your total turnover. 
 
 Here are the rates for 2026:
-- **Traders and Manufacturers:** **1.5%** of turnover (0.75% CGST + 0.75% SGST).
+- **Traders and Manufacturers:** **1%** of turnover (0.5% CGST + 0.5% SGST).
 - **Restaurants (not serving alcohol):** **5%** of turnover (2.5% CGST + 2.5% SGST).
 - **Service Providers / Mixed Suppliers:** **6%** of turnover (3% CGST + 3% SGST).
 
@@ -51,7 +51,7 @@ Here are the rates for 2026:
 </div>
 
 <div class="bg-emerald-50 dark:bg-emerald-950/20 border-l-4 border-emerald-500 p-4 my-6">
-  <strong>RCM Under Composition Scheme:</strong> If a composition dealer receives goods or services covered under Reverse Charge Mechanism (such as goods transport agency or legal fees), they must pay GST at normal regular rates (e.g. 5% or 18%) under RCM, not at their concessional 1.5% composition rate.
+  <strong>RCM Under Composition Scheme:</strong> If a composition dealer receives goods or services covered under Reverse Charge Mechanism (such as goods transport agency or legal fees), they must pay GST at normal regular rates (e.g. 5% or 18%) under RCM, not at their concessional 1% composition rate.
 </div>
 
 ## The Pros and Cons: Is It Worth It?
@@ -61,7 +61,7 @@ Before you log into the portal and hit the "Opt-in" button, you must understand 
 **The Advantages (Pros):**
 - **Reduced Compliance:** No more monthly GSTR-1 or GSTR-3B. You just file a simple summary statement (**gst cmp-08**) once a quarter, and an annual return (GSTR-4).
 - **Less Record Keeping:** You don't have to issue complex Tax Invoices. You issue a simple "Bill of Supply."
-- **Lower Tax Burden:** For B2C retailers, paying 1.5% out of pocket is often much cheaper and easier than collecting and remitting 18% from customers.
+- **Lower Tax Burden:** For B2C retailers, paying 1% out of pocket is often much cheaper and easier than collecting and remitting 18% from customers.
 
 **The Disadvantages (Cons):**
 - **No Input Tax Credit (ITC):** This is the biggest drawback. Any GST you pay on your raw materials, rent, or business purchases cannot be claimed back. It becomes a permanent cost to your business. 
@@ -70,10 +70,9 @@ Before you log into the portal and hit the "Opt-in" button, you must understand 
 
 ## How to File GST CMP-08
 
-If you decide the pros outweigh the cons, compliance is a breeze. 
+If you decide the pros outweigh the cons, compliance is straightforward. 
 
-Instead of filing every month, you file Form **CMP-08** by the 18th of the month following the end of the quarter. 
-For example, for the April-June quarter, your CMP-08 is due on July 18th. 
+Instead of filing every month, you file Form **CMP-08** by the 18th of the month following the end of the quarter (18th July, 18th October, 18th January, and 18th April). Check our dedicated [CMP-08 Due Dates, Filing Calendar & Penalties Guide](/blog/cmp08-due-dates-composition-scheme) and track all upcoming deadlines on our [GST Due Dates Calendar](/gst-due-dates).
 
 The form only asks for four numbers:
 1. Outward supplies (your total sales).

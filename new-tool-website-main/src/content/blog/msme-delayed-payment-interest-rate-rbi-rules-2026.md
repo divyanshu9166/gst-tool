@@ -12,7 +12,7 @@ Delayed payments from large corporate buyers, government departments, and mid-si
 Coupled with the enforcement of **Section 43B(h)** of the Income Tax Act, buyers who fail to settle MSME invoices on time face dual consequences: punitive monthly compound interest and the complete disallowance of their business expense deductions.
 
 <div class="bg-blue-50 dark:bg-blue-950/20 border-l-4 border-blue-500 p-4 my-6">
-  <strong>Quick Answer:</strong> Under Section 16 of the MSMED Act, the statutory interest rate on delayed payments to MSME suppliers is <strong>three times the RBI bank rate compounded with monthly rests</strong>. With the RBI Bank Rate at 6.75%, the current penalty interest rate is <strong>20.25% per annum</strong>. This interest is mandatory, overrides any private agreement, and cannot be claimed as an income tax deduction.
+  <strong>Quick Answer:</strong> Under Section 16 of the MSMED Act, the statutory interest rate on delayed payments to MSME suppliers is <strong>three times the RBI bank rate compounded with monthly rests</strong>. With the RBI Bank Rate at 5.50%, the current statutory penalty interest rate is <strong>16.50% per annum</strong>. This interest is mandatory, overrides any private agreement, and cannot be claimed as an income tax deduction.
 </div>
 
 <div class="my-6 p-6 rounded-xl border-2 border-primary/20 bg-primary/5 dark:bg-primary/10 text-center not-prose">
@@ -45,9 +45,9 @@ If a buyer fails to make payment on or before the due date, **Section 16 of the 
 ### Current RBI Interest Rate MSME Late Payment (3× Multiplier)
 The official statutory rate is determined directly by the RBI Bank Rate:
 1. **Three Times the RBI Bank Rate**: The base figure is the official Bank Rate published by the Reserve Bank of India (RBI), multiplied by 3.
-   - Current RBI Bank Rate = **6.75%**
-   - Statutory MSME Penalty Rate = 3 × 6.75% = **20.25% per annum**
-2. **Compound Interest with Monthly Rests**: The interest is not simple interest. At the end of each calendar month, unpaid interest is capitalized into the principal, resulting in an effective annualized yield significantly higher than 20.25%.
+   - Current RBI Bank Rate = **5.50%**
+   - Statutory MSME Penalty Rate = 3 × 5.50% = **16.50% per annum**
+2. **Compound Interest with Monthly Rests**: The interest is not simple interest. At the end of each calendar month, unpaid interest is capitalized into the principal, resulting in an effective annualized yield significantly higher than 16.50%.
 3. **Overriding Clause**: Even if the purchase order or contract explicitly states "no interest will be paid for delays" or "interest will be capped at 6%", Section 16 overrides the contract entirely. The buyer is legally bound to pay the statutory 3× rate.
 
 ---
@@ -62,7 +62,7 @@ Under Section 23 of the MSMED Act, the interest paid or payable by a buyer to an
 ### 2. Expense Disallowance Under Section 43B(h)
 Under Section 43B(h) of the Income Tax Act, any sum payable to a registered **Micro or Small enterprise** beyond the Section 15 timeline (15 or 45 days) will be disallowed as an expenditure in that financial year and added back to the buyer's taxable profits, triggering immediate 25%–30% corporate income tax.
 
-*(To check whether your business qualifies as Micro, Small, or Medium, verify your turnover limits using our [GST Turnover Calculator](/gst-turnover-calculator)).*
+*(To check whether your business qualifies as Micro, Small, or Medium, verify your turnover limits using our [GST Turnover Calculator](/gst-turnover-calculator) and check registration eligibility with our [MSME Registration Checker](/msme-registration-checker)).*
 
 ---
 
@@ -71,15 +71,15 @@ Under Section 43B(h) of the Income Tax Act, any sum payable to a registered **Mi
 Suppose an auto-parts manufacturer (registered under Udyam as a Small Enterprise) issues an invoice of **₹10,00,000** on April 1, 2026.
 - Payment terms agreed: 45 days (Due Date: May 16, 2026)
 - Actual payment made by buyer: September 16, 2026 (Delayed by 123 days / ~4 months)
-- Applicable RBI Bank Rate: 6.75% → MSME Rate = **20.25% per annum**
+- Applicable RBI Bank Rate: 5.50% → MSME Statutory Rate = **16.50% per annum** (1.375% per month)
 
 ### Monthly Compounding Breakdown:
-1. **Month 1 (May 16 to June 15)**: Interest on ₹10,00,000 @ 20.25% for 30 days = ₹16,644. New balance = ₹10,16,644.
-2. **Month 2 (June 16 to July 15)**: Interest calculated on ₹10,16,644 = ₹16,921. New balance = ₹10,33,565.
-3. **Month 3 (July 16 to August 15)**: Interest calculated on ₹10,33,565 = ₹17,203. New balance = ₹10,50,768.
-4. **Month 4 (August 16 to September 16)**: Interest calculated on ₹10,50,768 = ₹17,490.
-- **Total Interest Payable by Buyer**: **₹68,258**
-- **Total Settlement Amount**: **₹10,68,258**
+1. **Month 1 (May 16 to June 15)**: Interest on ₹10,00,000 @ 16.50% for 30 days = ₹13,750. New balance = ₹10,13,750.
+2. **Month 2 (June 16 to July 15)**: Interest calculated on ₹10,13,750 @ 1.375% = ₹13,939. New balance = ₹10,27,689.
+3. **Month 3 (July 16 to August 15)**: Interest calculated on ₹10,27,689 @ 1.375% = ₹14,131. New balance = ₹10,41,820.
+4. **Month 4 (August 16 to September 16)**: Interest calculated on ₹10,41,820 @ 1.375% = ₹14,325.
+- **Total Interest Payable by Buyer**: **₹56,145**
+- **Total Settlement Amount**: **₹10,56,145**
 
 Calculate your exact invoice figures using our **[MSME Delayed Payment Interest Calculator](/msme-delayed-payment-calculator)**.
 
@@ -99,7 +99,7 @@ If a buyer refuses to pay the principal or statutory interest, registered suppli
 ## Frequently Asked Questions (FAQ)
 
 ### MSME payment delay hone par interest kitna lagta hai?
-MSME Development Act ke Section 16 ke mutabik, agar buyer 45 din ke andar payment nahi karta, toh use RBI ke bank rate ka teen guna (3× RBI Bank Rate) compound interest dena padta hai. Current RBI bank rate 6.75% ke mutabik yeh lagbhag **20.25% per annum** banta hai, jo monthly compounding ke sath judta hai.
+MSME Development Act ke Section 16 ke mutabik, agar buyer 45 din ke andar payment nahi karta, toh use RBI ke bank rate ka teen guna (3× RBI Bank Rate) compound interest dena padta hai. Current RBI bank rate 5.50% ke mutabik yeh **16.50% per annum** banta hai, jo monthly compounding ke sath judta hai.
 
 ### Does the 45-day payment rule apply to Medium enterprises?
 No. Sections 15 through 23 of the MSMED Act and Section 43B(h) of the Income Tax Act apply strictly to **Micro and Small enterprises**. Medium enterprises are not covered under these statutory protections.
