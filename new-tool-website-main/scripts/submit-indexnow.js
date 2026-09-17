@@ -88,6 +88,12 @@ function getGitChangedUrls() {
         const afterPages = trimmed.substring(trimmed.indexOf('src/pages/') + 'src/pages/'.length);
         if (afterPages.endsWith('.astro')) {
           let route = afterPages.replace(/\.astro$/, '');
+          if (route.includes('[')) {
+            // Dynamic template changed (e.g. gst-rate-on-[product])
+            // Do not submit raw literal bracket syntax to IndexNow
+            console.log(`ℹ️ Dynamic page template changed (${route}). Use --all to submit full sitemap of generated URLs.`);
+            continue;
+          }
           if (route === 'index') route = '';
           else if (route.endsWith('/index')) route = route.replace(/\/index$/, '');
           urls.add(`https://${HOST}/${route}`);
@@ -135,12 +141,21 @@ function resolveTargetUrls() {
     return changedUrls;
   }
 
-  // 4. Fallback to default core URLs
-  console.log(`ℹ️ No git changes detected. Submitting ${DEFAULT_URLS.length} core default URLs (Use --all for full sitemap).`);
-  return DEFAULT_URLS;
+  // 4. Fallback: submit nothing when no changes detected (safeguard against spamming search engines)
+  console.log('ℹ️ No git changes detected. Submit nothing (use --all to force full sitemap submission or specify URLs as arguments).');
+  return [];
 }
 
 async function submitToIndexNow() {
+  const rawUrls = resolveTargetUrls();
+  // Filter unique valid URLs belonging to the host
+  const urls = [...new Set(rawUrls)].filter((u) => u.includes(HOST));
+
+  if (urls.length === 0) {
+    console.log('✓ No modified URLs to submit. Done.');
+    return;
+  }
+
   const key = findIndexNowKey();
   if (!key) {
     console.error('❌ IndexNow key file not found in public/*.txt directory.');
@@ -152,15 +167,6 @@ async function submitToIndexNow() {
   console.log('\n🚀 Starting IndexNow URL Submission...');
   console.log(`🌐 Host:         ${HOST}`);
   console.log(`🔑 Key Location: ${keyLocation}`);
-
-  const rawUrls = resolveTargetUrls();
-  // Filter unique valid URLs belonging to the host
-  const urls = [...new Set(rawUrls)].filter((u) => u.includes(HOST));
-
-  if (urls.length === 0) {
-    console.error('❌ No valid URLs found to submit.');
-    process.exit(1);
-  }
 
   console.log(`\n📤 Submitting ${urls.length} URL(s) to IndexNow:`);
   urls.slice(0, 5).forEach((u) => console.log(`   • ${u}`));

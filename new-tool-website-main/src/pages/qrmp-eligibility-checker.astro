@@ -5,13 +5,57 @@ const title = 'QRMP Scheme Eligibility Checker 2026';
 const description = 'Check if you qualify for the QRMP scheme (Quarterly Return, Monthly Payment) under GST. Instant eligibility check based on turnover and registration type.';
 
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://taxzentic.com';
+const canonical = `${siteUrl}/qrmp-eligibility-checker`;
+
+const faqs = [
+  {
+    q: 'What is the QRMP scheme under GST?',
+    a: 'QRMP (Quarterly Return Monthly Payment) is a statutory scheme allowing eligible GST taxpayers with aggregate turnover up to ₹5 Crores to file GSTR-1 and GSTR-3B quarterly while depositing tax monthly using Form GST PMT-06 challan.',
+  },
+  {
+    q: 'Who is eligible to opt for the QRMP scheme?',
+    a: 'Regular GST taxpayers having an aggregate annual turnover of up to ₹5 Crores in the preceding financial year are eligible, provided they have filed their latest due GSTR-3B return on or before opting in.',
+  },
+  {
+    q: 'Who is not eligible for the QRMP scheme?',
+    a: 'Composition dealers (who already file CMP-08 quarterly), Input Service Distributors (ISD), Casual Taxable Persons (CTP), Non-Resident Taxable Persons (NRTP), and TDS/TCS deductors cannot opt for QRMP.',
+  },
+  {
+    q: 'What is the opt-in and opt-out window for the QRMP scheme on the GST portal?',
+    a: 'Taxpayers can opt in or opt out from the 1st day of the second month of the preceding quarter until the last day of the first month of the current quarter (e.g. 1st February to 30th April for the April-June quarter).',
+  },
+  {
+    q: 'How does the Invoice Furnishing Facility (IFF) work under QRMP?',
+    a: 'IFF is an optional facility allowing QRMP taxpayers to upload B2B outward invoices up to ₹50 Lakhs per month for Month 1 and Month 2 of the quarter. This enables B2B buyers to view ITC in their GSTR-2B without waiting for quarterly returns.',
+  },
+  {
+    q: 'What is the difference between Fixed Sum Method (FSM) and Self-Assessment Method (SAM)?',
+    a: 'Under FSM, the portal auto-generates a 35% challan based on net cash tax paid in the preceding quarter (with immunity from interest on differential tax). Under SAM, the taxpayer manually calculates actual liability after adjusting available ITC in the cash ledger.',
+  },
+  {
+    q: 'What happens if turnover exceeds ₹5 Crores during the financial year?',
+    a: 'If annual aggregate turnover crosses ₹5 Crores at any point during a financial year, the taxpayer automatically becomes ineligible for QRMP from the immediate subsequent quarter and must revert to monthly GSTR-1 and GSTR-3B filing.',
+  },
+  {
+    q: 'What are the quarterly GSTR-3B due dates under the QRMP scheme?',
+    a: 'Quarterly GSTR-3B is staggered by state: 22nd of the month following the quarter for southern/western states (Category 1) and 24th of the month for northern/eastern states (Category 2).',
+  },
+  {
+    q: 'Is interest charged under Section 50 if monthly tax paid under Fixed Sum Method is lower than actual tax?',
+    a: 'No interest is charged under Section 50(1) for short payment in the first two months if the taxpayer deposits the prescribed 35% fixed sum amount by the 25th of each month, even if actual liability turns out to be higher upon quarterly reconciliation.',
+  },
+  {
+    q: 'Does this QRMP checker store or transmit my business turnover figures?',
+    a: 'No. All eligibility checks, turnover tier assessments, and rule validations run strictly in your local browser session. No taxpayer data or financial figures are sent to any server.',
+  },
+];
 
 const structuredData = [
   {
     '@context': 'https://schema.org',
     '@type': 'WebApplication',
     name: 'QRMP Eligibility Checker',
-    url: `${siteUrl}/qrmp-eligibility-checker`,
+    url: canonical,
     description: 'Check eligibility for QRMP scheme — quarterly GST return filing with monthly payments.',
     applicationCategory: 'FinanceApplication',
     operatingSystem: 'Any',
@@ -20,36 +64,18 @@ const structuredData = [
   {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    mainEntity: [
-      {
-        '@type': 'Question',
-        name: 'What is the QRMP scheme under GST?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'QRMP (Quarterly Return Monthly Payment) is a scheme that allows eligible GST taxpayers with aggregate turnover up to ₹5 crore to file GSTR-1 and GSTR-3B quarterly instead of monthly, while making monthly tax payments using PMT-06 challan.',
-        },
+    mainEntity: faqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.q,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.a,
       },
-      {
-        '@type': 'Question',
-        name: 'Who is eligible for QRMP scheme?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Regular GST-registered taxpayers with aggregate annual turnover up to ₹5 crore in the preceding financial year are eligible. Composition dealers, ISD, casual taxable persons, and NRIs are NOT eligible.',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: 'How to opt for QRMP scheme?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Login to the GST portal → Dashboard → Services → Returns → Opt-in for Quarterly Return. You can opt in from the 1st to the last day of the month preceding a quarter. For example, opt in by 31 March for April-June quarter.',
-        },
-      },
-    ],
+    })),
   },
 ];
 
-const lastUpdated = '2026-07-25';
+const lastUpdated = '2026-09-15';
 const breadcrumb = [
   { name: 'Home', href: '/' },
   { name: 'Lookups & Tools', href: '/#tools-heading' },
@@ -57,7 +83,7 @@ const breadcrumb = [
 ];
 ---
 
-<BaseLayout {title} {description} {structuredData} {breadcrumb} {lastUpdated}>
+<BaseLayout {title} {description} {canonical} {structuredData} {breadcrumb} {lastUpdated}>
   <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-12">
     <div class="mb-10 text-center">
       <h1 class="text-3xl sm:text-4xl font-bold text-base mb-3 tracking-[-1.28px]">
@@ -183,12 +209,7 @@ const breadcrumb = [
     <div class="mt-12 border-t border-base pt-10">
       <h2 class="text-[24px] font-semibold text-base mb-6 tracking-[-0.6px]">Frequently Asked Questions</h2>
       <div class="space-y-3">
-        {[
-          { q: 'Can I switch back to monthly filing after opting for QRMP?', a: 'Yes. You can opt out of the QRMP scheme and switch back to monthly filing at the beginning of any quarter. The opt-out window is the month preceding each quarter.' },
-          { q: 'Do I still need to pay GST monthly under QRMP?', a: 'Yes. Even though you file returns quarterly, you must make monthly tax payments by the 25th of each month using the PMT-06 challan. Only the last month of the quarter is covered by GSTR-3B filing.' },
-          { q: 'How does IFF work under QRMP scheme?', a: 'IFF (Invoice Furnishing Facility) allows QRMP taxpayers to upload B2B invoices in the first two months of a quarter. This helps your B2B buyers claim ITC without waiting for your quarterly GSTR-1.' },
-          { q: 'What happens if I cross ₹5 crore turnover during the year?', a: 'If your aggregate turnover crosses ₹5 crore during a financial year, you will automatically be moved to monthly filing from the next quarter. You do not need to do anything manually.' },
-        ].map((faq, i) => (
+        {faqs.map((faq, i) => (
           <details class="group rounded-[8px] border border-base bg-surface overflow-hidden" id={`faq-qrmp-${i}`}>
             <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
               <span class="text-[15px]">{faq.q}</span>

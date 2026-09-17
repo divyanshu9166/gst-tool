@@ -8,6 +8,49 @@ const description = 'Check your business GST compliance health score out of 100.
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://taxzentic.com';
 const canonical = `${siteUrl}/gst-health-score`;
 
+const faqs = [
+  {
+    q: 'What is a GST compliance health score?',
+    a: 'A structured self-assessment audit metric developed by Taxzentic that evaluates 10 key operational touchpoints—including return filing timeliness, GSTR-2B reconciliation, vendor compliance, Rule 37 reversals, and E-Way bill adherence—out of 100 points.',
+  },
+  {
+    q: 'Is this an official government GST compliance rating?',
+    a: 'No. This is a private, independent self-assessment methodology. It does not pull data from the government GST portal or represent an official compliance rating under Section 149 of the CGST Act.',
+  },
+  {
+    q: 'How is the compliance health score calculated?',
+    a: 'The score is computed out of 100 weighted points across 10 critical compliance checks: return filing punctuality (10 pts), monthly 2B reconciliation (15 pts), vendor active status (10 pts), Rule 37 180-day aging (10 pts), E-Way Bill accuracy (10 pts), E-Invoicing IRN generation (10 pts), bank account linking (10 pts), Section 17(5) blocked credit reversals (10 pts), RCM self-invoicing (10 pts), and Rule 18 display board compliance (5 pts).',
+  },
+  {
+    q: 'What factors trigger automated departmental notices in GST?',
+    a: 'The primary automated triggers are: Outward tax liability mismatch between GSTR-1 and GSTR-3B (Rule 88C / Form DRC-01B), ITC claimed in GSTR-3B exceeding GSTR-2B (Rule 88D / Form DRC-01C), and claiming ITC from cancelled or non-filing suppliers.',
+  },
+  {
+    q: 'Does this tool access my GST portal account or financial books?',
+    a: 'No. This tool is 100% private and runs client-side in your browser. No GSTIN, business name, or financial figures are transmitted to any server.',
+  },
+  {
+    q: 'Can this score predict whether my business will receive a GST notice?',
+    a: 'While no software can predict departmental discretion, maintaining a score above 90 minimizes the quantitative triggers analyzed by the GSTN automated risk assessment system.',
+  },
+  {
+    q: 'What is the consequence of failing the Rule 37 (180-day) vendor payment condition?',
+    a: 'Under the second proviso to Section 16(2) and Rule 37, if an invoice is not paid within 180 days from the invoice date, the claimed ITC must be reversed in Table 4(B) of GSTR-3B along with 18% annual interest under Section 50.',
+  },
+  {
+    q: 'Why is Section 17(5) blocked credit exclusion essential for GST health?',
+    a: 'Section 17(5) lists specific goods and services (e.g. motor vehicles for passenger transport, outdoor catering, health insurance, club memberships, goods lost/stolen/gifted) where ITC is statutorily blocked. Claiming blocked credit is the most frequent ground for scrutiny notices in Form GST ASMT-10.',
+  },
+  {
+    q: 'How can a business improve its GST compliance health score?',
+    a: 'Implement monthly GSTR-2B reconciliation before 3B filing, establish a vendor GSTIN validation checkpoint prior to accounts payable clearance, track 180-day vendor aging schedules, and ensure all RCM liabilities are discharged in cash.',
+  },
+  {
+    q: 'How frequently should businesses conduct this GST health audit?',
+    a: 'Conducting this self-assessment quarterly or prior to filing annual returns (GSTR-9/9C) ensures any procedural oversights are identified and corrected within the permissible statutory amendment window.',
+  },
+];
+
 const structuredData = [
   {
     '@context': 'https://schema.org',
@@ -26,32 +69,14 @@ const structuredData = [
   {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    mainEntity: [
-      {
-        '@type': 'Question',
-        name: 'What is a good GST Health Score for an Indian business?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'A score of 90 or above represents strong statutory compliance with minimal risk of automated departmental notices (ASMT-10 or DRC-01B/C). A score below 70 indicates severe non-compliance that could trigger interest under Section 50 or ITC blockage under Rule 86A.',
-        },
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: f.a,
       },
-      {
-        '@type': 'Question',
-        name: 'What happens if a vendor is not paid within 180 days under GST?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Under the second proviso to Section 16(2) and Rule 37 of the CGST Rules, if you fail to pay the supplier invoice value plus GST within 180 days from the invoice date, you must reverse the claimed Input Tax Credit along with 18% annual interest.',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: 'Is physical display of GST certificate mandatory?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Yes, under Rule 18(1) of the CGST Rules, every registered business must display its registration certificate at a prominent location at the principal place of business and every additional place of business, and display its GSTIN on the name board at the entrance.',
-        },
-      },
-    ],
+    })),
   },
 ];
 
@@ -162,6 +187,22 @@ const lastUpdated = '2026-09-15';
         </div>
       </div>
     </div>
+
+    <!-- FAQ Section -->
+    <section class="mt-16 pt-12 border-t border-base" aria-labelledby="faq-heading">
+      <h2 id="faq-heading" class="text-2xl sm:text-3xl font-bold text-base mb-8">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        {faqs.map((faq, i) => (
+          <details class="group rounded-xl border border-base bg-surface overflow-hidden" id={`faq-${i}`}>
+            <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+              <span>{faq.q}</span>
+              <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+            </summary>
+            <div class="px-6 pb-5 text-[15px] text-muted leading-relaxed border-t border-base pt-4">{faq.a}</div>
+          </details>
+        ))}
+      </div>
+    </section>
   </div>
 
   <script is:inline>

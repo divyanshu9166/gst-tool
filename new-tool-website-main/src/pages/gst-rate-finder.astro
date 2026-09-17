@@ -5,13 +5,57 @@ const title = 'GST Rate Finder — Search by Product Name';
 const description = 'Find the GST rate for any product by name. Search for laptops, cement, restaurant food, cars, and more. Instant HSN code lookup with GST rate.';
 
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://taxzentic.com';
+const canonical = `${siteUrl}/gst-rate-finder`;
+
+const faqs = [
+  {
+    q: 'How to find the GST rate for any product by name?',
+    a: 'Simply type the common product or commodity name (e.g., "laptop", "cement", "restaurant food", "shoes") in our search box. The tool searches over 3,800+ HSN and SAC codes to display the exact GST rate along with the CGST and SGST breakdown.',
+  },
+  {
+    q: 'What are the primary GST tax rate slabs in India?',
+    a: 'India operates under a four-tier GST structure with primary slabs of 5%, 12%, 18%, and 28%, along with an exempt (0%) category. Special concessional rates exist for precious metals like gold/silver (3%) and rough precious stones (0.25% - 1.5%).',
+  },
+  {
+    q: 'What is the difference between an HSN code and a SAC code?',
+    a: 'HSN (Harmonized System of Nomenclature) is an internationally standardized coding system used for classifying physical goods. SAC (Services Accounting Code) is a 6-digit classification system created by CBIC exclusively for services.',
+  },
+  {
+    q: 'How many digits of HSN code are mandatory on a GST tax invoice?',
+    a: 'Under Notification No. 78/2020-Central Tax, businesses with annual aggregate turnover up to ₹5 Crores must mention at least 4 digits of HSN on B2B invoices. Businesses with turnover exceeding ₹5 Crores must mention 6 digits on all B2B and B2C invoices.',
+  },
+  {
+    q: 'What is the GST rate on smartphones, computers, and IT hardware?',
+    a: 'Smartphones and cellular phones attract 18% GST under HSN code 8517. Laptop computers, tablets, data processing machines, and IT accessories also attract 18% GST under HSN code 8471.',
+  },
+  {
+    q: 'Are essential grocery items and unbranded grains exempt from GST?',
+    a: 'Yes. Fresh fruits, fresh vegetables, unpasteurized milk, eggs, and loose unbranded foodgrains attract 0% GST. However, pre-packaged and labelled retail pulses, rice, flour, and curd attract 5% GST.',
+  },
+  {
+    q: 'How is GST divided between CGST, SGST, and IGST?',
+    a: 'For intra-state transactions (within the same state), GST is split equally: 50% CGST to the Centre and 50% SGST to the State. For inter-state supplies (across state borders), the full tax is collected as Integrated GST (IGST).',
+  },
+  {
+    q: 'Can I look up GST rates for services like software, legal, and consulting?',
+    a: 'Yes. Type service keywords like "software development", "legal fees", "management consulting", "freelancing", or "hotel accommodation" to find the applicable 6-digit SAC code (e.g. SAC 998314 for IT software) and rate.',
+  },
+  {
+    q: 'What should I do if a product has multiple matching HSN classifications?',
+    a: 'In GST law, specific classification takes precedence over general descriptions under the General Rules for Interpretation (GRI). If significant ambiguity remains regarding composition or end-use, taxpayers can apply for Authority for Advance Ruling (AAR).',
+  },
+  {
+    q: 'Does this rate finder store or monitor my search queries?',
+    a: 'No. The search engine queries a local client-side JSON catalog in your web browser. No search queries, user data, or IP addresses are transmitted or logged on any external server.',
+  },
+];
 
 const structuredData = [
   {
     '@context': 'https://schema.org',
     '@type': 'WebApplication',
     name: 'GST Rate Finder by Product Name',
-    url: `${siteUrl}/gst-rate-finder`,
+    url: canonical,
     description: 'Find the GST rate for any product or service by name. Instant fuzzy search over 3,800+ HSN/SAC codes.',
     applicationCategory: 'FinanceApplication',
     operatingSystem: 'Any',
@@ -20,36 +64,18 @@ const structuredData = [
   {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    mainEntity: [
-      {
-        '@type': 'Question',
-        name: 'How to find GST rate for a product?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Simply type the product name (e.g., "laptop", "cement", "restaurant food") in our search box. The tool instantly finds the matching HSN/SAC code and shows the applicable GST rate with CGST/SGST split.',
-        },
+    mainEntity: faqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.q,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.a,
       },
-      {
-        '@type': 'Question',
-        name: 'What is the GST rate on mobile phones?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Mobile phones and smartphones attract 18% GST under HSN code 8517. This includes the CGST component of 9% and SGST component of 9% for intra-state sales.',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: 'What is the difference between HSN code and product name search?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'HSN code search requires you to know the numeric code. Product name search lets you type everyday product names like "shoes", "rice", or "car" and automatically finds the correct HSN code and GST rate.',
-        },
-      },
-    ],
+    })),
   },
 ];
 
-const lastUpdated = '2026-07-25';
+const lastUpdated = '2026-09-15';
 const breadcrumb = [
   { name: 'Home', href: '/' },
   { name: 'Lookups & Tools', href: '/#tools-heading' },
@@ -57,7 +83,7 @@ const breadcrumb = [
 ];
 ---
 
-<BaseLayout {title} {description} {structuredData} {breadcrumb} {lastUpdated}>
+<BaseLayout {title} {description} {canonical} {structuredData} {breadcrumb} {lastUpdated}>
   <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-12">
     <!-- Page header -->
     <div class="mb-10 text-center">
@@ -147,12 +173,7 @@ const breadcrumb = [
     <div class="mt-12 border-t border-base pt-10">
       <h2 class="text-[24px] font-semibold text-base mb-6 tracking-[-0.6px]">Frequently Asked Questions</h2>
       <div class="space-y-3">
-        {[
-          { q: 'Is this tool free to use?', a: 'Yes, 100% free. No login required. All searches happen in your browser — no data is sent to any server.' },
-          { q: 'Does this include GST 2.0 rates?', a: 'Yes. Our database reflects the latest GST 2.0 rate structure effective from September 2025, including the new 40% luxury slab and revised 5%/18% classifications.' },
-          { q: 'Can I search for services too?', a: 'Yes. Type service names like "consulting", "restaurant", "transport", or "insurance" and the tool will find the matching SAC code with the applicable GST rate.' },
-          { q: 'What if my product shows multiple rates?', a: 'Some products have different rates depending on specifications (e.g., cars vary by engine size and fuel type). The search results will show all matching entries so you can pick the most specific one.' },
-        ].map((faq, i) => (
+        {faqs.map((faq, i) => (
           <details class="group rounded-[8px] border border-base bg-surface overflow-hidden" id={`faq-rate-${i}`}>
             <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
               <span class="text-[15px]">{faq.q}</span>

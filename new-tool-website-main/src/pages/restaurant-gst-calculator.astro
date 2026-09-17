@@ -8,6 +8,49 @@ const description = 'Calculate GST on restaurants, cloud kitchens, and catering.
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://taxzentic.com';
 const canonical = `${siteUrl}/restaurant-gst-calculator`;
 
+const faqs = [
+  {
+    q: 'What is the GST rate on standalone restaurants in India?',
+    a: 'Standalone restaurants (whether AC or Non-AC) are taxed at a uniform rate of 5% (2.5% CGST + 2.5% SGST) without any Input Tax Credit (ITC).',
+  },
+  {
+    q: 'When does a restaurant charge 18% GST with Input Tax Credit?',
+    a: 'Restaurants located within hotel premises where any room tariff is ₹7,500 or more per unit per day must charge 18% GST (9% CGST + 9% SGST), and are entitled to claim full Input Tax Credit on inputs and capital goods.',
+  },
+  {
+    q: 'Who pays GST on food orders via Swiggy or Zomato?',
+    a: 'Under Section 9(5) of the CGST Act, e-commerce food delivery operators (Swiggy, Zomato) are liable to pay 5% GST directly to the government on restaurant food deliveries made through their platforms.',
+  },
+  {
+    q: 'Can standalone restaurants claim Input Tax Credit on kitchen equipment, grocery, or shop rent?',
+    a: 'No. Under Notification No. 46/2017-Central Tax (Rate), standalone restaurants paying 5% concessional GST are strictly barred from availing ITC on commercial rent, raw food ingredients, and kitchen machinery.',
+  },
+  {
+    q: 'What is the GST rate applicable on outdoor catering services?',
+    a: 'Outdoor catering services are taxed at 5% without ITC. However, if catering is provided at premises having declared room tariff of ₹7,500 or above per day, it attracts 18% GST with ITC.',
+  },
+  {
+    q: 'Is restaurant service charge subject to GST?',
+    a: 'Yes. If a restaurant adds a service charge to the food bill, GST is levied on the entire invoice value (food amount plus service charge), though CCPA consumer guidelines prohibit mandatory levy of service charge.',
+  },
+  {
+    q: 'Does alcoholic liquor served at bars and dine-in lounges attract GST?',
+    a: 'No. Alcoholic liquor for human consumption is constitutionally outside GST. It is taxed under State Excise Duty and state VAT, requiring separate billing or distinct line items from food GST.',
+  },
+  {
+    q: 'How are online food delivery sales reported in Form GSTR-3B?',
+    a: 'Sales delivered through e-commerce operators under Section 9(5) must be declared by restaurants in Table 3.1.1(ii) of Form GSTR-3B as supplies on which the operator pays tax, ensuring no double taxation.',
+  },
+  {
+    q: 'What is the GST registration threshold for small food stalls and cloud kitchens?',
+    a: 'Small eateries and cloud kitchens are exempt from GST registration if their aggregate annual turnover remains below ₹20 Lakhs (₹10 Lakhs in Special Category States), provided they do not make inter-state taxable supplies.',
+  },
+  {
+    q: 'Does this restaurant GST calculator store my billing numbers or food orders?',
+    a: 'No. All calculations are executed purely client-side within your browser session. No restaurant financial figures, order values, or tax records are saved or transmitted.',
+  },
+];
+
 const structuredData = [
   {
     '@context': 'https://schema.org',
@@ -26,32 +69,14 @@ const structuredData = [
   {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    mainEntity: [
-      {
-        '@type': 'Question',
-        name: 'What is the GST rate on standalone restaurants in India?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Standalone restaurants (whether AC or Non-AC) are taxed at a flat rate of 5% (2.5% CGST + 2.5% SGST) without any Input Tax Credit (ITC).',
-        },
+    mainEntity: faqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.q,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.a,
       },
-      {
-        '@type': 'Question',
-        name: 'When does a restaurant charge 18% GST with ITC?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Restaurants located within hotel premises where any room tariff is ₹7,500 or more per day must charge 18% GST (9% CGST + 9% SGST), and are entitled to claim full Input Tax Credit.',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: 'Who pays GST on food orders via Swiggy or Zomato?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Under Section 9(5) of the CGST Act, e-commerce food delivery platforms (Swiggy, Zomato) are liable to collect and deposit 5% GST directly to the government on restaurant food orders delivered through their apps.',
-        },
-      },
-    ],
+    })),
   },
 ];
 
@@ -139,6 +164,22 @@ const lastUpdated = '2026-09-15';
         </div>
       </div>
     </div>
+
+    <!-- FAQ Section -->
+    <section class="mt-16 pt-12 border-t border-base" aria-labelledby="faq-heading">
+      <h2 id="faq-heading" class="text-2xl sm:text-3xl font-bold text-base mb-8">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        {faqs.map((faq, i) => (
+          <details class="group rounded-xl border border-base bg-surface overflow-hidden" id={`faq-${i}`}>
+            <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+              <span>{faq.q}</span>
+              <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+            </summary>
+            <div class="px-6 pb-5 text-[15px] text-muted leading-relaxed border-t border-base pt-4">{faq.a}</div>
+          </details>
+        ))}
+      </div>
+    </section>
   </div>
 
   <script is:inline>

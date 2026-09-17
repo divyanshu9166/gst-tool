@@ -8,6 +8,49 @@ const description = 'Find TDS rates by payment type: Contractor, rent, freelance
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://taxzentic.com';
 const canonical = `${siteUrl}/tds-rate-finder`;
 
+const faqs = [
+  {
+    q: 'What is Tax Deducted at Source (TDS) under the Income-tax Act?',
+    a: 'TDS is a statutory withholding mechanism where the person or business making specified payments (such as salaries, contractor fees, professional fees, or rent) deducts tax at source at prescribed rates and deposits it with the Central Government on the payee\'s behalf.',
+  },
+  {
+    q: 'Which financial year do the rates in this TDS directory apply to?',
+    a: 'This directory covers the statutory TDS sections, rates, and threshold limits applicable for Financial Year 2025-26 and FY 2026-27 under the Income-tax Act, 1961.',
+  },
+  {
+    q: 'What happens if the payee does not furnish a valid PAN (Section 206AA)?',
+    a: 'Under Section 206AA, if the payee fails to provide a valid PAN, the deductor must deduct TDS at the higher of: the rate in the Act, the rate in force, or a mandatory penal rate of 20% (5% in specific sections like 194Q and 194-O).',
+  },
+  {
+    q: 'What is the difference between Section 194C (Contractors) and Section 194J (Professionals)?',
+    a: 'Section 194C covers contracts for work, catering, transport, and manufacturing at 1% (individuals/HUFs) or 2% (companies). Section 194J covers professional services (legal, medical, engineering, accountancy) at 10% and technical/IT services at 2%.',
+  },
+  {
+    q: 'What is the TDS rate on rent under Section 194I versus Section 194-IB?',
+    a: 'Section 194I applies to commercial entities and audit-liable businesses paying annual rent exceeding ₹2,40,000 (10% on land/buildings, 2% on plant/machinery). Section 194-IB applies to non-audit individuals/HUFs paying rent exceeding ₹50,000 per month (deducted at 2%).',
+  },
+  {
+    q: 'What is the TDS rate on purchase of immovable property under Section 194-IA?',
+    a: 'Under Section 194-IA, the buyer must deduct 1% TDS on the total consideration or stamp duty value (whichever is higher) if the property value is ₹50 Lakhs or more, deposited via Challan Form 26QB without needing a TAN.',
+  },
+  {
+    q: 'What is the threshold and rate for TDS on purchase of goods under Section 194Q?',
+    a: 'A buyer whose gross business turnover exceeded ₹10 Crore in the preceding financial year must deduct 0.1% TDS on payments exceeding ₹50 Lakhs in aggregate to a resident seller in a financial year.',
+  },
+  {
+    q: 'Is health and education cess added to domestic TDS rates?',
+    a: 'No. For payments to resident taxpayers, TDS is deducted at the basic statutory rate without adding surcharge or 4% Health and Education Cess. Surcharge and cess apply only to non-resident payments (Section 195) and salary deductions (Section 192).',
+  },
+  {
+    q: 'When is TDS deposited with the central government?',
+    a: 'TDS must be deposited using Challan ITNS 281 by the 7th of the following month (except for March deductions, which are due by 30th April, and Sections 194-IA/IB/M which allow 30 days from month end).',
+  },
+  {
+    q: 'How does the payee receive credit for TDS deducted?',
+    a: 'The deductor files quarterly statements (Form 24Q/26Q) and issues TDS certificates (Form 16/16A). The deducted tax automatically reflects in the payee\'s Form 26AS and AIS on the income tax portal for set-off against final tax liability.',
+  },
+];
+
 const structuredData = [
   {
     '@context': 'https://schema.org',
@@ -26,24 +69,14 @@ const structuredData = [
   {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    mainEntity: [
-      {
-        '@type': 'Question',
-        name: 'What is the TDS rate on rent paid by an individual tenant not in business?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Under Section 194-IB, an individual or HUF tenant who is not liable to tax audit must deduct TDS at 2% (reduced from 5%) if the monthly rent exceeds ₹50,000.',
-        },
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: f.a,
       },
-      {
-        '@type': 'Question',
-        name: 'What is the TDS rate on purchase of property under Section 194-IA?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'TDS is 1% on the entire sale consideration or stamp duty value (whichever is higher) if the property value is ₹50 Lakhs or more.',
-        },
-      },
-    ],
+    })),
   },
 ];
 
@@ -86,6 +119,22 @@ const lastUpdated = '2026-09-15';
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-16" id="cards-container">
       <!-- Generated dynamically -->
     </div>
+
+    <!-- FAQ Section -->
+    <section class="mt-16 pt-12 border-t border-base" aria-labelledby="faq-heading">
+      <h2 id="faq-heading" class="text-2xl sm:text-3xl font-bold text-base mb-8">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        {faqs.map((faq, i) => (
+          <details class="group rounded-xl border border-base bg-surface overflow-hidden" id={`faq-${i}`}>
+            <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+              <span>{faq.q}</span>
+              <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+            </summary>
+            <div class="px-6 pb-5 text-[15px] text-muted leading-relaxed border-t border-base pt-4">{faq.a}</div>
+          </details>
+        ))}
+      </div>
+    </section>
   </div>
 
   <script is:inline>

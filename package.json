@@ -1,0 +1,14 @@
+{
+  "name": "taxzentic-root",
+  "private": true,
+  "scripts": {
+    "dev": "npm --prefix new-tool-website-main run dev",
+    "build": "npm --prefix new-tool-website-main run build",
+    "preview": "npm --prefix new-tool-website-main run preview",
+    "qa:all": "npm --prefix new-tool-website-main run qa:all",
+    "qa:seo": "npm --prefix new-tool-website-main run qa:seo",
+    "qa:links": "npm --prefix new-tool-website-main run qa:links",
+    "qa:logic": "npm --prefix new-tool-website-main run qa:logic",
+    "verify:assets": "npm --prefix new-tool-website-main run verify:assets"
+  }
+}

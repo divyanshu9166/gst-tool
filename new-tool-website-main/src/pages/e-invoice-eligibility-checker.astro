@@ -8,6 +8,49 @@ const description = 'Check if your business is required to generate GST E-Invoic
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://taxzentic.com';
 const canonical = `${siteUrl}/e-invoice-eligibility-checker`;
 
+const faqs = [
+  {
+    q: 'Who is covered by mandatory e-invoicing in India?',
+    a: 'Any registered business whose Aggregate Annual Turnover (AATO) across all registrations under the same PAN exceeded ₹5 Crores in ANY preceding financial year from FY 2017-18 onwards is legally required to generate e-invoices.',
+  },
+  {
+    q: 'How is aggregate turnover tested for e-invoicing applicability?',
+    a: 'Turnover is evaluated on a PAN-wide basis across all business verticals and states in India. If the PAN turnover crossed ₹5 Crores in any previous year since GST implementation, e-invoicing is triggered for all GSTINs under that PAN.',
+  },
+  {
+    q: 'Does current financial year turnover alone trigger immediate e-invoicing?',
+    a: 'If your business crosses the ₹5 Crore threshold for the first time during the current financial year, e-invoicing becomes mandatory from the start of the immediate following financial year (April 1st).',
+  },
+  {
+    q: 'Which sectors and entities are exempt from e-invoicing under Rule 48(4)?',
+    a: 'Under the statutory proviso to Rule 48(4), SEZ Units, banking companies, NBFCs, insurance firms, Goods Transport Agencies (GTAs), passenger transport operators, multiplex cinema exhibitors, and Government departments are exempt regardless of turnover.',
+  },
+  {
+    q: 'Are SEZ Developers also exempt from e-invoicing?',
+    a: 'No. The statutory exemption under Rule 48(4) applies strictly to SEZ Units. SEZ Developers are not exempt and must generate IRNs if their turnover exceeds ₹5 Crores.',
+  },
+  {
+    q: 'Which types of transactions require e-invoicing (IRN)?',
+    a: 'E-invoicing is mandatory for B2B supplies to registered persons, supplies to SEZ units/developers, export supplies (with or without IGST), and credit/debit notes. It is not applicable to B2C supplies to unregistered retail consumers.',
+  },
+  {
+    q: 'Is there a time-limit restriction for reporting invoices on the IRP?',
+    a: 'As per official GSTN advisories, taxpayers with an aggregate turnover of ₹100 Crores and above cannot report invoices older than 30 days to the Invoice Registration Portal (IRP). For taxpayers below ₹100 Crores, real-time generation is strongly advised.',
+  },
+  {
+    q: 'What is the legal consequence if an eligible entity issues an invoice without an IRN?',
+    a: 'Under Rule 48(5), any invoice issued without an IRN by an eligible supplier is deemed legally void. The recipient cannot claim Input Tax Credit (ITC), and the supplier is liable to penalties up to 100% of tax under Section 122.',
+  },
+  {
+    q: 'Does an e-invoice replace the traditional physical tax invoice?',
+    a: 'An e-invoice is not a new document; it is standard tax invoice data validated by an official IRP, which returns a unique 64-character hash (IRN) and a digitally signed QR code that must be printed on the invoice.',
+  },
+  {
+    q: 'Does this checker connect to the government Invoice Registration Portal (IRP)?',
+    a: 'No. This is a private compliance self-assessment tool based on current CGST Rule 48(4) thresholds. Live IRN generation is performed on authorized government IRPs (e.g. einvoice1.gst.gov.in) or via GSP/ERP API integrations.',
+  },
+];
+
 const structuredData = [
   {
     '@context': 'https://schema.org',
@@ -26,32 +69,14 @@ const structuredData = [
   {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    mainEntity: [
-      {
-        '@type': 'Question',
-        name: 'What is the current mandatory turnover threshold for E-Invoicing in India?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'From 1st August 2023 onward, E-Invoicing is mandatory for all registered businesses whose Aggregate Annual Turnover (AATO) exceeded ₹5 Crores in ANY preceding financial year from FY 2017-18 onwards.',
-        },
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: f.a,
       },
-      {
-        '@type': 'Question',
-        name: 'Which entities are exempt from mandatory GST E-Invoicing?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Under the proviso to Rule 48(4), SEZ Units, Banking companies, NBFCs, Insurance firms, Goods Transport Agencies (GTAs), passenger transport providers, multiplex cinema operators, and Government departments are exempt from generating e-invoices irrespective of turnover.',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: 'What is the penalty for issuing an invoice without IRN if E-Invoicing applies?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Under Rule 48(5), an invoice issued without an Invoice Reference Number (IRN) by an eligible entity is considered legally invalid. The buyer is barred from claiming ITC, and the issuer faces a penalty under Section 122(1) equal to 100% of tax evaded or ₹10,000, whichever is higher.',
-        },
-      },
-    ],
+    })),
   },
 ];
 
@@ -150,6 +175,22 @@ const lastUpdated = '2026-09-15';
         <p><strong>E-Way Bill Blocking:</strong> E-Way bills cannot be generated without a valid IRN for eligible taxpayers.</p>
       </div>
     </div>
+
+    <!-- FAQ Section -->
+    <section class="mt-16 pt-12 border-t border-base" aria-labelledby="faq-heading">
+      <h2 id="faq-heading" class="text-2xl sm:text-3xl font-bold text-base mb-8">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        {faqs.map((faq, i) => (
+          <details class="group rounded-xl border border-base bg-surface overflow-hidden" id={`faq-${i}`}>
+            <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+              <span>{faq.q}</span>
+              <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+            </summary>
+            <div class="px-6 pb-5 text-[15px] text-muted leading-relaxed border-t border-base pt-4">{faq.a}</div>
+          </details>
+        ))}
+      </div>
+    </section>
   </div>
 
   <script is:inline>

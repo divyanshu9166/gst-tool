@@ -7,6 +7,49 @@ const description = 'Calculate net payout after marketplace commission, shipping
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://taxzentic.com';
 const canonical = `${siteUrl}/ecommerce-seller-toolkit`;
 
+const faqs = [
+  {
+    q: 'How is GST calculated for Amazon, Flipkart, and Meesho sellers?',
+    a: 'Sellers must distinguish between product GST (collected from buyers on the merchandise and remitted via GSTR-3B) and marketplace fees (commissions, shipping, advertising) on which the e-commerce platform charges 18% GST.',
+  },
+  {
+    q: 'What is GST TCS under Section 52 for e-commerce operators?',
+    a: 'Under Section 52 of the CGST Act, e-commerce platforms like Amazon and Flipkart must collect Tax Collected at Source (TCS) on the net value of taxable supplies made through their marketplace.',
+  },
+  {
+    q: 'What is the current notified rate of GST TCS for e-commerce?',
+    a: 'The notified GST TCS rate is 0.5% (0.25% CGST + 0.25% SGST for intra-state supplies, or 0.5% IGST for inter-state supplies) calculated on the net taxable supply value.',
+  },
+  {
+    q: 'What is the difference between GST TCS and Income Tax TDS under Section 194-O?',
+    a: 'GST TCS (Section 52) is collected on net taxable supplies and credited to your GST Electronic Cash Ledger. Income Tax TDS (Section 194-O) is deducted at 0.1% on gross sales consideration and credited to Form 26AS/AIS for annual income tax filing.',
+  },
+  {
+    q: 'How do customer returns and refunds affect GST TCS calculation?',
+    a: 'Under Section 52, TCS is computed on the "net value of taxable supplies", which is gross taxable sales minus the value of taxable supplies returned by customers during the calendar month.',
+  },
+  {
+    q: 'Can e-commerce sellers claim Input Tax Credit (ITC) on marketplace fees?',
+    a: 'Yes. The 18% GST charged by the marketplace on commission, fixed closing fees, and logistics is fully eligible for ITC. The platform issues a monthly B2B invoice that auto-populates in your GSTR-2B.',
+  },
+  {
+    q: 'Do all online marketplace sellers need mandatory GST registration?',
+    a: 'Sellers making inter-state supplies require mandatory GST registration regardless of turnover under Section 24(ix). Small sellers making exclusively intra-state supplies with turnover under ₹40 Lakhs may operate without registration under the notification scheme by generating an Enrolment ID.',
+  },
+  {
+    q: 'Why is net bank settlement payout lower than the product selling price?',
+    a: 'Net payout equals Gross Selling Price minus marketplace commission, closing fees, shipping fees, 18% GST on marketplace fees, 0.5% GST TCS, and Section 194-O TDS.',
+  },
+  {
+    q: 'How do sellers claim the deducted GST TCS on the GST portal?',
+    a: 'File the monthly "TDS and TCS Credit Received" return on the GST portal (gst.gov.in) under Services > Returns. Once accepted, the credit transfers directly to your Electronic Cash Ledger to pay tax or claim refund.',
+  },
+  {
+    q: 'Which financial reports must be reconciled before filing monthly GST returns?',
+    a: 'Reconcile the marketplace Merchant Tax Report (MTR) with your billing books, ensuring state-wise place of supply (POS) summaries match GSTR-1 Table 7 (B2C) and GSTR-3B Table 3.1.',
+  },
+];
+
 const structuredData = [
   {
     '@context': 'https://schema.org',
@@ -21,33 +64,15 @@ const structuredData = [
   {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    mainEntity: [
-      {
-        '@type': 'Question',
-        name: 'What is TCS for e-commerce sellers under GST?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Under GST, e-commerce operators like Amazon and Flipkart are required to collect Tax Collected at Source (TCS) at the rate of 1% (0.5% CGST + 0.5% SGST or 1% IGST) on the net value of taxable supplies made through their platform.',
-        },
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: f.a,
       },
-      {
-        '@type': 'Question',
-        name: 'What is Section 194-O TDS for e-commerce?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Section 194-O of the Income Tax Act mandates that e-commerce operators deduct 1% TDS on the gross amount of sales of goods or provision of services. This is in addition to the 1% GST TCS.',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: 'Is GST charged on Amazon/Flipkart seller fees?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Yes, marketplaces charge an 18% GST on their commission, fixed fees, and shipping fees. You can claim Input Tax Credit (ITC) for this GST amount.',
-        },
-      }
-    ],
-  }
+    })),
+  },
 ];
 
 const breadcrumb = [
@@ -183,25 +208,17 @@ const lastUpdated = '2026-07-25';
       <h3 class="text-[20px] font-semibold text-base mt-10 mb-4 tracking-[-0.6px]">Frequently Asked Questions</h3>
       
       <div class="space-y-3 not-prose">
-        <details class="group rounded-[8px] border border-base bg-surface overflow-hidden" open>
-          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
-            <span class="text-[15px]">Can I claim Input Tax Credit (ITC) for the 18% GST charged on Amazon fees?</span>
-            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
-          </summary>
-          <div class="px-6 pb-5 text-[14px] text-muted leading-relaxed border-t border-base pt-4">
-            Yes, the 18% GST charged by Amazon/Flipkart on their commission, fixed fees, and shipping fees is fully eligible for ITC. It will reflect in your GSTR-2B, and you can use it to offset your outward GST liability.
-          </div>
-        </details>
-
-        <details class="group rounded-[8px] border border-base bg-surface overflow-hidden">
-          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
-            <span class="text-[15px]">How do I claim the 1% TCS deducted by the marketplace?</span>
-            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
-          </summary>
-          <div class="px-6 pb-5 text-[14px] text-muted leading-relaxed border-t border-base pt-4">
-            The 1% TCS collected by the marketplace is deposited against your GSTIN. You must accept these TCS returns in the "TDS and TCS Credit Received" section on the GST portal to transfer this amount to your Electronic Cash Ledger.
-          </div>
-        </details>
+        {faqs.map((faq, i) => (
+          <details class="group rounded-[8px] border border-base bg-surface overflow-hidden" id={`faq-ecom-${i}`}>
+            <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+              <span class="text-[15px]">{faq.q}</span>
+              <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+            </summary>
+            <div class="px-6 pb-5 text-[14px] text-muted leading-relaxed border-t border-base pt-4">
+              {faq.a}
+            </div>
+          </details>
+        ))}
       </div>
     </div>
   </div>

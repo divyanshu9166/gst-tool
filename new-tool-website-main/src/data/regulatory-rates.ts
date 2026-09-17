@@ -70,4 +70,66 @@ export const regulatoryRates = {
     annualReturn: 'GSTR-4',
     annualDueDate: '30th April',
   },
+
+  // GST Interest under Section 50 of CGST Act
+  gstInterest: {
+    delayedTaxPaymentRate: 18.0, // Section 50(1)
+    undueExcessItcRate: 24.0, // Section 50(3)
+    cashLiabilityProvisoEffective: '2017-07-01',
+    governingSection: 'Section 50 of CGST Act, 2017',
+    sourceLabel: 'CBIC / CGST Act Section 50',
+    sourceUrl: 'https://cbic.gov.in',
+  },
+
+  // GST TDS under Section 51
+  gstTds: {
+    contractValueThreshold: 250000, // ₹2.5 Lakhs
+    rateCgst: 1.0,
+    rateSgst: 1.0,
+    rateIgst: 2.0,
+    depositDueDateDayOfMonth: 10,
+    returnForm: 'GSTR-7',
+    governingSection: 'Section 51 of CGST Act, 2017',
+  },
+
+  // GST TCS under Section 52 (E-Commerce Operators)
+  gstTcs: {
+    rateCgst: 0.25,
+    rateSgst: 0.25,
+    rateIgst: 0.50,
+    depositDueDateDayOfMonth: 10,
+    returnForm: 'GSTR-8',
+    governingSection: 'Section 52 of CGST Act, 2017',
+  },
+
+  // Section 44AD Presumptive Taxation
+  section44ad: {
+    turnoverLimitGeneral: 20000000, // ₹2 Crore
+    turnoverLimitCashUnder5Percent: 30000000, // ₹3 Crore
+    rateDigitalReceipts: 6.0,
+    rateOtherReceipts: 8.0,
+    advanceTaxDueDayOfMonth: 15,
+    advanceTaxDueMonth: 3, // 15th March
+    governingSection: 'Section 44AD of Income-tax Act, 1961',
+  },
+
+  // Statutory Notices & Amnesty
+  statutoryNotices: {
+    section128A: {
+      coveredFinancialYears: ['FY 2017-18', 'FY 2018-19', 'FY 2019-20'],
+      applicableDemandSection: 'Section 73 (Non-fraud only)',
+      statutoryPaymentDeadline: '2025-03-31',
+      waiverBenefit: '100% Interest & Penalty waiver',
+      forms: ['Form GST SPL-01', 'Form GST SPL-02'],
+      governingSection: 'Section 128A of CGST Act, 2017 read with Rule 164',
+    },
+    section74A: {
+      effectiveFromFinancialYear: 'FY 2024-25',
+      scnLimitationMonths: 42,
+      orderLimitationMonths: 12,
+      orderExtensionMonths: 6,
+      governingSection: 'Section 74A of CGST Act, 2017 (enacted via Finance (No. 2) Act, 2024)',
+    },
+  },
 };
+

@@ -8,6 +8,49 @@ const description = 'Free GST invoice generator designed for Indian freelancers,
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://taxzentic.com';
 const canonical = `${siteUrl}/freelancer-invoice-generator`;
 
+const faqs = [
+  {
+    q: 'Do Indian freelancers need to register for GST?',
+    a: 'GST registration is mandatory if your aggregate annual turnover exceeds ₹20 Lakhs (₹10 Lakhs in Special Category States). However, if you provide cross-border services or export services under LUT, having GST registration is necessary to claim zero-rated benefits.',
+  },
+  {
+    q: 'What SAC code do freelancers use for IT and software consulting?',
+    a: 'Most freelance software engineers, UI/UX designers, digital marketers, and tech consultants use SAC 9983 (Other professional, technical, and business services) or SAC 998314 for IT design and development services.',
+  },
+  {
+    q: 'Do Indian freelancers need to charge GST to foreign clients?',
+    a: 'No. Services provided to overseas clients qualify as "Export of Services" under Section 2(6) of the IGST Act, which is zero-rated. You can issue export invoices at 0% GST by filing a free annual Letter of Undertaking (LUT) in Form GST RFD-11.',
+  },
+  {
+    q: 'What is a Letter of Undertaking (LUT) and how often must it be filed?',
+    a: 'An LUT is a statutory declaration filed on the official GST portal before making export supplies in a financial year. It remains valid for one entire financial year (April 1 to March 31) and must be renewed annually before April.',
+  },
+  {
+    q: 'What mandatory endorsement must appear on an export invoice under LUT?',
+    a: 'Under Rule 96A(1) of the CGST Rules, the invoice must state: "SUPPLY MEANT FOR EXPORT OF SERVICES UNDER LETTER OF UNDERTAKING WITHOUT PAYMENT OF INTEGRATED TAX". This tool automatically adds this statutory endorsement.',
+  },
+  {
+    q: 'Can freelancers invoice in foreign currencies like USD, EUR, or GBP?',
+    a: 'Yes. Under GST rules, you may bill foreign clients in USD, EUR, GBP, or other convertible currencies. For filing GSTR-1 and GSTR-3B, the taxable value must be converted into Indian Rupees (INR) using the applicable CBIC exchange rate on the invoice date.',
+  },
+  {
+    q: 'Is payment through PayPal, Stripe, or Wise considered valid foreign realization?',
+    a: 'Yes, provided the inward remittance is received in convertible foreign currency (or INR under permitted RBI mechanisms) and supported by a Foreign Inward Remittance Statement (FIRS/FIRA) from the processing bank.',
+  },
+  {
+    q: 'What is the GST rate for domestic freelance services within India?',
+    a: 'Domestic commercial consulting and IT services are taxed at 18% GST (9% CGST + 9% SGST for clients in your home state, or 18% IGST for interstate clients).',
+  },
+  {
+    q: 'Is invoice data created on this tool stored or sent to a server?',
+    a: 'No. All calculations, currency conversions, and printable layouts execute 100% locally in your web browser. No financial data, client names, or amounts are ever sent to our servers.',
+  },
+  {
+    q: 'Does this tool generate an electronic invoice (IRN) on the GST portal?',
+    a: 'No. E-invoicing through an IRP is mandatory only for businesses with aggregate turnover exceeding ₹5 Crore. For individual professionals and agencies below this threshold, this tool produces a fully compliant printable GST tax invoice.',
+  },
+];
+
 const structuredData = [
   {
     '@context': 'https://schema.org',
@@ -26,24 +69,14 @@ const structuredData = [
   {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    mainEntity: [
-      {
-        '@type': 'Question',
-        name: 'What SAC code do freelancers use for IT and software consulting?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Most freelance software developers, designers, digital marketers, and consultants use SAC Code 9983 (Other professional, technical, and business services) or SAC Code 998314 for IT design and development services.',
-        },
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: f.a,
       },
-      {
-        '@type': 'Question',
-        name: 'Do Indian freelancers need to charge GST on foreign clients?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'No. Services rendered to clients outside India qualify as "Export of Services" under Section 2(6) of the IGST Act. By filing a free Letter of Undertaking (LUT) in Form GST RFD-11 annually, freelancers can invoice in foreign currency at 0% IGST without paying tax.',
-        },
-      },
-    ],
+    })),
   },
 ];
 
@@ -208,6 +241,22 @@ const lastUpdated = '2026-09-15';
         </button>
       </div>
     </div>
+
+    <!-- FAQ Section -->
+    <section class="mt-16 pt-12 border-t border-base" aria-labelledby="faq-heading">
+      <h2 id="faq-heading" class="text-2xl sm:text-3xl font-bold text-base mb-8">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        {faqs.map((faq, i) => (
+          <details class="group rounded-xl border border-base bg-surface overflow-hidden" id={`faq-${i}`}>
+            <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+              <span>{faq.q}</span>
+              <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+            </summary>
+            <div class="px-6 pb-5 text-[15px] text-muted leading-relaxed border-t border-base pt-4">{faq.a}</div>
+          </details>
+        ))}
+      </div>
+    </section>
   </div>
 
   <script is:inline>

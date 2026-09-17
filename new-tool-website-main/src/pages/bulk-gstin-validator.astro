@@ -8,6 +8,49 @@ const description = 'Validate up to 50 GSTIN numbers in bulk offline. Verifies 1
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://taxzentic.com';
 const canonical = `${siteUrl}/bulk-gstin-validator`;
 
+const faqs = [
+  {
+    q: 'How many GSTINs can I check at once in this bulk validator?',
+    a: 'You can validate up to 50 GST numbers simultaneously in a single batch directly within your web browser.',
+  },
+  {
+    q: 'Does this tool check live registration status on the GST portal?',
+    a: 'No. It validates the 15-character structural format, 2-digit state code, embedded PAN, and the 15th-character checksum algorithm (ISO 7064 Mod 36, 36) completely offline without querying live government portal APIs.',
+  },
+  {
+    q: 'Are my client or vendor GST numbers uploaded to any server?',
+    a: 'No. All checksum algorithms and regex verifications run 100% locally in your device browser memory. No GST numbers or vendor lists are ever transmitted or stored.',
+  },
+  {
+    q: 'Can I paste GSTINs directly from Excel or Google Sheets?',
+    a: 'Yes. Simply copy a column of GST numbers from Excel, Google Sheets, or a CSV file and paste them into the input box. The tool automatically trims whitespace, ignores blank lines, and parses them.',
+  },
+  {
+    q: 'How does the tool handle duplicate GSTINs in the batch?',
+    a: 'Each entered GSTIN is validated in its original sequential order so that you can easily align and map results back to your source spreadsheet.',
+  },
+  {
+    q: 'What does an invalid checksum warning indicate?',
+    a: 'An invalid checksum indicates that the 15th check digit does not mathematically match the preceding 14 characters under the GSTN checksum formula, signifying a typo, transposed character, or fake number.',
+  },
+  {
+    q: 'Can this tool detect invalid state codes?',
+    a: 'Yes. The first two digits are verified against the official list of 2-digit Indian State and Union Territory GST codes (01 to 38, and 97/99). Unassigned codes are flagged immediately.',
+  },
+  {
+    q: 'Does a structurally valid GSTIN guarantee that the taxpayer is currently active?',
+    a: 'No. A structurally valid GSTIN confirms mathematical and format correctness. To verify whether the registration is active, cancelled, or suspended, verify the taxpayer on the official GST portal (gst.gov.in).',
+  },
+  {
+    q: 'Can I export the batch validation results?',
+    a: 'Yes. You can export a comprehensive CSV report containing the GSTIN, validity status, state name, embedded PAN, entity type, and detailed verification notes with one click.',
+  },
+  {
+    q: 'What should I do if a vendor GSTIN fails validation?',
+    a: 'Request a copy of the vendor\'s official GST Registration Certificate (Form GST REG-06) or verify their original invoice to rectify typographical errors before claiming ITC in GSTR-3B.',
+  },
+];
+
 const structuredData = [
   {
     '@context': 'https://schema.org',
@@ -26,24 +69,14 @@ const structuredData = [
   {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    mainEntity: [
-      {
-        '@type': 'Question',
-        name: 'How does the GSTIN checksum validation algorithm work?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'The 15th character of a GSTIN is an algorithmic checksum calculated using a modified Luhn formula (ISO 7064 Mod 36, 36). It verifies the integrity of the preceding 14 alphanumeric characters and detects typographical errors.',
-        },
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: f.a,
       },
-      {
-        '@type': 'Question',
-        name: 'Is it safe to validate GSTINs in bulk on Taxzentic?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Yes, 100% safe. All checksum verifications and PAN extractions run locally in your browser using client-side JavaScript. No GST numbers or vendor lists are ever sent to our servers.',
-        },
-      },
-    ],
+    })),
   },
 ];
 
@@ -151,6 +184,22 @@ const lastUpdated = '2026-09-15';
         </div>
       </div>
     </div>
+
+    <!-- FAQ Section -->
+    <section class="mt-16 pt-12 border-t border-base" aria-labelledby="faq-heading">
+      <h2 id="faq-heading" class="text-2xl sm:text-3xl font-bold text-base mb-8">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        {faqs.map((faq, i) => (
+          <details class="group rounded-xl border border-base bg-surface overflow-hidden" id={`faq-${i}`}>
+            <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+              <span>{faq.q}</span>
+              <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+            </summary>
+            <div class="px-6 pb-5 text-[15px] text-muted leading-relaxed border-t border-base pt-4">{faq.a}</div>
+          </details>
+        ))}
+      </div>
+    </section>
   </div>
 
   <script is:inline>

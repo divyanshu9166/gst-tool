@@ -5,13 +5,57 @@ const title = 'GST Credit Note & Debit Note Generator';
 const description = 'Generate GST-compliant credit notes and debit notes instantly. Auto-calculates tax adjustments with CGST/SGST/IGST split. Free PDF download.';
 
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://taxzentic.com';
+const canonical = `${siteUrl}/credit-debit-note-generator`;
+
+const faqs = [
+  {
+    q: 'What is the statutory time limit for issuing a credit note under GST?',
+    a: 'Under Section 34(2) of the CGST Act, a credit note must be declared in the return for the month in which it is issued, but no later than 30th November following the end of the financial year in which the original supply was made, or the date of filing the annual return (GSTR-9), whichever is earlier.',
+  },
+  {
+    q: 'When must a debit note be issued under Section 34(3) of the CGST Act?',
+    a: 'A supplier must issue a debit note when the taxable value or tax charged in the original invoice is found to be less than the actual taxable value or tax payable (e.g. price escalation, short billing, or quality charge adjustments).',
+  },
+  {
+    q: 'Does the recipient buyer have to reverse Input Tax Credit (ITC) when a credit note is issued?',
+    a: 'Yes. Under Section 34(2), when a supplier issues a GST credit note to reduce tax liability, the recipient is legally required to reverse the corresponding ITC in Form GSTR-3B to maintain parity with auto-populated GSTR-2B.',
+  },
+  {
+    q: 'What is the difference between a GST credit note and a financial/commercial credit note?',
+    a: 'A GST credit note adjusts both taxable turnover and GST liability, requiring reporting in GSTR-1 Table 9B. A financial (commercial) credit note settles commercial balances or post-sale volume rebates without altering GST liability or requiring ITC reversal.',
+  },
+  {
+    q: 'Can a single credit note be issued against multiple original tax invoices?',
+    a: 'Yes. Following the amendment to Section 34 of the CGST Act, suppliers are legally permitted to issue a single consolidated credit or debit note linking multiple invoices issued during a financial year.',
+  },
+  {
+    q: 'Where are credit notes and debit notes reported in Form GSTR-1?',
+    a: 'Registered B2B credit and debit notes are reported in Table 9B (Credit/Debit Notes Registered). B2B export notes are declared in Table 9B (Unregistered/Exports), and B2C notes are adjusted net against total sales in Table 7.',
+  },
+  {
+    q: 'What mandatory fields must appear on a GST credit note or debit note?',
+    a: 'Under Rule 53 of CGST Rules, mandatory fields include: supplier name/GSTIN, unique serial number (up to 16 alphanumeric characters), issue date, recipient name/GSTIN, reference to original invoice number and date, differential taxable value, tax rate, and signature.',
+  },
+  {
+    q: 'Does a debit note allow the recipient buyer to claim additional Input Tax Credit?',
+    a: 'Yes. A debit note is treated like a supplementary invoice under Section 16. The buyer is eligible to claim ITC on the additional tax charged, subject to the time limits specified in Section 16(4).',
+  },
+  {
+    q: 'What happens if a supplier issues a credit note after the 30th November deadline?',
+    a: 'If a credit note is issued after 30th November of the subsequent financial year, the supplier cannot reduce their outward GST tax liability. However, they can still issue a financial credit note to adjust commercial ledger balances with the client.',
+  },
+  {
+    q: 'Does this generator store my invoice numbers, buyer details, or client data?',
+    a: 'No. All document creation, tax calculations, and print formatting execute 100% locally in your web browser. No business records, GSTINs, or invoice details are transmitted or saved.',
+  },
+];
 
 const structuredData = [
   {
     '@context': 'https://schema.org',
     '@type': 'WebApplication',
     name: 'GST Credit Note & Debit Note Generator',
-    url: `${siteUrl}/credit-debit-note-generator`,
+    url: canonical,
     description: 'Generate GST-compliant credit and debit notes. Auto-calculates CGST/SGST/IGST adjustments. Free PDF download.',
     applicationCategory: 'FinanceApplication',
     operatingSystem: 'Any',
@@ -20,28 +64,18 @@ const structuredData = [
   {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    mainEntity: [
-      {
-        '@type': 'Question',
-        name: 'When should a credit note be issued under GST?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'A credit note must be issued when: (1) the taxable value or tax charged in the original invoice exceeds the actual amount, (2) goods are returned by the buyer, (3) services are deficient, or (4) a post-sale discount is given. It must be reported in GSTR-1 of the month it is issued.',
-        },
+    mainEntity: faqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.q,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.a,
       },
-      {
-        '@type': 'Question',
-        name: 'What is the time limit for issuing credit notes under GST?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'A credit note must be issued on or before 30th November of the year following the financial year in which the original invoice was issued, or the date of filing the annual return (GSTR-9) for that year, whichever is earlier.',
-        },
-      },
-    ],
+    })),
   },
 ];
 
-const lastUpdated = '2026-07-25';
+const lastUpdated = '2026-09-15';
 const breadcrumb = [
   { name: 'Home', href: '/' },
   { name: 'Lookups & Tools', href: '/#tools-heading' },
@@ -49,7 +83,7 @@ const breadcrumb = [
 ];
 ---
 
-<BaseLayout {title} {description} {structuredData} {breadcrumb} {lastUpdated}>
+<BaseLayout {title} {description} {canonical} {structuredData} {breadcrumb} {lastUpdated}>
   <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-12">
     <div class="mb-10 text-center">
       <h1 class="text-3xl sm:text-4xl font-bold text-base mb-3 tracking-[-1.28px]">
@@ -230,12 +264,7 @@ const breadcrumb = [
     <div class="mt-12 border-t border-base pt-10">
       <h2 class="text-[24px] font-semibold text-base mb-6 tracking-[-0.6px]">Frequently Asked Questions</h2>
       <div class="space-y-3">
-        {[
-          { q: 'What is the time limit for issuing a credit note under GST?', a: 'A credit note must be declared in the return for the month in which it is issued, but no later than 30th November following the end of the financial year of the original supply, or the date of filing annual return (GSTR-9), whichever is earlier.' },
-          { q: 'Does the buyer need to reverse ITC when a credit note is issued?', a: 'Yes. When a supplier issues a credit note, the corresponding ITC claimed by the buyer must be reversed. If the buyer does not reverse the ITC, the credit note will appear as a mismatch in GSTR-2B reconciliation.' },
-          { q: 'Can a credit note be issued without GST?', a: 'Yes. A financial or commercial credit note (without GST implications) can be issued for post-sale discounts if the discount was not part of the original agreement. However, this type of credit note cannot be used to adjust GST liability or ITC.' },
-          { q: 'How is a credit note reported in GSTR-1?', a: 'Credit notes are reported in Table 9B of GSTR-1. For B2B credit notes, you need to mention the original invoice number, GSTIN of the buyer, and the tax amounts. B2C credit notes are reported in aggregate.' },
-        ].map((faq, i) => (
+        {faqs.map((faq, i) => (
           <details class="group rounded-[8px] border border-base bg-surface overflow-hidden" id={`faq-cn-${i}`}>
             <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
               <span class="text-[15px]">{faq.q}</span>

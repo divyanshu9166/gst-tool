@@ -9,7 +9,11 @@
     "preview": "astro preview",
     "astro": "astro",
     "indexnow": "node scripts/submit-indexnow.js",
-    "verify:assets": "node scripts/verify-assets.js"
+    "verify:assets": "node scripts/verify-assets.js",
+    "qa:seo": "node scripts/qa-seo.mjs",
+    "qa:links": "node scripts/qa-links.mjs",
+    "qa:logic": "node scripts/qa-logic.mjs",
+    "qa:all": "npm run qa:seo && npm run qa:links && npm run qa:logic && npm run verify:assets"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.2.1",

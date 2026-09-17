@@ -6,6 +6,50 @@ const title = 'MSME Delayed Payment Interest Calculator (Section 16 Rules)';
 const description = 'Calculate statutory compound interest on delayed payments to Micro & Small Enterprises (MSEs) under Section 16 of the MSMED Act. Free 3x RBI bank rate monthly compounding calculator.';
 
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://taxzentic.com';
+const canonical = `${siteUrl}/msme-delayed-payment-calculator`;
+
+const faqs = [
+  {
+    q: 'What is the statutory interest rate on delayed payments to MSMEs under Section 16?',
+    a: 'Under Section 16 of the MSMED Act, 2006, the interest rate is strictly three times the RBI Bank Rate (currently 5.50%), amounting to 16.50% per annum. It is compounded with monthly rests and is mandatory by law.',
+  },
+  {
+    q: 'Who is eligible to claim interest under Section 16 of the MSMED Act?',
+    a: 'Delayed payment protections under Chapter V (Sections 15-24) apply strictly to Micro and Small Enterprises (MSEs) holding a valid Udyam registration on or before the invoice date. Medium enterprises and trading entities are excluded.',
+  },
+  {
+    q: 'What is the maximum statutory credit period for paying MSE suppliers?',
+    a: 'Under Section 15, the agreed payment period cannot exceed 45 days from the date of acceptance. If there is no written contract, payment must be released within 15 days. Any contract clause attempting to enforce longer terms (e.g. 60 or 90 days) is void ab initio.',
+  },
+  {
+    q: 'What does "monthly rests" mean in Section 16 compound interest calculation?',
+    a: 'Monthly rests means that at the end of each calendar month, accrued statutory interest is added to the principal balance, and subsequent interest is calculated on this cumulative amount. This prevents debtors from treating unpaid balances as cheap credit.',
+  },
+  {
+    q: 'Can a buyer contractually agree with an MSE supplier to waive delayed payment interest?',
+    a: 'No. Section 16 contains an overriding non-obstante clause ("Notwithstanding anything contained in any agreement..."). Statutory interest is mandatory by operation of law and cannot be waived, reduced, or modified by contract.',
+  },
+  {
+    q: 'Is interest paid on delayed MSE payments tax-deductible for the buyer?',
+    a: 'No. Under Section 23 of the MSMED Act, interest paid or payable on delayed payments to Micro and Small enterprises is strictly non-deductible when computing taxable business profits under the Income-tax Act, 1961.',
+  },
+  {
+    q: 'How does Section 43B(h) of the Income Tax Act enforce timely payments to MSEs?',
+    a: 'Section 43B(h) disallows any payment due to a Micro or Small enterprise remaining unpaid beyond the Section 15 deadline (15/45 days) as a business deduction in that financial year, adding the overdue principal back to taxable income unless discharged before the financial year ends.',
+  },
+  {
+    q: 'Are retail and wholesale traders registered under Udyam eligible for Section 16 interest?',
+    a: 'No. As clarified by the Ministry of MSME (Office Memorandum No. 5/2(2)/2021-E/P&G/Policy), retail and wholesale traders (NIC codes 45, 46, and 47) registered under Udyam are eligible solely for Priority Sector Lending (PSL) benefits and cannot claim Section 16 remedies or Section 43B(h) protections.',
+  },
+  {
+    q: 'Where and how can an MSE supplier file a claim for delayed payment recovery?',
+    a: 'MSE suppliers can file an online reference against defaulting buyers on the MSME Samadhaan portal (samadhaan.msme.gov.in) before the Micro and Small Enterprise Facilitation Council (MSEFC) of their state, which conducts statutory conciliation and arbitration.',
+  },
+  {
+    q: 'Does this calculator output represent a formal legal decree?',
+    a: 'No. This calculator provides an accurate statutory estimate based on the current RBI Bank Rate (5.50%) and Section 16 compounding rules for financial planning and reconciliation. Official recovery requires reference to the MSEFC or appropriate legal forum.',
+  },
+];
 
 const structuredData = [
   {
@@ -21,40 +65,14 @@ const structuredData = [
   {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    mainEntity: [
-      {
-        '@type': 'Question',
-        name: 'MSME payment delay hone par interest kitna lagta hai?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'MSME Act ke Section 16 ke mutabik 3x RBI bank rate compound interest lagta hai. Current RBI bank rate 5.50% ke hisaab se yeh 16.50% p.a. banta hai aur monthly rests ke sath compound hota hai. Yeh interest mandatory hai aur contract se waive nahi ho sakta.',
-        },
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: f.a,
       },
-      {
-        '@type': 'Question',
-        name: 'Kya Medium enterprises aur traders delayed payment interest claim kar sakte hain?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Nahi. MSMED Act 2006 ke Chapter V (Section 15-24) ke provisions sirf Micro aur Small enterprises (MSEs) ke liye hain. Medium enterprises aur retail/wholesale traders (NIC codes 45, 46, 47) Section 16 statutory interest ya Section 43B(h) protection ke eligible nahi hain.',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: 'What is the interest rate on delayed payments to MSMEs?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Under Section 16 of the MSME Development Act 2006, the interest rate on delayed payments to Micro and Small enterprises is three times the bank rate notified by RBI (currently 5.50%). The applicable rate is 16.50% per annum, compounded with monthly rests.',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: 'What is the maximum payment period for MSE suppliers?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Buyers must pay Micro and Small suppliers within 45 days from the date of acceptance under written contract (or within 15 days if no written agreement exists). Any clause attempting to extend beyond 45 days is void by law.',
-        },
-      },
-    ],
+    })),
   },
 ];
 
@@ -66,7 +84,7 @@ const breadcrumb = [
 ];
 ---
 
-<BaseLayout {title} {description} {structuredData} {breadcrumb} {lastUpdated}>
+<BaseLayout {title} {description} {canonical} {structuredData} {breadcrumb} {lastUpdated}>
   <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-12">
     <div class="mb-10 text-center">
       <h1 class="text-3xl sm:text-4xl font-bold text-base mb-3 tracking-[-1.28px]">
@@ -182,7 +200,7 @@ const breadcrumb = [
         </div>
 
         <p>
-          Read our in-depth legal analysis: <a href="/blog/msme-delayed-payment-interest-rate-rbi-rules-2026" class="text-accent hover:underline font-medium">MSME Delayed Payment Interest Rate: 3x RBI Bank Rate Rules &amp; Section 16 Calculation (2026)</a>. For small business tax planning, also check our <a href="/msme-registration-checker" class="text-accent hover:underline">MSME Registration Checker</a>, our <a href="/blog/gst-for-freelancers-india-2026" class="text-accent hover:underline">GST for freelancers guide</a>, and our <a href="/gst-turnover-calculator" class="text-accent hover:underline">GST Turnover Calculator</a>.
+          Read our in-depth legal analysis: <a href="/blog/msme-delayed-payment-interest-rate-rbi-rules-2026" class="text-accent hover:underline font-medium">MSME Delayed Payment Interest Rate: 3x RBI Bank Rate Rules &amp; Section 16 Calculation (2026)</a>. For small business tax planning, also check our <a href="/msme-registration-checker" class="text-accent hover:underline">MSME Registration Checker</a>, our <a href="/blog/gst-for-freelancers-india-2026" class="text-accent hover:underline">GST for freelancers guide</a>, and our <a href="/aggregate-turnover-calculator" class="text-accent hover:underline">GST Aggregate Turnover Calculator</a>.
         </p>
       </div>
     </div>
@@ -191,13 +209,7 @@ const breadcrumb = [
     <div class="mt-12 border-t border-base pt-10">
       <h2 class="text-[24px] font-semibold text-base mb-6 tracking-[-0.6px]">Frequently Asked Questions</h2>
       <div class="space-y-3">
-        {[
-          { q: 'MSME payment delay hone par interest kitna lagta hai?', a: 'MSME Act ke Section 16 ke mutabik 3x RBI bank rate compound interest lagta hai. Current RBI bank rate 5.50% ke hisaab se statutory penalty rate 16.50% p.a. banta hai aur monthly rests ke sath compound hota hai. Yeh interest mandatory hai aur contract se waive nahi ho sakta.' },
-          { q: 'Is interest compounded monthly or annually?', a: 'Under Section 16 of the MSMED Act, interest is compounded monthly. This means interest is calculated on the principal amount and any previously accumulated interest at the end of each month.' },
-          { q: 'Can the buyer refuse to pay MSME interest?', a: 'No. The interest is a statutory obligation under the MSMED Act. The buyer cannot waive this through any contractual agreement. Additionally, the interest paid is not deductible as a business expense for income tax purposes, creating a double penalty.' },
-          { q: 'Where can MSME suppliers file complaints for delayed payments?', a: 'MSME suppliers can file complaints with the Micro and Small Enterprise Facilitation Council (MSEFC) in their state. The complaint can be filed online through the MSME Samadhaan portal (samadhaan.msme.gov.in).' },
-          { q: 'Does the 45-day rule apply to all buyers?', a: 'The 45-day rule applies when the buyer purchases goods or services from a supplier registered as an MSME (with valid Udyam registration). The size of the buyer does not matter — even large corporates and government entities are bound by this rule.' },
-        ].map((faq, i) => (
+        {faqs.map((faq, i) => (
           <details class="group rounded-[8px] border border-base bg-surface overflow-hidden" id={`faq-msme-${i}`}>
             <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
               <span class="text-[15px]">{faq.q}</span>

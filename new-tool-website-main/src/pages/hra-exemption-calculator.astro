@@ -8,6 +8,49 @@ const description = 'Calculate House Rent Allowance (HRA) tax exemption under Se
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://taxzentic.com';
 const canonical = `${siteUrl}/hra-exemption-calculator`;
 
+const faqs = [
+  {
+    q: 'What is the statutory formula to calculate HRA exemption in India?',
+    a: 'Under Rule 2A of the Income Tax Rules, HRA exemption is the minimum of: (1) Actual HRA received from employer, (2) Actual rent paid minus 10% of basic salary plus DA, or (3) 50% of basic salary for metro cities (Delhi, Mumbai, Kolkata, Chennai) or 40% for non-metro cities.',
+  },
+  {
+    q: 'Which cities qualify for the 50% metro HRA exemption limit?',
+    a: 'Under Income Tax Rule 2A, only four metropolitan cities qualify for the 50% basic salary cap: Delhi NCR, Mumbai, Kolkata, and Chennai. Tech hubs like Bengaluru, Hyderabad, and Pune are legally classified as non-metro (40% cap) until statutory notification is amended.',
+  },
+  {
+    q: 'Is HRA exemption available under the New Tax Regime (Section 115BAC)?',
+    a: 'No. HRA exemption under Section 10(13A) is not available under the New Tax Regime. To claim HRA exemption, taxpayers must opt for the Old Tax Regime when filing their Income Tax Return.',
+  },
+  {
+    q: 'Is the landlord PAN mandatory to claim HRA tax exemption?',
+    a: 'Yes, if total annual rent paid exceeds ₹1,00,000 (more than ₹8,333 per month), furnishing the landlord PAN to your employer is mandatory under CBDT circulars to prevent tax evasion.',
+  },
+  {
+    q: 'Can I claim HRA by paying rent to my parents?',
+    a: 'Yes, you can pay rent to your parents and claim HRA, provided your parents are legal owners of the residential property, rent is transferred via banking channels, and they report this rental income in their respective ITRs.',
+  },
+  {
+    q: 'Can I pay rent to my spouse and claim HRA exemption?',
+    a: 'No. Tax appellate tribunals have consistently held that paying rent to a spouse is invalid because marriage creates a mutual legal obligation to live together, and transactions between spouses for common residential shelter lack arm’s-length commercial substance.',
+  },
+  {
+    q: 'Can I claim both HRA exemption and Home Loan interest deduction under Section 24(b)?',
+    a: 'Yes. You can claim both HRA exemption and home loan deductions (Section 24(b) interest and Section 80C principal) if your owned property is situated in another city or cannot be occupied due to distance from your workplace.',
+  },
+  {
+    q: 'What if my salary has no HRA component or I am self-employed?',
+    a: 'Individuals who do not receive HRA can claim tax deduction on rent paid under Section 80GG, up to a statutory ceiling of ₹5,000 per month (₹60,000 per year), provided neither they nor their family owns residential accommodation in the city of work.',
+  },
+  {
+    q: 'What components are included in salary for HRA calculation purposes?',
+    a: 'For Rule 2A calculations, "salary" strictly includes Basic Pay + Dearness Allowance (DA) forming part of retirement benefits + commission based on a fixed percentage of turnover. Other allowances and bonuses are excluded.',
+  },
+  {
+    q: 'What should I do if I forgot to submit rent receipts to my employer?',
+    a: 'If you missed submitting rent receipts or landlord PAN to your employer for Form 16 TDS processing, you can still claim the eligible HRA deduction directly while filing your annual ITR (Form ITR-1 or ITR-2) and claim a tax refund.',
+  },
+];
+
 const structuredData = [
   {
     '@context': 'https://schema.org',
@@ -26,32 +69,14 @@ const structuredData = [
   {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    mainEntity: [
-      {
-        '@type': 'Question',
-        name: 'What is the formula to calculate HRA exemption in India?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Under Rule 2A of the Income Tax Rules, HRA exemption is the MINIMUM of the following three: (1) Actual HRA received from employer, (2) Rent paid minus 10% of basic salary + DA, (3) 50% of basic salary for metro cities (Delhi, Mumbai, Kolkata, Chennai) or 40% for non-metro cities.',
-        },
+    mainEntity: faqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.q,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.a,
       },
-      {
-        '@type': 'Question',
-        name: 'Is PAN of landlord mandatory to claim HRA?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Yes, if total annual rent paid exceeds ₹1,00,000 (i.e. more than ₹8,333 per month), it is mandatory to report the landlord’s PAN to your employer to claim HRA tax exemption.',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: 'Can I claim both HRA exemption and Home Loan tax deduction?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Yes! You can claim both HRA and home loan interest deduction (Section 24b) if your owned home is in a different city or you live in rented premises due to employment or distance from workplace, provided you do not receive rental income from the rented premises.',
-        },
-      },
-    ],
+    })),
   },
 ];
 
@@ -225,6 +250,22 @@ const lastUpdated = '2026-09-15';
         </p>
       </div>
     </div>
+
+    <!-- FAQ Section -->
+    <section class="mt-16 pt-12 border-t border-base" aria-labelledby="faq-heading">
+      <h2 id="faq-heading" class="text-2xl sm:text-3xl font-bold text-base mb-8">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        {faqs.map((faq, i) => (
+          <details class="group rounded-xl border border-base bg-surface overflow-hidden" id={`faq-${i}`}>
+            <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+              <span>{faq.q}</span>
+              <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+            </summary>
+            <div class="px-6 pb-5 text-[15px] text-muted leading-relaxed border-t border-base pt-4">{faq.a}</div>
+          </details>
+        ))}
+      </div>
+    </section>
   </div>
 
   <script is:inline>

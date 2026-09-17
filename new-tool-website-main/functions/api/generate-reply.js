@@ -103,9 +103,10 @@ Key legal references to consider:
 - Section 16(2) conditions for ITC eligibility
 - Section 16(5) & 16(6) retrospective relaxation for delayed ITC up to FY 2020-21
 - Section 73 (non-fraud demands, 3-year limitation) vs Section 74 (fraud/suppression, 5-year limitation)
+- Section 74A (unified determination of tax for FY 2024-25 onwards, 42-month SCN limitation, enacted via Finance (No. 2) Act, 2024)
 - Section 75(4) mandatory personal hearing before adverse order
 - Section 50 interest on delayed payment (proviso on net cash liability only)
-- Section 128A retrospective waiver of interest & penalty for FY 2017-20
+- Section 128A statutory waiver of interest & penalty for Section 73 cases pertaining to FY 2017-18 to 2019-20 (conditional on tax payment by notified deadline)
 - Rule 88C (DRC-01B turnover mismatch) and Rule 88D (DRC-01C ITC mismatch)
 - Rule 37 (180-day payment reversal)
 - CBIC Circular 183/15/2022-GST, Circular 193/05/2023-GST, Circular 170/02/2022-GST, Circular 122/41/2019-GST

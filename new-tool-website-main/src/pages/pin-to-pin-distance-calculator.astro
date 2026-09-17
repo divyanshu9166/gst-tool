@@ -2,12 +2,12 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const title = 'Pin to Pin Distance Calculator (Instant & Free) — E-Way Bill';
-const description = 'Calculate exact motorable road distance between Indian PIN codes for E-Way Bill generation. Includes official +10% NIC tolerance & validity days. 100% free.';
+const description = 'Estimate route distance for planning and calculate e-way bill validity; verify statutory distance in the official NIC system.';
 
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://taxzentic.com';
 const canonical = `${siteUrl}/pin-to-pin-distance-calculator`;
 
-const faqsList = [
+const faqs = [
   { q: 'Why is pincode-to-pincode distance important for GST?', a: 'Distance between supplier and recipient pincodes determines the validity period of an E-Way Bill. Shorter distances get shorter validity (1 day for up to 200 km), while longer distances allow more time. Knowing the exact distance helps you plan your logistics to avoid e-way bill expiry during transit.' },
   { q: 'E-way bill me pin to pin distance galat ho jaye toh kya kare?', a: 'Agar E-way bill me distance actual se kam ya jyada generate ho gaya hai, to GST rules ke mutabik ±10% variation allowed hai. Agar discrepancy 10% se jyada hai aur transport abhi start nahi hua, to 24 ghante ke andar E-way bill cancel karke naya generate karein. Transit start ho chuka hai toh Part-B me vehicle details update karein aur actual route record maintain karein.' },
   { q: 'How is e-way bill validity calculated based on distance?', a: 'Under GST Rule 138(10): For normal cargo, 1 day for every 200 km or part thereof. For Over-Dimensional Cargo (ODC) or multimodal shipments involving ship, 1 day for every 20 km or part thereof.' },
@@ -15,8 +15,9 @@ const faqsList = [
   { q: 'Is an e-way bill required for distances under 50 km?', a: 'Yes. If the consignment value exceeds ₹50,000 (or state-specific intra-state threshold), generating an E-Way Bill (Part A) is mandatory regardless of distance—even for 1 km. The 50-km rule under Rule 138(3) and Rule 138(5) is strictly an exemption from updating Part B (conveyance/vehicle details) when goods are moved intra-state between the consignor/consignee and the transporter\'s premises for further transit.' },
   { q: 'Can I extend an e-way bill if my vehicle is delayed?', a: 'Yes. You can extend the validity of an e-way bill on the NIC portal within 8 hours before or 8 hours after the exact time of expiry by updating Part-B with the current vehicle location and reason for delay.' },
   { q: 'What happens if goods are transported after e-way bill expiry?', a: 'Transporting goods with an expired e-way bill is treated as movement without documents, attracting detention under Section 129 and mandatory penalties equal to 200% of the applicable tax.' },
-  { q: 'How accurate are pincode distance calculations?', a: 'Pincode-to-pincode distance calculations estimate motorable road distance based on NHAI highways and postal centroid coordinates. Discrepancies within 10% are legally tolerated.' },
+  { q: 'How accurate are pincode distance calculations?', a: 'This tool provides a road-route transit estimate based on postal district centroids and standard highway circuity factors. While close to standard highway routes, it is an estimate for logistics planning. Official E-Way Bill generation uses NIC\'s proprietary PIN-to-PIN database, which allows a ±10% variance for actual route selection.' },
   { q: 'What should I do if distance shows 0 km on the E-Way Bill portal?', a: 'If distance shows 0 km, the PIN code pair is unmapped in the NIC database. You are legally allowed to manually enter the actual road distance from Google Maps or our calculator.' },
+  { q: 'Should I use Taxzentic distance directly as the official legal number on an E-Way Bill?', a: 'Taxzentic provides an estimated highway transit distance based on postal centroid coordinates for logistics planning and validity calculation. The official E-Way Bill portal (NIC) generates its own system distance when you enter both PIN codes. Always verify and rely on the official NIC distance or allowed ±10% tolerance during official E-Way Bill generation.' },
 ];
 
 const structuredData = [
@@ -37,7 +38,7 @@ const structuredData = [
   {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    mainEntity: faqsList.map((f) => ({
+    mainEntity: faqs.map((f) => ({
       '@type': 'Question',
       name: f.q,
       acceptedAnswer: {
@@ -56,7 +57,7 @@ const breadcrumb = [
 ];
 ---
 
-<BaseLayout {title} {description} {structuredData} {breadcrumb} {lastUpdated}>
+<BaseLayout {title} {description} {canonical} {structuredData} {breadcrumb} {lastUpdated}>
   <div class="mx-auto max-w-3xl px-4 sm:px-6 py-12 lg:py-24">
     <div class="mb-10 text-center">
       <div class="inline-flex items-center gap-2 rounded-full border border-base bg-surface px-4 py-1.5 text-[12px] font-mono uppercase tracking-wider text-muted mb-4 shadow-[0_1px_1px_#00000005]">
@@ -154,7 +155,7 @@ const breadcrumb = [
           </div>
 
           <p class="text-[11px] text-muted mt-4 max-w-lg mx-auto">
-            *Note: This estimation computes motorable distance via postal sub-region centroids with an NHAI highway routing factor. Official E-Way Bill generation uses the NIC proprietary distance engine. Always verify final values on the official portal.
+            *Note: This estimation computes highway transit distance via postal sub-region centroids with standard highway routing circuity factors. Official E-Way Bill generation uses the NIC proprietary distance engine. Always verify final values on the official portal.
           </p>
         </div>
       </div>
@@ -492,7 +493,7 @@ const breadcrumb = [
       <h2 class="text-[28px] tracking-[-1px] font-semibold text-base mb-2">Frequently Asked Questions</h2>
       <p class="text-muted text-[15px] mb-8">Questions about pincode distance calculation and its use in GST e-way bill compliance.</p>
       <div class="space-y-3">
-        {faqsList.map((faq, i) => (
+        {faqs.map((faq, i) => (
           <details class="group rounded-[8px] border border-base bg-surface overflow-hidden" id={`faq-pin-${i}`}>
             <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
               <span class="text-[15px]">{faq.q}</span>

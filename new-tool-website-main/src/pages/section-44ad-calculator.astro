@@ -8,6 +8,49 @@ const description = 'Calculate presumptive income and tax under Section 44AD for
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://taxzentic.com';
 const canonical = `${siteUrl}/section-44ad-calculator`;
 
+const faqs = [
+  {
+    q: 'What is the turnover limit for Section 44AD in FY 2025-26 & 2026-27?',
+    a: 'The standard turnover limit is ₹2 Crores. However, if aggregate cash receipts do not exceed 5% of total turnover, the enhanced threshold limit is ₹3 Crores.',
+  },
+  {
+    q: 'What are the deemed profit rates under Section 44AD?',
+    a: 'The statutory minimum deemed profit rate is 6% for turnover received through digital modes (UPI, NEFT, RTGS, debit/credit cards, cheques) and 8% for turnover received in cash.',
+  },
+  {
+    q: 'When is advance tax due under Section 44AD?',
+    a: 'Taxpayers opting for Section 44AD presumptive scheme are exempt from quarterly advance tax installments. They only need to pay 100% of their advance tax in a single installment on or before 15th March of the financial year.',
+  },
+  {
+    q: 'Can I declare higher profits than the 6% or 8% minimum threshold?',
+    a: 'Yes. The 6% and 8% rates are minimum statutory floors. If your actual business profit is higher, you can and should voluntarily declare the higher net profit in your ITR-4 without triggering any tax audit.',
+  },
+  {
+    q: 'What happens if I declare business profit lower than 6% or 8%?',
+    a: 'If your actual profit is lower than the presumptive rate and total income exceeds the basic tax exemption limit, you must maintain formal books of account under Section 44AA and obtain a Tax Audit report under Section 44AB from a Chartered Accountant.',
+  },
+  {
+    q: 'What is the 5-year lock-in restriction under Section 44AD(4)?',
+    a: 'If an eligible taxpayer opts out of Section 44AD in any financial year after claiming it earlier, they cannot opt back into Section 44AD for the subsequent 5 consecutive assessment years and must undergo tax audit.',
+  },
+  {
+    q: 'Are LLPs and private limited companies eligible for Section 44AD?',
+    a: 'No. Section 44AD is exclusively available to resident individuals, Hindu Undivided Families (HUFs), and partnership firms (excluding Limited Liability Partnerships). Companies and LLPs are strictly ineligible.',
+  },
+  {
+    q: 'Can professionals like doctors, lawyers, or engineers use Section 44AD?',
+    a: 'No. Specified professionals cannot use Section 44AD; they are covered under Section 44ADA, which prescribes a 50% minimum deemed profit rate for gross receipts up to ₹50 Lakhs (or ₹75 Lakhs with 95% digital receipts).',
+  },
+  {
+    q: 'Which ITR form is filed for Section 44AD presumptive income?',
+    a: 'Taxpayers declaring income under Section 44AD file the simplified Form ITR-4 (Sugam). They do not need to prepare complex balance sheets or profit and loss accounts required in Form ITR-3.',
+  },
+  {
+    q: 'Does this 44AD calculator store or transmit my turnover numbers?',
+    a: 'No. All calculations regarding cash ratios, deemed net profits, and threshold compliance execute 100% locally in your client web browser. No financial data is transmitted or stored.',
+  },
+];
+
 const structuredData = [
   {
     '@context': 'https://schema.org',
@@ -26,32 +69,14 @@ const structuredData = [
   {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    mainEntity: [
-      {
-        '@type': 'Question',
-        name: 'What is the turnover limit for Section 44AD in FY 2025-26 & 2026-27?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'The standard turnover limit is ₹2 Crores. However, if cash receipts do not exceed 5% of total turnover, the enhanced threshold limit is ₹3 Crores.',
-        },
+    mainEntity: faqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.q,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.a,
       },
-      {
-        '@type': 'Question',
-        name: 'What are the deemed profit rates under Section 44AD?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'The deemed minimum profit rate is 6% for turnover received via digital modes (banking channels, UPI, NEFT/RTGS, cards) and 8% for turnover received in cash.',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: 'When is advance tax due under Section 44AD?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Taxpayers opting for Section 44AD presumptive scheme are exempt from quarterly advance tax installments. They only need to pay 100% of their advance tax in a single installment on or before 15th March.',
-        },
-      },
-    ],
+    })),
   },
 ];
 
@@ -187,6 +212,22 @@ const lastUpdated = '2026-09-15';
         </div>
       </div>
     </div>
+
+    <!-- FAQ Section -->
+    <section class="mt-16 pt-12 border-t border-base" aria-labelledby="faq-heading">
+      <h2 id="faq-heading" class="text-2xl sm:text-3xl font-bold text-base mb-8">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        {faqs.map((faq, i) => (
+          <details class="group rounded-xl border border-base bg-surface overflow-hidden" id={`faq-${i}`}>
+            <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+              <span>{faq.q}</span>
+              <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+            </summary>
+            <div class="px-6 pb-5 text-[15px] text-muted leading-relaxed border-t border-base pt-4">{faq.a}</div>
+          </details>
+        ))}
+      </div>
+    </section>
   </div>
 
   <script is:inline>

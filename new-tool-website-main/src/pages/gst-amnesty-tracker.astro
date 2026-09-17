@@ -8,6 +8,49 @@ const description = 'Track live GST Amnesty Schemes and Section 128A interest an
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://taxzentic.com';
 const canonical = `${siteUrl}/gst-amnesty-tracker`;
 
+const faqs = [
+  {
+    q: 'Which tax periods are covered under the Section 128A GST Amnesty Scheme?',
+    a: 'Section 128A applies exclusively to demand notices, statements, or orders pertaining to Financial Years 2017-18, 2018-19, and 2019-20.',
+  },
+  {
+    q: 'Which demand notices qualify for the 100% interest and penalty waiver?',
+    a: 'Eligible demands are those issued under Section 73 (non-fraud, inadvertent errors, return discrepancies) or orders passed under Section 73(9), Section 107(11), or Section 108(1).',
+  },
+  {
+    q: 'Are notices issued under Section 74 eligible for Section 128A waiver?',
+    a: 'No. Demands involving fraud, willful misstatement, or suppression of facts under Section 74, as well as demands relating to erroneous refunds, are strictly excluded from the scheme.',
+  },
+  {
+    q: 'What is the payment condition to avail the Section 128A waiver?',
+    a: 'The taxpayer must discharge the entire underlying basic tax demand on or before the notified statutory date (March 31, 2025). Once the full tax is paid, 100% of the associated interest and penalty is waived.',
+  },
+  {
+    q: 'Which application form must be filed on the GST portal?',
+    a: 'Taxpayers must file an online application on the GST portal in Form GST SPL-01 (for notices/orders under Section 73) or Form GST SPL-02 (where an appeal or writ was pending).',
+  },
+  {
+    q: 'What happens if an appeal or writ petition is already pending against the demand?',
+    a: 'The taxpayer must formally withdraw the pending appeal or writ petition before the Appellate Authority, High Court, or Supreme Court and submit proof of withdrawal along with Form GST SPL-02.',
+  },
+  {
+    q: 'Can a taxpayer claim a refund of interest and penalty already paid prior to the scheme?',
+    a: 'No. Under Section 128A(2), no refund of any interest and penalty already deposited with the government prior to the notification of the scheme is admissible.',
+  },
+  {
+    q: 'What order does the proper officer issue upon accepting the waiver application?',
+    a: 'Upon validating payment of the full basic tax, the proper officer issues an order of conclusion in Form GST SPL-05 within 3 months, officially closing all interest and penalty proceedings.',
+  },
+  {
+    q: 'Does Section 128A apply to subsequent financial years (FY 2020-21 onwards)?',
+    a: 'No. Demands for FY 2020-21 onwards or unified determination notices under newly inserted Section 74A are not eligible under the Section 128A amnesty provision.',
+  },
+  {
+    q: 'Is this tracker an official legal approval of my GST waiver?',
+    a: 'No. This tool is an interactive eligibility calculator based on statutory provisions under Section 128A of the CGST Act and Rule 164. Official closure is confirmed only upon issuance of Form GST SPL-05 by the proper officer.',
+  },
+];
+
 const structuredData = [
   {
     '@context': 'https://schema.org',
@@ -26,32 +69,14 @@ const structuredData = [
   {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    mainEntity: [
-      {
-        '@type': 'Question',
-        name: 'What is Section 128A of the CGST Act?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Section 128A provides a statutory conditional waiver of full interest and penalties for demand notices or orders issued under Section 73 pertaining to Financial Years 2017-18, 2018-19, and 2019-20, provided the taxpayer pays the full underlying tax demand on or before the notified deadline (31st March 2025).',
-        },
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: f.a,
       },
-      {
-        '@type': 'Question',
-        name: 'Does Section 128A waiver apply to Section 74 notices?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'No. Section 128A specifically excludes notices issued under Section 74 (cases involving fraud, willful misstatement, or suppression of facts with intent to evade tax) as well as demands relating to erroneous refunds.',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: 'Can I claim a refund of penalties already paid before Section 128A was notified?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'No. The statute explicitly specifies that no refund of any interest and penalty already deposited prior to the scheme shall be granted.',
-        },
-      },
-    ],
+    })),
   },
 ];
 
@@ -158,6 +183,22 @@ const lastUpdated = '2026-09-15';
         <p>• Proper officer must issue waiver conclusion order in Form GST SPL-05 within 3 months</p>
       </div>
     </div>
+
+    <!-- FAQ Section -->
+    <section class="mt-16 pt-12 border-t border-base" aria-labelledby="faq-heading">
+      <h2 id="faq-heading" class="text-2xl sm:text-3xl font-bold text-base mb-8">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        {faqs.map((faq, i) => (
+          <details class="group rounded-xl border border-base bg-surface overflow-hidden" id={`faq-${i}`}>
+            <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+              <span>{faq.q}</span>
+              <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+            </summary>
+            <div class="px-6 pb-5 text-[15px] text-muted leading-relaxed border-t border-base pt-4">{faq.a}</div>
+          </details>
+        ))}
+      </div>
+    </section>
   </div>
 
   <script is:inline>

@@ -2,8 +2,8 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ToolIcon from '../components/ToolIcon.astro';
 
-const title = 'Free GST Notice Reply Generator (AI & Offline) — ASMT-10, DRC-01 & Section 73/74 Formats';
-const description = 'Generate legally grounded replies to GST notices (ASMT-10, DRC-01, DRC-01A/B/C) with statutory citations, CBIC circulars, Section 75(4) hearing prayers & instant PDF/Word export.';
+const title = 'GST Notice Reply Generator — AI-Assisted Drafting (ASMT-10, DRC-01 & Section 73/74/74A Formats)';
+const description = 'Generate legally grounded replies to GST notices (ASMT-10, DRC-01 u/s 73/74/74A, DRC-01A/B/C) with statutory citations, CBIC circulars, Section 75(4) hearing prayers & instant PDF/Word export.';
 
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://taxzentic.com';
 const canonical = `${siteUrl}/gst-notice-reply-generator`;
@@ -11,11 +11,11 @@ const canonical = `${siteUrl}/gst-notice-reply-generator`;
 const faqs = [
   {
     q: 'In which form and within what time limit must I reply to a Form GST ASMT-10 notice?',
-    a: 'Replies to scrutiny discrepancy notices in Form GST ASMT-10 must be filed online in Form GST ASMT-11 on the GST portal within 30 days of receipt (or within an extended period if permitted by the proper officer under Rule 99(2) of CGST Rules). If the explanation is accepted, the officer drops proceedings by issuing an order in Form GST ASMT-12. If not accepted, the officer may initiate audit under Section 65, inspection under Section 67, or issue a demand notice under Section 73 or 74.',
+    a: 'Replies to scrutiny discrepancy notices in Form GST ASMT-10 must be filed online in Form GST ASMT-11 on the GST portal within 30 days of receipt (or within an extended period if permitted by the proper officer under Rule 99(2) of CGST Rules). If the explanation is accepted, the officer drops proceedings by issuing an order in Form GST ASMT-12. If not accepted, the officer may initiate audit under Section 65, inspection under Section 67, or issue a demand notice under Section 73, 74, or 74A.',
   },
   {
     q: 'What is the statutory difference between Form ASMT-10, DRC-01A, and DRC-01?',
-    a: 'Form ASMT-10 is a scrutiny notice under Section 61 pointing out return discrepancies without determining final liability. Form DRC-01A is an informal pre-show-cause intimation under Rule 142(1A) enabling voluntary settlement before formal proceedings. Form DRC-01 is a formal Show Cause Notice (SCN) issued under Section 73 (non-fraud) or Section 74 (fraud/willful suppression) detailing tax, interest, and penalty demands, which requires a formal legal response in Form GST DRC-06.',
+    a: 'Form ASMT-10 is a scrutiny notice under Section 61 pointing out return discrepancies without determining final liability. Form DRC-01A is an informal pre-show-cause intimation under Rule 142(1A) enabling voluntary settlement before formal proceedings. Form DRC-01 is a formal Show Cause Notice (SCN) issued under Section 73 (non-fraud), Section 74 (fraud/willful suppression), or Section 74A (unified determination FY 2024-25 onwards) detailing tax, interest, and penalty demands, which requires a formal legal response in Form GST DRC-06.',
   },
   {
     q: 'Is an opportunity of Personal Hearing mandatory under Section 75(4) before passing a demand order?',
@@ -35,7 +35,7 @@ const faqs = [
   },
   {
     q: 'How can taxpayers avail the Section 128A Amnesty Scheme for waiver of interest and penalty?',
-    a: 'Section 128A of the CGST Act (introduced by Finance (No. 2) Act, 2024 and operationalized through Rule 164) grants a conditional waiver of 100% interest and penalty for demand notices or orders issued under Section 73 for Financial Years 2017-18, 2018-19, and 2019-20. To claim this waiver, the taxpayer must discharge the entire disputed tax amount on or before March 31, 2025 and submit an online application in Form GST SPL-01 or SPL-02.',
+    a: 'Section 128A of the CGST Act (enacted via Finance (No. 2) Act, 2024 and operationalized through Rule 164) grants a conditional statutory waiver of 100% interest and penalties for demand notices or orders issued under Section 73 (non-fraud cases) for Financial Years 2017-18, 2018-19, and 2019-20. The statutory benefit requires payment of the full admitted tax liability by the notified statutory deadline (March 31, 2025) and submission of Form GST SPL-01 or SPL-02. It does not apply to Section 74 fraud demands or subsequent determination periods under Section 74A.',
   },
   {
     q: 'Can the department demand interest under Section 50 on gross tax liability or only on net cash liability?',
@@ -43,7 +43,7 @@ const faqs = [
   },
   {
     q: 'What happens if a taxpayer fails to reply to a Show Cause Notice (DRC-01) within 30 days?',
-    a: 'If no reply or extension request is filed within 30 days, the proper officer will proceed to pass an ex-parte summary demand order in Form GST DRC-07 under Section 73(9) or Section 74(9). Once DRC-07 is passed, the tax, interest, and penalty become a crystallized Government debt subject to recovery proceedings under Section 79 (including bank account attachment and debtor garnishee orders) unless an appeal is filed before the Appellate Authority in Form GST APL-01 within 3 months under Section 107.',
+    a: 'If no reply or extension request is filed within 30 days, the proper officer will proceed to pass an ex-parte summary demand order in Form GST DRC-07 under Section 73(9), Section 74(9), or Section 74A(9). Once DRC-07 is passed, the tax, interest, and penalty become a crystallized Government debt subject to recovery proceedings under Section 79 (including bank account attachment and debtor garnishee orders) unless an appeal is filed before the Appellate Authority in Form GST APL-01 within 3 months under Section 107.',
   },
   {
     q: 'Where and how do I submit the notice reply online on the official GST Portal?',
@@ -55,9 +55,9 @@ const structuredData = [
   {
     '@context': 'https://schema.org',
     '@type': ['SoftwareApplication', 'WebApplication'],
-    name: 'GST Notice Reply Generator (AI & Offline)',
+    name: 'GST Notice Reply Generator — AI-Assisted Drafting',
     url: canonical,
-    description: 'AI and template-driven legal reply generator for GST scrutiny notices (ASMT-10), show cause notices (DRC-01 u/s 73/74), and intimation notices (DRC-01A/B/C). Drafts professional submissions with statutory citations, CBIC circulars, and Section 75(4) personal hearing prayers.',
+    description: 'AI-assisted and template-driven legal reply generator for GST scrutiny notices (ASMT-10), show cause notices (DRC-01 u/s 73, 74, and 74A), and intimation notices (DRC-01A/B/C). Drafts professional submissions with statutory citations, CBIC circulars, and Section 75(4) personal hearing prayers.',
     applicationCategory: 'FinanceApplication',
     operatingSystem: 'All',
     offers: {
@@ -240,8 +240,9 @@ const lastUpdated = '2026-09-15';
             <label for="notice-type" class="block text-xs font-semibold uppercase tracking-wider text-muted mb-1.5">Notice Type</label>
             <select id="notice-type" class="w-full rounded-xl border border-base bg-subtle px-3.5 py-2.5 text-sm focus:border-accent focus:outline-none transition-colors">
               <option value="ASMT-10">Form GST ASMT-10 (Scrutiny Notice u/s 61)</option>
-              <option value="DRC-01-73">Form GST DRC-01 (Show Cause Notice u/s 73 - Non-fraud)</option>
-              <option value="DRC-01-74">Form GST DRC-01 (Show Cause Notice u/s 74 - Fraud/Suppression)</option>
+              <option value="DRC-01-74A">Form GST DRC-01 (Determination Notice u/s 74A - FY 2024-25 onwards)</option>
+              <option value="DRC-01-73">Form GST DRC-01 (Show Cause Notice u/s 73 - Non-fraud up to FY 2023-24)</option>
+              <option value="DRC-01-74">Form GST DRC-01 (Show Cause Notice u/s 74 - Fraud/Suppression up to FY 2023-24)</option>
               <option value="DRC-01A">Form GST DRC-01A (Intimation of Tax Ascertained u/r 142(1A))</option>
               <option value="DRC-01B">Form GST DRC-01B (Rule 88C - Outward Liability Mismatch)</option>
               <option value="DRC-01C">Form GST DRC-01C (Rule 88D - ITC Mismatch GSTR-2B vs 3B)</option>
@@ -390,7 +391,7 @@ const lastUpdated = '2026-09-15';
               <svg class="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
               <span>AI Privacy &amp; Data Transparency</span>
             </div>
-            <span>Generating with AI sends entered notice fields to our secure serverless API &amp; Groq LLM solely to draft this text. No data is stored or used for model training. Standard template generation remains 100% offline.</span>
+            <span>Generating with AI sends entered notice fields to our secure serverless API &amp; Groq LLM solely to draft this text. No data is stored or used for model training. Standard template generation runs entirely client-side in your browser.</span>
           </div>
 
           <div class="grid grid-cols-2 gap-3">
@@ -794,7 +795,11 @@ const lastUpdated = '2026-09-15';
       let sectionCited = 'Section 61 of the CGST Act, 2017 read with Rule 99';
       let formPreamble = 'WRITTEN SUBMISSIONS IN FORM GST ASMT-11 TO SCRUTINY NOTICE';
 
-      if (type === 'DRC-01-73') {
+      if (type === 'DRC-01-74A') {
+        replyForm = 'Form GST DRC-06';
+        sectionCited = 'Section 74A of the CGST Act, 2017 (enacted via Finance (No. 2) Act, 2024) read with Rule 142(4)';
+        formPreamble = 'WRITTEN SUBMISSIONS IN FORM GST DRC-06 TO DETERMINATION NOTICE UNDER SECTION 74A';
+      } else if (type === 'DRC-01-73') {
         replyForm = 'Form GST DRC-06';
         sectionCited = 'Section 73 of the CGST Act, 2017 read with Rule 142(4)';
         formPreamble = 'WRITTEN SUBMISSIONS IN FORM GST DRC-06 TO SHOW CAUSE NOTICE UNDER SECTION 73';
