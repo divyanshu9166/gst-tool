@@ -1,39 +1,85 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const title = 'Old vs New GST Rate Comparison Tool';
-const description = 'Free offline old vs new GST rate comparison tool. Instantly calculate the GST 2.0 rate change impact on your prices and margins.';
+const title = 'Old vs New GST Rate Comparison Tool — Calculate Price & Tax Impact';
+const description = 'Compare old vs new GST rates to calculate price impact, tax variance, and consumer savings. Free browser calculator for GST rate changes, MRP revisions, and anti-profiteering compliance.';
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://taxzentic.com';
+const canonical = `${siteUrl}/gst-rate-comparison`;
+
+const faqs = [
+  {
+    q: 'What is the difference between legacy GST slabs and rationalized GST rates?',
+    a: 'Under the legacy GST framework, goods and services were classified into five primary slabs: 0% (exempt), 5%, 12%, 18%, and 28% (plus applicable compensation cess). Ongoing rate rationalization simplifies this multi-tier structure by phasing out the 12% slab—moving essential goods to 5% and standard goods to 18%—while introducing consolidated luxury brackets (such as 40%) to eliminate separate cess calculations.',
+  },
+  {
+    q: 'How do I calculate the price and tax impact of a GST rate change on a product?',
+    a: 'To calculate the exact price impact: (1) Determine the base price excluding tax. If you only have an MRP, reverse-calculate the base price using: Base Price = Old MRP ÷ (1 + Old Rate / 100). (2) Calculate old tax = Base Price × Old Rate / 100. (3) Calculate new tax = Base Price × New Rate / 100. (4) The price impact equals New Tax minus Old Tax. If negative, the consumer saves money; if positive, retail prices increase.',
+  },
+  {
+    q: 'Is a business legally required to reduce prices if the GST rate drops on its products?',
+    a: 'Yes. Under Section 171 of the CGST Act (Anti-Profiteering), any reduction in the rate of tax on any supply of goods or services, or the benefit of input tax credit, must be passed on to the recipient by way of a commensurate reduction in prices. Failure to pass on tax reductions can trigger investigations by the Competition Commission of India (CCI), mandatory refunds to consumers, and statutory penalties.',
+  },
+  {
+    q: 'Does a reduction in GST rate require a business to reverse Input Tax Credit (ITC)?',
+    a: 'A reduction between taxable brackets (e.g. from 18% down to 12% or 5%) does NOT require any reversal of ITC already availed on previously purchased inputs or capital goods. However, if a product is reclassified from taxable to wholly exempt (0%), the taxpayer must reverse proportionate ITC on raw materials and semi-finished/finished goods held in stock under Section 18(4) and Rule 42 of the CGST Rules.',
+  },
+  {
+    q: 'Which GST rate applies to invoices issued during a rate transition period (Section 14)?',
+    a: 'Under Section 14 of the CGST Act (Determination of rate of tax in change of rate), applicability depends on three dates: supply of goods/services, issue of invoice, and receipt of payment. If the supply occurs before the rate change but both the invoice and payment occur after the change, the new rate applies. If the supply and invoice occur before the change, the old rate applies regardless of payment date.',
+  },
+  {
+    q: 'How does a GST rate change affect Inverted Duty Structure (IDS) refund claims?',
+    a: 'An Inverted Duty Structure occurs when the GST rate on inward inputs is higher than the rate on outward supplies. If an outward rate is reduced (e.g., from 18% to 5%), it may create an inverted duty structure, entitling the manufacturer to claim a refund of accumulated unutilized ITC under Section 54(3)(ii) of the CGST Act (subject to statutory exclusions for input services).',
+  },
+  {
+    q: 'What is the 40% GST slab and which commodities does it cover?',
+    a: 'The 40% GST slab is a unified demerit and luxury tax bracket designed to replace the complex mechanism of a 28% base GST rate plus variable Compensation Cess. It covers sin goods, high-end motor vehicles, aerated sugary beverages, tobacco products, and pan masala, ensuring revenue neutrality while streamlining the invoicing and reporting process.',
+  },
+  {
+    q: 'How does a GST rate change impact B2B buyers compared to B2C retail consumers?',
+    a: 'For registered B2B buyers who claim full Input Tax Credit, a GST rate change is generally cashflow-neutral because any tax paid on purchases is set off against output tax liabilities. For unregistered end consumers (B2C), any change in GST directly impacts total out-of-pocket expenditure, altering market demand and product affordability.',
+  },
+  {
+    q: 'Can a seller issue Credit Notes or Debit Notes for rate adjustments after delivery?',
+    a: 'Yes. Under Section 34 of the CGST Act, if an invoice was raised at an old rate and the statutory effective date mandates a revised rate, the supplier can issue a Debit Note (if the rate was increased) to recover the tax differential, or a Credit Note (if the rate was reduced) to pass on the tax saving to the recipient.',
+  },
+  {
+    q: 'Do retailers need to print new MRP stickers on existing inventory after a rate change?',
+    a: 'Under the Legal Metrology (Packaged Commodities) Rules and ministry advisories issued during GST rate revisions, manufacturers, packers, and retailers are permitted to affix revised price stickers on existing unsold inventory showing the lower revised MRP alongside the original MRP, ensuring consumers are not overcharged.',
+  },
+];
 
 const structuredData = [
   {
     '@context': 'https://schema.org',
     '@type': 'WebApplication',
-    name: 'GST Rate Comparison Tool',
-    url: `${Astro.site?.toString() ?? 'https://example.com'}/gst-rate-comparison`,
+    name: 'Old vs New GST Rate Comparison Tool',
+    url: canonical,
     description: description,
     applicationCategory: 'FinanceApplication',
     operatingSystem: 'Any',
-    offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR' },
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'INR',
+    },
   },
   {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    mainEntity: [
-      { '@type': 'Question', name: 'What is the difference between old GST rates and GST 2.0 rates?', acceptedAnswer: { '@type': 'Answer', text: 'Before September 2025, GST had five slabs: 0%, 5%, 12%, 18%, and 28%. Under GST 2.0 (effective 22 September 2025), the structure was simplified to mainly 0%, 5%, and 18%, with a new 40% luxury slab. The 12% and 28% slabs were largely merged or restructured.' } },
-      { '@type': 'Question', name: 'How do I calculate the price impact of a GST rate change on my product?', acceptedAnswer: { '@type': 'Answer', text: 'To calculate the price impact: (1) Multiply the base price (excluding tax) by the old rate to get old tax. (2) Multiply the same base price by the new rate to get new tax. (3) The difference in tax amounts is the price impact on the consumer. Our Rate Comparison tool does this instantly.' } },
-      { '@type': 'Question', name: 'If the GST rate on my product dropped, should I reduce my selling price?', acceptedAnswer: { '@type': 'Answer', text: 'Legally, yes. Under the Anti-Profiteering provisions (Section 171 of the CGST Act), if a GST rate reduction results in lower tax, the supplier must pass on the commensurate benefit to the consumer by reducing prices. Failure to do so can attract anti-profiteering investigations.' } },
-      { '@type': 'Question', name: 'Does a GST rate change affect my Input Tax Credit (ITC)?', acceptedAnswer: { '@type': 'Answer', text: 'A rate reduction to a lower taxable slab (e.g., 12% to 5%) does not generally require ITC reversal. However, if the rate drops to 0% (Exempt), you must reverse ITC proportional to your exempt supplies under Rule 42/43.' } },
-      { '@type': 'Question', name: 'What is the new 40% GST slab introduced in GST 2.0?', acceptedAnswer: { '@type': 'Answer', text: 'The 40% GST slab was introduced as a new luxury/sin goods category under GST 2.0. It applies to certain high-value luxury goods, aerated beverages, tobacco products, and sin goods that were previously taxed at 28% plus applicable cess.' } },
-      { '@type': 'Question', name: 'How does the GST rate change affect my MRP-inclusive pricing?', acceptedAnswer: { '@type': 'Answer', text: 'If your product is sold at MRP-inclusive prices, a GST rate change means you must recalculate your base margin. Use our MRP Revision Calculator to find the exact new MRP that preserves your original base price and margin after the rate change.' } },
-      { '@type': 'Question', name: 'When did GST 2.0 rates become effective?', acceptedAnswer: { '@type': 'Answer', text: 'GST 2.0 rate changes became effective from 22 September 2025, following the decisions of the 55th GST Council Meeting. The simplified slab structure (0%, 5%, 18%, 40%) replaced the older five-tier system.' } },
-      { '@type': 'Question', name: 'Are services also affected by GST 2.0 rate changes?', acceptedAnswer: { '@type': 'Answer', text: 'Yes, some services were also reclassified under GST 2.0. The 12% slab for several service categories was abolished, with services moving to either the 5% or 18% bracket depending on their nature.' } },
-      { '@type': 'Question', name: 'Can I use old GST rates for invoices raised before the GST 2.0 change date?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. Invoices dated before the effective date of the rate change (22 September 2025) should use the old applicable rates. Only invoices from the effective date onwards must use the new GST 2.0 rates.' } },
-      { '@type': 'Question', name: 'What is a rate comparison tool useful for?', acceptedAnswer: { '@type': 'Answer', text: 'A GST rate comparison tool is useful for: (1) Calculating the exact consumer price difference between old and new rates, (2) Planning product pricing strategy after a rate change, (3) Training your billing team on the new tax amounts, and (4) Communicating price changes transparently to customers.' } },
-    ]
-  }
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: f.a,
+      },
+    })),
+  },
 ];
 
-const lastUpdated = '2026-07-25';
+const lastUpdated = '2026-09-17';
 const breadcrumb = [
   { name: 'Home', href: '/' },
   { name: 'Calculators', href: '/#tools-heading' },
@@ -41,206 +87,647 @@ const breadcrumb = [
 ];
 ---
 
-<BaseLayout {title} {description} {structuredData} {breadcrumb} {lastUpdated}>
+<BaseLayout {title} {description} {canonical} {structuredData} {breadcrumb} {lastUpdated}>
   <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-12">
-    <div class="mb-12 text-center">
-      <h1 class="text-4xl sm:text-5xl font-semibold tracking-[-1.28px] text-base mb-4">Old vs New GST Rate Comparison Tool</h1>
+    <!-- Header -->
+    <div class="mb-10 text-center">
+      <div class="inline-flex items-center gap-2 rounded-full border border-base bg-surface px-4 py-1.5 text-[12px] font-mono uppercase tracking-wider text-muted mb-4 shadow-sm">
+        <span class="h-1.5 w-1.5 rounded-full bg-accent"></span>
+        Rate Migration &amp; Pricing Impact Calculator
+      </div>
+      <h1 class="text-3xl sm:text-5xl font-bold tracking-tight text-base mb-4">
+        Old vs New GST Rate Comparison Tool
+      </h1>
       <p class="text-[16px] text-muted max-w-2xl mx-auto leading-relaxed">
-        <strong>How does GST 2.0 affect your pricing?</strong> Enter your base price and compare the old rate (pre-Sept-2025) with the new slab to instantly see the price impact for your customers.
+        Instantly analyze price variance, tax incidence shifts, and consumer savings resulting from GST rate revisions and slab rationalizations.
       </p>
     </div>
 
+    <!-- Quick Presets Bar -->
+    <div class="max-w-4xl mx-auto mb-6">
+      <div class="rounded-xl border border-base bg-surface p-4 shadow-sm">
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-2.5">
+          <span class="text-xs font-semibold uppercase tracking-wider text-muted">Common Rate Migration Presets</span>
+          <span class="text-[11px] font-mono text-muted">Click to auto-populate rates</span>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <button type="button" class="preset-btn px-3 py-1.5 text-xs font-medium rounded-lg border border-base bg-subtle hover:border-accent hover:text-accent transition-colors" data-old="12" data-new="5">
+            12% → 5% (Textiles, Food, Essentials)
+          </button>
+          <button type="button" class="preset-btn px-3 py-1.5 text-xs font-medium rounded-lg border border-base bg-subtle hover:border-accent hover:text-accent transition-colors" data-old="12" data-new="18">
+            12% → 18% (Standard Services)
+          </button>
+          <button type="button" class="preset-btn px-3 py-1.5 text-xs font-medium rounded-lg border border-base bg-subtle hover:border-accent hover:text-accent transition-colors" data-old="28" data-new="18">
+            28% → 18% (Automotive Parts &amp; Appliances)
+          </button>
+          <button type="button" class="preset-btn px-3 py-1.5 text-xs font-medium rounded-lg border border-base bg-subtle hover:border-accent hover:text-accent transition-colors" data-old="18" data-new="5">
+            18% → 5% (Medical Equipment &amp; Green Tech)
+          </button>
+          <button type="button" class="preset-btn px-3 py-1.5 text-xs font-medium rounded-lg border border-base bg-subtle hover:border-accent hover:text-accent transition-colors" data-old="28" data-new="40">
+            28% → 40% (Luxury &amp; Sin Goods Slab)
+          </button>
+        </div>
+      </div>
+    </div>
+
     <div class="max-w-4xl mx-auto space-y-8">
-      
-      <!-- Inputs -->
-      <div class="rounded-[8px] border border-base bg-surface p-[24px] shadow-[0_2px_2px_#0000000a,0_8px_8px_-8px_#0000000a]">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <!-- Inputs Card -->
+      <div class="rounded-2xl border border-base bg-surface p-6 sm:p-8 shadow-sm">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
           
-          <div>
-            <label for="base-price" class="block text-[14px] font-medium text-base mb-2">Base Price (excl. tax)</label>
+          <!-- Price Input Mode & Value -->
+          <div class="md:col-span-6 space-y-2">
+            <div class="flex items-center justify-between">
+              <label for="price-input" class="text-sm font-semibold text-base" id="price-label">Price Amount</label>
+              <!-- Pricing Mode Radio Toggle -->
+              <div class="inline-flex rounded-lg border border-base bg-subtle p-0.5 text-xs">
+                <button type="button" id="mode-base" class="px-2.5 py-1 rounded-md font-medium bg-surface text-base shadow-sm transition-all">Base Price</button>
+                <button type="button" id="mode-mrp" class="px-2.5 py-1 rounded-md font-medium text-muted hover:text-base transition-all">Tax-Inclusive MRP</button>
+              </div>
+            </div>
             <div class="relative">
-              <span class="absolute left-4 top-1/2 -translate-y-1/2 text-muted font-medium select-none" aria-hidden="true">₹</span>
-              <input id="base-price" type="number" min="0" placeholder="0" value="1000" class="w-full rounded-[8px] border border-base bg-subtle pl-9 pr-4 py-3 text-[16px] focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 transition-all shadow-inner" />
+              <span class="absolute left-4 top-1/2 -translate-y-1/2 text-muted font-medium select-none font-mono" aria-hidden="true">₹</span>
+              <input 
+                id="price-input" 
+                type="number" 
+                min="0" 
+                step="any"
+                placeholder="1000" 
+                value="1000" 
+                class="w-full rounded-xl border border-base bg-subtle pl-9 pr-4 py-3 text-[16px] font-mono focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent transition-all" 
+              />
+            </div>
+            <p class="text-[11px] text-muted" id="price-hint">Base price before any GST is added.</p>
+          </div>
+
+          <!-- Supply Nature (Intra vs Inter) -->
+          <div class="md:col-span-6 space-y-2">
+            <label for="supply-type" class="text-sm font-semibold text-base">Supply Location &amp; Tax Type</label>
+            <select id="supply-type" class="w-full rounded-xl border border-base bg-subtle px-4 py-3 text-sm focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent transition-all cursor-pointer">
+              <option value="intra" selected>Intra-State Supply (CGST 50% + SGST 50%)</option>
+              <option value="inter">Inter-State Supply (IGST 100%)</option>
+            </select>
+            <p class="text-[11px] text-muted">Determines CGST/SGST local tax split versus integrated IGST.</p>
+          </div>
+
+          <!-- Old Rate Selection -->
+          <div class="md:col-span-6 space-y-2">
+            <label for="old-rate" class="text-sm font-semibold text-base">Previous / Old GST Rate</label>
+            <div class="grid grid-cols-3 gap-2">
+              <select id="old-rate" class="col-span-2 rounded-xl border border-base bg-subtle px-3.5 py-2.5 text-sm focus:border-accent focus:outline-none transition-all cursor-pointer">
+                <option value="0">0% (Nil / Exempt)</option>
+                <option value="3">3% (Precious Metals / Gold)</option>
+                <option value="5">5% (Essential Goods)</option>
+                <option value="12" selected>12% (Standard Lower)</option>
+                <option value="18">18% (Standard Higher)</option>
+                <option value="28">28% (Luxury / Automobiles)</option>
+                <option value="custom">Custom Rate...</option>
+              </select>
+              <input 
+                id="old-custom-rate" 
+                type="number" 
+                min="0" 
+                max="100" 
+                step="0.01" 
+                placeholder="%" 
+                disabled 
+                class="rounded-xl border border-base bg-subtle px-3 py-2.5 text-sm font-mono opacity-50 focus:border-accent focus:outline-none transition-all" 
+              />
             </div>
           </div>
-          
-          <div>
-            <label for="old-rate" class="block text-[14px] font-medium text-base mb-2">Old Rate (Legacy)</label>
-            <select id="old-rate" class="w-full rounded-[8px] border border-base bg-subtle px-4 py-3 text-[16px] focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 transition-all cursor-pointer">
-              <option value="0">0%</option>
-              <option value="5">5%</option>
-              <option value="12" selected>12%</option>
-              <option value="18">18%</option>
-              <option value="28">28%</option>
-            </select>
-          </div>
-          
-          <div>
-            <label for="new-rate" class="block text-[14px] font-medium text-base mb-2">New Rate (GST 2.0)</label>
-            <select id="new-rate" class="w-full rounded-[8px] border border-base bg-subtle px-4 py-3 text-[16px] focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 transition-all cursor-pointer">
-              <option value="0">0%</option>
-              <option value="5">5%</option>
-              <option value="18" selected>18%</option>
-              <option value="40">40%</option>
-            </select>
+
+          <!-- New Rate Selection -->
+          <div class="md:col-span-6 space-y-2">
+            <label for="new-rate" class="text-sm font-semibold text-base">Revised / New GST Rate</label>
+            <div class="grid grid-cols-3 gap-2">
+              <select id="new-rate" class="col-span-2 rounded-xl border border-accent/40 bg-accent/5 px-3.5 py-2.5 text-sm text-accent font-medium focus:border-accent focus:outline-none transition-all cursor-pointer">
+                <option value="0">0% (Nil / Exempt)</option>
+                <option value="3">3% (Precious Metals / Gold)</option>
+                <option value="5" selected>5% (Essential Goods)</option>
+                <option value="12">12% (Standard Lower)</option>
+                <option value="18">18% (Standard Higher)</option>
+                <option value="28">28% (Automobiles / Peak)</option>
+                <option value="40">40% (Consolidated Luxury/Sin)</option>
+                <option value="custom">Custom Rate...</option>
+              </select>
+              <input 
+                id="new-custom-rate" 
+                type="number" 
+                min="0" 
+                max="100" 
+                step="0.01" 
+                placeholder="%" 
+                disabled 
+                class="rounded-xl border border-base bg-subtle px-3 py-2.5 text-sm font-mono opacity-50 focus:border-accent focus:outline-none transition-all" 
+              />
+            </div>
           </div>
 
         </div>
       </div>
 
-      <!-- Outputs -->
+      <!-- Comparison Cards: Side by Side -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         
         <!-- Old Rate Card -->
-        <div class="rounded-[8px] border border-base bg-subtle p-[24px]">
-          <h2 class="text-[18px] font-semibold text-base mb-4 pb-2 border-b border-base text-muted">Old Tax Scenario</h2>
-          <div class="space-y-4">
-            <div class="flex justify-between items-center text-[15px]">
-              <span class="text-muted">Base Price</span>
-              <span class="font-medium" id="old-base">₹0</span>
+        <div class="rounded-2xl border border-base bg-surface p-6 shadow-sm">
+          <div class="flex items-center justify-between border-b border-base pb-3 mb-4">
+            <h2 class="text-base font-bold text-base">Old Tax Scenario</h2>
+            <span class="inline-flex items-center rounded-full bg-subtle px-2.5 py-0.5 text-xs font-mono font-medium text-muted" id="old-rate-badge">12% GST</span>
+          </div>
+
+          <div class="space-y-3 text-sm">
+            <div class="flex justify-between items-center">
+              <span class="text-muted">Net Base Taxable Value</span>
+              <span class="font-mono font-semibold text-base" id="old-base">₹1,000.00</span>
             </div>
-            <div class="flex justify-between items-center text-[15px]">
-              <span class="text-muted">GST Amount (<span id="old-rate-label">0%</span>)</span>
-              <span class="font-medium" id="old-tax">₹0</span>
+            
+            <div id="old-split-container" class="space-y-1.5 pl-2 border-l-2 border-base text-xs text-muted">
+              <div class="flex justify-between items-center" id="old-cgst-row">
+                <span>Central GST (CGST @ <span id="old-cgst-pct">6%</span>)</span>
+                <span class="font-mono" id="old-cgst-val">₹60.00</span>
+              </div>
+              <div class="flex justify-between items-center" id="old-sgst-row">
+                <span>State/UT GST (SGST @ <span id="old-sgst-pct">6%</span>)</span>
+                <span class="font-mono" id="old-sgst-val">₹60.00</span>
+              </div>
+              <div class="flex justify-between items-center hidden" id="old-igst-row">
+                <span>Integrated GST (IGST @ <span id="old-igst-pct">12%</span>)</span>
+                <span class="font-mono" id="old-igst-val">₹120.00</span>
+              </div>
             </div>
+
+            <div class="flex justify-between items-center pt-2 border-t border-base">
+              <span class="font-medium text-muted">Total Old Tax Amount</span>
+              <span class="font-mono font-semibold text-base" id="old-tax-total">₹120.00</span>
+            </div>
+
             <div class="flex justify-between items-center pt-3 border-t border-base">
-              <span class="text-[16px] font-semibold">Total Price (MRP)</span>
-              <span class="text-[24px] font-bold" id="old-total">₹0</span>
+              <span class="text-base font-bold">Total Customer Price (MRP)</span>
+              <span class="font-mono text-xl font-bold text-base" id="old-total">₹1,120.00</span>
             </div>
           </div>
         </div>
 
         <!-- New Rate Card -->
-        <div class="rounded-[8px] border border-accent bg-accent/5 p-[24px]">
-          <h2 class="text-[18px] font-semibold text-base mb-4 pb-2 border-b border-accent/20 text-accent">New Tax Scenario (GST 2.0)</h2>
-          <div class="space-y-4">
-            <div class="flex justify-between items-center text-[15px]">
-              <span class="text-muted">Base Price</span>
-              <span class="font-medium" id="new-base">₹0</span>
+        <div class="rounded-2xl border-2 border-accent/40 bg-accent/5 p-6 shadow-sm">
+          <div class="flex items-center justify-between border-b border-accent/20 pb-3 mb-4">
+            <h2 class="text-base font-bold text-accent">New Tax Scenario (Revised)</h2>
+            <span class="inline-flex items-center rounded-full bg-accent/10 px-2.5 py-0.5 text-xs font-mono font-semibold text-accent" id="new-rate-badge">5% GST</span>
+          </div>
+
+          <div class="space-y-3 text-sm">
+            <div class="flex justify-between items-center">
+              <span class="text-muted">Net Base Taxable Value</span>
+              <span class="font-mono font-semibold text-base" id="new-base">₹1,000.00</span>
             </div>
-            <div class="flex justify-between items-center text-[15px]">
-              <span class="text-muted">GST Amount (<span id="new-rate-label">0%</span>)</span>
-              <span class="font-medium" id="new-tax">₹0</span>
+
+            <div id="new-split-container" class="space-y-1.5 pl-2 border-l-2 border-accent/30 text-xs text-muted">
+              <div class="flex justify-between items-center" id="new-cgst-row">
+                <span>Central GST (CGST @ <span id="new-cgst-pct">2.5%</span>)</span>
+                <span class="font-mono" id="new-cgst-val">₹25.00</span>
+              </div>
+              <div class="flex justify-between items-center" id="new-sgst-row">
+                <span>State/UT GST (SGST @ <span id="new-sgst-pct">2.5%</span>)</span>
+                <span class="font-mono" id="new-sgst-val">₹25.00</span>
+              </div>
+              <div class="flex justify-between items-center hidden" id="new-igst-row">
+                <span>Integrated GST (IGST @ <span id="new-igst-pct">5%</span>)</span>
+                <span class="font-mono" id="new-igst-val">₹50.00</span>
+              </div>
             </div>
+
+            <div class="flex justify-between items-center pt-2 border-t border-accent/20">
+              <span class="font-medium text-muted">Total New Tax Amount</span>
+              <span class="font-mono font-semibold text-accent" id="new-tax-total">₹50.00</span>
+            </div>
+
             <div class="flex justify-between items-center pt-3 border-t border-accent/20">
-              <span class="text-[16px] font-semibold">Total Price (MRP)</span>
-              <span class="text-[24px] font-bold text-accent" id="new-total">₹0</span>
+              <span class="text-base font-bold text-accent">Total Customer Price (MRP)</span>
+              <span class="font-mono text-xl font-bold text-accent" id="new-total">₹1,050.00</span>
             </div>
           </div>
         </div>
 
       </div>
 
-      <!-- Impact Card -->
-      <div class="rounded-[8px] border border-base bg-surface p-[24px] text-center" id="impact-card">
-        <h3 class="text-[16px] font-medium text-muted mb-2">Net Impact to Consumer</h3>
-        <p class="text-[32px] font-bold tracking-tight" id="impact-val">No Change</p>
-        <p class="text-[14px] text-muted mt-1" id="impact-desc"></p>
+      <!-- Net Impact Summary Card -->
+      <div class="rounded-2xl border border-base bg-surface p-6 sm:p-8 text-center shadow-sm" id="impact-card">
+        <div class="inline-flex items-center gap-1.5 rounded-full border border-base bg-subtle px-3 py-1 text-[11px] font-mono text-muted uppercase tracking-wider mb-3">
+          Price Variance &amp; Tax Incidence
+        </div>
+        <div class="text-3xl sm:text-4xl font-mono font-bold my-2" id="impact-val">₹0.00</div>
+        <p class="text-[15px] font-medium max-w-lg mx-auto" id="impact-desc">Calculating rate differential...</p>
+
+        <!-- Compliance Action Banner -->
+        <div class="mt-6 rounded-xl border p-4 text-left text-xs leading-relaxed max-w-2xl mx-auto" id="compliance-banner">
+          <div class="font-semibold text-sm mb-1 flex items-center gap-2" id="compliance-title">
+            <span>Statutory Guidance</span>
+          </div>
+          <p id="compliance-text" class="text-muted"></p>
+        </div>
       </div>
-
     </div>
-  </div>
 
-  
-  <!-- Related Guides -->
-  <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 pb-12">
-    <div class="border-t border-base pt-12">
-      <h2 class="text-[24px] font-semibold text-base mb-4">Related Guides</h2>
-      <ul class="list-disc pl-5 space-y-2">
-        <li><a href="/blog/calculate-gst-late-fees" class="text-primary hover:underline">How to Calculate GST Late Fees in 2026: A Complete Guide</a></li>
-        <li><a href="/blog/interest-on-gst-paid-via-itc" class="text-primary hover:underline">Do You Pay 18% Interest on GST Paid via ITC?</a></li>
+    <!-- SEO In-Depth Editorial Guide -->
+    <article class="prose prose-neutral dark:prose-invert max-w-none text-[15px] leading-relaxed mt-16 pt-12 border-t border-base">
+      <h2 class="text-2xl sm:text-3xl font-bold text-base mb-6">How the Old vs New GST Rate Comparison Works</h2>
+      
+      <p>
+        Under the Indian Goods and Services Tax (GST) framework governed by the Central Goods and Services Tax (CGST) Act, 2017 and respective State GST acts, tax rates on commodities and services undergo periodic rationalization through GST Council recommendations and CBIC notifications. When a rate revision takes effect, manufacturers, distributors, retailers, and service providers must immediately recalibrate their pricing structures, Point of Sale (POS) systems, and ERP billing masters.
+      </p>
+
+      <p>
+        Our <strong>Old vs New GST Rate Comparison Tool</strong> provides an automated mathematical breakdown of price shifts, tax variations, and consumer savings across legacy and rationalized GST slabs.
+      </p>
+
+      <h3 class="text-xl font-semibold text-base mt-8 mb-4">1. Mathematical Formulas for Tax and Price Variance</h3>
+      <p>Depending on whether your business operates on backward tax-inclusive MRP pricing or forward base pricing, two core formulas determine the outcome:</p>
+      
+      <ul>
+        <li>
+          <strong>Forward Base Pricing (Standard B2B):</strong>
+          <div class="my-2 p-3 bg-subtle rounded-lg font-mono text-xs">
+            Old Tax = Base Price × (Old Rate ÷ 100)<br />
+            New Tax = Base Price × (New Rate ÷ 100)<br />
+            Net Tax Variance (ΔTax) = New Tax − Old Tax<br />
+            Revised Retail Price = Base Price + New Tax
+          </div>
+        </li>
+        <li>
+          <strong>Backward MRP Extraction (Packaged Goods / Retail):</strong>
+          <div class="my-2 p-3 bg-subtle rounded-lg font-mono text-xs">
+            Extracted Base Price = Original MRP ÷ (1 + Old Rate ÷ 100)<br />
+            Revised Mandatory MRP = Extracted Base Price × (1 + New Rate ÷ 100)
+          </div>
+        </li>
       </ul>
+
+      <h3 class="text-xl font-semibold text-base mt-8 mb-4">2. Section 171 Anti-Profiteering Mandate</h3>
+      <p>
+        A critical legal dimension of any downward GST rate revision is compliance with <strong>Section 171 of the CGST Act</strong>. The law strictly mandates that:
+      </p>
+      <blockquote>
+        "Any reduction in rate of tax on any supply of goods or services or the benefit of input tax credit shall be passed on to the recipient by way of commensurate reduction in prices."
+      </blockquote>
+      <p>
+        If a product previously taxed at 12% is reclassified to 5%, the seller cannot pocket the 7% tax differential by keeping the customer-facing MRP unchanged while pocketing extra profit. Anti-profiteering complaints are investigated under the jurisdiction of the Competition Commission of India (CCI), and non-compliant suppliers can be ordered to refund excess amounts with 18% statutory interest, pay heavy penalties, or face business deregistration.
+      </p>
+
+      <h3 class="text-xl font-semibold text-base mt-8 mb-4">3. Transitory Invoicing Rules under Section 14 (Time of Supply)</h3>
+      <p>
+        When tax rates change mid-month, determining whether an invoice should reflect the old or new rate depends on <strong>Section 14 of the CGST Act</strong>. The applicable rate is determined by the intersection of three pivotal operational events:
+      </p>
+      <ol class="list-decimal pl-5 space-y-2">
+        <li><strong>Date of Supply of Goods or Services</strong></li>
+        <li><strong>Date of Issue of Invoice</strong></li>
+        <li><strong>Date of Receipt of Payment (Bank credit or book entry)</strong></li>
+      </ol>
+      <p>
+        As a general legal standard, whichever two of these three events occur after the rate change date will dictate the applicable rate. For example, if goods were dispatched prior to the rate change, but both the invoice was issued and payment was credited into the bank account after the rate change, the <em>new</em> rate applies.
+      </p>
+
+      <h3 class="text-xl font-semibold text-base mt-8 mb-4">4. Impact of Rate Revisions on Input Tax Credit (ITC)</h3>
+      <p>
+        Rate changes also have direct consequences for input tax recovery:
+      </p>
+      <ul>
+        <li><strong>Movement between taxable slabs (e.g. 18% to 5%):</strong> Does not require any retrospective reversal of ITC claimed on raw materials or capital goods purchased at earlier higher rates.</li>
+        <li><strong>Movement to Exempt (0%):</strong> Triggers mandatory reversal of ITC on inputs and stock on hand under Section 18(4) and Rule 42 of the CGST Rules.</li>
+        <li><strong>Inverted Duty Structure:</strong> Where the output rate drops below the tax rate on raw materials (e.g., input fabric at 12% and output garments at 5%), manufacturers become entitled to file for an Inverted Duty Structure refund under Section 54(3)(ii).</li>
+      </ul>
+
+      <h3 class="text-xl font-semibold text-base mt-8 mb-4">5. Retail Relabeling &amp; Legal Metrology Rules</h3>
+      <p>
+        Under the Legal Metrology (Packaged Commodities) Rules, retailers are legally prohibited from selling packaged commodities at a price higher than the printed MRP. Following GST rate reductions, the Department of Consumer Affairs traditionally permits manufacturers, packers, and importers to declare revised lower MRPs on unsold pre-packaged stock via stamped, stickered, or online printed tags, provided the original MRP remains visible.
+      </p>
+    </article>
+
+    <!-- Related Tools & Guides -->
+    <div class="border-t border-base pt-12 mt-12">
+      <h2 class="text-2xl font-bold text-base mb-6">Related GST Rate &amp; Pricing Tools</h2>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <a href="/gst-rate-finder" class="p-4 rounded-xl border border-base bg-surface hover:border-accent hover:shadow-sm transition-all group">
+          <div class="font-semibold text-base group-hover:text-accent flex items-center gap-1.5">
+            GST Rate Finder →
+          </div>
+          <p class="text-xs text-muted mt-1">Search HSN and SAC codes with verified current GST rates across all commodities.</p>
+        </a>
+        <a href="/mrp-revision-calculator" class="p-4 rounded-xl border border-base bg-surface hover:border-accent hover:shadow-sm transition-all group">
+          <div class="font-semibold text-base group-hover:text-accent flex items-center gap-1.5">
+            MRP Revision Calculator →
+          </div>
+          <p class="text-xs text-muted mt-1">Compute exact revised packaging sticker MRPs after GST rate adjustments to preserve margins.</p>
+        </a>
+        <a href="/hsn-code-lookup" class="p-4 rounded-xl border border-base bg-surface hover:border-accent hover:shadow-sm transition-all group">
+          <div class="font-semibold text-base group-hover:text-accent flex items-center gap-1.5">
+            HSN &amp; SAC Code Lookup →
+          </div>
+          <p class="text-xs text-muted mt-1">Find 4, 6, and 8-digit HSN codes, chapter descriptions, and statutory applicability.</p>
+        </a>
+        <a href="/gst-calculator" class="p-4 rounded-xl border border-base bg-surface hover:border-accent hover:shadow-sm transition-all group">
+          <div class="font-semibold text-base group-hover:text-accent flex items-center gap-1.5">
+            GST Inclusive/Exclusive Calculator →
+          </div>
+          <p class="text-xs text-muted mt-1">Add or remove GST with split CGST, SGST, and IGST breakdowns.</p>
+        </a>
+        <a href="/invoice-generator" class="p-4 rounded-xl border border-base bg-surface hover:border-accent hover:shadow-sm transition-all group">
+          <div class="font-semibold text-base group-hover:text-accent flex items-center gap-1.5">
+            GST Invoice Generator →
+          </div>
+          <p class="text-xs text-muted mt-1">Generate compliant PDF invoices with custom rates and automatic tax calculation.</p>
+        </a>
+        <a href="/aggregate-turnover-calculator" class="p-4 rounded-xl border border-base bg-surface hover:border-accent hover:shadow-sm transition-all group">
+          <div class="font-semibold text-base group-hover:text-accent flex items-center gap-1.5">
+            Aggregate Turnover Calculator →
+          </div>
+          <p class="text-xs text-muted mt-1">Check PAN-wide turnover for GST registration, composition, and QRMP thresholds.</p>
+        </a>
+      </div>
     </div>
-  </div>
-<!-- FAQ Section -->
-  <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 pb-20 mt-16">
-    <div class="border-t border-base pt-12">
-      <h2 class="text-[28px] tracking-[-1px] font-semibold text-base mb-2">Frequently Asked Questions</h2>
-      <p class="text-muted text-[15px] mb-8">Common questions about comparing old vs new GST 2.0 rates and understanding price impact.</p>
+
+    <!-- FAQ Section -->
+    <section class="border-t border-base pt-12 pb-20 mt-16" aria-labelledby="faq-heading">
+      <h2 id="faq-heading" class="text-2xl sm:text-3xl font-bold text-base mb-2">Frequently Asked Questions</h2>
+      <p class="text-muted text-[15px] mb-8">Comprehensive answers regarding GST rate revisions, pricing formulas, and anti-profiteering compliance.</p>
+      
       <div class="space-y-3">
-        {[
-          { q: 'What changed between old GST rates and GST 2.0 rates?', a: 'The old GST structure had 5 slabs: 0%, 5%, 12%, 18%, and 28%. Under GST 2.0 (effective 22 September 2025), this was simplified. The 12% slab was largely abolished, items were merged into 5% or 18%, and a new 40% luxury slab was created for sin/luxury goods that replaced the old 28% + cess structure.' },
-          { q: 'How do I calculate the exact price impact of a GST rate change?', a: 'Take your base price (excluding tax). Multiply by the old rate to get old tax amount, then multiply by the new rate to get the new tax amount. The difference is the price impact on the consumer. For example, if base price is ₹1,000 and rate drops from 12% to 5%, old tax = ₹120, new tax = ₹50, saving = ₹70 per unit.' },
-          { q: 'Am I legally required to reduce prices if GST rate drops on my product?', a: 'Yes, under Section 171 of the CGST Act (Anti-Profiteering), you must pass on the benefit of a GST rate reduction to your consumers. The National Anti-Profiteering Authority (NAA) investigates complaints, and non-compliance can result in penalties and forced refunds to customers.' },
-          { q: 'What is the new 40% GST slab in GST 2.0?', a: 'The 40% slab was introduced as a consolidated luxury/sin goods bracket under GST 2.0. It covers high-end luxury goods, premium aerated beverages, tobacco products, and certain demerit goods. This replaced the old system of 28% base rate + compensation cess, making the total effective rate clearer.' },
-          { q: 'Can I still use the 12% GST rate for old invoices?', a: 'Yes. The applicable GST rate is determined by the date of supply (invoice date / date of delivery, whichever is earlier). Invoices dated before 22 September 2025 use the old rates. Invoices from the effective date onwards must use the new GST 2.0 rates.' },
-          { q: 'How does a rate increase affect my customers?', a: 'A rate increase means higher tax for the same base price, which increases the consumer-facing total price. You must update your billing system, price lists, and invoices to reflect the new GST-inclusive price. Failure to charge the correct higher rate means you pay the difference from your own pocket.' },
-          { q: 'Does a GST rate change require me to reverse ITC?', a: 'A rate drop to a lower taxable slab (e.g., 12% to 5%) does NOT require ITC reversal on previously purchased inputs. However, if a product becomes Exempt (0%), you must reverse ITC on closing stock proportional to exempt supplies under Rule 42 of the CGST Rules.' },
-          { q: 'How does GST rate change affect B2B buyers?', a: 'For B2B buyers, both the tax amount on their purchase invoice and the ITC they can claim changes proportionally with the rate change. If rates go down, they claim less ITC but also pay less cash. The net effect is usually neutral on fully ITC-eligible purchases.' },
-          { q: 'Does this comparison tool work for services?', a: 'Yes. The tool compares GST rates for any taxable category, including services. Just select the old service rate (e.g., 12%) and the new rate (e.g., 18%) and enter the base service fee to see the exact impact on the final invoice amount.' },
-          { q: 'When did GST 2.0 come into effect?', a: 'GST 2.0 rate changes came into effect on 22 September 2025, following the 55th GST Council Meeting decisions. All suppliers were required to update their billing systems, ERP software, and price lists from that date.' },
-        ].map((faq, i) => (
-          <details class="group rounded-[8px] border border-base bg-surface overflow-hidden" id={`faq-grc-${i}`}>
+        {faqs.map((faq, i) => (
+          <details class="group rounded-xl border border-base bg-surface overflow-hidden" id={`faq-grc-${i}`}>
             <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
               <span class="text-[15px]">{faq.q}</span>
-              <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+              <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
             </summary>
-            <div class="px-6 pb-5 text-[14px] text-muted leading-relaxed border-t border-base pt-4">{faq.a}</div>
+            <div class="px-6 pb-5 text-[14px] text-muted leading-relaxed border-t border-base pt-4">
+              {faq.a}
+            </div>
           </details>
         ))}
       </div>
-    </div>
+    </section>
+
   </div>
 </BaseLayout>
 
 <script>
-const inBasePrice = document.getElementById("base-price");
-const inOldRate = document.getElementById("old-rate");
-const inNewRate = document.getElementById("new-rate");
-const oldBase = document.getElementById("old-base");
-const oldTax = document.getElementById("old-tax");
-const oldTotal = document.getElementById("old-total");
-const oldRateLabel = document.getElementById("old-rate-label");
-const newBase = document.getElementById("new-base");
-const newTax = document.getElementById("new-tax");
-const newTotal = document.getElementById("new-total");
-const newRateLabel = document.getElementById("new-rate-label");
-const impactCard = document.getElementById("impact-card");
-const impactVal = document.getElementById("impact-val");
-const impactDesc = document.getElementById("impact-desc");
-function formatINR(val) {
-  const rounded = Math.round(val * 100) / 100;
-  return "\u20B9" + rounded.toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-}
-function formatINRWhole(val) {
-  return "\u20B9" + Math.round(val).toLocaleString("en-IN");
-}
-function calculate() {
-  const basePrice = parseFloat(inBasePrice.value) || 0;
-  const oldRate = parseFloat(inOldRate.value) || 0;
-  const newRate = parseFloat(inNewRate.value) || 0;
-  const oldTaxAmount = basePrice * (oldRate / 100);
-  const oldTotalAmount = basePrice + oldTaxAmount;
-  const newTaxAmount = basePrice * (newRate / 100);
-  const newTotalAmount = basePrice + newTaxAmount;
-  oldBase.textContent = formatINRWhole(basePrice);
-  oldTax.textContent = formatINR(oldTaxAmount);
-  oldTotal.textContent = formatINR(oldTotalAmount);
-  oldRateLabel.textContent = `${oldRate}%`;
-  newBase.textContent = formatINRWhole(basePrice);
-  newTax.textContent = formatINR(newTaxAmount);
-  newTotal.textContent = formatINR(newTotalAmount);
-  newRateLabel.textContent = `${newRate}%`;
-  const difference = newTotalAmount - oldTotalAmount;
-  if (difference > 5e-3) {
-    impactCard.className = "rounded-[8px] border border-red-500 bg-red-50 dark:bg-red-900/10 p-[24px] text-center";
-    impactVal.textContent = `+ ${formatINR(Math.abs(difference))}`;
-    impactVal.className = "text-[32px] font-bold tracking-tight text-red-600 dark:text-red-400";
-    impactDesc.textContent = "Price increase for the end consumer.";
-  } else if (difference < -5e-3) {
-    impactCard.className = "rounded-[8px] border border-green-500 bg-green-50 dark:bg-green-900/10 p-[24px] text-center";
-    impactVal.textContent = `- ${formatINR(Math.abs(difference))}`;
-    impactVal.className = "text-[32px] font-bold tracking-tight text-green-600 dark:text-green-400";
-    impactDesc.textContent = "Price reduction for the end consumer.";
-  } else {
-    impactCard.className = "rounded-[8px] border border-base bg-subtle p-[24px] text-center";
-    impactVal.textContent = "No Change";
-    impactVal.className = "text-[32px] font-bold tracking-tight text-base";
-    impactDesc.textContent = "The consumer pays the exact same amount.";
+  let pricingMode = 'base'; // 'base' | 'mrp'
+
+  const priceInput = document.getElementById('price-input') as HTMLInputElement;
+  const priceLabel = document.getElementById('price-label')!;
+  const priceHint = document.getElementById('price-hint')!;
+  const modeBaseBtn = document.getElementById('mode-base')!;
+  const modeMrpBtn = document.getElementById('mode-mrp')!;
+  const supplyTypeSelect = document.getElementById('supply-type') as HTMLSelectElement;
+
+  const oldRateSelect = document.getElementById('old-rate') as HTMLSelectElement;
+  const oldCustomInput = document.getElementById('old-custom-rate') as HTMLInputElement;
+  const newRateSelect = document.getElementById('new-rate') as HTMLSelectElement;
+  const newCustomInput = document.getElementById('new-custom-rate') as HTMLInputElement;
+
+  // Badges
+  const oldRateBadge = document.getElementById('old-rate-badge')!;
+  const newRateBadge = document.getElementById('new-rate-badge')!;
+
+  // Old Card Elements
+  const oldBaseEl = document.getElementById('old-base')!;
+  const oldTaxTotalEl = document.getElementById('old-tax-total')!;
+  const oldTotalEl = document.getElementById('old-total')!;
+  const oldCgstRow = document.getElementById('old-cgst-row')!;
+  const oldSgstRow = document.getElementById('old-sgst-row')!;
+  const oldIgstRow = document.getElementById('old-igst-row')!;
+  const oldCgstPct = document.getElementById('old-cgst-pct')!;
+  const oldSgstPct = document.getElementById('old-sgst-pct')!;
+  const oldIgstPct = document.getElementById('old-igst-pct')!;
+  const oldCgstVal = document.getElementById('old-cgst-val')!;
+  const oldSgstVal = document.getElementById('old-sgst-val')!;
+  const oldIgstVal = document.getElementById('old-igst-val')!;
+
+  // New Card Elements
+  const newBaseEl = document.getElementById('new-base')!;
+  const newTaxTotalEl = document.getElementById('new-tax-total')!;
+  const newTotalEl = document.getElementById('new-total')!;
+  const newCgstRow = document.getElementById('new-cgst-row')!;
+  const newSgstRow = document.getElementById('new-sgst-row')!;
+  const newIgstRow = document.getElementById('new-igst-row')!;
+  const newCgstPct = document.getElementById('new-cgst-pct')!;
+  const newSgstPct = document.getElementById('new-sgst-pct')!;
+  const newIgstPct = document.getElementById('new-igst-pct')!;
+  const newCgstVal = document.getElementById('new-cgst-val')!;
+  const newSgstVal = document.getElementById('new-sgst-val')!;
+  const newIgstVal = document.getElementById('new-igst-val')!;
+
+  // Impact Card
+  const impactCard = document.getElementById('impact-card')!;
+  const impactVal = document.getElementById('impact-val')!;
+  const impactDesc = document.getElementById('impact-desc')!;
+  const complianceBanner = document.getElementById('compliance-banner')!;
+  const complianceTitle = document.getElementById('compliance-title')!;
+  const complianceText = document.getElementById('compliance-text')!;
+
+  function formatINR(val: number) {
+    const rounded = Math.round(val * 100) / 100;
+    return '₹' + rounded.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   }
-}
-inBasePrice.addEventListener("input", calculate);
-inOldRate.addEventListener("change", calculate);
-inNewRate.addEventListener("change", calculate);
-calculate();
+
+  function getRate(selectEl: HTMLSelectElement, customInput: HTMLInputElement): number {
+    if (selectEl.value === 'custom') {
+      return parseFloat(customInput.value) || 0;
+    }
+    return parseFloat(selectEl.value) || 0;
+  }
+
+  function setPricingMode(mode: 'base' | 'mrp') {
+    pricingMode = mode;
+    if (mode === 'base') {
+      modeBaseBtn.className = 'px-2.5 py-1 rounded-md font-medium bg-surface text-base shadow-sm transition-all';
+      modeMrpBtn.className = 'px-2.5 py-1 rounded-md font-medium text-muted hover:text-base transition-all';
+      priceLabel.textContent = 'Base Price (Excluding Tax)';
+      priceHint.textContent = 'Net supplier price before applying any GST.';
+    } else {
+      modeMrpBtn.className = 'px-2.5 py-1 rounded-md font-medium bg-surface text-base shadow-sm transition-all';
+      modeBaseBtn.className = 'px-2.5 py-1 rounded-md font-medium text-muted hover:text-base transition-all';
+      priceLabel.textContent = 'Old MRP (Tax-Inclusive Price)';
+      priceHint.textContent = 'Current retail sticker price. Tool will extract base price and compute revised MRP.';
+    }
+    calculate();
+  }
+
+  function calculate() {
+    const rawPrice = parseFloat(priceInput.value) || 0;
+    const oldRate = getRate(oldRateSelect, oldCustomInput);
+    const newRate = getRate(newRateSelect, newCustomInput);
+    const isInterState = supplyTypeSelect.value === 'inter';
+
+    oldRateBadge.textContent = `${oldRate}% GST`;
+    newRateBadge.textContent = `${newRate}% GST`;
+
+    let basePrice = 0;
+    let oldTaxAmount = 0;
+    let oldTotalAmount = 0;
+    let newTaxAmount = 0;
+    let newTotalAmount = 0;
+
+    if (pricingMode === 'base') {
+      basePrice = rawPrice;
+      oldTaxAmount = basePrice * (oldRate / 100);
+      oldTotalAmount = basePrice + oldTaxAmount;
+
+      newTaxAmount = basePrice * (newRate / 100);
+      newTotalAmount = basePrice + newTaxAmount;
+    } else {
+      // MRP Mode: rawPrice is old MRP
+      oldTotalAmount = rawPrice;
+      basePrice = oldRate > 0 ? oldTotalAmount / (1 + oldRate / 100) : oldTotalAmount;
+      oldTaxAmount = oldTotalAmount - basePrice;
+
+      newTaxAmount = basePrice * (newRate / 100);
+      newTotalAmount = basePrice + newTaxAmount;
+    }
+
+    // Populate Old Scenario
+    oldBaseEl.textContent = formatINR(basePrice);
+    oldTaxTotalEl.textContent = formatINR(oldTaxAmount);
+    oldTotalEl.textContent = formatINR(oldTotalAmount);
+
+    if (isInterState) {
+      oldCgstRow.classList.add('hidden');
+      oldSgstRow.classList.add('hidden');
+      oldIgstRow.classList.remove('hidden');
+      oldIgstPct.textContent = `${oldRate}%`;
+      oldIgstVal.textContent = formatINR(oldTaxAmount);
+    } else {
+      oldCgstRow.classList.remove('hidden');
+      oldSgstRow.classList.remove('hidden');
+      oldIgstRow.classList.add('hidden');
+      const halfRate = oldRate / 2;
+      const halfTax = oldTaxAmount / 2;
+      oldCgstPct.textContent = `${halfRate}%`;
+      oldSgstPct.textContent = `${halfRate}%`;
+      oldCgstVal.textContent = formatINR(halfTax);
+      oldSgstVal.textContent = formatINR(halfTax);
+    }
+
+    // Populate New Scenario
+    newBaseEl.textContent = formatINR(basePrice);
+    newTaxTotalEl.textContent = formatINR(newTaxAmount);
+    newTotalEl.textContent = formatINR(newTotalAmount);
+
+    if (isInterState) {
+      newCgstRow.classList.add('hidden');
+      newSgstRow.classList.add('hidden');
+      newIgstRow.classList.remove('hidden');
+      newIgstPct.textContent = `${newRate}%`;
+      newIgstVal.textContent = formatINR(newTaxAmount);
+    } else {
+      newCgstRow.classList.remove('hidden');
+      newSgstRow.classList.remove('hidden');
+      newIgstRow.classList.add('hidden');
+      const halfRate = newRate / 2;
+      const halfTax = newTaxAmount / 2;
+      newCgstPct.textContent = `${halfRate}%`;
+      newSgstPct.textContent = `${halfRate}%`;
+      newCgstVal.textContent = formatINR(halfTax);
+      newSgstVal.textContent = formatINR(halfTax);
+    }
+
+    // Difference calculations
+    const priceDiff = newTotalAmount - oldTotalAmount;
+    const taxDiff = newTaxAmount - oldTaxAmount;
+    const absPriceDiff = Math.abs(priceDiff);
+
+    if (priceDiff < -0.01) {
+      // Tax decreased (Consumer saving)
+      const savingPct = oldTotalAmount > 0 ? (absPriceDiff / oldTotalAmount) * 100 : 0;
+      impactCard.className = 'rounded-2xl border border-emerald-500/30 bg-emerald-50/40 dark:bg-emerald-950/20 p-6 sm:p-8 text-center shadow-sm';
+      impactVal.className = 'text-3xl sm:text-4xl font-mono font-bold my-2 text-emerald-600 dark:text-emerald-400';
+      impactVal.textContent = `- ${formatINR(absPriceDiff)} (${savingPct.toFixed(2)}% drop)`;
+      impactDesc.textContent = `Consumer savings of ${formatINR(absPriceDiff)} per unit. Tax drops by ${formatINR(Math.abs(taxDiff))}.`;
+
+      complianceBanner.className = 'mt-6 rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-4 text-left text-xs leading-relaxed max-w-2xl mx-auto';
+      complianceTitle.innerHTML = '⚖️ Section 171 Anti-Profiteering Action Required';
+      complianceTitle.className = 'font-semibold text-sm mb-1 text-emerald-700 dark:text-emerald-300 flex items-center gap-2';
+      complianceText.textContent = `Because GST decreased from ${oldRate}% to ${newRate}%, suppliers are legally required to reduce retail prices by at least ${formatINR(absPriceDiff)} to pass on the tax saving to consumers. Failure to reduce prices invites investigation from the Competition Commission of India.`;
+    } else if (priceDiff > 0.01) {
+      // Tax increased
+      const increasePct = oldTotalAmount > 0 ? (absPriceDiff / oldTotalAmount) * 100 : 0;
+      impactCard.className = 'rounded-2xl border border-rose-500/30 bg-rose-50/40 dark:bg-rose-950/20 p-6 sm:p-8 text-center shadow-sm';
+      impactVal.className = 'text-3xl sm:text-4xl font-mono font-bold my-2 text-rose-600 dark:text-rose-400';
+      impactVal.textContent = `+ ${formatINR(absPriceDiff)} (+${increasePct.toFixed(2)}%)`;
+      impactDesc.textContent = `Price increase of ${formatINR(absPriceDiff)} for the buyer. Tax increases by ${formatINR(taxDiff)}.`;
+
+      complianceBanner.className = 'mt-6 rounded-xl border border-rose-500/30 bg-rose-500/10 p-4 text-left text-xs leading-relaxed max-w-2xl mx-auto';
+      complianceTitle.innerHTML = '⚠️ ERP & Invoicing Action Required';
+      complianceTitle.className = 'font-semibold text-sm mb-1 text-rose-700 dark:text-rose-300 flex items-center gap-2';
+      complianceText.textContent = `With the GST rate jumping from ${oldRate}% to ${newRate}%, ensure your POS billing software, ERP tax ledgers, and price tags are updated immediately on the effective notification date. If goods were supplied prior to the change, verify Section 14 time of supply rules before billing.`;
+    } else {
+      // No Change
+      impactCard.className = 'rounded-2xl border border-base bg-surface p-6 sm:p-8 text-center shadow-sm';
+      impactVal.className = 'text-3xl sm:text-4xl font-mono font-bold my-2 text-base';
+      impactVal.textContent = '₹0.00 (No Variance)';
+      impactDesc.textContent = 'Both old and new rates produce an identical tax liability and retail price.';
+
+      complianceBanner.className = 'mt-6 rounded-xl border border-base bg-subtle p-4 text-left text-xs leading-relaxed max-w-2xl mx-auto';
+      complianceTitle.innerHTML = '✓ Neutral Rate Classification';
+      complianceTitle.className = 'font-semibold text-sm mb-1 text-base flex items-center gap-2';
+      complianceText.textContent = 'Tax liability remains unchanged. No retail price adjustments or ERP rate reconfigurations are required.';
+    }
+  }
+
+  // Event Listeners
+  modeBaseBtn.addEventListener('click', () => setPricingMode('base'));
+  modeMrpBtn.addEventListener('click', () => setPricingMode('mrp'));
+  priceInput.addEventListener('input', calculate);
+  supplyTypeSelect.addEventListener('change', calculate);
+
+  oldRateSelect.addEventListener('change', () => {
+    if (oldRateSelect.value === 'custom') {
+      oldCustomInput.disabled = false;
+      oldCustomInput.classList.remove('opacity-50');
+      oldCustomInput.focus();
+    } else {
+      oldCustomInput.disabled = true;
+      oldCustomInput.classList.add('opacity-50');
+      oldCustomInput.value = '';
+    }
+    calculate();
+  });
+  oldCustomInput.addEventListener('input', calculate);
+
+  newRateSelect.addEventListener('change', () => {
+    if (newRateSelect.value === 'custom') {
+      newCustomInput.disabled = false;
+      newCustomInput.classList.remove('opacity-50');
+      newCustomInput.focus();
+    } else {
+      newCustomInput.disabled = true;
+      newCustomInput.classList.add('opacity-50');
+      newCustomInput.value = '';
+    }
+    calculate();
+  });
+  newCustomInput.addEventListener('input', calculate);
+
+  // Preset Buttons
+  document.querySelectorAll('.preset-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const oldVal = (btn as HTMLElement).dataset.old || '12';
+      const newVal = (btn as HTMLElement).dataset.new || '5';
+      oldRateSelect.value = oldVal;
+      oldCustomInput.disabled = true;
+      oldCustomInput.classList.add('opacity-50');
+      oldCustomInput.value = '';
+
+      newRateSelect.value = newVal;
+      newCustomInput.disabled = true;
+      newCustomInput.classList.add('opacity-50');
+      newCustomInput.value = '';
+
+      calculate();
+    });
+  });
+
+  // Initial calculation
+  calculate();
 </script>

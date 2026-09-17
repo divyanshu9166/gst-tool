@@ -33,6 +33,8 @@ const targetTools = [
   'credit-debit-note-generator.astro',
   'gst-rate-finder.astro',
   'qrmp-eligibility-checker.astro',
+  'gst-rate-comparison.astro',
+  'mrp-revision-calculator.astro',
 ];
 
 const forbiddenPhrases = [
