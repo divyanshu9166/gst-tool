@@ -109,3 +109,6 @@ No. Section 16 of the MSMED Act contains an overriding non-obstante clause ("not
 
 ### Is MSME delay interest tax-deductible for the buyer?
 No. Section 23 of the MSMED Act explicitly forbids buyers from claiming delayed payment interest as an expense or deduction under the Income Tax Act.
+
+### Are retail and wholesale traders covered under MSME delayed payment rules?
+No. While retail and wholesale traders (NIC codes 45, 46, and 47) can obtain an Udyam Registration, Ministry of MSME Office Memorandums clarify that their registration is restricted exclusively to Priority Sector Lending (PSL) benefits. They cannot claim statutory interest under Section 16, cannot file cases before the MSEFC on MSME Samadhaan, and buyers are not subjected to Section 43B(h) disallowances for payments to traders.

@@ -154,55 +154,297 @@ const breadcrumb = [
       reader.onload = (e) => {
         try {
           const data = JSON.parse(e.target.result);
-          
-          // Generate a workbook
           const wb = XLSX.utils.book_new();
 
-          // We'll create basic sheets for B2B, B2CS, etc if they exist
-          const tables = ['b2b', 'b2cs', 'b2cl', 'exp', 'cdnr', 'cdnur', 'hsn', 'nil'];
-          let hasData = false;
+          // 1. Helper parsing functions for each standard GSTR-1 table
+          function parseB2B(data) {
+            const rows = [];
+            if (!data.b2b || !Array.isArray(data.b2b)) return rows;
+            data.b2b.forEach(supplier => {
+              const ctin = supplier.ctin || '';
+              const cfs = supplier.cfs || '';
+              (supplier.inv || []).forEach(inv => {
+                const inum = inv.inum || '';
+                const idt = inv.idt || '';
+                const val = Number(inv.val) || 0;
+                const pos = inv.pos || '';
+                const rchrg = inv.rchrg || 'N';
+                const inv_typ = inv.inv_typ || 'R';
+                const etin = inv.etin || '';
 
-          tables.forEach(key => {
-            if (data[key] && Array.isArray(data[key])) {
-              hasData = true;
-              // Flatten the json slightly or just pass directly
-              // Real GSTR1 has nested arrays for invoices/items but this provides a basic flat view
-              const sheetData = [];
-              data[key].forEach(supplier => {
-                if (supplier.inv) {
-                  supplier.inv.forEach(invoice => {
-                    const row = {
-                      'Supplier Details': supplier.ctin || supplier.sply_ty || '',
-                      'Invoice No': invoice.inum || '',
-                      'Invoice Date': invoice.idt || '',
-                      'Invoice Value': invoice.val || '',
-                      'POS': invoice.pos || ''
-                    };
-                    sheetData.push(row);
+                if (Array.isArray(inv.itms) && inv.itms.length > 0) {
+                  inv.itms.forEach(itm => {
+                    const d = itm.itm_det || itm;
+                    rows.push({
+                      'GSTIN/UIN of Recipient': ctin,
+                      'Receiver Name': '',
+                      'Invoice Number': inum,
+                      'Invoice Date': idt,
+                      'Invoice Value (₹)': val,
+                      'Place of Supply': pos,
+                      'Reverse Charge': rchrg,
+                      'Applicable % of Tax Rate': '',
+                      'Invoice Type': inv_typ,
+                      'E-Commerce GSTIN': etin,
+                      'Rate (%)': Number(d.rt) || 0,
+                      'Taxable Value (₹)': Number(d.txval) || 0,
+                      'Integrated Tax (₹)': Number(d.iamt) || 0,
+                      'Central Tax (₹)': Number(d.camt) || 0,
+                      'State/UT Tax (₹)': Number(d.samt) || 0,
+                      'Cess (₹)': Number(d.csamt) || 0
+                    });
                   });
                 } else {
-                  sheetData.push(supplier);
+                  rows.push({
+                    'GSTIN/UIN of Recipient': ctin,
+                    'Receiver Name': '',
+                    'Invoice Number': inum,
+                    'Invoice Date': idt,
+                    'Invoice Value (₹)': val,
+                    'Place of Supply': pos,
+                    'Reverse Charge': rchrg,
+                    'Applicable % of Tax Rate': '',
+                    'Invoice Type': inv_typ,
+                    'E-Commerce GSTIN': etin,
+                    'Rate (%)': 0,
+                    'Taxable Value (₹)': 0,
+                    'Integrated Tax (₹)': 0,
+                    'Central Tax (₹)': 0,
+                    'State/UT Tax (₹)': 0,
+                    'Cess (₹)': 0
+                  });
                 }
               });
-
-              if (sheetData.length) {
-                const ws = XLSX.utils.json_to_sheet(sheetData);
-                XLSX.utils.book_append_sheet(wb, ws, key.toUpperCase());
-              }
-            }
-          });
-
-          if (!hasData) {
-            // Just push exactly what's there
-            const ws = XLSX.utils.json_to_sheet([data]);
-            XLSX.utils.book_append_sheet(wb, ws, "RawData");
+            });
+            return rows;
           }
 
-          XLSX.writeFile(wb, 'GSTR1_Converted.xlsx');
+          function parseB2CL(data) {
+            const rows = [];
+            if (!data.b2cl || !Array.isArray(data.b2cl)) return rows;
+            data.b2cl.forEach(group => {
+              const pos = group.pos || '';
+              (group.inv || []).forEach(inv => {
+                const inum = inv.inum || '';
+                const idt = inv.idt || '';
+                const val = Number(inv.val) || 0;
+                const etin = inv.etin || '';
+                (inv.itms || []).forEach(itm => {
+                  const d = itm.itm_det || itm;
+                  rows.push({
+                    'Invoice Number': inum,
+                    'Invoice Date': idt,
+                    'Invoice Value (₹)': val,
+                    'Place of Supply': pos,
+                    'Applicable % of Tax Rate': '',
+                    'Rate (%)': Number(d.rt) || 0,
+                    'Taxable Value (₹)': Number(d.txval) || 0,
+                    'Integrated Tax (₹)': Number(d.iamt) || 0,
+                    'Cess (₹)': Number(d.csamt) || 0,
+                    'E-Commerce GSTIN': etin
+                  });
+                });
+              });
+            });
+            return rows;
+          }
+
+          function parseB2CS(data) {
+            const rows = [];
+            if (!data.b2cs || !Array.isArray(data.b2cs)) return rows;
+            data.b2cs.forEach(item => {
+              rows.push({
+                'Type': item.sply_ty || item.typ || 'OE',
+                'Place of Supply': item.pos || '',
+                'Applicable % of Tax Rate': '',
+                'Rate (%)': Number(item.rt) || 0,
+                'Taxable Value (₹)': Number(item.txval) || 0,
+                'Integrated Tax (₹)': Number(item.iamt) || 0,
+                'Central Tax (₹)': Number(item.camt) || 0,
+                'State/UT Tax (₹)': Number(item.samt) || 0,
+                'Cess (₹)': Number(item.csamt) || 0,
+                'E-Commerce GSTIN': item.etin || ''
+              });
+            });
+            return rows;
+          }
+
+          function parseCDNR(data) {
+            const rows = [];
+            if (!data.cdnr || !Array.isArray(data.cdnr)) return rows;
+            data.cdnr.forEach(supplier => {
+              const ctin = supplier.ctin || '';
+              (supplier.nt || []).forEach(nt => {
+                const nt_num = nt.nt_num || '';
+                const nt_dt = nt.nt_dt || '';
+                const ntty = nt.ntty === 'C' ? 'Credit' : nt.ntty === 'D' ? 'Debit' : (nt.ntty || '');
+                const inum = nt.inum || '';
+                const idt = nt.idt || '';
+                const val = Number(nt.val) || 0;
+                const pos = nt.pos || '';
+                const rchrg = nt.rchrg || 'N';
+                (nt.itms || []).forEach(itm => {
+                  const d = itm.itm_det || itm;
+                  rows.push({
+                    'GSTIN/UIN of Recipient': ctin,
+                    'Receiver Name': '',
+                    'Note Number': nt_num,
+                    'Note Date': nt_dt,
+                    'Note Type': ntty,
+                    'Place of Supply': pos,
+                    'Reverse Charge': rchrg,
+                    'Original Invoice No': inum,
+                    'Original Invoice Date': idt,
+                    'Note Value (₹)': val,
+                    'Rate (%)': Number(d.rt) || 0,
+                    'Taxable Value (₹)': Number(d.txval) || 0,
+                    'Integrated Tax (₹)': Number(d.iamt) || 0,
+                    'Central Tax (₹)': Number(d.camt) || 0,
+                    'State/UT Tax (₹)': Number(d.samt) || 0,
+                    'Cess (₹)': Number(d.csamt) || 0
+                  });
+                });
+              });
+            });
+            return rows;
+          }
+
+          function parseHSN(data) {
+            const rows = [];
+            const hsnList = Array.isArray(data.hsn) ? data.hsn : (data.hsn?.data && Array.isArray(data.hsn.data) ? data.hsn.data : []);
+            hsnList.forEach(item => {
+              rows.push({
+                'HSN / SAC': item.hsn_sc || '',
+                'Description': item.desc || '',
+                'UQC': item.uqc || '',
+                'Total Quantity': Number(item.qty) || 0,
+                'Total Value (₹)': Number(item.val) || 0,
+                'Taxable Value (₹)': Number(item.txval) || 0,
+                'Integrated Tax (₹)': Number(item.iamt) || 0,
+                'Central Tax (₹)': Number(item.camt) || 0,
+                'State/UT Tax (₹)': Number(item.samt) || 0,
+                'Cess (₹)': Number(item.csamt) || 0
+              });
+            });
+            return rows;
+          }
+
+          function parseEXP(data) {
+            const rows = [];
+            if (!data.exp || !Array.isArray(data.exp)) return rows;
+            data.exp.forEach(group => {
+              const exp_typ = group.exp_typ || '';
+              (group.inv || []).forEach(inv => {
+                const inum = inv.inum || '';
+                const idt = inv.idt || '';
+                const val = Number(inv.val) || 0;
+                const sbnum = inv.sbnum || '';
+                const sbdt = inv.sbdt || '';
+                (inv.itms || []).forEach(itm => {
+                  const d = itm.itm_det || itm;
+                  rows.push({
+                    'Export Type': exp_typ,
+                    'Invoice Number': inum,
+                    'Invoice Date': idt,
+                    'Invoice Value (₹)': val,
+                    'Shipping Bill No': sbnum,
+                    'Shipping Bill Date': sbdt,
+                    'Rate (%)': Number(d.rt) || 0,
+                    'Taxable Value (₹)': Number(d.txval) || 0,
+                    'Integrated Tax (₹)': Number(d.iamt) || 0,
+                    'Cess (₹)': Number(d.csamt) || 0
+                  });
+                });
+              });
+            });
+            return rows;
+          }
+
+          function parseNIL(data) {
+            const rows = [];
+            if (!data.nil?.inv || !Array.isArray(data.nil.inv)) return rows;
+            data.nil.inv.forEach(item => {
+              rows.push({
+                'Supply Description': item.sply_ty || '',
+                'Nil Rated Supplies (₹)': Number(item.nil_amt) || 0,
+                'Exempted Supplies (₹)': Number(item.expt_amt) || 0,
+                'Non-GST Supplies (₹)': Number(item.ngsup_amt) || 0
+              });
+            });
+            return rows;
+          }
+
+          // 2. Extract and append sheets
+          const b2bRows = parseB2B(data);
+          const b2clRows = parseB2CL(data);
+          const b2csRows = parseB2CS(data);
+          const cdnrRows = parseCDNR(data);
+          const hsnRows = parseHSN(data);
+          const expRows = parseEXP(data);
+          const nilRows = parseNIL(data);
+
+          let totalSheetsAdded = 0;
+
+          // Summary sheet
+          const summaryRows = [
+            { 'GSTR-1 Return Parameter': 'Filer GSTIN', 'Value': data.gstin || 'Not specified' },
+            { 'GSTR-1 Return Parameter': 'Return Period (FP)', 'Value': data.fp || 'Not specified' },
+            { 'GSTR-1 Return Parameter': 'Gross Turnover Prior FY (GT)', 'Value': data.gt || 0 },
+            { 'GSTR-1 Return Parameter': 'Total B2B Item Rows', 'Value': b2bRows.length },
+            { 'GSTR-1 Return Parameter': 'Total B2CL Item Rows', 'Value': b2clRows.length },
+            { 'GSTR-1 Return Parameter': 'Total B2CS Rows', 'Value': b2csRows.length },
+            { 'GSTR-1 Return Parameter': 'Total CDNR Rows', 'Value': cdnrRows.length },
+            { 'GSTR-1 Return Parameter': 'Total HSN Item Rows', 'Value': hsnRows.length },
+            { 'GSTR-1 Return Parameter': 'Total Export Rows', 'Value': expRows.length },
+            { 'GSTR-1 Return Parameter': 'Exported via Taxzentic', 'Value': 'https://taxzentic.com/gstr1-json-to-excel' }
+          ];
+
+          const wsSummary = XLSX.utils.json_to_sheet(summaryRows);
+          XLSX.utils.book_append_sheet(wb, wsSummary, 'Summary');
+
+          if (b2bRows.length) {
+            XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(b2bRows), 'B2B');
+            totalSheetsAdded++;
+          }
+          if (b2clRows.length) {
+            XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(b2clRows), 'B2CL');
+            totalSheetsAdded++;
+          }
+          if (b2csRows.length) {
+            XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(b2csRows), 'B2CS');
+            totalSheetsAdded++;
+          }
+          if (cdnrRows.length) {
+            XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(cdnrRows), 'CDNR');
+            totalSheetsAdded++;
+          }
+          if (hsnRows.length) {
+            XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(hsnRows), 'HSN');
+            totalSheetsAdded++;
+          }
+          if (expRows.length) {
+            XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(expRows), 'EXP');
+            totalSheetsAdded++;
+          }
+          if (nilRows.length) {
+            XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(nilRows), 'NIL');
+            totalSheetsAdded++;
+          }
+
+          if (totalSheetsAdded === 0) {
+            // Fallback for non-standard or partial payloads
+            XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet([data]), 'RawPayload');
+          }
+
+          const filename = `GSTR1_${data.gstin || 'Return'}_${data.fp || 'Converted'}.xlsx`;
+          XLSX.writeFile(wb, filename);
+
+          output.textContent = `✓ Successfully converted ${b2bRows.length + b2csRows.length + hsnRows.length} records into "${filename}"!`;
           output.classList.remove('hidden');
 
         } catch (err) {
-          console.error(err);
+          console.error('GSTR-1 JSON parse error:', err);
+          errorMsg.textContent = `Conversion Error: ${err.message || 'Invalid GSTR-1 JSON format'}. Please ensure the file is an official GSTN GSTR-1 JSON file.`;
           errorMsg.classList.remove('hidden');
         }
       };

@@ -1,9 +1,9 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const title = 'Privacy Policy | GST HSN Lookup';
-const description = 'Privacy Policy for GST HSN Lookup — how we collect, use, and protect your information when you use our free GST tools.';
-const lastUpdated = '18 June 2025';
+const title = 'Privacy Policy | Taxzentic';
+const description = 'Privacy Policy for Taxzentic — how we handle data across our client-side calculators, file tools, and AI-assisted drafting features.';
+const lastUpdated = '16 September 2026';
 ---
 
 <BaseLayout {title} {description}>
@@ -18,55 +18,67 @@ const lastUpdated = '18 June 2025';
       <section>
         <h2 class="text-xl font-semibold text-base mb-3">1. Introduction</h2>
         <p>
-          Welcome to <strong>GST HSN Lookup</strong> ("we", "our", or "us"). We are committed to protecting your privacy. This Privacy Policy explains how we handle information when you visit our website and use our free GST tools (GST Calculator, HSN Code Lookup, GSTIN Validator).
+          Welcome to <strong>Taxzentic</strong> ("we", "our", or "us"). We are committed to transparency and protecting your privacy. This Privacy Policy explains our data practices when you visit taxzentic.com and use our compliance calculators, file utilities, and AI legal drafting tools.
         </p>
       </section>
 
       <section>
-        <h2 class="text-xl font-semibold text-base mb-3">2. Information We Collect</h2>
-        <h3 class="text-base font-semibold text-base mb-2">2.1 Information You Provide</h3>
+        <h2 class="text-xl font-semibold text-base mb-3">2. Information We Collect &amp; How It Is Processed</h2>
+        
+        <h3 class="text-base font-semibold text-base mb-2">2.1 Client-Side Tools &amp; Calculators (100% Local Processing)</h3>
         <p>
-          Our tools (GST Calculator, HSN Lookup, GSTIN Validator) operate entirely in your browser. <strong>No data you enter into these tools is transmitted to our servers.</strong> All calculations and lookups happen locally on your device.
+          The vast majority of utilities on Taxzentic—including our GST Calculator, HSN Code Lookup, GSTIN Validator, E-Way Bill Validity Calculator, Pin-to-Pin Distance Estimator, MSME Delayed Payment Calculator, and Excel file tools—operate entirely within your client-side web browser. <strong>No financial figures, invoice amounts, party names, or uploaded files are transmitted to our servers or stored by us.</strong> All computations and JSON/Excel parsing occur locally on your device.
         </p>
-        <h3 class="text-base font-semibold text-base mb-2 mt-4">2.2 Automatically Collected Information</h3>
+
+        <h3 class="text-base font-semibold text-base mb-2 mt-4">2.2 AI-Assisted Features (GST Notice Reply Generator)</h3>
         <p>
-          When you visit our website, we may automatically collect certain information through third-party services:
+          For features explicitly designated as AI-powered—such as the <em>GST Notice Reply Generator</em>—the specific parameters you enter (notice type, section, demand amounts, dispute grounds, and optional context) are transmitted via encrypted HTTPS to our Cloudflare Pages serverless backend function and forwarded to our AI inference partner (Groq) solely to draft the requested legal response.
         </p>
-        <ul class="list-disc pl-5 space-y-1">
-          <li><strong>Google Analytics 4:</strong> We use GA4 to understand how visitors use our site. GA4 collects anonymised data such as pages visited, time on site, device type, and approximate geographic location (country/city level). This data is processed by Google in accordance with their Privacy Policy. You can opt out using the <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer" class="text-accent hover:underline">Google Analytics Opt-out Browser Add-on</a>.</li>
-          <li><strong>Cloudflare:</strong> Our website is hosted on Cloudflare Pages. Cloudflare may collect access logs and security-related data as part of their infrastructure services.</li>
+        <ul class="list-disc pl-5 space-y-1 text-sm">
+          <li><strong>Ephemeral Processing:</strong> Your inputs are held in temporary server memory only for the seconds required to stream the generated reply back to your screen.</li>
+          <li><strong>Zero Storage &amp; Zero Training:</strong> We do not log, persist, or store your taxpayer data in databases. Data transmitted to the AI provider is never used to train machine learning models.</li>
+          <li><strong>Client-Side Alternative:</strong> A 100% local, offline template generator ("Update Template") is always provided side-by-side if you prefer not to transmit text to an AI model.</li>
+        </ul>
+
+        <h3 class="text-base font-semibold text-base mb-2 mt-4">2.3 Automatically Collected Infrastructure Data</h3>
+        <p>
+          When you visit our website, standard non-identifying telemetry may be collected through reputable infrastructure partners:
+        </p>
+        <ul class="list-disc pl-5 space-y-1 text-sm">
+          <li><strong>Google Analytics 4:</strong> We use GA4 to understand aggregate page visits and referral channels. Data is anonymized (IP masking enabled) and governed by Google's Privacy Policy. You can opt out using the <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer" class="text-accent hover:underline">Google Analytics Opt-out Add-on</a>.</li>
+          <li><strong>Cloudflare:</strong> Our site is served through Cloudflare Pages for DDoS defense, edge caching, and security logging.</li>
         </ul>
       </section>
 
       <section>
-        <h2 class="text-xl font-semibold text-base mb-3">3. Cookies</h2>
+        <h2 class="text-xl font-semibold text-base mb-3">3. Cookies &amp; Local Storage</h2>
         <p>
-          We use a single cookie (<code>theme</code>) stored in your browser's <code>localStorage</code> to remember your dark/light mode preference. This is a functional cookie and does not track you across websites. Google Analytics may set its own cookies (<code>_ga</code>, <code>_gid</code>) for analytics purposes.
+          We use a single local key (<code>theme</code>) stored in your browser's <code>localStorage</code> solely to remember your dark or light mode interface preference. We do not use tracking or advertising cookies.
         </p>
       </section>
 
       <section>
         <h2 class="text-xl font-semibold text-base mb-3">4. How We Use Information</h2>
-        <p>We use the information collected to:</p>
-        <ul class="list-disc pl-5 space-y-1">
-          <li>Understand how our tools are used and improve them</li>
-          <li>Monitor website performance and security</li>
-          <li>Comply with legal obligations</li>
+        <p>Information processed by our website is used strictly to:</p>
+        <ul class="list-disc pl-5 space-y-1 text-sm">
+          <li>Deliver the calculated results or legal drafts you explicitly request</li>
+          <li>Protect against automated denial-of-service or API rate limit abuse</li>
+          <li>Maintain site stability and monitor aggregated performance</li>
         </ul>
-        <p class="mt-3">We do <strong>not</strong> sell, rent, or share your personal information with third parties for marketing purposes.</p>
+        <p class="mt-3">We do <strong>not</strong> sell, monetize, rent, or trade your personal or financial data to any third party.</p>
       </section>
 
       <section>
         <h2 class="text-xl font-semibold text-base mb-3">5. Third-Party Links</h2>
         <p>
-          Our website may contain links to third-party websites (e.g., gst.gov.in, cbic.gov.in). We are not responsible for the privacy practices of those websites. We encourage you to review their privacy policies.
+          Our guides link to authoritative government portals (e.g., cbic.gov.in, gst.gov.in, ewaybillgst.gov.in, rbi.org.in). We are not responsible for the privacy practices of external websites.
         </p>
       </section>
 
       <section>
-        <h2 class="text-xl font-semibold text-base mb-3">6. Data Security</h2>
+        <h2 class="text-xl font-semibold text-base mb-3">6. Data Security &amp; Privacy-First Design</h2>
         <p>
-          Since our tools process all data locally in your browser, your financial and tax data never leaves your device. We implement reasonable technical measures to protect our website infrastructure.
+          We adopt a privacy-by-design architecture: computation is pushed to your device wherever technically feasible, avoiding unnecessary server transmission. Where serverless AI drafting is invoked, all transmissions are secured via end-to-end TLS 1.3 encryption.
         </p>
       </section>
 

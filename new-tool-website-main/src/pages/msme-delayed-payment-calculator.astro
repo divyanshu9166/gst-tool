@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { regulatoryRates } from '../data/regulatory-rates';
 
 const title = 'MSME Delayed Payment Interest Calculator (Section 16 Rules)';
-const description = 'Calculate compound interest on delayed payments to MSME suppliers under Section 16 of the MSMED Act. Free 3x RBI bank rate monthly compounding calculator.';
+const description = 'Calculate statutory compound interest on delayed payments to Micro & Small Enterprises (MSEs) under Section 16 of the MSMED Act. Free 3x RBI bank rate monthly compounding calculator.';
 
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://taxzentic.com';
 
@@ -13,7 +13,7 @@ const structuredData = [
     '@type': 'WebApplication',
     name: 'MSME Delayed Payment Interest Calculator',
     url: `${siteUrl}/msme-delayed-payment-calculator`,
-    description: 'Calculate interest on delayed payments to MSMEs under Section 16 of MSME Development Act.',
+    description: 'Calculate interest on delayed payments to Micro and Small Enterprises under Section 16 of MSME Development Act.',
     applicationCategory: 'FinanceApplication',
     operatingSystem: 'Any',
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR' },
@@ -32,18 +32,26 @@ const structuredData = [
       },
       {
         '@type': 'Question',
-        name: 'What is the interest rate on delayed payments to MSMEs?',
+        name: 'Kya Medium enterprises aur traders delayed payment interest claim kar sakte hain?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Under Section 16 of the MSME Development Act 2006, the interest rate on delayed payments is three times the bank rate notified by RBI (currently 5.50%). So the applicable rate is 16.50% per annum, compounded with monthly rests.',
+          text: 'Nahi. MSMED Act 2006 ke Chapter V (Section 15-24) ke provisions sirf Micro aur Small enterprises (MSEs) ke liye hain. Medium enterprises aur retail/wholesale traders (NIC codes 45, 46, 47) Section 16 statutory interest ya Section 43B(h) protection ke eligible nahi hain.',
         },
       },
       {
         '@type': 'Question',
-        name: 'What is the maximum payment period for MSMEs?',
+        name: 'What is the interest rate on delayed payments to MSMEs?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Buyers must pay MSME suppliers within 45 days from the date of acceptance or deemed acceptance of goods/services under written contract (or within 15 days if no written agreement exists). If payment exceeds this period, statutory compound interest is automatically applicable.',
+          text: 'Under Section 16 of the MSME Development Act 2006, the interest rate on delayed payments to Micro and Small enterprises is three times the bank rate notified by RBI (currently 5.50%). The applicable rate is 16.50% per annum, compounded with monthly rests.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'What is the maximum payment period for MSE suppliers?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Buyers must pay Micro and Small suppliers within 45 days from the date of acceptance under written contract (or within 15 days if no written agreement exists). Any clause attempting to extend beyond 45 days is void by law.',
         },
       },
     ],
@@ -65,9 +73,9 @@ const breadcrumb = [
         MSME Delayed Payment Interest Calculator
       </h1>
       <p class="text-[16px] text-muted max-w-2xl mx-auto leading-relaxed">
-        Calculate compound interest payable on delayed payments to MSME suppliers under <strong>Section 16</strong> of the MSME Development Act, 2006. Interest rate = 3× RBI bank rate.
+        Calculate statutory compound interest payable on delayed payments to <strong>Micro &amp; Small Enterprises (MSEs)</strong> under <strong>Section 16</strong> of the MSMED Act, 2006. Interest rate = 3× RBI bank rate.
       </p>
-      <p class="text-[13px] text-muted mt-2">Last verified: 16 September 2026 · RBI Bank Rate: 5.50% · Penalty Rate: 16.50% p.a.</p>
+      <p class="text-[13px] text-muted mt-2">Last verified: 16 September 2026 · RBI Bank Rate: 5.50% · Penalty Rate: 16.50% p.a. (Monthly Rests)</p>
     </div>
 
     <!-- Calculator -->
@@ -85,7 +93,7 @@ const breadcrumb = [
 
         <!-- Due Date -->
         <div>
-          <label for="due-date" class="block text-sm font-medium text-base mb-1.5">Payment Due Date (45 days from supply)</label>
+          <label for="due-date" class="block text-sm font-medium text-base mb-1.5">Payment Due Date (Max 45 days from supply)</label>
           <input id="due-date" type="date"
             class="w-full rounded-xl border border-base bg-subtle px-4 py-3.5 text-[16px] font-medium focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 transition-all" />
         </div>
@@ -102,7 +110,7 @@ const breadcrumb = [
           <label for="bank-rate" class="block text-sm font-medium text-base mb-1.5">RBI Bank Rate (%)</label>
           <input id="bank-rate" type="number" inputmode="decimal" value="5.5" min="0" max="25" step="0.25"
             class="w-full rounded-xl border border-base bg-subtle px-4 py-3.5 text-[16px] font-medium focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 transition-all" />
-          <p class="mt-1 text-xs text-muted">Current RBI bank rate is 5.50%. Statutory Interest = 3 × bank rate = 16.50% p.a. (compounded monthly).</p>
+          <p class="mt-1 text-xs text-muted">Current RBI bank rate is 5.50%. Statutory Interest = 3 × bank rate = 16.50% p.a. (compounded with monthly rests).</p>
         </div>
       </div>
 
@@ -113,17 +121,24 @@ const breadcrumb = [
           <span id="result-days" class="text-lg font-bold text-base">0 days</span>
         </div>
         <div class="flex justify-between items-center py-2 border-b border-base">
-          <span class="text-sm text-muted">Applicable Interest Rate (3× bank rate)</span>
+          <span class="text-sm text-muted">Applicable Rate (3× RBI bank rate)</span>
           <span id="result-rate" class="text-lg font-bold text-base">16.50% p.a.</span>
         </div>
         <div class="flex justify-between items-center py-2 border-b border-base">
-          <span class="text-sm text-muted">Interest Amount</span>
+          <div>
+            <span class="text-sm text-muted block">Estimated Statutory Interest</span>
+            <span class="text-[11px] text-muted">Compounded with monthly rests</span>
+          </div>
           <span id="result-interest" class="text-lg font-bold text-accent">₹0.00</span>
         </div>
         <div class="flex justify-between items-center py-2">
-          <span class="text-sm font-medium text-base">Total Payable (Principal + Interest)</span>
+          <span class="text-sm font-medium text-base">Total Estimated Payable (Principal + Interest)</span>
           <span id="result-total" class="text-xl font-bold text-accent">₹0.00</span>
         </div>
+      </div>
+
+      <div class="mt-3 p-3 rounded-lg bg-surface border border-base text-[12px] text-muted leading-relaxed">
+        <span class="font-semibold text-base">Statutory Scope:</span> Applicable strictly to registered <strong>Micro and Small Enterprises (MSEs)</strong>. Medium enterprises and retail/wholesale trading entities (NIC 45/46/47) are not covered under Chapter V Section 16 recovery.
       </div>
 
       <button id="btn-reset" type="button" class="mt-4 w-full rounded-xl border border-base bg-surface py-2.5 text-[14px] font-medium text-muted hover:text-base hover:bg-subtle transition-colors">
@@ -136,19 +151,21 @@ const breadcrumb = [
       <h2 class="text-[24px] font-semibold text-base mb-6 tracking-[-0.6px]">MSME Delayed Payment Rules — Section 16 Explained</h2>
       <div class="prose prose-neutral dark:prose-invert max-w-none text-[15px] leading-[1.7]">
         <p>
-          The <strong>Micro, Small and Medium Enterprises Development (MSMED) Act, 2006</strong> protects MSME suppliers from delayed payments by large buyers. Under <strong>Section 15</strong>, any buyer purchasing goods or services from an MSME supplier must make payment within 45 days from the date of acceptance (where agreed in writing) or within 15 days if there is no written contract.
+          Under Chapter V (Sections 15–24) of the <strong>Micro, Small and Medium Enterprises Development (MSMED) Act, 2006</strong>, delayed payment protections apply strictly to <strong>Micro and Small Enterprises (MSEs)</strong>. Under <strong>Section 15</strong>, any buyer purchasing goods or services from an MSE supplier must make payment within 45 days from the date of acceptance (where agreed in writing) or within 15 days if there is no written contract.
         </p>
         <p>
           If payment is not released on time, <strong>Section 16</strong> mandates that the buyer pays compound interest at <strong>three times the bank rate</strong> notified by the Reserve Bank of India (RBI). As of September 2026, the RBI bank rate is 5.50%, making the applicable statutory interest rate <strong>16.50% per annum</strong>, compounded with monthly rests.
         </p>
 
-        <h3>Key Points for MSME Suppliers & Defaulting Buyers</h3>
+        <h3>Key Eligibility &amp; Compliance Rules for MSE Suppliers</h3>
         <ul>
-          <li><strong>Mandatory timeline:</strong> Maximum 45 days under contract, or 15 days without agreement. Any clause stipulating 60, 90, or 120 days is null and void.</li>
-          <li><strong>Statutory interest rate:</strong> 3× RBI bank rate (currently 16.50% p.a.), compounded monthly.</li>
-          <li><strong>No contractual waiver:</strong> Section 16 contains an overriding non-obstante clause. The buyer cannot contractually waive this interest.</li>
-          <li><strong>Tax disallowance (Double Penalty):</strong> Under Section 23 of the MSMED Act, interest paid is <strong>not deductible</strong> as a business expense. Under Section 43B(h) of the Income Tax Act, overdue principal amounts are disallowed and added back to taxable income.</li>
-          <li><strong>Udyam registration:</strong> The supplier must possess a valid Udyam registration prior to invoice issuance to claim statutory protection.</li>
+          <li><strong>Restricted to Micro &amp; Small Enterprises:</strong> Statutory delayed payment interest and MSEFC reference apply exclusively to Micro and Small enterprises. Medium enterprises are excluded from Section 16 recovery.</li>
+          <li><strong>Traders Excluded (NIC 45/46/47):</strong> Retail and wholesale traders registered under Udyam are eligible solely for Priority Sector Lending (PSL) benefits and are not eligible for Section 16 interest or Section 43B(h) protection.</li>
+          <li><strong>Mandatory timeline:</strong> Maximum 45 days under contract, or 15 days without agreement. Any contract clause stipulating 60, 90, or 120 days is void under law.</li>
+          <li><strong>Statutory interest rate:</strong> 3× RBI bank rate (currently 16.50% p.a.), compounded with monthly rests.</li>
+          <li><strong>No contractual waiver:</strong> Section 16 contains an overriding non-obstante clause; buyers cannot contractually waive this liability.</li>
+          <li><strong>Tax disallowance (Double Penalty):</strong> Under Section 23 of the MSMED Act, interest paid is <strong>not deductible</strong> as a business expense. Under Section 43B(h) of the Income Tax Act, overdue principal amounts are disallowed and added back to taxable profit.</li>
+          <li><strong>Udyam registration prerequisite:</strong> The supplier must possess a valid Udyam registration on or before the invoice date to enforce statutory remedies.</li>
         </ul>
 
         <!-- Statutory Reference Box -->
@@ -228,9 +245,8 @@ const breadcrumb = [
 
     const diffMs = paymentDate.getTime() - dueDate.getTime();
     const delayDays = Math.max(0, Math.floor(diffMs / (1000 * 60 * 60 * 24)));
-    const delayMonths = delayDays / 30.44; // Average days per month
 
-    resultDays.textContent = `${delayDays} days`;
+    resultDays.textContent = `${delayDays} day${delayDays === 1 ? '' : 's'}`;
 
     if (delayDays <= 0) {
       resultInterest.textContent = '₹0.00';
@@ -238,12 +254,26 @@ const breadcrumb = [
       return;
     }
 
-    // Compound interest: A = P(1 + r/n)^(nt) - P
-    const amount = principal * Math.pow(1 + monthlyRate, delayMonths);
-    const interest = amount - principal;
+    // Statutory compound interest with monthly rests (Section 16 MSMED Act):
+    // Full 30-day rests compound: P_accumulated = P * (1 + monthlyRate)^fullMonths
+    // Remaining days accrue simple prorated interest on the compounded balance
+    const fullMonths = Math.floor(delayDays / 30);
+    const remainingDays = delayDays % 30;
+
+    let accumulated = principal;
+    for (let i = 0; i < fullMonths; i++) {
+      accumulated *= (1 + monthlyRate);
+    }
+
+    if (remainingDays > 0) {
+      const dailyRate = annualRate / 100 / 365;
+      accumulated += accumulated * dailyRate * remainingDays;
+    }
+
+    const interest = accumulated - principal;
 
     resultInterest.textContent = formatINR(interest);
-    resultTotal.textContent = formatINR(amount);
+    resultTotal.textContent = formatINR(accumulated);
   }
 
   // Set default dates

@@ -11,6 +11,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { execSync } from 'node:child_process';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -60,6 +61,48 @@ function extractUrlsFromSitemap() {
   return matches.map((m) => m[1].trim());
 }
 
+function getGitChangedUrls() {
+  try {
+    // Check both committed changes in HEAD vs HEAD~1 and uncommitted working tree changes
+    let changedFiles = [];
+    try {
+      const headDiff = execSync('git diff --name-only HEAD~1 HEAD', { encoding: 'utf8', cwd: rootDir });
+      changedFiles.push(...headDiff.split('\n'));
+    } catch {
+      // If single commit or no HEAD~1, check git status
+    }
+
+    try {
+      const statusOut = execSync('git status --porcelain', { encoding: 'utf8', cwd: rootDir });
+      statusOut.split('\n').forEach(line => {
+        if (line.length > 3) changedFiles.push(line.substring(3).trim());
+      });
+    } catch {}
+
+    const urls = new Set();
+    for (const file of changedFiles) {
+      const trimmed = file.trim().replace(/\\/g, '/');
+      if (!trimmed) continue;
+
+      if (trimmed.includes('src/pages/')) {
+        const afterPages = trimmed.substring(trimmed.indexOf('src/pages/') + 'src/pages/'.length);
+        if (afterPages.endsWith('.astro')) {
+          let route = afterPages.replace(/\.astro$/, '');
+          if (route === 'index') route = '';
+          else if (route.endsWith('/index')) route = route.replace(/\/index$/, '');
+          urls.add(`https://${HOST}/${route}`);
+        }
+      } else if (trimmed.includes('src/content/blog/')) {
+        const slug = path.basename(trimmed).replace(/\.md$/, '');
+        urls.add(`https://${HOST}/blog/${slug}`);
+      }
+    }
+    return Array.from(urls);
+  } catch (err) {
+    return [];
+  }
+}
+
 function resolveTargetUrls() {
   const args = process.argv.slice(2).filter((arg) => !arg.startsWith('--'));
   const forceAll = process.argv.includes('--all');
@@ -75,15 +118,25 @@ function resolveTargetUrls() {
     });
   }
 
-  // 2. If --all or sitemap exists in dist
-  const sitemapUrls = extractUrlsFromSitemap();
-  if (sitemapUrls && (forceAll || sitemapUrls.length > 0)) {
-    console.log(`📑 Loaded ${sitemapUrls.length} URLs from dist/sitemap-0.xml`);
-    return sitemapUrls;
+  // 2. If --all is explicitly requested, submit entire sitemap
+  if (forceAll) {
+    const sitemapUrls = extractUrlsFromSitemap();
+    if (sitemapUrls && sitemapUrls.length > 0) {
+      console.log(`📑 [--all] Loaded complete sitemap of ${sitemapUrls.length} URLs from dist/sitemap-0.xml`);
+      return sitemapUrls;
+    }
   }
 
-  // 3. Fallback to default high-priority URLs
-  console.log(`ℹ️ Sitemap not found in dist. Using default high-priority URLs.`);
+  // 3. Recommended: submit only recently modified/added URLs detected from git
+  const changedUrls = getGitChangedUrls();
+  if (changedUrls.length > 0) {
+    console.log(`🔍 Detected ${changedUrls.length} modified URL(s) from git changes:`);
+    changedUrls.forEach((u) => console.log(`   • ${u}`));
+    return changedUrls;
+  }
+
+  // 4. Fallback to default core URLs
+  console.log(`ℹ️ No git changes detected. Submitting ${DEFAULT_URLS.length} core default URLs (Use --all for full sitemap).`);
   return DEFAULT_URLS;
 }
 
