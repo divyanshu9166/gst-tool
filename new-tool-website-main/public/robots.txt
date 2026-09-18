@@ -1,5 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /cdn-cgi/
 
-# Block crawling of the Cloudflare Pages preview domain (handled via _headers X-Robots-Tag)
+# Sitemap
 Sitemap: https://taxzentic.com/sitemap-index.xml

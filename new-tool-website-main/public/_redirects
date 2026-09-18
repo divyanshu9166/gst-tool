@@ -1,5 +1,21 @@
+# ── Legacy sitemap redirect ────────────────────────────────────────────────
+
 /sitemap.xml /sitemap-index.xml 301
 
-# ── Duplicate blog post consolidation (301 redirects) ──────────────────────
+
+# ── Duplicate blog post consolidation ─────────────────────────────────────
+
 /blog/gst-composition-scheme-2026-guide/ /blog/gst-composition-scheme-2026/ 301
+
 /blog/gst-2-0-new-rates-2025/ /blog/gst-2-0-rate-changes-product-list/ 301
+
+
+# ── Tool URL aliases and legacy fixes ─────────────────────────────────────
+
+/itc-reversal-calculator /itc-reversal-checker 301
+
+/itc-reversal-calculator/ /itc-reversal-checker/ 301
+
+/gst-turnover-calculator /aggregate-turnover-calculator 301
+
+/gst-turnover-calculator/ /aggregate-turnover-calculator/ 301

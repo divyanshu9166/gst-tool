@@ -96,6 +96,7 @@ let brokenCount = 0;
 const checkedLinks = new Map(); // file -> broken links array
 
 const linkRegex = /href=["'](\/[^"'#? ]*)["'#?]/g;
+const mdLinkRegex = /\[[^\]]*\]\((\/[^)\s#?]+)[^)]*\)/g;
 
 for (const filePath of filesToScan) {
   const relPath = path.relative(rootDir, filePath);
@@ -104,9 +105,21 @@ for (const filePath of filesToScan) {
 
   while ((match = linkRegex.exec(content)) !== null) {
     const rawLink = match[1];
-    // Skip external or protocol-relative
     if (rawLink.startsWith('//')) continue;
-    // Normalize link
+    const targetRoute = rawLink.replace(/\/$/, '') || '/';
+
+    if (!isValidRoute(targetRoute)) {
+      if (!checkedLinks.has(relPath)) {
+        checkedLinks.set(relPath, new Set());
+      }
+      checkedLinks.get(relPath).add(targetRoute);
+      brokenCount++;
+    }
+  }
+
+  while ((match = mdLinkRegex.exec(content)) !== null) {
+    const rawLink = match[1];
+    if (rawLink.startsWith('//')) continue;
     const targetRoute = rawLink.replace(/\/$/, '') || '/';
 
     if (!isValidRoute(targetRoute)) {

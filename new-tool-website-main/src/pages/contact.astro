@@ -4,8 +4,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 const title = 'Contact Us | Taxzentic';
 const description = 'Contact the Taxzentic team — report errors, suggest tools, or ask questions about our free GST and Income Tax calculators.';
 
-// Replace with your actual contact email address
-const CONTACT_EMAIL = 'contact@taxzentic.com';
+// Split email parts to prevent Cloudflare email obfuscation rewriting into /cdn-cgi/l/email-protection
+const EMAIL_USER = 'contact';
+const EMAIL_DOMAIN = 'taxzentic.com';
 ---
 
 <BaseLayout {title} {description}>
@@ -23,7 +24,7 @@ const CONTACT_EMAIL = 'contact@taxzentic.com';
       <div class="lg:col-span-3">
         <form
           id="contact-form"
-          action={`mailto:${CONTACT_EMAIL}`}
+          action="#"
           method="post"
           enctype="text/plain"
           class="space-y-5"
@@ -93,14 +94,19 @@ const CONTACT_EMAIL = 'contact@taxzentic.com';
 
           <button
             type="submit"
-            class="w-full rounded-lg bg-accent px-6 py-3 text-sm font-semibold text-white hover:opacity-90 transition-opacity"
+            class="w-full rounded-lg bg-accent px-6 py-3 text-sm font-semibold text-white hover:opacity-90 transition-opacity cursor-pointer"
           >
             Send Message
           </button>
 
           <p class="text-xs text-muted text-center">
             This form opens your email client. Alternatively, email us directly at
-            <a href={`mailto:${CONTACT_EMAIL}`} class="text-accent hover:underline">{CONTACT_EMAIL}</a>.
+            <a
+              href="#"
+              data-user={EMAIL_USER}
+              data-domain={EMAIL_DOMAIN}
+              class="tax-contact-email text-accent hover:underline font-medium"
+            ><span class="tax-contact-text">{EMAIL_USER} [at] {EMAIL_DOMAIN}</span></a>.
           </p>
         </form>
       </div>
@@ -114,7 +120,12 @@ const CONTACT_EMAIL = 'contact@taxzentic.com';
               <span class="text-lg" aria-hidden="true">📧</span>
               <div>
                 <div class="font-medium text-base">Email</div>
-                <a href={`mailto:${CONTACT_EMAIL}`} class="text-accent hover:underline">{CONTACT_EMAIL}</a>
+                <a
+                  href="#"
+                  data-user={EMAIL_USER}
+                  data-domain={EMAIL_DOMAIN}
+                  class="tax-contact-email text-accent hover:underline font-medium"
+                ><span class="tax-contact-text">{EMAIL_USER} [at] {EMAIL_DOMAIN}</span></a>
               </div>
             </div>
             <div class="flex gap-3">
@@ -153,4 +164,33 @@ const CONTACT_EMAIL = 'contact@taxzentic.com';
       </div>
     </div>
   </div>
+
+  <script is:inline>
+    (function () {
+      // Reconstitute email link client-side to protect against bot scraping and Cloudflare /cdn-cgi/ rewrite
+      var emailLinks = document.querySelectorAll('.tax-contact-email');
+      emailLinks.forEach(function (el) {
+        var u = el.getAttribute('data-user');
+        var d = el.getAttribute('data-domain');
+        if (u && d) {
+          var addr = u + '@' + d;
+          el.setAttribute('href', 'mailto:' + addr);
+          var txt = el.querySelector('.tax-contact-text');
+          if (txt) {
+            txt.textContent = addr;
+          } else {
+            el.textContent = addr;
+          }
+        }
+      });
+
+      // Populate form mailto action upon user submission
+      var form = document.getElementById('contact-form');
+      if (form) {
+        form.addEventListener('submit', function () {
+          form.setAttribute('action', 'mailto:' + 'contact' + '@' + 'taxzentic.com');
+        });
+      }
+    })();
+  </script>
 </BaseLayout>

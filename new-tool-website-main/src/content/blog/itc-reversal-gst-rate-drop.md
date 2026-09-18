@@ -53,7 +53,7 @@ Section 17(5) of the CGST Act lists the specific scenarios where ITC is blocked 
 
 ## When DO You Actually Need to Reverse ITC?
 
-While a rate drop to a lower taxable slab does not trigger a reversal, you *do* need to reverse ITC in specific scenarios that are often confused with a rate drop. You must use an **[ITC Reversal Checker](/itc-reversal-calculator)** to ensure accuracy if you fall into these categories:
+While a rate drop to a lower taxable slab does not trigger a reversal, you *do* need to reverse ITC in specific scenarios that are often confused with a rate drop. You must use an **[ITC Reversal Checker](/itc-reversal-checker)** to ensure accuracy if you fall into these categories:
 
 ### 1. The Product Becomes Wholly Exempt (Nil Rated)
 If the GST Council decides to drop the tax rate on your product to 0% (making it wholly exempt), the situation changes drastically. 
@@ -114,4 +114,4 @@ The ITC you claimed when purchasing materials at 18% or 28% remains your valid a
 
 The true challenge following a rate drop is not ITC reversal, but managing the cash flow implications of an inverted duty structure. By maintaining meticulous inventory records, understanding the refund mechanisms under Section 54(3), and standing firm against unwarranted departmental notices, you can navigate GST 2.0 rate changes without sacrificing your hard-earned tax credits.
 
-Always consult with a qualified Chartered Accountant and utilize automated tools like the **[ITC Reversal Checker](/itc-reversal-calculator)** to ensure your compliance is airtight.
+Always consult with a qualified Chartered Accountant and utilize automated tools like the **[ITC Reversal Checker](/itc-reversal-checker)** to ensure your compliance is airtight.

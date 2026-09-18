@@ -62,7 +62,7 @@ Under Section 23 of the MSMED Act, the interest paid or payable by a buyer to an
 ### 2. Expense Disallowance Under Section 43B(h)
 Under Section 43B(h) of the Income Tax Act, any sum payable to a registered **Micro or Small enterprise** beyond the Section 15 timeline (15 or 45 days) will be disallowed as an expenditure in that financial year and added back to the buyer's taxable profits, triggering immediate 25%–30% corporate income tax.
 
-*(To check whether your business qualifies as Micro, Small, or Medium, verify your turnover limits using our [GST Turnover Calculator](/gst-turnover-calculator) and check registration eligibility with our [MSME Registration Checker](/msme-registration-checker)).*
+*(To check whether your business qualifies as Micro, Small, or Medium, verify your turnover limits using our [GST Turnover Calculator](/aggregate-turnover-calculator) and check registration eligibility with our [MSME Registration Checker](/msme-registration-checker)).*
 
 ---
 

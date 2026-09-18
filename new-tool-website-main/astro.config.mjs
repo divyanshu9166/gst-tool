@@ -18,6 +18,8 @@ export default defineConfig({
   redirects: {
     '/blog/gst-composition-scheme-2026-guide': '/blog/gst-composition-scheme-2026',
     '/blog/gst-2-0-new-rates-2025': '/blog/gst-2-0-rate-changes-product-list',
+    '/itc-reversal-calculator': '/itc-reversal-checker',
+    '/gst-turnover-calculator': '/aggregate-turnover-calculator',
   },
 
   integrations: [
