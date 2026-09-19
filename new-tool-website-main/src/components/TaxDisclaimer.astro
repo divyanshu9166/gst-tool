@@ -1,0 +1,13 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+---
+
+<aside class={`tax-disclaimer rounded-xl border border-amber-500/20 bg-amber-50/50 dark:bg-amber-950/20 p-4 text-xs text-muted leading-relaxed ${className}`} aria-label="Tax Disclaimer">
+  <p>
+    <strong>Disclaimer:</strong> Taxzentic provides general educational and calculation information, not individualized tax or legal advice. Results depend on the applicable law, tax period, classification, facts, documentation and eligibility conditions. Verify material compliance decisions against the cited official source or a qualified tax professional.
+  </p>
+</aside>

@@ -1,0 +1,62 @@
+---
+interface SourceItem {
+  title: string;
+  url?: string;
+  description?: string;
+}
+
+interface Props {
+  sources?: SourceItem[];
+  reviewedDate?: string;
+  councilRecommendation?: string;
+  implementingNotification?: string;
+  effectiveDate?: string;
+  class?: string;
+}
+
+const {
+  sources = [],
+  reviewedDate = '19 September 2026',
+  councilRecommendation,
+  implementingNotification,
+  effectiveDate,
+  class: className = '',
+} = Astro.props;
+---
+
+<aside class={`legal-sources rounded-xl border border-base bg-surface p-5 text-sm text-muted shadow-sm space-y-3 ${className}`} aria-label="Legal sources">
+  <strong class="block text-base font-semibold text-base">Legal basis and sources</strong>
+
+  {sources.length > 0 && (
+    <ul class="space-y-1.5 list-disc pl-5">
+      {sources.map((source) => (
+        <li>
+          {source.url ? (
+            <a href={source.url} target="_blank" rel="noopener noreferrer" class="text-accent hover:underline font-medium">
+              {source.title}
+            </a>
+          ) : (
+            <span class="font-medium text-base">{source.title}</span>
+          )}
+          {source.description && ` — supports ${source.description}.`}
+        </li>
+      ))}
+    </ul>
+  )}
+
+  {(councilRecommendation || implementingNotification || effectiveDate) && (
+    <div class="space-y-1 text-xs pt-2 border-t border-base">
+      {councilRecommendation && (
+        <p><strong class="text-base font-medium">Council recommendation:</strong> {councilRecommendation}</p>
+      )}
+      {implementingNotification && (
+        <p><strong class="text-base font-medium">Legally operative source:</strong> {implementingNotification}</p>
+      )}
+      {effectiveDate && (
+        <p><strong class="text-base font-medium">Effective date:</strong> {effectiveDate}</p>
+      )}
+    </div>
+  )}
+
+  <p class="text-xs text-muted pt-1">Law reviewed as of: {reviewedDate}.</p>
+</aside>

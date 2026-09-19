@@ -1,5 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import LegalSources from '../components/LegalSources.astro';
+import CalculatorMethodology from '../components/CalculatorMethodology.astro';
+import TaxDisclaimer from '../components/TaxDisclaimer.astro';
 
 const title = 'Advance Tax Calculator FY 2025-26 India';
 const description = 'Calculate your advance tax liability for FY 2025-26. Find installment due dates (Jun, Sep, Dec, Mar) and avoid Section 234B and 234C interest penalties.';
@@ -64,9 +67,12 @@ const breadcrumb = [
       <h1 class="text-4xl sm:text-5xl font-bold tracking-tight text-base mb-4">
         Advance Tax Calculator
       </h1>
-      <p class="text-[16px] text-muted max-w-lg mx-auto leading-relaxed">
+      <p class="text-[16px] text-muted max-w-lg mx-auto leading-relaxed mb-4">
         Calculate your advance tax installments for FY 2025-26, view due dates, and avoid costly interest under Sections 234B & 234C.
       </p>
+      <div class="inline-block text-left rounded-xl border border-blue-500/20 bg-blue-50/50 dark:bg-blue-950/20 p-4 text-xs text-muted max-w-2xl mx-auto leading-relaxed">
+        <strong class="text-base font-medium">Period covered:</strong> This page covers FY 2025-26 / AY 2026-27. That period continues to be governed by the Income-tax Act, 1961. The Income-tax Act, 2025 applies from Tax Year 2026-27 onwards. Advance tax relating to Tax Year 2026-27 is therefore governed by the 2025 Act.
+      </div>
     </div>
 
     <!-- Tool -->
@@ -355,6 +361,33 @@ document.getElementById("calc-btn").addEventListener("click", computeAdvanceTax)
           </a>
         </li>
       </ul>
+
+      <!-- Methodology & Legal Sources -->
+      <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6 not-prose">
+        <CalculatorMethodology
+          calculates="Quarterly advance tax installments (15%, 45%, 75%, 100%) and estimates mandatory interest liabilities under Section 234B and 234C."
+          doesNotDetermine="Individual Chapter VI-A itemized deductions under Old Regime, capital gains rollover relief under Section 54, or foreign tax credits under DTAA."
+          inputs="Estimated Annual Income (₹), TDS Already Deducted (₹), Tax Regime (New / Old), Taxpayer Category"
+          formula="Installments: 15% (15 Jun), 45% (15 Sep), 75% (15 Dec), 100% (15 Mar) of estimated net tax liability"
+          applicablePeriod="FY 2025-26 / AY 2026-27 (governed by Income-tax Act, 1961)"
+          primarySource="Sections 208, 209, 211, 234B &amp; 234C of the Income-tax Act, 1961"
+          formulaLastReviewed="19 September 2026"
+        />
+
+        <LegalSources
+          sources={[
+            { title: "Section 208, Income-tax Act, 1961", description: "statutory threshold of ₹10,000 for advance tax liability" },
+            { title: "Section 211, Income-tax Act, 1961", description: "instalment due dates and percentage schedules for advance tax" },
+            { title: "Section 234B & 234C, Income-tax Act, 1961", description: "mandatory simple interest at 1% per month on default or deferment of advance tax" },
+            { title: "Income Tax Department Transition Circular", url: "https://www.incometax.gov.in", description: "applicability of 1961 Act to FY 2025-26 / AY 2026-27 and 2025 Act to TY 2026-27" }
+          ]}
+          reviewedDate="19 September 2026"
+        />
+      </div>
+
+      <div class="mt-6 not-prose">
+        <TaxDisclaimer />
+      </div>
     </div>
   </div>
 <!-- FAQ Section -->

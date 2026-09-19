@@ -28,7 +28,7 @@ const structuredData = [
       { '@type': 'Question', name: 'Where do I report ITC reversal in my GSTR-3B?', acceptedAnswer: { '@type': 'Answer', text: 'ITC reversals are reported in Table 4(B) of your monthly GSTR-3B return. Specifically, reversals due to exempt supplies go in Table 4(B)(1) and reversals under Rule 42/43 go in Table 4(B)(2). The reversal amount reduces your eligible ITC for that month.' } },
       { '@type': 'Question', name: 'Can I claim ITC that I had previously reversed?', acceptedAnswer: { '@type': 'Answer', text: 'Yes, if the reason for the original reversal no longer applies — for instance, if goods initially intended for exempt supplies are later used for taxable supplies — you can reclaim the reversed ITC in subsequent returns by reporting it in Table 4(A) of GSTR-3B.' } },
       { '@type': 'Question', name: 'Is ITC reversal required if I sell goods at a discount after a rate drop?', acceptedAnswer: { '@type': 'Answer', text: 'No. Selling at a discount does not trigger ITC reversal. ITC reversal is only about the tax nature of the supply (taxable vs exempt). Selling taxable goods at any price — even at a loss — does not require you to reverse ITC.' } },
-      { '@type': 'Question', name: 'What is the penalty for not reversing ITC when it is legally required?', acceptedAnswer: { '@type': 'Answer', text: 'Failure to reverse ITC when legally required is treated as wrongful availment of ITC. Penalty under Section 122 of the CGST Act is 100% of the tax amount (i.e., the wrongfully claimed ITC), plus interest at 24% per annum on the ITC amount from the date it was claimed.' } },
+      { '@type': 'Question', name: 'What is the penalty for not reversing ITC when it is legally required?', acceptedAnswer: { '@type': 'Answer', text: 'Failure to reverse ITC when legally required is treated as wrongful availment of ITC. Penalty under Section 122 of the CGST Act is 100% of the tax amount (i.e., the wrongfully claimed ITC), plus interest at 18% per annum under Section 50(3) on the ITC amount wrongly availed and utilized.' } },
     ]
   }
 ];
@@ -81,12 +81,15 @@ const breadcrumb = [
   </div>
 
   
-  <!-- Related Guides -->
+  <!-- Related Guides & Tools -->
   <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 pb-12">
     <div class="border-t border-base pt-12">
-      <h2 class="text-[24px] font-semibold text-base mb-4">Related Guides</h2>
+      <h2 class="text-[24px] font-semibold text-base mb-4">Related ITC &amp; Reconciliation Tools</h2>
+      <p class="text-sm text-muted mb-4">
+        Before finalizing reversals in GSTR-3B, verify invoice matching with our <a href="/gstr-2b-reconciliation-tool/" class="text-accent hover:underline font-medium">GSTR-2B reconciliation tool</a> to catch missing supplier uploads, and optimize your cash payout order using the <a href="/itc-calculator/" class="text-accent hover:underline font-medium">ITC set-off calculator</a>.
+      </p>
       <ul class="list-disc pl-5 space-y-2">
-        <li><a href="/blog/gstin-validator-api-vs-offline" class="text-primary hover:underline">Offline GSTIN Validator vs Official API: Which is Better?</a></li>
+        <li><a href="/blog/itc-reversal-gst-rate-drop" class="text-primary hover:underline">ITC Reversal After GST Rate Drop: Do You Actually Need to Do It?</a></li>
         <li><a href="/blog/gst-composition-scheme-2026" class="text-primary hover:underline">GST Composition Scheme 2026: Complete Guide for Small Business</a></li>
       </ul>
     </div>
@@ -107,7 +110,7 @@ const breadcrumb = [
           { q: 'Where do I report ITC reversal in GSTR-3B?', a: 'Report ITC reversals in Table 4(B) of GSTR-3B. Reversals related to Rule 42/43 go in Table 4(B)(2). Reversals due to ineligible ITC go in Table 4(B)(1). The system reduces your net eligible ITC by this amount before calculating your final cash GST payable.' },
           { q: 'Can I reclaim reversed ITC later if the situation changes?', a: 'Yes. If goods initially intended for exempt supplies are later used for taxable supplies, you can reclaim the reversed ITC in your subsequent GSTR-3B by reporting it as eligible ITC in Table 4(A)(5). The law allows this reclaim as long as it is within the due date for the September return of the following financial year.' },
           { q: 'Is ITC reversal required if I sell goods at a heavy discount after a rate drop?', a: 'No. Selling taxable goods at a discount or even at a loss does not trigger ITC reversal. The only trigger is the tax classification of the supply (taxable vs exempt). As long as your product is still taxable at any slab, no ITC reversal is needed regardless of your selling price.' },
-          { q: 'What is the penalty for wrongfully claiming ITC instead of reversing it?', a: 'Under Section 122 of the CGST Act, the penalty for wrongful availment of ITC is 100% of the tax amount involved (equal to the ITC that should have been reversed). Additionally, interest is charged at 24% per annum from the date the ITC was originally claimed, until the date of reversal.' },
+          { q: 'What is the penalty for wrongfully claiming ITC instead of reversing it?', a: 'Under Section 122 of the CGST Act, the penalty for wrongful availment of ITC can equal 100% of the tax amount involved if willful. Under Section 50(3) of the CGST Act (amended by Finance Act 2022), statutory interest is charged at 18% per annum where ITC is wrongfully availed and utilized, calculated from the date of utilization until reversal.' },
         ].map((faq, i) => (
           <details class="group rounded-[8px] border border-base bg-surface overflow-hidden" id={`faq-itc-${i}`}>
             <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">

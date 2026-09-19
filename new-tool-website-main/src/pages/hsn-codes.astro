@@ -1,6 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ToolIcon from '../components/ToolIcon.astro';
+import LegalSources from '../components/LegalSources.astro';
+import TaxDisclaimer from '../components/TaxDisclaimer.astro';
 
 const title = 'HSN & SAC Codes India — Search, Finder Tools & Complete Guide';
 const description = 'Resource for HSN and SAC codes in India. Search by product name, find codes, and learn 4-digit vs 6-digit HSN rules for GST B2B invoices.';
@@ -206,8 +208,8 @@ const allProducts = [
           <p class="text-sm text-muted">Understanding how goods (HSN) and services (SAC) are classified differently under the Indian GST system.</p>
         </a>
         <a href="/blog/hsn-code-importance" class="group block">
-          <h3 class="text-lg font-medium text-base group-hover:text-accent transition-colors mb-1">Why HSN Codes Matter for ITC</h3>
-          <p class="text-sm text-muted">How incorrect HSN codes lead to GSTR-1 mismatches, denied Input Tax Credit, and department notices under Section 73.</p>
+          <h3 class="text-lg font-medium text-base group-hover:text-accent transition-colors mb-1">Why HSN Codes Matter for Invoicing</h3>
+          <p class="text-sm text-muted">How invoice classification differences can trigger reconciliation queries, reporting mismatches, and potential scrutiny under statutory provisions.</p>
         </a>
         <a href="/blog/finding-hsn-codes-for-exports" class="group block">
           <h3 class="text-lg font-medium text-base group-hover:text-accent transition-colors mb-1">HSN Codes for Exports</h3>
@@ -221,6 +223,27 @@ const allProducts = [
           <h3 class="text-lg font-medium text-base group-hover:text-accent transition-colors mb-1">HSN Code for Mobile Phones</h3>
           <p class="text-sm text-muted">Complete guide to HSN 8517 — the correct code for smartphones, feature phones, and accessories with 18% GST.</p>
         </a>
+      </div>
+
+      <!-- Contextual Classification Tools -->
+      <div class="mt-10 rounded-2xl border border-base bg-subtle p-6">
+        <h3 class="text-lg font-semibold text-base mb-2">Explore Classification &amp; Rate Tools</h3>
+        <p class="text-sm text-muted leading-relaxed mb-4">
+          To search individual 4, 6, or 8-digit codes directly, use our <a href="/hsn-code-lookup/" class="text-accent hover:underline font-medium">HSN code lookup tool</a>. If you only know the commercial name of an item or service, search notified slabs with our <a href="/gst-rate-finder/" class="text-accent hover:underline font-medium">GST rate finder by product name</a> or check notified rates on commodities like <a href="/gst-rate-on-iron-and-steel/" class="text-accent hover:underline font-medium">iron and steel</a> and <a href="/gst-rate-on-textiles/" class="text-accent hover:underline font-medium">textiles</a>.
+        </p>
+
+        <LegalSources
+          sources={[
+            { title: "Notification No. 78/2020-Central Tax", url: "https://www.cbic.gov.in", description: "statutory 4-digit and 6-digit HSN invoice mandates" },
+            { title: "Customs Tariff Act, 1975 (First Schedule)", url: "https://www.cbic.gov.in", description: "primary statutory classification framework adopted under GST" },
+            { title: "General Rules for Interpretation (GRI)", description: "statutory principles governing priority of specific vs general descriptions" }
+          ]}
+          reviewedDate="19 September 2026"
+        />
+
+        <div class="mt-4">
+          <TaxDisclaimer />
+        </div>
       </div>
     </div>
 

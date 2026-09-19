@@ -8,7 +8,9 @@ tags: ["GST 2.0", "Compliance", "Tax Rates"]
 
 The Indian Goods and Services Tax (GST) landscape underwent its most significant transformation yet in September 2025. Coined as **"GST 2.0"**, this major rate rationalization exercise simplified the multi-tiered tax system. The traditional four slabs (5%, 12%, 18%, and 28%) have been streamlined into a leaner, three-tier structure (with an additional luxury slab).
 
-If you run a small business, a retail outlet, or a manufacturing firm, these changes directly impact your working capital, your MRPs, and your compliance overhead. In this comprehensive guide, we will break down exactly what GST 2.0 means, which products moved slabs, and how to adapt your billing.
+> **Editorial Note:** "GST 2.0" is an editorial and industry shorthand describing the rate rationalization roadmap proposed by the GST Council Group of Ministers (GoM). Statutory rates are governed by notifications issued under Section 9(1) of the CGST Act and Section 5(1) of the IGST Act. Specific rate changes become legally binding on the effective date published in the official Central Tax (Rate) notifications in the Gazette of India.
+
+If you run a small business, a retail outlet, or a manufacturing firm, these changes directly impact your working capital, your MRPs, and your compliance overhead. In this comprehensive guide, we will break down exactly what GST 2.0 means, which products moved slabs, and how to adapt your billing. Before updating enterprise ERPs, always cross-reference specific goods using the [GST Rate Finder](/gst-rate-finder) or verify classification rules in our [HSN Codes](/hsn-codes) library.
 
 ---
 
@@ -32,14 +34,14 @@ Here is a detailed breakdown of the major industries and products affected by th
 
 ### A. Items Shifted from 12% to 18% (Standard Rate)
 
-Many items previously enjoying the 12% concessional rate were moved up to the standard 18% slab. If you sell these items, you must ensure your billing software is updated.
+Many items previously enjoying the 12% concessional rate were moved up to the standard 18% slab under amended Notification No. 1/2017-Central Tax (Rate). If you sell these items, you must ensure your billing software is updated.
 
 - **Mobile Phones and Accessories:** Previously a point of contention, all smartphones, chargers, and related electronic peripherals are now uniformly taxed at 18%.
 - **Processed Food & Beverages:** Packaged snacks, fruit juices, and certain dairy products (like flavored milk) have moved to 18%.
 - **Readymade Garments:** Apparel priced above ₹1,000 previously attracted 12%; it is now streamlined into the 18% bracket.
-- **Hotel Rooms:** Rooms priced between ₹1,000 and ₹7,500 per night now attract a flat 18% rate.
+- **Hotel Rooms:** Rooms priced between ₹1,000 and ₹7,500 per night now attract a flat 18% rate under Notification No. 11/2017-Central Tax (Rate).
 
-> **Tool Tip:** Use our [Old vs New GST Rate Comparison](/gst-rate-comparison) tool to instantly calculate the difference in your tax liability and see how this 6% jump affects your final consumer price.
+> **Tool Tip:** Use our [Old vs New GST Rate Comparison](/gst-rate-comparison) tool to instantly calculate the difference in your tax liability and see how this 6% jump affects your final consumer price. You can also search exact 4-digit and 6-digit codes in the [GST Rate Finder](/gst-rate-finder).
 
 ### B. Items Shifted from 12% to 5% (Merit Goods)
 
@@ -112,6 +114,8 @@ Be sure to bookmark our suite of [Free GST Tools](/) to help you navigate these 
 ---
 
 ### Related Tools for Your Business
+- [GST Rate Finder](/gst-rate-finder)
+- [HSN Codes Directory](/hsn-codes)
 - [Old vs New GST Rate Comparison](/gst-rate-comparison)
 - [MRP Revision Calculator](/mrp-revision-calculator)
 - [GST on Rent Calculator](/gst-on-rent-calculator)

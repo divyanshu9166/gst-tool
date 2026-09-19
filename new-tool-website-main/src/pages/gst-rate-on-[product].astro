@@ -1,6 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ToolIcon from '../components/ToolIcon.astro';
+import TaxDisclaimer from '../components/TaxDisclaimer.astro';
+import LegalSources from '../components/LegalSources.astro';
 
 export async function getStaticPaths() {
   const popularProducts = [
@@ -31,6 +33,9 @@ export async function getStaticPaths() {
     { slug: 'diamonds', name: 'Diamonds', rate: '1.5%', hsn: '7102', desc: 'Diamonds, whether or not worked, but not mounted or set' },
     { slug: 'cotton-trousers-pants', name: 'Cotton Trousers & Pants', rate: '5% / 12%', hsn: '6203', desc: "Men's and boys' cotton trousers, gift cotton pants, jeans, breeches, and woven cotton bottoms" },
     { slug: 'borates-boron-compounds', name: 'Borates & Boron Compounds', rate: '18%', hsn: '2840', desc: 'Refined borates, HSN code 28401900 revised rate 2026, disodium tetraborate, and peroxoborates' },
+    { slug: 'iron-and-steel', name: 'Iron and Steel', rate: '18%', hsn: '7208', desc: 'Flat-rolled and primary products of iron or non-alloy steel' },
+    { slug: 'textiles', name: 'Textiles & Woven Fabrics', rate: '5% / 12%', hsn: '5208', desc: 'Woven cotton fabrics, man-made filament and staple fibre textiles' },
+    { slug: 'fertilizers', name: 'Fertilizers', rate: '5%', hsn: '3102', desc: 'Mineral or chemical fertilizers including urea, DAP, and complexes' },
   ];
 
   return popularProducts.map((product) => {
@@ -190,6 +195,31 @@ const lastUpdated = '2026-07-25';
           </div>
         </details>
       </div>
+    </div>
+
+    <!-- Legal Sources & Regulatory Citations -->
+    <div class="mb-12">
+      <LegalSources
+        sources={[
+          {
+            act: "Notification No. 1/2017-Central Tax (Rate)",
+            section: `Schedule tariff entries governing HSN/SAC ${product.hsn}`,
+            description: `Statutory rate schedule entry governing items under Chapter ${product.hsn.slice(0, 2)}. Subject to amending notifications issued under Section 9(1) of the CGST Act.`,
+            url: "https://cbic-gst.gov.in"
+          },
+          {
+            act: "Central Goods and Services Tax Act, 2017",
+            section: "Section 9(1) & Section 15",
+            description: "Levy and collection of CGST on intra-state supplies based on taxable value determined under statutory valuation provisions."
+          }
+        ]}
+        lastReviewed="2026-07-25"
+      />
+    </div>
+
+    <!-- Educational Disclaimer -->
+    <div class="mb-12">
+      <TaxDisclaimer />
     </div>
 
     <!-- Related tools -->

@@ -1,6 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ToolIcon from '../components/ToolIcon.astro';
+import LegalSources from '../components/LegalSources.astro';
+import TaxDisclaimer from '../components/TaxDisclaimer.astro';
 
 const title = 'GST 2.0 (2026) — Complete Guide, New Rates & Tools';
 const description = 'Everything about the GST 2.0 tax reform in India. Explore the 5%, 18%, and 40% slabs, check product rates, and use our free GST 2.0 calculators.';
@@ -65,9 +67,12 @@ const lastUpdated = '2026-07-25';
       <h1 class="text-4xl sm:text-5xl font-bold tracking-tight text-base mb-6">
         The <span class="text-accent">GST 2.0</span> Resource Center
       </h1>
-      <p class="text-[18px] text-muted max-w-2xl mx-auto leading-relaxed">
+      <p class="text-[18px] text-muted max-w-2xl mx-auto leading-relaxed mb-4">
         India's transition to the simplified 3-slab GST structure (5%, 18%, 40%) brings major changes to compliance, invoicing, and ITC. Find all the tools and guides you need to adapt.
       </p>
+      <div class="inline-block text-left rounded-xl border border-blue-500/20 bg-blue-50/50 dark:bg-blue-950/20 p-4 text-xs text-muted max-w-2xl mx-auto leading-relaxed">
+        <strong class="text-base font-medium">Editorial Note:</strong> "GST 2.0" is an editorial term describing the rate rationalization recommendations of the GST Council. While Council recommendations establish policy direction, rate amendments take legal effect only upon publication of implementing statutory notifications by the Central Government and respective State Governments.
+      </div>
     </div>
 
     <!-- Featured Tools -->
@@ -171,6 +176,21 @@ const lastUpdated = '2026-07-25';
           </div>
         </details>
       </div>
+    </div>
+
+    <!-- Legal Sources & Disclaimer -->
+    <div class="mb-16 space-y-4">
+      <LegalSources
+        sources={[
+          { title: "GST Council Press Releases & Recommendations", url: "https://www.gstcouncil.gov.in", description: "policy rationalization roadmap across 5%, 18%, and luxury rate slabs" },
+          { title: "CBIC Central Tax (Rate) Notifications", url: "https://www.cbic.gov.in", description: "statutory instruments legally enforcing amended tariff rates and effective dates" }
+        ]}
+        councilRecommendation="GST Council Tariff Rationalization Recommendations"
+        implementingNotification="Respective Implementing Central Tax (Rate) Notifications"
+        reviewedDate="19 September 2026"
+      />
+
+      <TaxDisclaimer />
     </div>
   </div>
 </BaseLayout>

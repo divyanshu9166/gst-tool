@@ -1,5 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import LegalSources from '../components/LegalSources.astro';
+import CalculatorMethodology from '../components/CalculatorMethodology.astro';
+import TaxDisclaimer from '../components/TaxDisclaimer.astro';
 
 const title = 'GST Composition Scheme Calculator 2026';
 const description = 'Check your eligibility for the GST Composition Scheme and instantly calculate your flat tax liability (1%, 5%, 6%) for small businesses in India.';
@@ -219,41 +222,66 @@ const breadcrumb = [
       
       <h3>Who is Eligible for the Composition Scheme?</h3>
       <p>
-        Eligibility is determined by your aggregate annual turnover from the preceding financial year and the state in which your principal place of business is located.
+        Eligibility is determined by your aggregate annual turnover from the preceding financial year, your business activity, and the state in which your principal place of business is registered under Section 10 of the CGST Act.
       </p>
       <ul>
-        <li><strong>Manufacturers and Traders (Goods):</strong> Eligible if the turnover is up to ₹1.5 Crore. However, if the business is located in Special Category States (like Arunachal Pradesh, Assam, Manipur, Meghalaya, Mizoram, Nagaland, Sikkim, Tripura, Himachal Pradesh), the limit is heavily reduced to ₹75 Lakhs.</li>
-        <li><strong>Restaurants:</strong> Eligible if the turnover is up to ₹1.5 Crore. Note: The restaurant must not serve alcohol, as alcoholic liquor for human consumption is outside the purview of GST.</li>
-        <li><strong>Service Providers:</strong> Initially, service providers were excluded from the scheme. However, a dedicated composition scheme was later introduced for pure service providers (like freelancers, consultants, salons) with a strict turnover limit of ₹50 Lakhs.</li>
+        <li><strong>Section 10 Goods Suppliers (Manufacturers and Traders):</strong> Eligible if aggregate turnover in the preceding financial year was up to ₹1.5 Crore. For businesses in Special Category States (Arunachal Pradesh, Manipur, Meghalaya, Mizoram, Nagaland, Sikkim, Tripura, and Uttarakhand), the statutory limit is ₹75 Lakhs.</li>
+        <li><strong>Section 10(1)(b) Restaurant Services:</strong> Eligible if annual aggregate turnover is up to ₹1.5 Crore. Note that restaurants serving alcoholic beverages cannot opt for composition, as alcohol is non-GST.</li>
+        <li><strong>6% Service Supplier Scheme:</strong> Pure service providers (or mixed suppliers not covered under Section 10) are governed by Section 10(2A) and <strong>Notification No. 2/2019-Central Tax (Rate)</strong>, which establishes a distinct ₹50 Lakhs turnover ceiling.</li>
       </ul>
 
       <h3>The Tax Rates (1%, 5%, 6%)</h3>
-      <p>Under the composition scheme, the tax rates are drastically lower than normal GST rates (which range from 5% to 28%). However, the dealer must pay this out of their own pocket:</p>
+      <p>Under the composition framework, tax rates are lower than standard GST rates (which range from 5% to 28%). However, the taxpayer must pay this flat tax directly without collecting it from customers:</p>
       <ul>
-        <li><strong>Manufacturers:</strong> 1% (0.5% CGST + 0.5% SGST) on total turnover.</li>
-        <li><strong>Traders & Retailers:</strong> 1% (0.5% CGST + 0.5% SGST) on the turnover of <em>taxable supplies</em> only.</li>
+        <li><strong>Manufacturers (Goods):</strong> 1% (0.5% CGST + 0.5% SGST) on total turnover.</li>
+        <li><strong>Traders &amp; Retailers:</strong> 1% (0.5% CGST + 0.5% SGST) on the turnover of <em>taxable supplies</em> only.</li>
         <li><strong>Restaurants:</strong> 5% (2.5% CGST + 2.5% SGST) on total turnover.</li>
-        <li><strong>Service Providers:</strong> 6% (3% CGST + 3% SGST) on total turnover.</li>
+        <li><strong>Service Providers (Notification 2/2019):</strong> 6% (3% CGST + 3% SGST) on total turnover.</li>
       </ul>
 
-      <h3>Strict Limitations and Disadvantages</h3>
+      <h3>Statutory Limitations and Operational Conditions</h3>
       <p>
-        While it heavily reduces paperwork, the Composition Scheme comes with severe, non-negotiable limitations. Before using the <strong>Composition Scheme Calculator</strong> to opt-in, you must understand the drawbacks:
+        While it reduces return filing complexity, the Composition Scheme comes with defined statutory constraints. Review these factors before deciding to opt in:
       </p>
       <ol>
-        <li><strong>No Input Tax Credit (ITC):</strong> You cannot claim ITC on your purchases. If you buy inventory worth ₹1,00,000 and pay ₹18,000 in GST, that ₹18,000 becomes a sunk cost. You cannot use it to offset your tax liability.</li>
-        <li><strong>No Tax Collection:</strong> You cannot collect GST from your buyers. You must issue a "Bill of Supply" instead of a "Tax Invoice". You must explicitly print the words <em>"Composition taxable person, not eligible to collect tax on supplies"</em> at the top of the bill.</li>
-        <li><strong>No Inter-State Sales:</strong> You are strictly forbidden from making inter-state outbound sales. You can buy goods from other states, but your sales must remain strictly intra-state.</li>
-        <li><strong>No E-Commerce Sales:</strong> You cannot sell goods through e-commerce operators (like Amazon, Flipkart, Myntra) who are required to collect TCS.</li>
-        <li><strong>Non-Taxable Goods:</strong> You cannot manufacture or trade goods that are not covered under GST (e.g., petrol, alcohol). Furthermore, manufacturers of specific notified goods like Ice cream, Pan Masala, Tobacco, and Aerated Waters cannot opt for the scheme.</li>
+        <li><strong>No Input Tax Credit (ITC):</strong> You cannot claim ITC on purchases or capital goods. Any tax paid to your suppliers becomes an operational cost.</li>
+        <li><strong>No Tax Collection:</strong> You cannot charge GST on customer invoices. You must issue a "Bill of Supply" endorsed with the words <em>"Composition taxable person, not eligible to collect tax on supplies"</em>.</li>
+        <li><strong>No Inter-State Outward Sales:</strong> You are restricted to making intra-state outward supplies of goods and services. Inter-state inward purchases are permitted.</li>
+        <li><strong>E-Commerce Supplies (Notification 36/2023):</strong> Composition dealers cannot make inter-state supplies through e-commerce operators. However, under <strong>Notification No. 36/2023-Central Tax</strong>, composition dealers are permitted to make intra-state supplies of goods through e-commerce operators (ECOs) subject to obtaining an enrollment number on the GST portal and meeting specified inventory conditions.</li>
+        <li><strong>Non-Taxable &amp; Excluded Goods:</strong> You cannot supply goods outside GST (such as motor spirits or alcohol). Furthermore, manufacturers of notified products (such as pan masala, tobacco, ice cream, and aerated waters) are ineligible for the scheme.</li>
       </ol>
 
-      <h3>Return Filing under Composition Scheme</h3>
-      <p>The compliance burden is significantly lower. Instead of filing 36 returns a year, a composition dealer only files:</p>
-      <ul>
-        <li><strong>CMP-08:</strong> A simple quarterly statement used to declare the turnover and pay the flat tax. It must be filed by the 18th of the month following the quarter.</li>
-        <li><strong>GSTR-4:</strong> The annual return for composition dealers, which must be filed by the 30th of April following the financial year.</li>
-      </ul>
+      <h3>Quarterly Return Filing &amp; Due Dates</h3>
+      <p>
+        Composition dealers file statement <strong>CMP-08</strong> quarterly by the 18th of the month following each quarter, and submit the annual return <strong>GSTR-4</strong> by 30th April following the financial year. You can track all upcoming quarterly deadlines with our <a href="/gst-due-dates/" class="text-accent hover:underline font-medium">GST due dates calendar</a>, or use our <a href="/gst-calculator/" class="text-accent hover:underline font-medium">general GST calculator</a> to model regular regime tax splits.
+      </p>
+
+      <!-- Methodology & Legal Sources -->
+      <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6 not-prose">
+        <CalculatorMethodology
+          calculates="Estimated quarterly and annual composition tax liability based on chosen business category rate (1%, 5%, or 6%) and aggregate turnover."
+          doesNotDetermine="Statutory eligibility to opt in, presence of inter-state supplies, manufacture of excluded commodities, or formal portal approval."
+          inputs="Business Category, Special Category State flag, Annual Aggregate Turnover (₹)"
+          formula="Composition Tax = Turnover × Category Rate (1% Goods, 5% Restaurant, 6% Services)"
+          applicablePeriod="FY 2025-26 &amp; FY 2026-27"
+          primarySource="Section 10 of CGST Act, 2017 &amp; Notification No. 2/2019-Central Tax (Rate)"
+          formulaLastReviewed="19 September 2026"
+        />
+
+        <LegalSources
+          sources={[
+            { title: "Section 10, CGST Act, 2017", description: "composition levy framework for goods and restaurants" },
+            { title: "Notification No. 2/2019-Central Tax (Rate)", url: "https://www.cbic.gov.in", description: "6% presumptive scheme for service suppliers up to ₹50 Lakh" },
+            { title: "Notification No. 36/2023-Central Tax", url: "https://www.cbic.gov.in", description: "conditions for intra-state supply of goods through ECOs" },
+            { title: "Rule 3 to 7, CGST Rules, 2017", description: "intimation, validity, and conditions for composition levy" }
+          ]}
+          reviewedDate="19 September 2026"
+        />
+      </div>
+
+      <div class="mt-6 not-prose">
+        <TaxDisclaimer />
+      </div>
     </article>
 
     

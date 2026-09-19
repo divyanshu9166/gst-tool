@@ -1,5 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import LegalSources from '../components/LegalSources.astro';
+import CalculatorMethodology from '../components/CalculatorMethodology.astro';
+import TaxDisclaimer from '../components/TaxDisclaimer.astro';
 
 const title = 'ITC Set-Off Calculator — GST India 2026';
 const description = 'Accurately calculate your net GST payable in cash by setting off your Input Tax Credit (ITC) against your output tax liability according to new CBIC rules.';
@@ -258,16 +261,47 @@ const breadcrumb = [
         <li><strong>CRITICAL BAN:</strong> SGST credit can <em>never</em> be used to pay CGST liability.</li>
       </ol>
 
-      <h3>Blocked Credits: Section 17(5)</h3>
-      <p>While our calculator handles the mathematical set-off, you must ensure the ITC you input is actually eligible. Under Section 17(5), you cannot claim ITC on certain purchases, even if they are for business use. These include:</p>
+      <h3>Blocked Credits &amp; Eligibility: Section 17(5)</h3>
+      <p>
+        While this tool calculates the mathematical set-off, input amounts must represent legally eligible credits. Under Section 17(5) of the CGST Act, certain credits are restricted (subject to specific statutory exceptions):
+      </p>
       <ul>
-        <li>Motor vehicles for passenger transportation (unless you are in the transport or driving school business).</li>
-        <li>Food, beverages, outdoor catering, beauty treatments, and health services.</li>
-        <li>Membership of clubs, health, and fitness centers.</li>
-        <li>Goods given away as free samples or gifts.</li>
-        <li>Goods lost, stolen, destroyed, or written off.</li>
+        <li><strong>Motor vehicles for transportation of persons:</strong> Blocked unless used for further supply of vehicles, passenger transportation, or driving school training.</li>
+        <li><strong>Food, beverages, outdoor catering, health services:</strong> Blocked unless used as an inward supply for making outward taxable supplies of the same category.</li>
+        <li><strong>Club memberships, fitness, and health travel:</strong> Statutorily restricted.</li>
+        <li><strong>Goods lost, stolen, destroyed, or written off:</strong> Credit must be reversed.</li>
+        <li><strong>Free samples or gifts:</strong> Blocked from ITC.</li>
       </ul>
-      <p>Ensure you deduct any blocked credits before entering your "Available ITC" into the calculator.</p>
+      <p>
+        Before utilizing credits, <a href="/gstr-2b-reconciliation-tool/" class="text-accent hover:underline font-medium">reconcile purchase records against GSTR-2B</a> to ensure all invoices have been furnished by your vendors, and check common input reversals using our <a href="/itc-reversal-checker/" class="text-accent hover:underline font-medium">ITC reversal checker</a> under Rules 42 &amp; 43.
+      </p>
+
+      <!-- Methodology & Legal Sources -->
+      <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6 not-prose">
+        <CalculatorMethodology
+          calculates="Statutory set-off order of Input Tax Credit against outward tax liabilities and computes net cash liability under Section 49, 49A, and Rule 88A."
+          doesNotDetermine="Statutory eligibility to claim ITC under Section 16, payment of tax to the government under Section 16(2)(c), or blocked credits under Section 17(5)."
+          inputs="Output Tax Liabilities (IGST, CGST, SGST) and Input Tax Credits (IGST, CGST, SGST) in ₹"
+          formula="Step 1: IGST Credit -> IGST, then CGST/SGST | Step 2: CGST Credit -> CGST, then IGST | Step 3: SGST Credit -> SGST, then IGST"
+          applicablePeriod="FY 2025-26 &amp; FY 2026-27"
+          primarySource="Sections 49, 49A, 49B of CGST Act &amp; Rule 88A of CGST Rules, 2017"
+          formulaLastReviewed="19 September 2026"
+        />
+
+        <LegalSources
+          sources={[
+            { title: "Section 49 & 49A, CGST Act, 2017", description: "statutory order of utilization of input tax credit" },
+            { title: "Rule 88A, CGST Rules, 2017", description: "order of utilization of input tax credit across tax heads" },
+            { title: "Section 17(5), CGST Act, 2017", description: "statutory blocked credits and restricted input categories" },
+            { title: "CBIC Circular No. 98/17/2019-GST", url: "https://www.cbic.gov.in", description: "official clarification on utilization sequence under Rule 88A" }
+          ]}
+          reviewedDate="19 September 2026"
+        />
+      </div>
+
+      <div class="mt-6 not-prose">
+        <TaxDisclaimer />
+      </div>
     </article>
 
     

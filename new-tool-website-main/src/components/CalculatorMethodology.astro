@@ -1,0 +1,41 @@
+---
+interface Props {
+  calculates: string;
+  doesNotDetermine: string;
+  inputs: string;
+  formula: string;
+  applicablePeriod: string;
+  primarySource: string;
+  formulaLastReviewed?: string;
+  class?: string;
+}
+
+const {
+  calculates,
+  doesNotDetermine,
+  inputs,
+  formula,
+  applicablePeriod,
+  primarySource,
+  formulaLastReviewed = '19 September 2026',
+  class: className = '',
+} = Astro.props;
+---
+
+<aside class={`calculator-methodology rounded-xl border border-base bg-surface p-5 text-sm text-muted shadow-sm space-y-2.5 ${className}`} aria-label="Calculation methodology">
+  <strong class="block text-base font-semibold text-base mb-1">Calculation methodology</strong>
+
+  <p><strong class="text-base font-medium">Calculates:</strong> {calculates}</p>
+
+  <p><strong class="text-base font-medium">Does not determine:</strong> {doesNotDetermine}</p>
+
+  <p><strong class="text-base font-medium">Inputs:</strong> {inputs}</p>
+
+  <p><strong class="text-base font-medium">Formula:</strong> <code class="font-mono text-xs bg-subtle px-1.5 py-0.5 rounded text-base">{formula}</code></p>
+
+  <p><strong class="text-base font-medium">Applicable period:</strong> {applicablePeriod}</p>
+
+  <p><strong class="text-base font-medium">Primary source:</strong> {primarySource}</p>
+
+  <p class="text-xs pt-1 border-t border-base"><strong class="text-base font-medium">Formula last reviewed:</strong> {formulaLastReviewed}</p>
+</aside>

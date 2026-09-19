@@ -1,5 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import LegalSources from '../components/LegalSources.astro';
+import TaxDisclaimer from '../components/TaxDisclaimer.astro';
 
 const title = 'GSTIN Validator — Check GST Number Offline';
 const description = 'Free offline GSTIN format checker. Instantly check GSTIN validity offline, verify the checksum, and decode the state code and PAN without any API calls.';
@@ -212,6 +214,19 @@ const breadcrumb = [
           <p>
             We are currently building out a <strong>bulk gstin verification tool free</strong> for accountants and businesses that need to verify hundreds of GSTINs simultaneously. For now, this single-lookup offline tool is the fastest way to decode a PAN and State from any individual GSTIN.
           </p>
+
+          <div class="mt-8 space-y-4">
+            <LegalSources
+              sources={[
+                { title: "Section 25, CGST Act, 2017", description: "statutory procedure and structure for GST registration" },
+                { title: "Rule 8 & 10, CGST Rules, 2017", description: "format and generation of 15-character alphanumeric GSTIN" },
+                { title: "Official GST Common Portal", url: "https://www.gst.gov.in", description: "official source for live registration status, legal name, and return compliance tracking" }
+              ]}
+              reviewedDate="19 September 2026"
+            />
+
+            <TaxDisclaimer />
+          </div>
         </div>
       </div>
     </div>

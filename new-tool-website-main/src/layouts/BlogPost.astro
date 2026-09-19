@@ -9,6 +9,7 @@ interface Props extends CollectionEntry<'blog'>['data'] {
 
 const { title, description, pubDate, updatedDate, heroImage, tags, body = '' } = Astro.props;
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://taxzentic.com';
+const canonical = `${siteUrl}${Astro.url.pathname.replace(/\/$/, '')}`;
 
 // Parse step-by-step instructions for HowTo Schema.org
 const stepRegex = /###?\s+Step\s+(\d+)[:\.]?\s*([^\n\r]+)([\s\S]*?)(?=(?:###?\s+Step\s+\d+|##\s+|$))/gi;
@@ -31,20 +32,24 @@ const howToJsonLd = (stepMatches.length >= 2 || (title.toLowerCase().includes('h
 const ogImage = heroImage || '/og-default.png';
 const ogImageUrl = ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogImage.startsWith('/') ? '' : '/'}${ogImage}`;
 
-// JSON-LD: Article Schema + HowTo Schema
+// JSON-LD: BlogPosting Schema + HowTo Schema
 const articleSchema = {
   '@context': 'https://schema.org',
-  '@type': 'Article',
+  '@type': 'BlogPosting',
   headline: title,
   description: description,
   image: [ogImageUrl],
   datePublished: pubDate.toISOString(),
   dateModified: updatedDate ? updatedDate.toISOString() : pubDate.toISOString(),
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': canonical
+  },
   author: {
     '@type': 'Organization',
     name: 'Taxzentic Editorial Team',
     url: `${siteUrl}/authors/editorial-team`,
-    description: 'Tax compliance researchers and analysts dedicated to simplifying GST and Income Tax for Indian businesses.'
+    description: "The Taxzentic Editorial Team maintains Taxzentic's educational tax content and calculation tools."
   },
   publisher: {
     '@type': 'Organization',
@@ -57,10 +62,6 @@ const articleSchema = {
       height: 80
     }
   },
-  mainEntityOfPage: {
-    '@type': 'WebPage',
-    '@id': `${siteUrl}/blog/${Astro.url.pathname.split('/blog/')[1] || ''}`
-  }
 };
 
 const structuredData = howToJsonLd ? [articleSchema, howToJsonLd] : [articleSchema];
@@ -73,7 +74,7 @@ const breadcrumb = [
 ];
 ---
 
-<BaseLayout {title} {description} {structuredData} {breadcrumb} {ogImage}>
+<BaseLayout {title} {description} {canonical} {structuredData} {breadcrumb} {ogImage}>
   <article class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
     <!-- Article Header -->
     <header class="mb-12 text-center">
@@ -174,13 +175,13 @@ const breadcrumb = [
       <div>
         <div class="flex items-center gap-3 mb-1">
           <h3 class="text-[18px] font-semibold text-base tracking-[-0.6px]">Taxzentic Editorial Team</h3>
-          <span class="text-xs font-semibold px-2 py-0.5 rounded bg-blue-100 text-accent dark:bg-blue-900/50">Fact-Checked</span>
+          <span class="text-xs font-semibold px-2 py-0.5 rounded bg-blue-100 text-accent dark:bg-blue-900/50">Researched Content</span>
         </div>
         <p class="text-[14px] text-muted leading-relaxed mb-2">
-          Our articles and calculation models are researched by tax compliance specialists and verified against official CBIC notifications, the Income Tax Act, and government circulars.
+          Our educational guides and calculation models are prepared using primary government sources, including applicable Acts, Rules, Notifications, Circulars and official portal guidance.
         </p>
         <p class="text-[12px] text-muted">
-          <strong>Editorial policy:</strong> Independent, fact-checked, and updated alongside official statutory notifications. <a href="/authors/editorial-team" class="text-accent hover:underline font-medium">Read our full editorial process →</a>
+          <strong>Editorial policy:</strong> Independent educational content reviewed against primary statutory notifications. <a href="/authors/editorial-team" class="text-accent hover:underline font-medium">Read our editorial process →</a>
         </p>
       </div>
     </div>

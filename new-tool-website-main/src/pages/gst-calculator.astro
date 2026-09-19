@@ -1,5 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import LegalSources from '../components/LegalSources.astro';
+import CalculatorMethodology from '../components/CalculatorMethodology.astro';
+import TaxDisclaimer from '../components/TaxDisclaimer.astro';
 
 const title = 'Free GST Calculator India — Add & Remove GST';
 const description = 'Free online GST calculator for India. Add or remove GST with CGST/SGST split. Supports 5%, 12%, 18%, 28%, 40% slabs and custom rates. Instant results.';
@@ -159,7 +162,13 @@ const breadcrumb = [
 
           <!-- GST Rate selector -->
           <div>
-            <label class="block text-sm font-medium text-base mb-2">GST Rate</label>
+            <div class="flex items-center justify-between mb-1.5">
+              <label class="block text-sm font-medium text-base">GST Rate</label>
+              <a href="/gst-rate-finder/" class="text-xs text-accent hover:underline font-medium">Find rate by product / service →</a>
+            </div>
+            <p class="text-xs text-muted mb-3 leading-relaxed">
+              The calculator performs arithmetic using the rate you select. It does not determine the correct GST classification or rate for a particular supply. Confirm the applicable HSN/SAC classification and notified rate before using the result for compliance.
+            </p>
             <div class="grid grid-cols-4 gap-2 mb-3" role="group" aria-label="GST rate selection">
               {['0', '5', '18', '40'].map((rate) => (
                 <button
@@ -261,12 +270,12 @@ const breadcrumb = [
 
         <h3 class="text-[20px] font-semibold text-base mt-8 mb-4 tracking-[-0.6px]">2. Removing GST (Reverse Calculation)</h3>
         <p>
-          Often, businesses receive payments or deal with MRP products where the tax is already included in the final price. To find the original pre-tax value, you use a <strong>reverse charge mechanism GST calculator</strong>. Select the <strong>"Remove GST"</strong> mode, enter the total inclusive price, and pick the rate. The tool divides the total amount by <code>(1 + (GST Rate / 100))</code> to accurately extract the base price and the tax component.
+          Often, businesses receive payments or deal with MRP products where the tax is already included in the final price. To find the original pre-tax value, you use a <strong>reverse GST calculation</strong> (removing GST from an inclusive price). Select the <strong>"Remove GST"</strong> mode, enter the total inclusive price, and pick the rate. The tool divides the total amount by <code>(1 + (GST Rate / 100))</code> to accurately extract the base price and the tax component. <em>(Note: Inclusive price arithmetic is a mathematical extraction and is not the Reverse Charge Mechanism under Section 9(3)/9(4), which is a separate tax liability framework.)</em>
         </p>
 
         <h3 class="text-[20px] font-semibold text-base mt-8 mb-4 tracking-[-0.6px]">3. Understanding CGST, SGST, and IGST</h3>
         <p>
-          India follows a dual GST model. When you want to know how to split cgst and sgst in invoice calculator results, the final GST amount is split based on the nature of the transaction:
+          India follows a dual GST model. When you want to know how to split cgst and sgst in invoice calculator results, the final GST amount is split based on the nature of the transaction. Before calculating, always <a href="/gst-rate-finder/" class="text-accent hover:underline font-medium">check the applicable GST rate</a> and <a href="/hsn-code-lookup/" class="text-accent hover:underline font-medium">verify the HSN or SAC classification</a> against notified CBIC schedules:
         </p>
         <ul class="list-disc pl-5 mt-2 space-y-1">
           <li><strong>Intra-State Supply (Within the same state):</strong> The total GST is divided equally into Central GST (CGST) and State GST (SGST). For example, an 18% rate becomes 9% CGST and 9% SGST.</li>
@@ -281,13 +290,39 @@ const breadcrumb = [
           </div>
           <div>
             <h4 class="font-medium text-base">How to convert gst inclusive to exclusive price formula?</h4>
-            <p class="text-[15px] mt-1 text-muted">The convert gst inclusive to exclusive price formula is simple: divide your inclusive price by (1 + (GST Rate / 100)). Use our reverse charge mechanism gst calculator free tool above to do this instantly.</p>
+            <p class="text-[15px] mt-1 text-muted">The convert gst inclusive to exclusive price formula is simple: divide your inclusive price by (1 + (GST Rate / 100)). Use our reverse GST calculation tool above to do this instantly without confusing it with statutory reverse charge.</p>
           </div>
           <div>
             <h4 class="font-medium text-base">How can I calculate 18 percent gst online?</h4>
             <p class="text-[15px] mt-1 text-muted">Select the 18% button in the rate selector and type your amount. The tool will calculate 18 percent gst online and show the 9% CGST and 9% SGST split for you.</p>
           </div>
         </div>
+      </div>
+
+      <!-- Methodology & Legal Sources -->
+      <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <CalculatorMethodology
+          calculates="Base amount, CGST/SGST split (for intra-state), and total inclusive invoice value from exclusive or inclusive input amounts."
+          doesNotDetermine="Legal tax eligibility, HSN/SAC classification, input tax credit entitlement, or whether Reverse Charge Mechanism applies."
+          inputs="Base Amount or Total Amount (₹), Selected GST Rate (%)"
+          formula="Add GST: Base × Rate ÷ 100 | Remove GST: Inclusive Total ÷ (1 + Rate ÷ 100)"
+          applicablePeriod="FY 2025-26 &amp; FY 2026-27"
+          primarySource="Sections 9 &amp; 15 of the Central Goods and Services Tax (CGST) Act, 2017"
+          formulaLastReviewed="19 September 2026"
+        />
+
+        <LegalSources
+          sources={[
+            { title: "Section 9, CGST Act, 2017", description: "levy and collection of Central Goods and Services Tax" },
+            { title: "Section 15, CGST Act, 2017", description: "statutory value of taxable supply" },
+            { title: "CBIC Rate Notifications", url: "https://www.cbic.gov.in", description: "notified goods and services tax rate schedules" }
+          ]}
+          reviewedDate="19 September 2026"
+        />
+      </div>
+
+      <div class="mt-6">
+        <TaxDisclaimer />
       </div>
     </div>
   </div>

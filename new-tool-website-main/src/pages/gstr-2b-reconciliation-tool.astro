@@ -1,5 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import LegalSources from '../components/LegalSources.astro';
+import CalculatorMethodology from '../components/CalculatorMethodology.astro';
+import TaxDisclaimer from '../components/TaxDisclaimer.astro';
 
 const title = 'GSTR-2B Reconciliation Tool — Free Excel';
 const description = 'Download free GSTR 2B reconciliation tool in Excel format. Match purchase registers with GSTR-2B offline to claim 100% accurate Input Tax Credit (ITC).';
@@ -39,7 +42,7 @@ const structuredData = [
         name: 'Why is GSTR-2B reconciliation necessary?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Since January 2022, the government has mandated that you can only claim Input Tax Credit (ITC) if the invoice appears in your GSTR-2B. Reconciling ensures you don’t miss out on ITC or claim excess ITC, which attracts a 24% interest penalty.',
+          text: 'Since January 2022, the government has mandated that you can only claim Input Tax Credit (ITC) if the invoice appears in your GSTR-2B. Reconciling ensures you don’t miss out on ITC or claim excess ITC, which attracts an 18% interest penalty under Section 50(3) if utilized.',
         }
       }
     ]
@@ -65,8 +68,8 @@ const breadcrumb = [
       <h1 class="text-4xl sm:text-5xl font-bold tracking-tight text-base mb-4">
         GSTR 2B Reconciliation Tool
       </h1>
-      <p class="text-[16px] text-muted max-w-xl mx-auto leading-relaxed">
-        Never lose Input Tax Credit again. Match your Books against GSTR-2B offline and accurately file your GSTR-3B without errors.
+      <p class="text-[16px] text-muted max-w-2xl mx-auto leading-relaxed">
+        Reconcile your purchase records with GSTR-2B to identify missing, mismatched, or unmatched entries before preparing your GST return.
       </p>
     </div>
 
@@ -132,7 +135,7 @@ const breadcrumb = [
       </p>
 
       <ul class="list-disc pl-6 space-y-3 mt-4">
-        <li><strong>Excess Claim (Section 50 Interest):</strong> If your books show ₹1,00,000 of ITC, but your GSTR-2B only shows ₹80,000, claiming the full ₹1,00,000 is an offense. The department will issue an automated DRC-01 notice demanding the reversal of the ₹20,000 excess claim. More punishingly, you will be slapped with an 18% to 24% per annum penal interest on the wrongly claimed amount. You can estimate this financial hit using our <a href="/gst-interest-calculator" class="text-accent hover:underline">GST Interest Calculator</a>.</li>
+        <li><strong>Excess Claim (Section 50 Interest):</strong> If your books show ₹1,00,000 of ITC, but your GSTR-2B only shows ₹80,000, claiming the full ₹1,00,000 is an offense. The department will issue an automated DRC-01 notice demanding the reversal of the ₹20,000 excess claim. More punishingly, you will be liable for an 18% per annum penal interest under Section 50(3) on the wrongly claimed and utilized amount. You can estimate this financial hit using our <a href="/gst-interest-calculator" class="text-accent hover:underline">GST Interest Calculator</a>.</li>
         <li><strong>Missed Claims:</strong> Conversely, a supplier might upload an invoice that you completely missed entering in your books. Without reconciliation, you lose out on perfectly valid ITC, directly impacting your business's cash flow and profit margins.</li>
       </ul>
 
@@ -153,15 +156,48 @@ const breadcrumb = [
 
       <p>Once you run your matching process, every invoice will fall into one of three buckets:</p>
 
-      <p><strong>1. Fully Matched:</strong> The golden scenario. The invoice exists in both your Books and GSTR-2B, and the tax values match perfectly. You can safely claim 100% of this ITC in your GSTR-3B.</p>
+      <p><strong>1. Fully Matched:</strong> The invoice exists in both your Books and GSTR-2B, and the tax values match. A matching record resolves the reconciliation difference identified by this tool. Actual ITC entitlement remains subject to the applicable statutory eligibility conditions and documentation requirements under Section 16.</p>
 
-      <p><strong>2. Missing in GSTR-2B (Pending):</strong> The invoice is in your Books, but not in GSTR-2B. <em>Do not claim this ITC.</em> You must move this invoice to a "Pending" ledger. Immediately contact the supplier and demand they file their GSTR-1. Once they file, it will appear in next month's GSTR-2B, and you can claim it then.</p>
+      <p><strong>2. Missing in GSTR-2B (Pending):</strong> The invoice is in your Books, but not in GSTR-2B. Under Section 16(2)(aa) and Rule 36(4), this credit cannot be availed until reported by the supplier. You should follow up with the vendor to ensure their GSTR-1 is filed promptly.</p>
 
-      <p><strong>3. Value Mismatch:</strong> The invoice exists in both places, but the amounts differ (e.g., your book says ₹1800 tax, GSTR-2B says ₹180). This usually happens due to a typographical error by the supplier. You can only claim the lower amount safely, or you must ask the supplier to issue a Credit Note or amend their GSTR-1 in the subsequent month.</p>
+      <p><strong>3. Value Mismatch:</strong> The invoice exists in both places, but the amounts differ (e.g., books record ₹1,800 tax, GSTR-2B records ₹180). You can only reconcile the value appearing in GSTR-2B, while seeking an amended invoice or credit note from the supplier for the balance.</p>
 
-      <div class="mt-10 rounded-[12px] bg-subtle border border-base p-6 text-[15px] text-muted">
-        <h4 class="text-lg font-semibold text-base mb-2">Automating Your Workflow</h4>
-        <p>While our offline template is perfect for small businesses processing under 500 invoices a month, larger enterprises with thousands of line items should consider migrating to an automated API-based solution. These premium tools connect directly to the GST portal, automatically downloading JSON files, running fuzzy-logic matching algorithms to catch minor typos, and automatically sending email reminders to non-compliant vendors. Regardless of the tool you use, regular, disciplined reconciliation is the only way to safeguard your working capital in the modern GST era.</p>
+      <p class="text-sm text-muted mt-4">
+        <em>Note on Tool Scope:</em> This tool performs reconciliation. It does not independently determine legal ITC eligibility, whether interest is payable, or whether a notice will be issued.
+      </p>
+
+      <div class="mt-8 rounded-[12px] bg-subtle border border-base p-6 text-[15px] text-muted">
+        <h4 class="text-lg font-semibold text-base mb-2">Next Steps in Your ITC Workflow</h4>
+        <p>
+          Once your invoice differences are reconciled, evaluate overall credit entitlement with our <a href="/itc-calculator/" class="text-accent hover:underline font-medium">ITC calculator</a> and verify non-business or exempt reversals using our <a href="/itc-reversal-checker/" class="text-accent hover:underline font-medium">ITC reversal checker</a> under Rules 42 &amp; 43.
+        </p>
+      </div>
+
+      <!-- Methodology & Legal Sources -->
+      <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6 not-prose">
+        <CalculatorMethodology
+          calculates="Line-item reconciliation between accounting purchase records and GSTR-2B to classify invoices into Matched, Missing in 2B, and Amount Discrepancy buckets."
+          doesNotDetermine="Statutory eligibility to claim ITC under Section 16, payment of tax to the government under Section 16(2)(c), or blocked credits under Section 17(5)."
+          inputs="Purchase Register CSV/Excel (GSTIN, Invoice No, Taxable Value, Tax), GSTR-2B Statement"
+          formula="Reconciliation Delta = Purchase Register Tax - GSTR-2B Tax"
+          applicablePeriod="FY 2025-26 &amp; FY 2026-27"
+          primarySource="Section 16(2)(aa) of CGST Act, 2017 &amp; Rule 36(4) of CGST Rules, 2017"
+          formulaLastReviewed="19 September 2026"
+        />
+
+        <LegalSources
+          sources={[
+            { title: "Section 16(2)(aa), CGST Act, 2017", description: "statutory condition that ITC is available only if invoice details are communicated in GSTR-2B" },
+            { title: "Rule 36(4), CGST Rules, 2017", description: "restriction on availment of ITC for invoices not uploaded by suppliers" },
+            { title: "CBIC Circular No. 170/02/2022-GST", url: "https://www.cbic.gov.in", description: "mandatory reporting of ITC availment, reversal, and ineligible ITC in GSTR-3B" },
+            { title: "Section 16(4), CGST Act, 2017", description: "statutory time limit for availing input tax credit" }
+          ]}
+          reviewedDate="19 September 2026"
+        />
+      </div>
+
+      <div class="mt-6 not-prose">
+        <TaxDisclaimer />
       </div>
     </article>
 

@@ -1,5 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import LegalSources from '../components/LegalSources.astro';
+import TaxDisclaimer from '../components/TaxDisclaimer.astro';
 
 const title = 'HSN Code Finder 2026 — GST Rate Lookup';
 const description = 'Search HSN codes for goods and SAC codes for services with their GST rates. Instant offline search by code or description. Free GST tool for India.';
@@ -243,8 +245,21 @@ const breadcrumb = [
           Our <strong>hsn code finder updated 2026</strong> makes it incredibly easy. You can browse by over 20 categories or start typing in the search bar. Whether you need a <strong>4 digit hsn code finder</strong>, a <strong>6 digit hsn code list</strong>, or the highly specific <strong>8 digit hsn code india</strong> directory, you can search using the numeric code (e.g., <code>8517</code>) or by simply describing the item (e.g., <code>mobile phone</code>). The tool instantly filters the entire Indian tariff schedule locally on your device, without sending your search data to any server.
         </p>
 
-        <div class="mt-8 rounded-[8px] bg-subtle border border-base p-5 text-[14px] text-muted">
-          <p><strong>Disclaimer:</strong> While we strive to keep our database of 12,000+ codes current for 2026, GST rates and classifications are frequently updated during GST Council meetings. Always verify against official CBIC notifications before raising a high-value tax invoice.</p>
+        <div class="mt-8 space-y-4">
+          <p class="text-sm text-muted">
+            For chapter-level overviews and turnover-based digit guidance, explore our <a href="/hsn-codes/" class="text-accent hover:underline font-medium">HSN and SAC resource hub</a>, or use our <a href="/gst-rate-finder/" class="text-accent hover:underline font-medium">GST rate finder</a> to search by product name.
+          </p>
+
+          <LegalSources
+            sources={[
+              { title: "Notification No. 78/2020-Central Tax", url: "https://www.cbic.gov.in", description: "statutory 4-digit and 6-digit HSN invoice requirements" },
+              { title: "First Schedule to the Customs Tariff Act, 1975", url: "https://www.cbic.gov.in", description: "harmonized coding structure adopted for GST" },
+              { title: "CBIC Circular No. 199/11/2023-GST", url: "https://www.cbic.gov.in", description: "clarification on classification and ITC issues" }
+            ]}
+            reviewedDate="19 September 2026"
+          />
+
+          <TaxDisclaimer />
         </div>
       </div>
     </div>
@@ -270,7 +285,7 @@ const breadcrumb = [
         {[
           { q: 'What is an HSN code?', a: 'HSN stands for Harmonized System of Nomenclature. It is a globally standardized 8-digit code developed by the World Customs Organization (WCO) to classify goods for taxation and trade. Under GST in India, HSN codes are used to determine the applicable GST rate on goods. Our lookup tool includes all commonly used HSN codes with their descriptions and rates.' },
           { q: 'What is the difference between HSN and SAC codes?', a: 'HSN codes classify goods (products you can touch and trade), while SAC codes (Services Accounting Codes) classify services. For example, a software product sold on a CD uses an HSN code, but a software subscription or consulting service uses a SAC code. Both are required on GST invoices.' },
-          { q: 'Which businesses must mention HSN codes on their invoices?', a: 'Businesses with annual turnover above ₹5 Crore must use 6-digit HSN codes on B2B and B2C invoices. Businesses between ₹1.5 Crore and ₹5 Crore must use 4-digit codes. Businesses below ₹1.5 Crore are exempt from the HSN requirement, but it is a best practice to include them.' },
+          { q: 'Which businesses must mention HSN codes on their invoices?', a: 'Under Notification No. 78/2020-Central Tax, businesses with annual aggregate turnover up to ₹5 Crore must mention at least 4-digit HSN codes on B2B tax invoices. Businesses with turnover exceeding ₹5 Crore must mention 6-digit HSN codes on all B2B and B2C invoices. For export supplies, 8-digit HSN codes are mandatory.' },
           { q: 'How many digits does an HSN code have?', a: 'HSN codes can be 2, 4, 6, or 8 digits. For GST purposes, India typically requires 4-digit or 6-digit codes. The 8-digit code is used for customs and import/export documentation. More digits = more specific classification.' },
           { q: 'How do I find the HSN code for my product?', a: 'Use our HSN Code Lookup tool to search by product name or description. You can also refer to the official GST rate schedules on the CBIC website. For complex or specialty products, consult a CA or customs broker to get the correct classification.' },
           { q: 'What happens if I use the wrong HSN code on an invoice?', a: 'Using the wrong HSN code can lead to: incorrect GST rate being charged, mismatch during GSTR-1 filing, GSTIN notices, and input tax credit (ITC) disputes for your buyer. In serious cases, it can attract a penalty of ₹10,000 per invoice or ₹25,000 for the financial year.' },

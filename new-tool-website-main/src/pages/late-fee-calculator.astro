@@ -1,5 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import LegalSources from '../components/LegalSources.astro';
+import CalculatorMethodology from '../components/CalculatorMethodology.astro';
+import TaxDisclaimer from '../components/TaxDisclaimer.astro';
 
 const title = 'GST Late Fee Calculator — GSTR-1 & 3B';
 const description = 'Calculate GSTR-1 late fee, GSTR-3B late fee, NIL return late fee, and 18% interest instantly. Accurate, offline, and free GST tool for India.';
@@ -229,6 +232,35 @@ const breadcrumb = [
         <p>
           Select whether your return is Normal or NIL. Enter the original statutory Due Date and the Actual Filing Date. If you have an outstanding cash liability, enter it to calculate the 18% interest. Our offline calculator will instantly split the penalty into CGST and SGST.
         </p>
+        <p class="mt-4">
+          To prevent future late fees, <a href="/gst-due-dates/" class="text-accent hover:underline font-medium">review GST filing due dates</a> on our statutory calendar, and <a href="/gstr-2b-reconciliation-tool/" class="text-accent hover:underline font-medium">reconcile GSTR-2B entries before evaluating ITC</a> to avoid filing delays caused by last-minute purchase mismatches.
+        </p>
+      </div>
+
+      <!-- Methodology & Legal Sources -->
+      <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6 not-prose">
+        <CalculatorMethodology
+          calculates="Statutory late fees under Section 47 (₹50/day normal, ₹20/day NIL) subject to turnover rationalization caps, plus statutory interest under Section 50(1) @ 18% p.a. on delayed net cash payment."
+          doesNotDetermine="Discretionary penalty waivers, amnesty scheme benefits unless formally enacted, or GST registration cancellation proceedings under Section 29."
+          inputs="Return Type (Normal / NIL), Due Date, Actual Filing Date, Net Cash Tax Liability (₹)"
+          formula="Late Fee = Days Delayed × Daily Rate (capped) | Interest = Cash Liability × 18% × (Days ÷ 365)"
+          applicablePeriod="FY 2025-26 &amp; FY 2026-27"
+          primarySource="Sections 47 &amp; 50 of CGST Act, 2017 &amp; Notification No. 19/2021-Central Tax"
+          formulaLastReviewed="19 September 2026"
+        />
+
+        <LegalSources
+          sources={[
+            { title: "Section 47, CGST Act, 2017", description: "statutory levy of late fee for delayed return submission" },
+            { title: "Notification No. 19/2021-Central Tax", url: "https://www.cbic.gov.in", description: "rationalized maximum late fee caps based on annual turnover" },
+            { title: "Section 50(1), CGST Act, 2017", description: "mandatory interest at 18% per annum on delayed net cash tax payments" }
+          ]}
+          reviewedDate="19 September 2026"
+        />
+      </div>
+
+      <div class="mt-6 not-prose">
+        <TaxDisclaimer />
       </div>
     </div>
   </div>

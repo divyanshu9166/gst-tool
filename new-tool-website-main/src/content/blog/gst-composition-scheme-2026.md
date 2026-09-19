@@ -66,7 +66,7 @@ Before you log into the portal and hit the "Opt-in" button, you must understand 
 **The Disadvantages (Cons):**
 - **No Input Tax Credit (ITC):** This is the biggest drawback. Any GST you pay on your raw materials, rent, or business purchases cannot be claimed back. It becomes a permanent cost to your business. 
 - **No B2B Competitiveness:** Because you issue a Bill of Supply instead of a Tax Invoice, your corporate buyers cannot claim ITC on purchases from you. They will likely choose to buy from a regular GST-registered supplier instead.
-- **Geographical Restrictions:** You cannot sell goods outside your home state. If you plan to expand nationally, this scheme will block you.
+- **Geographical and E-Commerce Restrictions:** You cannot make inter-state outward sales. Regarding online platforms, while inter-state supply through marketplaces remains restricted, **Notification No. 36/2023-Central Tax** permits composition dealers to make intra-state supplies of goods through e-commerce operators (ECOs) subject to portal enrollment conditions.
 
 ## How to File GST CMP-08
 
@@ -91,7 +91,7 @@ Nahi, GST rules ke mutabik composition dealer purchase kiye gaye kisi bhi goods 
 Nahi. Composition scheme ke tehat registered vyapari inter-state (state se bahar) sales nahi kar sakta. Halanki, aap dusre state se maal kharid (inward supply) zaroor sakte hain, lekin bechna sirf apne state ke andar hi permitted hai.
 
 **Can I charge composition tax to my customers?**
-No. A composition dealer cannot collect tax from the buyer. The 1.5%, 5%, or 6% must be paid out of your own pocket from your sales revenue.
+No. A composition dealer cannot collect tax from the buyer. The 1%, 5%, or 6% must be paid out of your own pocket from your sales revenue.
 
 **Do I need to mention anything specific on my bills?**
 Yes. Every Bill of Supply you issue must prominently state: *"Composition taxable person, not eligible to collect tax on supplies."*
@@ -104,8 +104,14 @@ The day your turnover crosses the composition scheme limit, you automatically ex
 
 ## Make the Right Choice
 
-The composition scheme is a lifeline for local mom-and-pop shops, small cafes, and freelance service providers who deal strictly with end consumers. However, if your business relies on B2B sales or high-tax raw materials, the lack of Input Tax Credit will destroy your margins. 
+The composition scheme is designed for local retailers, small restaurants, and service providers who deal strictly with end consumers. However, if your business relies on B2B sales or high-tax raw materials, the lack of Input Tax Credit will impact margins. 
 
-Calculate carefully before making the jump. 
+Before making a final choice, use our [Composition Scheme Calculator](/composition-scheme-calculator/) to compare flat-rate liabilities, and review our [GST Due Dates Calendar](/gst-due-dates/) to stay compliant.
+
+> **Legal Basis and Sources:**
+> - Section 10, Central Goods and Services Tax (CGST) Act, 2017 (Composition levy for goods and restaurants)
+> - Notification No. 2/2019-Central Tax (Rate) (6% presumptive scheme for service suppliers up to ₹50 Lakh)
+> - Notification No. 36/2023-Central Tax (Conditions for intra-state supply of goods through e-commerce operators)
+> - Law reviewed as of: 19 September 2026. 
 
 *(Related post: [Reverse Charge Mechanism (RCM) Under GST: Full List](/blog/reverse-charge-mechanism-gst-list))*

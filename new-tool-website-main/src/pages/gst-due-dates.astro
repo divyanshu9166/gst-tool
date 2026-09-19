@@ -1,5 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import LegalSources from '../components/LegalSources.astro';
+import TaxDisclaimer from '../components/TaxDisclaimer.astro';
 
 const title = 'GST Due Dates Calendar 2026 — Statutory Filing Deadlines & Schedule';
 const description = 'Track statutory GST return filing due dates for GSTR-1, GSTR-3B, GSTR-9, CMP-08, and QRMP. Avoid late fees and 18% p.a. interest with our free calendar.';
@@ -146,13 +148,34 @@ const breadcrumb = [
       </div>
     </div>
 
-    <div class="mt-8 flex justify-center">
+    <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
       <a
-        href="/late-fee-calculator"
+        href="/late-fee-calculator/"
         class="inline-flex items-center justify-center rounded-full border border-base bg-surface px-6 py-3 text-[14px] font-medium text-base hover:bg-subtle active:scale-95 transition-all shadow-sm"
       >
-        Missed a deadline? Use the Late Fee Calculator →
+        Missed a deadline? Calculate Late Fee &amp; Interest →
       </a>
+      <a
+        href="/gst-error-report/"
+        class="inline-flex items-center justify-center rounded-full border border-base bg-surface px-6 py-3 text-[14px] font-medium text-base hover:bg-subtle active:scale-95 transition-all shadow-sm"
+      >
+        Filing error in JSON? Decode GST Error Report →
+      </a>
+    </div>
+
+    <div class="mt-12 space-y-4">
+      <LegalSources
+        sources={[
+          { title: "Section 37, CGST Act, 2017", description: "furnishing details of outward supplies (GSTR-1)" },
+          { title: "Section 39, CGST Act, 2017", description: "furnishing of monthly and quarterly returns (GSTR-3B & QRMP)" },
+          { title: "Section 47, CGST Act, 2017", description: "statutory levy of late fee for delayed return filing" },
+          { title: "Section 50, CGST Act, 2017", description: "mandatory interest @ 18% p.a. on net cash tax liability" },
+          { title: "Section 168A, CGST Act, 2017", description: "statutory power of government to issue deadline extension notifications" }
+        ]}
+        reviewedDate="19 September 2026"
+      />
+
+      <TaxDisclaimer />
     </div>
   </div>
 

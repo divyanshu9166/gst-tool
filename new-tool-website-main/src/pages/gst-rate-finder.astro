@@ -1,5 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import LegalSources from '../components/LegalSources.astro';
+import TaxDisclaimer from '../components/TaxDisclaimer.astro';
 
 const title = 'GST Rate Finder — Search by Product Name';
 const description = 'Find the GST rate for any product by name. Search for laptops, cement, restaurant food, cars, and more. Instant HSN code lookup with GST rate.';
@@ -164,8 +166,23 @@ const breadcrumb = [
         </div>
 
         <p>
-          Need the full HSN code database? Use our <a href="/hsn-code-lookup" class="text-accent hover:underline">HSN Code Lookup</a> tool for detailed code-level search. Want to calculate the GST amount on a specific price? Try our <a href="/gst-calculator" class="text-accent hover:underline">GST Calculator</a>.
+          Need to examine chapter-wise categories or mandatory digit rules? Explore our <a href="/hsn-codes/" class="text-accent hover:underline font-medium">HSN and SAC resource hub</a>, or use the direct <a href="/hsn-code-lookup/" class="text-accent hover:underline font-medium">HSN code lookup tool</a> for specific code-level verification. Once you confirm the applicable rate, you can <a href="/gst-calculator/" class="text-accent hover:underline font-medium">calculate GST on your invoice amount</a> with instant CGST and SGST splits.
         </p>
+      </div>
+
+      <div class="mt-8">
+        <LegalSources
+          sources={[
+            { title: "Notification No. 1/2017-Central Tax (Rate)", url: "https://www.cbic.gov.in", description: "statutory tariff schedules and notified GST rates for goods" },
+            { title: "Notification No. 11/2017-Central Tax (Rate)", url: "https://www.cbic.gov.in", description: "statutory tariff schedules and notified GST rates for services" },
+            { title: "Notification No. 78/2020-Central Tax", url: "https://www.cbic.gov.in", description: "mandatory 4-digit / 6-digit HSN reporting thresholds" }
+          ]}
+          reviewedDate="19 September 2026"
+        />
+      </div>
+
+      <div class="mt-4">
+        <TaxDisclaimer />
       </div>
     </div>
 

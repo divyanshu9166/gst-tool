@@ -1,5 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import LegalSources from '../components/LegalSources.astro';
+import CalculatorMethodology from '../components/CalculatorMethodology.astro';
+import TaxDisclaimer from '../components/TaxDisclaimer.astro';
 
 const title = 'RCM Calculator India — Reverse Charge 2026';
 const description = 'Free Reverse Charge Mechanism Calculator to compute GST liability for GTA, legal services, security, and sponsorship under Indian GST laws.';
@@ -239,33 +242,59 @@ const breadcrumb = [
       <h3>Key Compliance Rules for RCM</h3>
       <p>Failing to comply with RCM rules can lead to heavy penalties and 18% interest. Here are the iron-clad rules you must follow:</p>
       <ol>
-        <li><strong>Compulsory Registration:</strong> If you purchase goods or services that fall under RCM, you must obtain GST registration immediately. The standard turnover threshold limits (₹20 Lakhs or ₹40 Lakhs) <em>do not apply</em> to you. Section 24 of the CGST Act mandates compulsory registration for persons required to pay tax under reverse charge.</li>
-        <li><strong>Cash Payment Only:</strong> You cannot use your existing Input Tax Credit (ITC) balance to pay your RCM liability. Your electronic credit ledger cannot be touched for this. You must generate a challan and pay the RCM liability in hard cash via your bank account.</li>
-        <li><strong>Instant ITC Claim:</strong> The silver lining is that once you pay the RCM in cash, you can immediately claim that exact amount as Input Tax Credit in the same month's GSTR-3B return (provided the expense is used for the furtherance of business).</li>
-        <li><strong>Self-Invoicing:</strong> If you buy from an unregistered supplier and the transaction falls under RCM, you must issue an "Invoice" to yourself (Self-Invoicing) on the date of receipt of goods/services. You must also issue a "Payment Voucher" at the time of making payment to the supplier.</li>
+        <li><strong>Compulsory Registration:</strong> If you purchase goods or services that fall under RCM, you must obtain GST registration. The standard turnover exemption limits (₹20 Lakhs or ₹40 Lakhs) do not apply to recipients liable to pay tax under reverse charge, as enacted under Section 24(iii) of the CGST Act.</li>
+        <li><strong>Cash Payment Only:</strong> You cannot use existing Input Tax Credit (ITC) balance to pay RCM liability. RCM must be paid in cash via the electronic cash ledger.</li>
+        <li><strong>ITC Claim Subject to Statutory Conditions:</strong> Once you discharge the RCM liability in cash through the electronic cash ledger, you can avail Input Tax Credit under Section 16(2), provided the inward supply is used in the course or furtherance of business and is not blocked under Section 17(5).</li>
+        <li><strong>Self-Invoicing:</strong> If you receive supplies from an unregistered vendor that fall under RCM, you must issue a self-invoice under Section 31(3)(f) on the date of receipt and a payment voucher under Section 31(3)(g) at the time of payment.</li>
       </ol>
 
-      <h3>Complete List of Common RCM Services (2026)</h3>
+      <h3>Complete List of Common RCM Services (Notification 13/2017)</h3>
       <p>
-        While our calculator automates the rates, it is crucial to understand which services trigger RCM:
+        While our calculator automates the math, verify that your inward supply falls under the statutory categories notified under Notification No. 13/2017-Central Tax (Rate):
       </p>
       <ul>
-        <li><strong>Goods Transport Agency (GTA):</strong> If the GTA does not charge 12% forward charge, the recipient must pay 5% RCM.</li>
-        <li><strong>Legal Services:</strong> Services provided by an individual advocate or senior advocate to a business entity (18% RCM).</li>
+        <li><strong>Goods Transport Agency (GTA):</strong> If the GTA does not opt to pay GST under forward charge (12% or 5%), the registered recipient must pay 5% under reverse charge.</li>
+        <li><strong>Legal Services:</strong> Services provided by an individual advocate or firm of advocates to a business entity (18% RCM).</li>
         <li><strong>Sponsorship Services:</strong> Provided to a body corporate or partnership firm (18% RCM).</li>
-        <li><strong>Security Services:</strong> Personnel provided by any person (other than a body corporate) to a registered person (18% RCM).</li>
-        <li><strong>Renting of Motor Vehicle:</strong> Where the cost of fuel is included, provided to a body corporate (5% RCM).</li>
-        <li><strong>Import of Services:</strong> Any service imported into India for business purposes (18% RCM).</li>
-        <li><strong>Director Services:</strong> Services supplied by a director of a company to the said company (18% RCM).</li>
-        <li><strong>Copyright Services:</strong> Services by an author, music composer, or photographer (12% or 18% RCM depending on the specific copyright).</li>
+        <li><strong>Security Services:</strong> Personnel provided by any person other than a body corporate to a registered person (18% RCM).</li>
+        <li><strong>Renting of Motor Vehicle:</strong> Where cost of fuel is included, provided to a body corporate by a non-body corporate (5% RCM).</li>
+        <li><strong>Import of Services:</strong> Services received from outside India for business purposes (18% RCM).</li>
+        <li><strong>Director Services:</strong> Remuneration/fees paid to independent or non-executive directors (18% RCM).</li>
       </ul>
 
       <h3>How to Report RCM in GSTR-3B</h3>
-      <p>Reporting RCM correctly in your monthly GSTR-3B return is vital to avoid notices from the GST department. It involves a two-step entry:</p>
+      <p>Reporting RCM correctly in your monthly GSTR-3B return involves a two-step entry:</p>
       <ol>
-        <li><strong>Declare Liability:</strong> Enter the taxable value and the tax amount in <strong>Table 3.1(d)</strong> — <em>Inward supplies (liable to reverse charge)</em>. This will increase your total tax liability, which you must pay via cash challan.</li>
-        <li><strong>Claim ITC:</strong> In the exact same return, go to <strong>Table 4(A)(3)</strong> — <em>ITC Available (Inward supplies liable to reverse charge)</em> and enter the identical tax amount. This adds the money back into your electronic credit ledger for future use against your normal outbound sales.</li>
+        <li><strong>Declare Liability:</strong> Enter the taxable value and the tax amount in <strong>Table 3.1(d)</strong> — <em>Inward supplies (liable to reverse charge)</em>. This will generate a net cash tax liability.</li>
+        <li><strong>Claim ITC:</strong> In the same return, report the tax paid in <strong>Table 4(A)(3)</strong> — <em>ITC Available (Inward supplies liable to reverse charge)</em>, subject to statutory business eligibility.</li>
       </ol>
+
+      <!-- Methodology & Legal Sources -->
+      <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6 not-prose">
+        <CalculatorMethodology
+          calculates="Statutory reverse charge tax liability on notified goods and services under Section 9(3) of CGST Act and Notification No. 13/2017-Central Tax (Rate)."
+          doesNotDetermine="Whether supplier has opted for forward charge (e.g. GTA under 12% forward charge), recipient exemption status, or statutory ITC admissibility."
+          inputs="Transaction Value (₹), Supply Category, Transaction Type (Intra-State vs Inter-State)"
+          formula="Intra-State RCM = Value × (Rate ÷ 2) CGST + Value × (Rate ÷ 2) SGST | Inter-State RCM = Value × Rate IGST"
+          applicablePeriod="FY 2025-26 &amp; FY 2026-27"
+          primarySource="Section 9(3) of CGST Act, 2017 &amp; Notification No. 13/2017-Central Tax (Rate)"
+          formulaLastReviewed="19 September 2026"
+        />
+
+        <LegalSources
+          sources={[
+            { title: "Section 9(3), CGST Act, 2017", description: "statutory power to notify categories of supplies liable to reverse charge" },
+            { title: "Notification No. 13/2017-Central Tax (Rate)", url: "https://www.cbic.gov.in", description: "notified categories of services subject to reverse charge mechanism" },
+            { title: "Section 24(iii), CGST Act, 2017", description: "mandatory GST registration for persons liable to pay tax under reverse charge" },
+            { title: "Section 31(3)(f) & (g), CGST Act, 2017", description: "statutory mandate for self-invoicing and payment vouchers" }
+          ]}
+          reviewedDate="19 September 2026"
+        />
+      </div>
+
+      <div class="mt-6 not-prose">
+        <TaxDisclaimer />
+      </div>
     </article>
 
     

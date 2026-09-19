@@ -41,6 +41,6 @@ At the end of the quarter (M3), you must file the complete returns.
 
 ## Is QRMP Right for You?
 
-The QRMP scheme significantly reduces the number of returns you file in a year (from 24 down to 8). However, it requires discipline in making monthly payments via PMT-06. If you frequently deal with B2B clients who demand monthly ITC reflection in their GSTR-2B, you must be diligent with the IFF uploads by the 13th. 
+The QRMP scheme significantly reduces the number of returns you file in a year (from 24 down to 8). However, it requires discipline in making monthly payments via PMT-06. If your turnover is under ₹1.5 Crore and you supply primarily within your state, you can also compare whether you should [estimate tax under the composition scheme](/composition-scheme-calculator/) for simpler fixed-percentage quarterly payments. If you frequently deal with B2B clients who demand monthly ITC reflection in their GSTR-2B, you must be diligent with the IFF uploads by the 13th. 
 
 Always keep our [Due Dates Calendar](/gst-due-dates) handy to ensure you never miss a PMT-06, IFF, or quarterly return deadline!
