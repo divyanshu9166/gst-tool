@@ -68,7 +68,7 @@ While the government aimed for simplicity, the transition period requires carefu
 ### MRP Revisions and Relabeling
 If you hold stock of items that changed from 12% to 18%, your tax liability increases. If you keep the MRP the same, your profit margin shrinks. You are legally allowed to revise the MRP of existing stock by pasting a revised price sticker, provided you publish a public notice. 
 
-To calculate exactly what your new MRP should be while protecting your base margin, use our free [MRP Revision Calculator](/mrp-revision-calculator).
+To calculate exactly what your new MRP should be while protecting your base margin, use our free [MRP Revision Calculator](/mrp-revision-calculator/).
 
 ### Input Tax Credit (ITC) Reversals
 If the GST rate on your product drops (e.g., from 12% to 5%), but you purchased your raw materials at 18%, you might end up in an inverted duty structure. In some specific transitional cases (like real estate), a drop in output tax rate requires a reversal of accumulated ITC. 
@@ -114,9 +114,9 @@ Be sure to bookmark our suite of [Free GST Tools](/) to help you navigate these 
 ---
 
 ### Related Tools for Your Business
-- [GST Rate Finder](/gst-rate-finder)
-- [HSN Codes Directory](/hsn-codes)
-- [Old vs New GST Rate Comparison](/gst-rate-comparison)
-- [MRP Revision Calculator](/mrp-revision-calculator)
-- [GST on Rent Calculator](/gst-on-rent-calculator)
-- [Advance Tax Calculator](/advance-tax-calculator)
+- [GST Rate Finder](/gst-rate-finder/)
+- [HSN Codes Directory](/hsn-codes/)
+- [Old vs New GST Rate Comparison](/gst-rate-comparison/)
+- [MRP Revision Calculator](/mrp-revision-calculator/)
+- [GST on Rent Calculator](/gst-on-rent-calculator/)
+- [Advance Tax Calculator](/advance-tax-calculator/)

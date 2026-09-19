@@ -13,7 +13,7 @@ The landscape of indirect taxation in India underwent a monumental shift with th
   <p class="text-xs font-mono uppercase tracking-wider text-primary font-semibold mb-1">Interactive Price Revision Tool</p>
   <h3 class="text-xl font-bold text-base mb-2">Calculate Your New MRP in 1 Click</h3>
   <p class="text-sm text-muted mb-4 max-w-lg mx-auto">Compute mathematically exact revised retail prices for upward and downward GST rate adjustments, with statutory rounding rules.</p>
-  <a href="/mrp-revision-calculator" class="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg bg-primary hover:bg-primary/90 text-white font-semibold transition-all shadow-sm">
+  <a href="/mrp-revision-calculator/" class="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg bg-primary hover:bg-primary/90 text-white font-semibold transition-all shadow-sm">
     Open MRP Revision Calculator →
   </a>
 </div>
@@ -73,7 +73,7 @@ Suppose you sell a packaged food item that was previously taxed at 12%. Under GS
 1. Base Price = 200 / 1.12 = ₹178.57
 2. New MRP = 178.57 * 1.05 = ₹187.49 (Rounded to ₹187)
 
-To make this process foolproof and instant for hundreds of SKUs, we highly recommend using our free online **[MRP Revision Calculator](/mrp-revision-calculator)**. It handles the rounding rules automatically and provides the exact figures you need for your price lists.
+To make this process foolproof and instant for hundreds of SKUs, we highly recommend using our free online **[MRP Revision Calculator](/mrp-revision-calculator/)**. It handles the rounding rules automatically and provides the exact figures you need for your price lists.
 
 ---
 
@@ -148,7 +148,7 @@ A very common practical question faced by warehouse managers and retailers is: *
    `"Revised MRP: ₹[New Price] (Old MRP: ₹[Old Price]) due to GST rate change."`
 4. **Font Size Legibility**: The revised price numerals must not be smaller than the minimum numeral height mandated for the package volume/weight under Rule 9 of the Packaged Commodities Rules.
 
-If you are calculating revised prices across multiple products, verify the exact figures with our **[MRP Revision Calculator](/mrp-revision-calculator)** before printing batch labels.
+If you are calculating revised prices across multiple products, verify the exact figures with our **[MRP Revision Calculator](/mrp-revision-calculator/)** before printing batch labels.
 
 ---
 
@@ -181,6 +181,6 @@ Update your Enterprise Resource Planning (ERP) software (like SAP, Oracle, or Ta
 
 Revising MRPs after a GST rate change is a massive logistical challenge that requires coordination between the legal, finance, supply chain, and sales departments. The government typically grants a narrow window—often just 30 to 60 days—to complete this exercise for existing stock.
 
-By following this step-by-step guide, you can ensure that your business remains on the right side of the law. Start by using an accurate **[MRP Revision Calculator](/mrp-revision-calculator)** to determine the exact new prices. Issue clear instructions, print the required newspaper ads, distribute the stickers, and update your billing systems without delay. 
+By following this step-by-step guide, you can ensure that your business remains on the right side of the law. Start by using an accurate **[MRP Revision Calculator](/mrp-revision-calculator/)** to determine the exact new prices. Issue clear instructions, print the required newspaper ads, distribute the stickers, and update your billing systems without delay. 
 
 In the era of GST 2.0, compliance is not just about avoiding penalties; it is about maintaining trust with your consumers and demonstrating corporate responsibility.

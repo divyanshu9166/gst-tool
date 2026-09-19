@@ -1,201 +1,911 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import ToolIcon from '../components/ToolIcon.astro';
+import LegalSources from '../components/LegalSources.astro';
+import CalculatorMethodology from '../components/CalculatorMethodology.astro';
+import TaxDisclaimer from '../components/TaxDisclaimer.astro';
 
 const title = 'GST Error Report Decoder — Fix JSON Errors';
 const description = 'Decode GST portal error JSON files instantly. Upload your GSTR 1 error report to view human-readable error messages and easily fix compliance issues.';
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://taxzentic.com';
+const canonical = `${siteUrl}/gst-error-report/`;
 
 const structuredData = [
   {
     '@context': 'https://schema.org',
     '@type': 'WebApplication',
     name: 'GST Error Report Decoder',
-    url: `${Astro.site?.toString() ?? 'https://example.com'}/gst-error-report`,
-    description: 'Instantly decode GST Error JSON files generated after failed GSTR-1 offline uploads.',
+    url: canonical,
+    description: 'Instantly decode GST Error JSON files generated after failed GSTR-1 offline uploads. Translates RET error codes into plain-English fixes.',
     applicationCategory: 'BusinessApplication',
-    operatingSystem: 'Any'
+    operatingSystem: 'Any Web Browser',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR' },
+    featureList: [
+      '100% in-browser offline parsing without server upload',
+      'Instant translation of RET11406, RET11414, RET19401 and 25+ GSTN error codes',
+      'One-click demo sample error file preview',
+      'Multi-section parsing for B2B, B2CL, B2CS, CDNR, EXP, and HSN tables',
+      'Live search and table filter by invoice number or GSTIN',
+      'Export cleaned error report to CSV for accounts teams'
+    ]
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'HowTo',
+    name: 'How to Download and Decode GST Portal Error JSON Files',
+    description: 'A step-by-step guide to downloading the GSTR-1 error report from the GST portal, decoding validation failures, and re-uploading corrected invoices.',
+    step: [
+      {
+        '@type': 'HowToStep',
+        position: 1,
+        name: 'Check Return Dashboard Status',
+        text: 'Log in to the GST Portal (gst.gov.in), navigate to Returns Dashboard, select your tax period, and check the status of your uploaded GSTR-1 offline file. If it reads "Processed with Error", click on the status link.'
+      },
+      {
+        '@type': 'HowToStep',
+        position: 2,
+        name: 'Download Error Report JSON',
+        text: 'Click the "Generate Error Report" button. Once generated, download the compressed error file and extract the error .json file to your desktop.'
+      },
+      {
+        '@type': 'HowToStep',
+        position: 3,
+        name: 'Upload to Taxzentic Decoder',
+        text: 'Drag and drop the extracted error JSON into the Taxzentic GST Error Report Decoder. The tool processes the file entirely in local browser memory.'
+      },
+      {
+        '@type': 'HowToStep',
+        position: 4,
+        name: 'Identify Rejected Invoices and Fix ERP Data',
+        text: 'Review the line-by-line invoice numbers, error codes, and statutory fix recommendations. Correct invalid GSTINs, duplicate invoice numbers, or HSN lengths in your accounting software (Tally, Zoho, SAP).'
+      },
+      {
+        '@type': 'HowToStep',
+        position: 5,
+        name: 'Export Cleaned List and Re-upload',
+        text: 'Export the error summary to CSV to verify all discrepancies. Regenerate the GSTR-1 offline JSON from your ERP and upload only the corrected records.'
+      }
+    ]
   },
   {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
     mainEntity: [
-      { '@type': 'Question', name: "What is a GST error report in 2026?", acceptedAnswer: { '@type': 'Answer', text: "A GST error report highlights the discrepancies and errors that occurred during the JSON payload upload to the official GST portal. In 2026, parsing this report offline helps businesses fix syntax and schema errors securely." } },
-      { '@type': 'Question', name: "How can I fix GST portal JSON errors?", acceptedAnswer: { '@type': 'Answer', text: "To fix GST JSON errors, download the error report JSON from the portal, upload it to our free offline tool, and view the exact line and invoice number that caused the issue. Then, correct your source ERP data and regenerate the JSON." } },
-      { '@type': 'Question', name: "Is this GST error report tool safe to use?", acceptedAnswer: { '@type': 'Answer', text: "Yes. Our GST error report tool runs 100% locally in your browser. None of your sensitive invoice data or error logs are uploaded to any server, ensuring complete data privacy." } },
-      { '@type': 'Question', name: "Why do I get 'Invalid GSTIN' errors in GSTR-1?", acceptedAnswer: { '@type': 'Answer', text: "This happens when the buyer's GSTIN is cancelled, suspended, or incorrectly formatted. Our error report tool will pinpoint exactly which invoice contains the invalid GSTIN." } },
-      { '@type': 'Question', name: "Can I convert the GST error report to Excel?", acceptedAnswer: { '@type': 'Answer', text: "While this specific tool reads and formats the error JSON, you can use our GSTR-1 JSON to Excel tool to convert your entire return data, including errors, into a readable Excel format." } },
-      { '@type': 'Question', name: "Does this tool support GST 2.0 error schemas?", acceptedAnswer: { '@type': 'Answer', text: "Yes, our tool is updated for 2026 and fully supports the latest GST 2.0 error JSON schemas provided by the GSTN." } },
-      { '@type': 'Question', name: "Why is the GST portal showing 'Processed with Error'?", acceptedAnswer: { '@type': 'Answer', text: "This status means your return file was accepted, but specific invoices or records failed validation. You must download the error report and use our tool to decode which records failed." } },
-      { '@type': 'Question', name: "Can I use this tool on my mobile phone?", acceptedAnswer: { '@type': 'Answer', text: "Yes, our GST offline tools are fully responsive and work seamlessly on mobile browsers without requiring a dedicated app download." } },
-      { '@type': 'Question', name: "Do I need to login to view GST errors here?", acceptedAnswer: { '@type': 'Answer', text: "No login is required. Taxzentic's tools are completely free and accessible instantly without any sign-up or subscription." } },
       {
         '@type': 'Question',
-        name: 'What is a GST Error Report JSON?',
+        name: 'What does "Processed with Error" mean on the GST portal?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'When you upload an offline JSON to the GST portal and there are discrepancies (like duplicate invoices or invalid GSTINs), the portal generates an Error Report link. This link contains a JSON file detailing exactly which invoices failed.'
+          text: 'The "Processed with Error" status indicates that the GST portal accepted your return upload, but specific invoices or records failed validation rules (such as inactive buyer GSTINs, duplicate invoice numbers, or tax calculation mismatches). The portal processes the valid invoices while isolating failed records into a downloadable Error JSON.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Where can I find and download the GST error report JSON?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'After uploading your offline JSON to GSTR-1, return to the "Upload" tab in the Returns Dashboard. Under the "Uploaded Invoices" history table, locate the batch with status "Processed with Error". Click "Generate error report", wait 5–10 minutes for the portal to generate it, and click "Download error report".'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'How do I fix error RET11406 (Invalid Recipient GSTIN)?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Error RET11406 occurs when the buyer GSTIN in Table 4 (B2B) is either cancelled, suspended, or not registered on the invoice date. Verify the buyer GSTIN using our offline GSTIN Validator. If the buyer is unregistered or cancelled, reclassify the invoice under B2C Large (B2CL) or B2C Small (B2CS).'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'How do I fix error RET11414 (Duplicate Invoice Number)?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Error RET11414 means the invoice number already exists in your GSTR-1 records for the current financial year. Under Rule 46(b) of the CGST Rules, invoice numbers must be consecutive and unique for each financial year. Verify whether the invoice was already uploaded in a previous return or assign a distinct invoice numbering sequence.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'How do I fix error RET19401 (Invalid HSN Code or Length)?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Under CBIC Notification No. 78/2020-Central Tax, businesses with aggregate turnover up to ₹5 Crore must report at least 4 digits of HSN on B2B invoices. Businesses with turnover exceeding ₹5 Crore must report 6 digits. Error RET19401 occurs if the digits are truncated or the code is missing from the official tariff schedule.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Is my financial data kept confidential when using this decoder?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Yes, 100% confidential. The Taxzentic GST Error Report Decoder executes entirely on client-side JavaScript in your local browser memory. Zero bytes of your JSON payload, customer names, or invoice values are transmitted to any external server.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'How to open and view a GST error report JSON in Excel?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'The raw JSON downloaded from the GST portal is nested and unreadable in plain Excel. By uploading the file to our decoder, the tool unpacks the nested hierarchy and provides a one-click "Export Error Log to CSV" button that opens perfectly in Microsoft Excel and Google Sheets.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Why does the GST portal reject invoices with future dates (RET11417)?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'The GST portal strictly blocks any tax invoice carrying a date later than the date of filing (Error RET11417). Review the date format in your accounting software (DD-MM-YYYY) to ensure day and month values have not been inadvertently swapped.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Can I delete a rejected invoice from the GST portal?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Records listed in the error report were never saved to the portal database in the first place. You do not need to delete them online; simply fix the faulty records in your offline software and upload only those corrected invoices.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'What happens if I cannot resolve GST upload errors before the due date?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'If invoice validation errors delay your GSTR-1 or GSTR-3B filing past the statutory due date (typically 11th for GSTR-1 and 20th for GSTR-3B), late fees accrue under Section 47 (₹50/day or ₹20/day for nil returns) and interest accrues at 18% p.a. under Section 50(1) on net cash tax liability.'
         }
       }
     ]
   }
 ];
 
-const lastUpdated = '2026-07-25';
+const lastUpdated = '2026-09-15';
 const breadcrumb = [
   { name: 'Home', href: '/' },
-  { name: 'Lookups \x26 Tools', href: '/#tools-heading' },
-  { name: 'GST Error Report', href: '/gst-error-report' },
+  { name: 'Lookups & Tools', href: '/#tools-heading' },
+  { name: 'GST Error Report', href: '/gst-error-report/' },
 ];
 ---
 
-<BaseLayout {title} {description} {structuredData} {breadcrumb} {lastUpdated}>
+<BaseLayout {title} {description} {canonical} {structuredData} {breadcrumb} {lastUpdated}>
   <div class="mx-auto max-w-5xl px-4 sm:px-6 py-12">
+    <!-- Header -->
     <div class="text-center mb-10">
+      <div class="inline-flex items-center gap-2 px-3 py-1 text-xs font-semibold bg-accent/10 text-accent rounded-full mb-4 border border-accent/20">
+        <ToolIcon name="file" class="w-4 h-4 text-accent" />
+        <span>GSTR-1 & GSTR-3B Offline Diagnostic</span>
+      </div>
       <h1 class="text-3xl sm:text-4xl font-bold text-base mb-3">GST Error Report Decoder</h1>
-      <p class="text-muted text-lg max-w-2xl mx-auto">
+      <p class="text-muted text-lg max-w-2xl mx-auto leading-relaxed">
         Analyze the error JSON files generated by the GST Portal. View what went wrong with your uploaded invoices in a clear, readable table format.
       </p>
+      
+      <!-- Privacy Badge -->
+      <div class="mt-4 inline-flex items-center gap-2 text-xs font-medium text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/60 px-3.5 py-1.5 rounded-full">
+        <svg class="w-4 h-4 text-emerald-600 dark:text-emerald-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M10 1.944A11.954 11.954 0 012.166 5C2.056 5.649 2 6.319 2 7c0 5.225 3.34 9.67 8 11.317C14.66 16.67 18 12.225 18 7c0-.682-.057-1.35-.166-2.001A11.954 11.954 0 0110 1.944zM11 14a1 1 0 11-2 0 1 1 0 012 0zm0-7a1 1 0 10-2 0v3a1 1 0 102 0V7z" clip-rule="evenodd"/>
+        </svg>
+        <span>100% Client-Side Private • Zero Server Upload • Instant Offline Processing</span>
+      </div>
     </div>
 
-    <div class="bg-surface border border-base rounded-2xl p-8 shadow-sm">
-      <div class="max-w-xl mx-auto space-y-6">
-        <div>
-          <label class="block text-sm font-medium text-base mb-2">Upload Error JSON File</label>
+    <!-- Main Tool Container -->
+    <div class="bg-surface border border-base rounded-2xl p-6 sm:p-8 shadow-sm relative overflow-hidden">
+      <!-- Decorative Background Gradient -->
+      <div class="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-transparent pointer-events-none"></div>
+
+      <!-- Drag & Drop Zone -->
+      <div class="relative z-10 max-w-2xl mx-auto">
+        <div 
+          id="dropzone"
+          class="border-2 border-dashed border-base rounded-2xl p-8 sm:p-10 text-center hover:border-accent transition-all cursor-pointer bg-subtle/50 group"
+        >
           <input 
             type="file" 
             id="errorFileInput" 
-            accept="application/json"
-            class="block w-full text-sm text-muted file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-accent file:text-white hover:file:bg-accent/90"
+            accept="application/json,.json"
+            class="hidden"
           />
+          <div class="w-14 h-14 mx-auto mb-4 rounded-2xl bg-accent/10 text-accent flex items-center justify-center group-hover:scale-110 transition-transform">
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+            </svg>
+          </div>
+          <p class="text-base font-semibold mb-1">
+            Drag & drop your GST Error JSON file here
+          </p>
+          <p class="text-xs text-muted mb-4">
+            Supports standard GSTR-1 and GSTR-3B error files downloaded from the GST Portal (.json)
+          </p>
+          <div class="inline-flex items-center gap-2">
+            <button 
+              type="button" 
+              id="browseBtn"
+              class="px-4 py-2 rounded-xl text-xs font-semibold bg-accent text-white hover:bg-accent/90 transition-colors shadow-sm"
+            >
+              Browse JSON File
+            </button>
+            <span class="text-xs text-muted">or</span>
+            <button 
+              type="button" 
+              id="sampleDemoBtn"
+              class="px-4 py-2 rounded-xl text-xs font-semibold border border-accent/40 text-accent hover:bg-accent/10 transition-colors"
+            >
+              Load Sample Error JSON (1-Click Demo)
+            </button>
+          </div>
+          <div id="fileMeta" class="mt-4 hidden text-xs font-mono text-accent bg-accent/10 py-1.5 px-3 rounded-lg inline-block"></div>
         </div>
-        <div>
-          <button id="analyzeBtn" class="w-full bg-accent hover:bg-accent/90 text-white font-semibold py-3 px-4 rounded-xl transition-colors">
-            Analyze Error Report
+
+        <div class="mt-6 flex flex-col sm:flex-row gap-3">
+          <button 
+            id="analyzeBtn" 
+            class="flex-1 bg-accent hover:bg-accent/90 text-white font-semibold py-3 px-4 rounded-xl transition-all shadow-sm flex items-center justify-center gap-2 text-sm"
+          >
+            <ToolIcon name="refresh" class="w-4 h-4 text-white" />
+            <span>Analyze Error Report</span>
           </button>
         </div>
       </div>
 
+      <!-- Loading State -->
+      <div id="loadingState" class="hidden my-12 text-center">
+        <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-accent border-r-transparent"></div>
+        <p class="text-xs text-muted mt-3">Decoding JSON payload structure...</p>
+      </div>
+
+      <!-- Results Area -->
       <div id="resultsArea" class="mt-10 hidden border-t border-base pt-8">
-        <h3 class="text-xl font-bold mb-4">Error Breakdown</h3>
-        <div class="overflow-x-auto rounded-lg border border-base">
-          <table class="min-w-full text-sm text-left">
-            <thead class="bg-subtle text-muted">
+        <!-- Summary Stats Cards -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
+          <div class="rounded-xl border border-base bg-subtle p-4 text-center">
+            <span class="text-xs text-muted uppercase tracking-wider font-semibold block mb-1">Total Errors</span>
+            <span id="statTotalErrors" class="text-2xl font-bold text-red-600">0</span>
+          </div>
+          <div class="rounded-xl border border-base bg-subtle p-4 text-center">
+            <span class="text-xs text-muted uppercase tracking-wider font-semibold block mb-1">Invoices Impacted</span>
+            <span id="statInvoicesImpacted" class="text-2xl font-bold text-base">0</span>
+          </div>
+          <div class="rounded-xl border border-base bg-subtle p-4 text-center">
+            <span class="text-xs text-muted uppercase tracking-wider font-semibold block mb-1">Sections Affected</span>
+            <span id="statSections" class="text-2xl font-bold text-accent">0</span>
+          </div>
+          <div class="rounded-xl border border-base bg-subtle p-4 text-center">
+            <span class="text-xs text-muted uppercase tracking-wider font-semibold block mb-1">Impacted Value</span>
+            <span id="statTotalValue" class="text-2xl font-bold text-base">₹0</span>
+          </div>
+        </div>
+
+        <!-- Filter & Search Toolbar -->
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mb-4">
+          <div class="flex flex-1 w-full sm:w-auto items-center gap-3">
+            <div class="relative flex-1 max-w-sm">
+              <input 
+                type="text" 
+                id="searchFilter" 
+                placeholder="Filter by Invoice #, GSTIN, Code..."
+                class="w-full rounded-xl border border-base bg-surface px-4 py-2 text-xs text-base focus:border-accent focus:ring-1 focus:ring-accent outline-none"
+              />
+            </div>
+            <select 
+              id="sectionSelect"
+              class="rounded-xl border border-base bg-surface px-3 py-2 text-xs text-base focus:border-accent outline-none"
+            >
+              <option value="ALL">All Sections</option>
+            </select>
+          </div>
+          
+          <button 
+            id="exportCsvBtn"
+            class="w-full sm:w-auto px-4 py-2 rounded-xl text-xs font-semibold bg-emerald-600 hover:bg-emerald-700 text-white transition-colors flex items-center justify-center gap-2 shadow-sm"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            <span>Export Error Log to CSV</span>
+          </button>
+        </div>
+
+        <!-- Results Table -->
+        <div class="overflow-x-auto rounded-xl border border-base bg-surface shadow-sm">
+          <table class="min-w-full text-xs text-left divide-y divide-base">
+            <thead class="bg-subtle text-muted uppercase font-semibold tracking-wider">
               <tr>
-                <th class="px-4 py-3 font-semibold border-b border-base">Section</th>
-                <th class="px-4 py-3 font-semibold border-b border-base">Invoice #</th>
-                <th class="px-4 py-3 font-semibold border-b border-base">Error Code</th>
-                <th class="px-4 py-3 font-semibold border-b border-base">Error Message</th>
+                <th class="px-4 py-3">Section</th>
+                <th class="px-4 py-3">Invoice / Doc #</th>
+                <th class="px-4 py-3">Invoice Date</th>
+                <th class="px-4 py-3">Buyer GSTIN</th>
+                <th class="px-4 py-3">Value</th>
+                <th class="px-4 py-3">Error Code</th>
+                <th class="px-4 py-3">Diagnosis & Recommended Statutory Fix</th>
               </tr>
             </thead>
-            <tbody id="errorTableBody" class="divide-y divide-base">
+            <tbody id="errorTableBody" class="divide-y divide-base font-normal text-base">
               <!-- Rows inserted by JS -->
             </tbody>
           </table>
         </div>
-        <div id="noErrors" class="hidden mt-4 text-green-600 font-medium text-center">
-          No error records found in this file!
+
+        <div id="noErrors" class="hidden mt-6 text-emerald-600 font-medium text-center p-6 bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-800/50 rounded-xl">
+          🎉 No validation error records found in this file! All invoices meet portal schema rules.
         </div>
       </div>
       
-      <div id="errorMsg" class="hidden text-sm text-center mt-6 p-4 bg-red-50 text-red-700 rounded-lg border border-red-200">
-        Failed to read the file. Are you sure it's a valid GST error JSON?
+      <!-- Error Message Box -->
+      <div id="errorMsg" class="hidden text-xs text-center mt-6 p-4 bg-red-50 dark:bg-red-950/30 text-red-700 dark:text-red-300 rounded-xl border border-red-200 dark:border-red-800/60">
+        Failed to parse the file. Please ensure the file is an official uncorrupted JSON error report downloaded from the GST Portal.
       </div>
     </div>
-    
-    <div class="mt-16 prose prose-slate max-w-none text-muted space-y-4">
-      <h2 class="text-2xl font-bold text-base">How to read the GST Error Report?</h2>
-      <p>When you upload JSON payload via the GST Offline Tool and some invoices contain errors (like invalid GSTINs, duplicate invoices, incorrect tax rates), the portal generates an "Error Report". This decoder parses that obfuscated JSON and highlights precisely which invoices failed and why.</p>
-      <p>If your uploaded invoices resulted in rejected B2B purchase records, you can <a href="/gstr-2b-reconciliation-tool/" class="text-accent hover:underline font-medium">reconcile GSTR-2B entries before evaluating ITC</a> to identify missing or mismatched vendor lines. Additionally, if resolving validation errors delays your return filing past the 20th, use our <a href="/late-fee-calculator/" class="text-accent hover:underline font-medium">GST late-fee tool</a> to compute statutory interest under Section 50 and late fees under Section 47.</p>
+
+    <!-- Methodology & Statutory Scope Section -->
+    <div class="mt-12">
+      <CalculatorMethodology
+        calculates="Parses nested GST Portal offline error JSON payloads (v1.5 schema), disaggregates table rejections (B2B, B2CL, B2CS, CDNR, EXP, HSN), maps GSTN error codes to statutory requirements, and generates formatted CSV audit logs."
+        doesNotDetermine="Does not connect live to the GSTN portal database or alter records stored on the government server. Verification of live buyer registration status requires checking the official GST portal."
+        inputs="Official GST Portal Error JSON file (.json) downloaded after an offline upload failure."
+        formula="Deterministic JSON schema traversal matching error_cd, error_msg, inum, ctin, and txval nodes across return tables."
+        period="FY 2025-26 & 2026-27 (GSTR-1, GSTR-1A, and GSTR-3B offline formats)"
+      />
     </div>
-  </div>
 
-  <script is:inline>
-    document.getElementById('analyzeBtn').addEventListener('click', () => {
-      const fileInput = document.getElementById('errorFileInput');
-      const resultsArea = document.getElementById('resultsArea');
-      const errorTableBody = document.getElementById('errorTableBody');
-      const noErrors = document.getElementById('noErrors');
-      const errorMsg = document.getElementById('errorMsg');
-      
-      resultsArea.classList.add('hidden');
-      errorMsg.classList.add('hidden');
-      noErrors.classList.add('hidden');
-      errorTableBody.innerHTML = '';
+    <!-- Educational Guide & Troubleshooting -->
+    <div class="mt-12 prose prose-neutral dark:prose-invert max-w-none text-[15px] leading-relaxed space-y-6">
+      <h2 class="text-2xl font-bold text-base">How to Read and Fix GST Portal Error Reports</h2>
+      <p>
+        When you prepare returns using the GST Offline Tool, ERP packages (like TallyPrime, Zoho Books, or SAP), or third-party GST software, invoices are compiled into a JSON payload. When uploaded to the GST Portal, the government system executes automated batch validation. If any invoice violates statutory rules, the file status changes to <strong>"Processed with Error"</strong>.
+      </p>
 
-      if (!fileInput.files.length) {
-        alert('Please select a JSON file first.');
-        return;
-      }
+      <h3 class="text-xl font-bold text-base">The Top 8 Most Common GSTN Error Codes and Statutory Remedies</h3>
+      <p>
+        Rather than reviewing cryptic codes manually, here is how official GSTN validation codes correspond to statutory provisions under the Central Goods and Services Tax Act, 2017:
+      </p>
 
-      const file = fileInput.files[0];
-      const reader = new FileReader();
+      <div class="overflow-x-auto not-prose rounded-xl border border-base my-6">
+        <table class="min-w-full text-xs text-left divide-y divide-base">
+          <thead class="bg-subtle text-muted uppercase font-semibold">
+            <tr>
+              <th class="px-4 py-3">Error Code</th>
+              <th class="px-4 py-3">Portal Error Description</th>
+              <th class="px-4 py-3">Statutory Cause</th>
+              <th class="px-4 py-3">Actionable ERP Remedy</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-base">
+            <tr class="hover:bg-subtle/50">
+              <td class="px-4 py-3 font-mono font-bold text-red-600">RET11406</td>
+              <td class="px-4 py-3 font-medium">Invalid Recipient GSTIN</td>
+              <td class="px-4 py-3 text-muted">Buyer GSTIN is cancelled, suspended, or does not exist on invoice date under Section 25.</td>
+              <td class="px-4 py-3">
+                Verify the buyer format using our <a href="/gstin-validator/" class="text-accent underline font-semibold">GSTIN Validator</a>. If cancelled, move invoice to B2CL/B2CS.
+              </td>
+            </tr>
+            <tr class="hover:bg-subtle/50">
+              <td class="px-4 py-3 font-mono font-bold text-red-600">RET11414</td>
+              <td class="px-4 py-3 font-medium">Duplicate Invoice Number</td>
+              <td class="px-4 py-3 text-muted">Invoice number already exists in current FY records, violating Rule 46(b).</td>
+              <td class="px-4 py-3">Check if already submitted in previous month or assign a distinct suffix in ERP.</td>
+            </tr>
+            <tr class="hover:bg-subtle/50">
+              <td class="px-4 py-3 font-mono font-bold text-red-600">RET11409</td>
+              <td class="px-4 py-3 font-medium">Place of Supply (POS) Mismatch</td>
+              <td class="px-4 py-3 text-muted">POS state code does not match IGST/CGST tax split under Section 10/12 of IGST Act.</td>
+              <td class="px-4 py-3">
+                Ensure intra-state transactions match your state code or use the <a href="/place-of-supply-calculator/" class="text-accent underline font-semibold">Place of Supply Calculator</a>.
+              </td>
+            </tr>
+            <tr class="hover:bg-subtle/50">
+              <td class="px-4 py-3 font-mono font-bold text-red-600">RET19401</td>
+              <td class="px-4 py-3 font-medium">Invalid HSN Code / Digit Length</td>
+              <td class="px-4 py-3 text-muted">Failure to mention 4 or 6 digits as mandated by Notification No. 78/2020-CT.</td>
+              <td class="px-4 py-3">
+                Lookup valid 4/6/8-digit tariff items in our <a href="/hsn-code-lookup/" class="text-accent underline font-semibold">HSN Code Lookup</a>.
+              </td>
+            </tr>
+            <tr class="hover:bg-subtle/50">
+              <td class="px-4 py-3 font-mono font-bold text-red-600">RET12401</td>
+              <td class="px-4 py-3 font-medium">Original Invoice Not Found (CDNR)</td>
+              <td class="px-4 py-3 text-muted">Credit/Debit Note references an invoice number not uploaded in GSTR-1.</td>
+              <td class="px-4 py-3">Upload original tax invoice before submitting dependent credit/debit notes.</td>
+            </tr>
+            <tr class="hover:bg-subtle/50">
+              <td class="px-4 py-3 font-mono font-bold text-red-600">RET11417</td>
+              <td class="px-4 py-3 font-medium">Invoice Date Cannot Be Future Date</td>
+              <td class="px-4 py-3 text-muted">Invoice date exceeds the date of return generation or upload date.</td>
+              <td class="px-4 py-3">Verify billing software date format (DD-MM-YYYY) and ensure invoice date &le; current date.</td>
+            </tr>
+            <tr class="hover:bg-subtle/50">
+              <td class="px-4 py-3 font-mono font-bold text-red-600">ERR_CALC_MISMATCH</td>
+              <td class="px-4 py-3 font-medium">Tax Calculation Mismatch</td>
+              <td class="px-4 py-3 text-muted">CGST + SGST or IGST deviates by more than ₹1 from statutory rate on taxable value.</td>
+              <td class="px-4 py-3">
+                Recalculate exact rate splits using our <a href="/gst-calculator/" class="text-accent underline font-semibold">GST Calculator</a>.
+              </td>
+            </tr>
+            <tr class="hover:bg-subtle/50">
+              <td class="px-4 py-3 font-mono font-bold text-red-600">RET11419</td>
+              <td class="px-4 py-3 font-medium">Reverse Charge Flag Conflict</td>
+              <td class="px-4 py-3 text-muted">Reverse charge set to 'Y' on supplies not notified under Section 9(3) of CGST Act.</td>
+              <td class="px-4 py-3">
+                Review RCM liability rules with our <a href="/rcm-calculator/" class="text-accent underline font-semibold">RCM Calculator</a>.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
-      reader.onload = (e) => {
-        try {
-          const data = JSON.parse(e.target.result);
-          const trs = [];
+      <h3 class="text-xl font-bold text-base">Next Steps for Downstream Return Compliance</h3>
+      <p>
+        Resolving GSTR-1 upload errors is critical for your customers' tax credit. If invoices remain rejected in GSTR-1, they will not populate in your buyers' auto-drafted GSTR-2B, preventing them from claiming ITC under Section 16(2)(aa). To verify how buyer accounts reconcile these statements, use our <a href="/gstr-2b-reconciliation-tool/" class="text-accent hover:underline font-medium">GSTR-2B reconciliation tool</a>. 
+      </p>
+      <p>
+        Additionally, if resolving multiple error batches delays filing beyond the 11th (for GSTR-1) or 20th (for GSTR-3B), calculate potential interest and penalty liabilities with our <a href="/late-fee-calculator/" class="text-accent hover:underline font-medium">GST late-fee calculator</a>. For converting full return files into spreadsheet format, try the <a href="/gstr1-json-to-excel/" class="text-accent hover:underline font-medium">GSTR-1 JSON to Excel converter</a>.
+      </p>
+    </div>
 
-          // The GST portal error JSON generally structure looks similar to normal GSTR1 but contains "error_msg" nodes.
-          // We will recursively search for "error_msg" or "error_cd"
-          function searchErrors(obj, contextSection, contextInv) {
-            if (Array.isArray(obj)) {
-              obj.forEach(item => searchErrors(item, contextSection, contextInv));
-            } else if (typeof obj === 'object' && obj !== null) {
-              
-              let currentInvoice = obj.inum || obj.doc_num || contextInv;
-              
-              if (obj.error_msg || obj.error_cd || obj.error_code) {
-                trs.push(`
-                  <tr class="hover:bg-subtle transition-colors">
-                    <td class="px-4 py-3 whitespace-nowrap">${contextSection || 'Unknown'}</td>
-                    <td class="px-4 py-3 whitespace-nowrap font-mono">${currentInvoice || 'N/A'}</td>
-                    <td class="px-4 py-3 text-red-600 font-semibold">${obj.error_cd || obj.error_code || 'Err'}</td>
-                    <td class="px-4 py-3 text-red-500">${obj.error_msg || obj.error_message || 'Validation Failed'}</td>
-                  </tr>
-                `);
-              }
-
-              for (const key in obj) {
-                if (typeof obj[key] === 'object') {
-                  const section = ['b2b', 'b2cl', 'b2cs', 'exp', 'cdnr', 'cdnur'].includes(key) ? key.toUpperCase() : contextSection;
-                  searchErrors(obj[key], section, currentInvoice);
-                }
-              }
-            }
+    <!-- Legal Sources -->
+    <div class="mt-12">
+      <LegalSources
+        sources={[
+          {
+            act: "Central Goods and Services Tax Rules, 2017",
+            section: "Rule 59 & Rule 46",
+            description: "Statutory form and manner of furnishing details of outward supplies in Form GSTR-1 and mandatory tax invoice contents."
+          },
+          {
+            act: "CBIC Notification No. 78/2020-Central Tax",
+            section: "Mandatory HSN Reporting",
+            description: "Mandates 4 digits of HSN for turnover up to ₹5 Crore and 6 digits for turnover exceeding ₹5 Crore on outward tax invoices.",
+            url: "https://cbic-gst.gov.in"
+          },
+          {
+            act: "Central Goods and Services Tax Act, 2017",
+            section: "Section 37 & Section 47",
+            description: "Furnishing details of outward supplies, rectification of errors, and statutory late fees for delayed submission."
           }
+        ]}
+        lastReviewed="2026-09-15"
+      />
+    </div>
 
-          searchErrors(data, '', '');
-
-          if (trs.length > 0) {
-            errorTableBody.innerHTML = trs.join('');
-          } else {
-            noErrors.classList.remove('hidden');
-          }
-
-          resultsArea.classList.remove('hidden');
-
-        } catch (err) {
-          console.error(err);
-          errorMsg.classList.remove('hidden');
-        }
-      };
-
-      reader.readAsText(file);
-    });
-  </script>
+    <!-- Educational Disclaimer -->
+    <div class="mt-8 mb-12">
+      <TaxDisclaimer />
+    </div>
 
     <!-- FAQ Section -->
-    <section class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 pb-20 mt-16 pt-12 border-t border-base" aria-labelledby="faq-heading">
+    <section class="pb-20 mt-16 pt-12 border-t border-base" aria-labelledby="faq-heading">
       <h2 id="faq-heading" class="text-2xl sm:text-3xl font-bold text-base mb-8">Frequently Asked Questions</h2>
       <div class="space-y-4">
-        {structuredData[1].mainEntity.map((faq, i) => (
+        {structuredData[2].mainEntity.map((faq, i) => (
           <details class="group rounded-xl border border-base bg-surface overflow-hidden" id={`faq-${i}`}>
             <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
               <span>{faq.name}</span>
-              <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+              <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
             </summary>
             <div class="px-6 pb-5 text-[15px] text-muted leading-relaxed border-t border-base pt-4">{faq.acceptedAnswer.text}</div>
           </details>
         ))}
       </div>
     </section>
+  </div>
 </BaseLayout>
+
+<!-- Client-Side Parsing, Demo, Search, and Export Engine -->
+<script is:inline>
+  // GSTN Error Code Knowledge Base
+  const ERROR_CODE_MAP = {
+    'RET11406': {
+      title: 'Invalid or Suspended Recipient GSTIN',
+      cause: 'The buyer GSTIN is invalid, cancelled, or inactive on the date of supply.',
+      fix: 'Verify GSTIN format using Taxzentic GSTIN Validator. If cancelled, move invoice to B2CL/B2CS.'
+    },
+    'RET11414': {
+      title: 'Duplicate Invoice Number',
+      cause: 'Invoice number already exists in current financial year records (Rule 46(b)).',
+      fix: 'Verify if previously uploaded or re-issue with a unique sequential suffix (e.g. -A).'
+    },
+    'RET11409': {
+      title: 'Place of Supply (POS) State Mismatch',
+      cause: 'POS state code does not match recipient state or CGST/SGST/IGST tax split.',
+      fix: 'For intra-state, ensure POS matches supplier state. For inter-state, verify buyer state code.'
+    },
+    'RET19401': {
+      title: 'Invalid HSN/SAC Code or Digits',
+      cause: 'HSN code is missing, invalid, or violates 4/6 digit rules (Notification 78/2020-CT).',
+      fix: 'Use Taxzentic HSN Code Lookup. Turnover > ₹5 Cr requires 6 digits; up to ₹5 Cr requires 4 digits.'
+    },
+    'RET12401': {
+      title: 'Original Tax Invoice Not Found (CDNR)',
+      cause: 'The Credit/Debit Note references an invoice number not yet uploaded in GSTR-1.',
+      fix: 'Upload the original invoice before uploading dependent credit or debit notes.'
+    },
+    'RET11417': {
+      title: 'Invoice Date Cannot Be Future Date',
+      cause: 'Invoice date exceeds the current date or return upload date.',
+      fix: 'Check billing date format (DD-MM-YYYY) in your ERP to ensure month/day are not transposed.'
+    },
+    'ERR_CALC_MISMATCH': {
+      title: 'Tax Calculation Discrepancy',
+      cause: 'Computed tax amount deviates beyond permitted ₹1 rounding tolerance.',
+      fix: 'Recompute tax using Taxzentic GST Calculator. Taxable value × Rate must equal tax entered.'
+    },
+    'RET11419': {
+      title: 'Reverse Charge Flag Conflict',
+      cause: 'Reverse charge flag set to Y on supplies not notified under Section 9(3).',
+      fix: 'Set rchrg to N unless supply falls under notified RCM categories (e.g. GTA, legal services).'
+    },
+    'RET11410': {
+      title: 'Invalid Invoice Type',
+      cause: 'Selected invoice type (Regular, SEZ, Deemed Export) conflicts with recipient category.',
+      fix: 'Ensure SEZ supplies select SEZWP/SEZWOP and regular supplies select R.'
+    },
+    'ERR_INV_DATE_PRIOR': {
+      title: 'Invoice Prior to Registration Date',
+      cause: 'Invoice date precedes effective GST registration date of supplier or buyer.',
+      fix: 'Align invoice date with post-registration period or file as unregistered.'
+    }
+  };
+
+  // Sample Demo JSON Payload for Instant 1-Click Evaluation
+  const SAMPLE_ERROR_PAYLOAD = {
+    "gstin": "27AAAAA0000A1Z5",
+    "fp": "042026",
+    "b2b": [
+      {
+        "ctin": "07AAAAA0000A1Z5",
+        "inv": [
+          {
+            "inum": "INV-2026-081",
+            "idt": "12-04-2026",
+            "val": 150000.0,
+            "pos": "07",
+            "error_cd": "RET11406",
+            "error_msg": "Recipient GSTIN is invalid or suspended on the portal on the invoice date."
+          },
+          {
+            "inum": "INV-2026-094",
+            "idt": "15-04-2026",
+            "val": 50000.0,
+            "pos": "27",
+            "error_cd": "RET11414",
+            "error_msg": "Duplicate Invoice Number. Invoice number already exists for this financial year."
+          },
+          {
+            "inum": "INV-2026-102",
+            "idt": "18-04-2026",
+            "val": 84000.0,
+            "pos": "06",
+            "error_cd": "RET11409",
+            "error_msg": "Place of supply state code does not match recipient state code or IGST rate selection."
+          }
+        ]
+      }
+    ],
+    "cdnr": [
+      {
+        "ctin": "29BBBBB0000B1Z2",
+        "nt": [
+          {
+            "nt_num": "CRN-2026-012",
+            "nt_dt": "22-04-2026",
+            "inum": "INV-2025-410",
+            "val": 18000.0,
+            "error_cd": "RET12401",
+            "error_msg": "Original tax invoice INV-2025-410 not found on the portal for this recipient."
+          }
+        ]
+      }
+    ],
+    "hsn": {
+      "data": [
+        {
+          "hsn_sc": "8517",
+          "desc": "Smartphones and cellular devices",
+          "txval": 350000.0,
+          "error_cd": "RET19401",
+          "error_msg": "Minimum 6 digits required for HSN reporting on B2B supplies for turnover exceeding ₹5 Cr."
+        }
+      ]
+    },
+    "b2cs": [
+      {
+        "pos": "27",
+        "sply_ty": "INTRA",
+        "txval": 20000.0,
+        "rt": 18,
+        "iamt": 3612.0,
+        "error_cd": "ERR_CALC_MISMATCH",
+        "error_msg": "Tax amount (₹3,612.00) deviates from computed rate 18% on taxable value (₹20,000.00)."
+      }
+    ]
+  };
+
+  let parsedErrors = [];
+
+  const dropzone = document.getElementById('dropzone');
+  const fileInput = document.getElementById('errorFileInput');
+  const browseBtn = document.getElementById('browseBtn');
+  const sampleDemoBtn = document.getElementById('sampleDemoBtn');
+  const analyzeBtn = document.getElementById('analyzeBtn');
+  const fileMeta = document.getElementById('fileMeta');
+  const resultsArea = document.getElementById('resultsArea');
+  const loadingState = document.getElementById('loadingState');
+  const errorTableBody = document.getElementById('errorTableBody');
+  const noErrors = document.getElementById('noErrors');
+  const errorMsg = document.getElementById('errorMsg');
+  const searchFilter = document.getElementById('searchFilter');
+  const sectionSelect = document.getElementById('sectionSelect');
+  const exportCsvBtn = document.getElementById('exportCsvBtn');
+
+  // Drag & drop listeners
+  ['dragenter', 'dragover'].forEach(eventName => {
+    dropzone?.addEventListener(eventName, (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      dropzone.classList.add('border-accent', 'bg-accent/5');
+    }, false);
+  });
+
+  ['dragleave', 'drop'].forEach(eventName => {
+    dropzone?.addEventListener(eventName, (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      dropzone.classList.remove('border-accent', 'bg-accent/5');
+    }, false);
+  });
+
+  dropzone?.addEventListener('drop', (e) => {
+    const dt = e.dataTransfer;
+    const files = dt.files;
+    if (files.length) {
+      fileInput.files = files;
+      handleFileSelected(files[0]);
+    }
+  });
+
+  browseBtn?.addEventListener('click', () => fileInput.click());
+  fileInput?.addEventListener('change', (e) => {
+    if (e.target.files.length) {
+      handleFileSelected(e.target.files[0]);
+    }
+  });
+
+  function handleFileSelected(file) {
+    fileMeta.textContent = `${file.name} (${(file.size / 1024).toFixed(1)} KB)`;
+    fileMeta.classList.remove('hidden');
+  }
+
+  // 1-Click Demo Button
+  sampleDemoBtn?.addEventListener('click', () => {
+    fileMeta.textContent = 'sample_gstr1_error_report.json (Demo Data)';
+    fileMeta.classList.remove('hidden');
+    processPayload(SAMPLE_ERROR_PAYLOAD);
+  });
+
+  analyzeBtn?.addEventListener('click', () => {
+    if (!fileInput.files.length) {
+      alert('Please select a GST error JSON file first, or click "Load Sample Error JSON".');
+      return;
+    }
+    const file = fileInput.files[0];
+    const reader = new FileReader();
+
+    loadingState.classList.remove('hidden');
+    resultsArea.classList.add('hidden');
+    errorMsg.classList.add('hidden');
+
+    reader.onload = (e) => {
+      try {
+        const payload = JSON.parse(e.target.result);
+        processPayload(payload);
+      } catch (err) {
+        console.error('JSON parsing failed:', err);
+        loadingState.classList.add('hidden');
+        errorMsg.classList.remove('hidden');
+      }
+    };
+    reader.readAsText(file);
+  });
+
+  // Core Recursive Parser
+  function processPayload(data) {
+    loadingState.classList.remove('hidden');
+    resultsArea.classList.add('hidden');
+    errorMsg.classList.add('hidden');
+    noErrors.classList.add('hidden');
+    parsedErrors = [];
+
+    setTimeout(() => {
+      try {
+        parseRecursive(data, '', null);
+        renderResults();
+      } catch (err) {
+        console.error(err);
+        errorMsg.classList.remove('hidden');
+      } finally {
+        loadingState.classList.add('hidden');
+      }
+    }, 150);
+  }
+
+  function parseRecursive(obj, currentSection, parentMeta) {
+    if (!obj || typeof obj !== 'object') return;
+
+    if (Array.isArray(obj)) {
+      obj.forEach(item => parseRecursive(item, currentSection, parentMeta));
+      return;
+    }
+
+    // Build context metadata
+    const meta = {
+      section: currentSection,
+      ctin: obj.ctin || parentMeta?.ctin || '',
+      inum: obj.inum || obj.nt_num || obj.doc_num || obj.hsn_sc || parentMeta?.inum || '',
+      idt: obj.idt || obj.nt_dt || obj.doc_dt || parentMeta?.idt || '',
+      val: obj.val || obj.txval || parentMeta?.val || 0
+    };
+
+    // Check for error properties
+    const errCd = obj.error_cd || obj.error_code || obj.err_cd || '';
+    const errMsg = obj.error_msg || obj.error_message || obj.err_msg || obj.error_desc || '';
+
+    if (errCd || errMsg) {
+      const knownInfo = ERROR_CODE_MAP[errCd] || {
+        title: 'Validation Error',
+        cause: errMsg || 'The record violated portal validation rules.',
+        fix: 'Review invoice parameters in accounting ERP and verify buyer GSTIN and tax rates.'
+      };
+
+      parsedErrors.push({
+        section: currentSection || 'GSTR-1',
+        docNum: meta.inum || 'N/A',
+        docDate: meta.idt || '—',
+        ctin: meta.ctin || '—',
+        val: parseFloat(meta.val) || 0,
+        errCode: errCd || 'ERR',
+        errMsg: errMsg || knownInfo.title,
+        diagnosis: knownInfo.cause,
+        statutoryFix: knownInfo.fix
+      });
+    }
+
+    // Traverse children
+    for (const key in obj) {
+      if (typeof obj[key] === 'object' && obj[key] !== null) {
+        let nextSection = currentSection;
+        const upper = key.toUpperCase();
+        if (['B2B', 'B2CL', 'B2CS', 'CDNR', 'CDNUR', 'EXP', 'HSN', 'AT', 'TXP'].includes(upper)) {
+          nextSection = upper;
+        }
+        parseRecursive(obj[key], nextSection, meta);
+      }
+    }
+  }
+
+  function renderResults() {
+    if (parsedErrors.length === 0) {
+      noErrors.classList.remove('hidden');
+      resultsArea.classList.remove('hidden');
+      return;
+    }
+
+    // Populate Stats
+    document.getElementById('statTotalErrors').textContent = parsedErrors.length;
+    
+    const uniqueInvoices = new Set(parsedErrors.map(e => e.docNum).filter(n => n && n !== 'N/A' && n !== '—'));
+    document.getElementById('statInvoicesImpacted').textContent = uniqueInvoices.size || parsedErrors.length;
+
+    const uniqueSections = [...new Set(parsedErrors.map(e => e.section))];
+    document.getElementById('statSections').textContent = uniqueSections.length;
+
+    const totalVal = parsedErrors.reduce((acc, curr) => acc + (curr.val || 0), 0);
+    document.getElementById('statTotalValue').textContent = '₹' + Math.round(totalVal).toLocaleString('en-IN');
+
+    // Populate Section Dropdown
+    sectionSelect.innerHTML = '<option value="ALL">All Sections</option>';
+    uniqueSections.forEach(sec => {
+      const opt = document.createElement('option');
+      opt.value = sec;
+      opt.textContent = `${sec} (${parsedErrors.filter(e => e.section === sec).length})`;
+      sectionSelect.appendChild(opt);
+    });
+
+    renderTable();
+    resultsArea.classList.remove('hidden');
+  }
+
+  function renderTable() {
+    const query = (searchFilter.value || '').toLowerCase().trim();
+    const selectedSec = sectionSelect.value || 'ALL';
+
+    const filtered = parsedErrors.filter(item => {
+      const matchSection = (selectedSec === 'ALL' || item.section === selectedSec);
+      const matchQuery = !query || 
+        item.docNum.toLowerCase().includes(query) ||
+        item.ctin.toLowerCase().includes(query) ||
+        item.errCode.toLowerCase().includes(query) ||
+        item.errMsg.toLowerCase().includes(query) ||
+        item.diagnosis.toLowerCase().includes(query);
+      return matchSection && matchQuery;
+    });
+
+    if (filtered.length === 0) {
+      errorTableBody.innerHTML = `
+        <tr>
+          <td colspan="7" class="px-4 py-8 text-center text-muted">
+            No errors match your filter criteria.
+          </td>
+        </tr>
+      `;
+      return;
+    }
+
+    errorTableBody.innerHTML = filtered.map(row => `
+      <tr class="hover:bg-subtle/60 transition-colors">
+        <td class="px-4 py-3 whitespace-nowrap">
+          <span class="inline-block px-2 py-0.5 rounded text-[11px] font-semibold bg-accent/10 text-accent border border-accent/20">
+            ${row.section}
+          </span>
+        </td>
+        <td class="px-4 py-3 font-mono font-medium whitespace-nowrap text-base">
+          ${row.docNum}
+        </td>
+        <td class="px-4 py-3 whitespace-nowrap text-muted">
+          ${row.docDate}
+        </td>
+        <td class="px-4 py-3 font-mono whitespace-nowrap">
+          ${row.ctin !== '—' ? `<a href="/gstin-validator/" target="_blank" title="Verify GSTIN offline" class="text-accent hover:underline">${row.ctin}</a>` : '<span class="text-muted">—</span>'}
+        </td>
+        <td class="px-4 py-3 whitespace-nowrap font-medium text-base">
+          ${row.val > 0 ? '₹' + Math.round(row.val).toLocaleString('en-IN') : '—'}
+        </td>
+        <td class="px-4 py-3 whitespace-nowrap">
+          <span class="px-2 py-0.5 rounded text-[11px] font-mono font-bold bg-red-100 text-red-700 dark:bg-red-950/50 dark:text-red-300">
+            ${row.errCode}
+          </span>
+        </td>
+        <td class="px-4 py-3">
+          <div class="font-medium text-red-600 dark:text-red-400 mb-0.5">${escapeHtml(row.errMsg)}</div>
+          <div class="text-[11px] text-muted leading-relaxed">${escapeHtml(row.statutoryFix)}</div>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  function escapeHtml(str) {
+    return String(str || '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  // Filter Listeners
+  searchFilter?.addEventListener('input', renderTable);
+  sectionSelect?.addEventListener('change', renderTable);
+
+  // CSV Export Engine
+  exportCsvBtn?.addEventListener('click', () => {
+    if (parsedErrors.length === 0) return;
+
+    const headers = ['Section', 'Document_Number', 'Document_Date', 'Buyer_GSTIN', 'Value', 'Error_Code', 'Error_Message', 'Recommended_Fix'];
+    const rows = parsedErrors.map(e => [
+      `"${e.section}"`,
+      `"${e.docNum}"`,
+      `"${e.docDate}"`,
+      `"${e.ctin}"`,
+      e.val,
+      `"${e.errCode}"`,
+      `"${e.errMsg.replace(/"/g, '""')}"`,
+      `"${e.statutoryFix.replace(/"/g, '""')}"`
+    ]);
+
+    const csvContent = 'data:text/csv;charset=utf-8,' + [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement('a');
+    link.setAttribute('href', encodedUri);
+    link.setAttribute('download', `GST_Error_Report_${new Date().toISOString().slice(0,10)}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  });
+</script>

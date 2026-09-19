@@ -131,5 +131,6 @@ The new tax regime is undeniably attractive for the majority of Indian middle-cl
 
 
 ## Related Tools
-- [Terms & Conditions | GST HSN Lookup](/terms)
-- [GST Error Report Decoder | Fix GST JSON Errors Online](/gst-error-report)
+- [Terms & Conditions | GST HSN Lookup](/terms/)
+- [GST Error Report Decoder | Fix GST JSON Errors Online](/gst-error-report/)
+
