@@ -1,124 +1,63 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const title = 'GST Notice Reply Deadline Calculator';
-const description = 'Instantly calculate the exact deadline date to reply to your GST notice (ASMT-10, DRC-01, Section 73, Section 74). Free offline GST deadline calculator.';
-
+const title = 'GST Notice Date Estimator | Taxzentic';
+const description = 'Add the number of calendar days stated on a GST notice to a date. This tool does not determine or verify a legal response deadline.';
+const faqs = [
+  {
+    q: 'What does this date estimator calculate?',
+    a: 'It adds the number of calendar days you enter to the date you select. It does not check the notice, applicable law, extensions, excluded days, holidays, or the GST portal.',
+  },
+  {
+    q: 'Does this tool determine my legal response deadline?',
+    a: 'No. Enter a day count only after checking the complete notice and current official sources. Confirm the calculation and any applicable counting rules with a qualified professional.',
+  },
+  {
+    q: 'Does the estimate account for weekends or public holidays?',
+    a: 'No. It performs simple calendar-day arithmetic and does not apply a legal rule for weekends, public holidays, office closures, or extensions.',
+  },
+  {
+    q: 'Can this tool tell me which form to file?',
+    a: 'No. Check the notice and official GST portal for the applicable response form and filing route. The estimator does not submit anything.',
+  },
+];
 const structuredData = [
   {
     '@context': 'https://schema.org',
     '@type': 'WebApplication',
-    name: 'GST Notice Deadline Calculator',
-    url: Astro.site?.toString() ? `${Astro.site}gst-notice-deadline-calculator` : 'https://example.com/gst-notice-deadline-calculator',
-    description: 'Calculate deadline for replying to GST notices.',
+    name: 'GST Notice Date Estimator',
+    url: Astro.site?.toString() ? `${Astro.site}gst-notice-deadline-calculator` : 'https://taxzentic.com/gst-notice-deadline-calculator',
+    description: 'Simple calendar-day arithmetic using dates and a day count entered by the user; does not determine a legal deadline.',
     applicationCategory: 'FinanceApplication',
     operatingSystem: 'Any',
   },
   {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    mainEntity: [
-      {
-        '@type': 'Question',
-        name: 'What is the standard time limit to reply to a GST Notice under Section 73 or 74?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'The standard time limit to file a reply to a show cause notice (DRC-01) issued under Section 73 or Section 74 is usually 30 days from the date of the receipt of the notice.'
-        }
-      },
-      {
-        '@type': 'Question',
-        name: 'What happens if I miss the deadline to reply to a GST notice?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'If you fail to reply within the specified time, the proper officer may proceed to pass an ex-parte order, raising a confirmed tax demand along with interest and applicable penalties, without hearing your defense.'
-        }
-      },
-      {
-        '@type': 'Question',
-        name: 'Can I request an extension of time to reply to a GST notice?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Yes, you can request an adjournment or extension of time. The officer may grant an extension for sufficient cause, but generally, not more than three adjournments are granted during the proceedings.'
-        }
-      },
-      {
-        '@type': 'Question',
-        name: 'What is ASMT-10 in GST?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'ASMT-10 is a notice issued by the tax department pointing out discrepancies in your GST returns (e.g., mismatch between GSTR-1 and GSTR-3B, or GSTR-2B and GSTR-3B). The usual reply time given is 30 days.'
-        }
-      },
-      {
-        '@type': 'Question',
-        name: 'How do I reply to an ASMT-10 notice?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'You must file your reply in Form GST ASMT-11 online on the GST portal, providing an explanation for the discrepancies or paying the short-paid tax along with interest.'
-        }
-      },
-      {
-        '@type': 'Question',
-        name: 'What is DRC-01 in GST?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'DRC-01 is a formal Show Cause Notice (SCN) issued under Section 73 (non-fraud) or Section 74 (fraud) demanding tax, interest, and penalty. It is a critical legal document that requires a robust point-wise reply.'
-        }
-      },
-      {
-        '@type': 'Question',
-        name: 'How do I reply to DRC-01?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'You must file your reply in Form GST DRC-06 electronically on the GST portal. You must attach all supporting documents, legal precedents, and a detailed factual defense.'
-        }
-      },
-      {
-        '@type': 'Question',
-        name: 'Does the 30-day limit include weekends and public holidays?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Yes, the 30-day period includes weekends and public holidays. However, if the 30th day falls on a national holiday or a day when the office is closed, the next working day is considered the deadline.'
-        }
-      },
-      {
-        '@type': 'Question',
-        name: 'What is the difference between Section 73 and Section 74?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Section 73 applies to cases involving non-payment or short-payment of tax without any intent to evade tax (no fraud). Section 74 applies to cases involving fraud, willful misstatement, or suppression of facts to evade tax, attracting higher penalties.'
-        }
-      },
-      {
-        '@type': 'Question',
-        name: 'Should I hire a professional to reply to a GST notice?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Yes. Unless it is a very minor technical discrepancy, it is highly recommended to consult a CA, tax advocate, or GST practitioner to draft a legally sound reply to DRC-01 to protect your rights.'
-        }
-      }
-    ]
-  }
+    mainEntity: faqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.q,
+      acceptedAnswer: { '@type': 'Answer', text: faq.a },
+    })),
+  },
 ];
-
-const lastUpdated = '2026-07-25';
+const lastUpdated = '2026-09-24';
 const breadcrumb = [
   { name: 'Home', href: '/' },
   { name: 'Calculators', href: '/#tools-heading' },
-  { name: 'GST Notice Deadline Calculator', href: '/gst-notice-deadline-calculator' },
+  { name: 'GST Notice Date Estimator', href: '/gst-notice-deadline-calculator' },
 ];
 ---
 
-<BaseLayout title={title} description={description} structuredData={structuredData}>
+<BaseLayout title={title} description={description} structuredData={structuredData} breadcrumb={breadcrumb} lastUpdated={lastUpdated}>
   <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-12">
     <!-- Header -->
     <div class="text-center mb-10">
       <h1 class="text-[32px] sm:text-[40px] tracking-[-1.5px] font-semibold text-base mb-4 leading-tight">
-        GST Notice Reply Deadline Calculator
+        GST Notice Date Estimator
       </h1>
       <p class="text-[16px] text-muted max-w-2xl mx-auto leading-relaxed">
-        Calculate the exact deadline to file your reply for ASMT-10, DRC-01, Section 73, and Section 74 notices. Never miss a compliance deadline.
+        Estimate a calendar date by adding a day count from your notice or verified source. This tool does not determine a legal deadline.
       </p>
     </div>
 
@@ -127,46 +66,23 @@ const breadcrumb = [
       <div class="p-6 sm:p-8">
         <form id="deadline-form" class="space-y-6">
           
-          <!-- Notice Type -->
           <div>
-            <label class="block text-[14px] font-medium text-base mb-2">Notice Type</label>
-            <div class="grid grid-cols-2 gap-3 sm:grid-cols-4">
-              <label class="relative flex cursor-pointer justify-center rounded-lg border border-base bg-surface p-3 focus:outline-none has-[:checked]:border-primary has-[:checked]:bg-subtle transition-all">
-                <input type="radio" name="noticeType" value="30" class="sr-only" checked>
-                <span class="text-[13px] font-medium text-base">Sec 73 / 74 (DRC-01)</span>
-              </label>
-              <label class="relative flex cursor-pointer justify-center rounded-lg border border-base bg-surface p-3 focus:outline-none has-[:checked]:border-primary has-[:checked]:bg-subtle transition-all">
-                <input type="radio" name="noticeType" value="30" class="sr-only">
-                <span class="text-[13px] font-medium text-base">ASMT-10</span>
-              </label>
-              <label class="relative flex cursor-pointer justify-center rounded-lg border border-base bg-surface p-3 focus:outline-none has-[:checked]:border-primary has-[:checked]:bg-subtle transition-all">
-                <input type="radio" name="noticeType" value="15" class="sr-only">
-                <span class="text-[13px] font-medium text-base">ASMT-14</span>
-              </label>
-              <label class="relative flex cursor-pointer justify-center rounded-lg border border-base bg-surface p-3 focus:outline-none has-[:checked]:border-primary has-[:checked]:bg-subtle transition-all">
-                <input type="radio" name="noticeType" value="custom" class="sr-only">
-                <span class="text-[13px] font-medium text-base">Custom Days</span>
-              </label>
-            </div>
-          </div>
-
-          <!-- Custom Days Input -->
-          <div id="custom-days-container" class="hidden">
-            <label for="customDays" class="block text-[14px] font-medium text-base mb-2">Specify Allowed Days</label>
-            <input 
-              type="number" 
-              id="customDays" 
-              name="customDays"
+            <label for="allowedDays" class="block text-[14px] font-medium text-base mb-2">Number of calendar days to add</label>
+            <input
+              type="number"
+              id="allowedDays"
+              name="allowedDays"
               class="block w-full rounded-[8px] border-0 py-2.5 px-3 text-base ring-1 ring-inset ring-base focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6 bg-surface transition-all"
-              placeholder="e.g. 7"
+              placeholder="Enter the day count stated in your notice or verified source"
               min="1"
               step="1"
+              required
             >
+            <p class="mt-2 text-[12px] text-muted">No notice type is assigned a default number of days. Confirm the correct count and how days are calculated before using this estimate.</p>
           </div>
-
           <!-- Date of Receipt -->
           <div>
-            <label for="receiptDate" class="block text-[14px] font-medium text-base mb-2">Date of Receipt of Notice</label>
+            <label for="receiptDate" class="block text-[14px] font-medium text-base mb-2">Date to count from</label>
             <input 
               type="date" 
               id="receiptDate" 
@@ -174,7 +90,7 @@ const breadcrumb = [
               class="block w-full rounded-[8px] border-0 py-2.5 px-3 text-base ring-1 ring-inset ring-base focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6 bg-surface transition-all"
               required
             >
-            <p class="mt-2 text-[12px] text-muted">Usually, the deadline is calculated from the date you actually received the notice, not the date it was issued.</p>
+            <p class="mt-2 text-[12px] text-muted">Choose a date only after checking the applicable notice and rule. The correct starting event may depend on the procedure.</p>
           </div>
 
         </form>
@@ -183,7 +99,7 @@ const breadcrumb = [
       <!-- Results Section -->
       <div id="results-section" class="bg-subtle border-t border-base p-6 sm:p-8 hidden">
         <div class="mb-6">
-          <h3 class="text-[14px] font-medium text-muted uppercase tracking-wider mb-3">Deadline Status</h3>
+          <h3 class="text-[14px] font-medium text-muted uppercase tracking-wider mb-3">Calendar Date Estimate</h3>
           <div class="flex items-center gap-3">
             <div id="status-icon" class="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center">
               <!-- Icon injected via JS -->
@@ -197,7 +113,7 @@ const breadcrumb = [
 
         <div class="bg-surface border border-base rounded-[8px] p-4 text-[14px] text-base leading-relaxed">
           <p id="consequence-text">
-            Ensure your reply is filed on the GST portal before this date. Attach all factual defenses, supporting documents, and legal precedents.
+            This is simple calendar-day arithmetic, not a verified legal deadline. Check the notice and current official sources for the applicable counting rule, extensions, and filing route.
           </p>
         </div>
       </div>
@@ -210,8 +126,8 @@ const breadcrumb = [
     <div class="border-t border-base pt-12">
       <h2 class="text-[24px] font-semibold text-base mb-4">Related Guides</h2>
       <ul class="list-disc pl-5 space-y-2">
-        <li><a href="/blog/verify-gst-number-online" class="text-primary hover:underline">How to Verify a GST Number Online: Structure, Checksum & Red Flags</a></li>
-        <li><a href="/blog/post-sale-discount-gst-2026" class="text-primary hover:underline">Post-Sale Discounts Under GST 2026: Credit Note Rules & ITC Implications</a></li>
+        <li><a href="/gst-notices" class="text-primary hover:underline">GST notices resource hub</a></li>
+        <li><a href="/gst-notice-reply-generator" class="text-primary hover:underline">GST notice draft outline tool</a></li>
       </ul>
     </div>
   </div>
@@ -221,13 +137,13 @@ const breadcrumb = [
       <h2 class="text-[28px] tracking-[-1px] font-semibold text-base mb-2">Frequently Asked Questions</h2>
       <p class="text-muted text-[15px] mb-8">Understanding GST notices and deadlines.</p>
       <div class="space-y-3">
-        {structuredData[1].mainEntity.map((faq, i) => (
+        {faqs.map((faq, i) => (
           <details class="group rounded-[8px] border border-base bg-surface overflow-hidden" id={`faq-${i}`}>
             <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
-              <span class="text-[15px]">{faq.name}</span>
+              <span class="text-[15px]">{faq.q}</span>
               <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
             </summary>
-            <div class="px-6 pb-5 text-[14px] text-muted leading-relaxed border-t border-base pt-4">{faq.acceptedAnswer.text}</div>
+            <div class="px-6 pb-5 text-[14px] text-muted leading-relaxed border-t border-base pt-4">{faq.a}</div>
           </details>
         ))}
       </div>
@@ -236,83 +152,56 @@ const breadcrumb = [
 </BaseLayout>
 
 <script>
-const form = document.getElementById("deadline-form");
-const noticeRadios = document.querySelectorAll('input[name="noticeType"]');
-const customDaysContainer = document.getElementById("custom-days-container");
-const customDaysInput = document.getElementById("customDays");
-const receiptDateInput = document.getElementById("receiptDate");
-const resultsSection = document.getElementById("results-section");
-const deadlineDateEl = document.getElementById("deadline-date");
-const daysRemainingEl = document.getElementById("days-remaining");
-const statusIcon = document.getElementById("status-icon");
-const consequenceText = document.getElementById("consequence-text");
-const today = /* @__PURE__ */ new Date();
-receiptDateInput.valueAsDate = today;
-function calculate() {
-  if (!receiptDateInput.value) {
-    resultsSection.classList.add("hidden");
+const form = document.getElementById('deadline-form');
+const allowedDaysInput = document.getElementById('allowedDays');
+const dateInput = document.getElementById('receiptDate');
+const resultsSection = document.getElementById('results-section');
+const estimateDate = document.getElementById('deadline-date');
+const estimateStatus = document.getElementById('days-remaining');
+const statusIcon = document.getElementById('status-icon');
+const note = document.getElementById('consequence-text');
+
+function calculateDateEstimate() {
+  const days = Number(allowedDaysInput.value);
+  if (!dateInput.value || !Number.isInteger(days) || days < 1) {
+    resultsSection.classList.add('hidden');
     return;
   }
-  let allowedDays = 30;
-  let isCustom = false;
-  noticeRadios.forEach((r) => {
-    if (r.checked) {
-      if (r.value === "custom") {
-        isCustom = true;
-        allowedDays = parseInt(customDaysInput.value) || 0;
-      } else {
-        allowedDays = parseInt(r.value);
-      }
-    }
+
+  const [year, month, day] = dateInput.value.split('-').map(Number);
+  const result = new Date(year, month - 1, day);
+  result.setDate(result.getDate() + days);
+  estimateDate.textContent = result.toLocaleDateString('en-IN', {
+    weekday: 'short', year: 'numeric', month: 'long', day: 'numeric',
   });
-  if (isCustom) {
-    customDaysContainer.classList.remove("hidden");
-  } else {
-    customDaysContainer.classList.add("hidden");
-  }
-  if (allowedDays <= 0 && isCustom) {
-    resultsSection.classList.add("hidden");
-    return;
-  }
-  resultsSection.classList.remove("hidden");
-  const receiptDate = new Date(receiptDateInput.value);
-  const deadlineDate = new Date(receiptDate);
-  deadlineDate.setDate(deadlineDate.getDate() + allowedDays);
-  const options = { weekday: "short", year: "numeric", month: "long", day: "numeric" };
-  deadlineDateEl.textContent = deadlineDate.toLocaleDateString("en-IN", options);
-  const currentDate = /* @__PURE__ */ new Date();
-  currentDate.setHours(0, 0, 0, 0);
-  const targetDeadlineDate = new Date(deadlineDate);
-  targetDeadlineDate.setHours(0, 0, 0, 0);
-  const timeDiff = targetDeadlineDate.getTime() - currentDate.getTime();
-  const daysDiff = Math.ceil(timeDiff / (1e3 * 3600 * 24));
-  if (daysDiff < 0) {
-    daysRemainingEl.textContent = `${Math.abs(daysDiff)} Days Overdue`;
-    daysRemainingEl.className = "text-[14px] font-medium mt-1 text-red-600";
-    statusIcon.className = "flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center bg-red-100 text-red-600";
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const resultDay = new Date(result);
+  resultDay.setHours(0, 0, 0, 0);
+  const difference = Math.round((resultDay.getTime() - today.getTime()) / 86400000);
+
+  if (difference < 0) {
+    estimateStatus.textContent = 'Estimated date passed ' + Math.abs(difference) + ' days ago';
+    estimateStatus.className = 'text-[14px] font-medium mt-1 text-red-600';
+    statusIcon.className = 'flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center bg-red-100 text-red-600';
     statusIcon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>';
-    consequenceText.innerHTML = "<strong>Warning:</strong> You have missed the deadline. The officer may pass an ex-parte order. You should immediately consult a tax professional and consider filing the reply with a request for condonation of delay.";
-  } else if (daysDiff === 0) {
-    daysRemainingEl.textContent = "Deadline is TODAY";
-    daysRemainingEl.className = "text-[14px] font-bold mt-1 text-red-600";
-    statusIcon.className = "flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center bg-red-100 text-red-600";
-    statusIcon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>';
-    consequenceText.innerHTML = "<strong>Urgent:</strong> File your reply immediately on the GST portal before midnight to avoid ex-parte proceedings.";
-  } else if (daysDiff <= 5) {
-    daysRemainingEl.textContent = `${daysDiff} Days Remaining`;
-    daysRemainingEl.className = "text-[14px] font-medium mt-1 text-yellow-600";
-    statusIcon.className = "flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center bg-yellow-100 text-yellow-600";
+  } else if (difference === 0) {
+    estimateStatus.textContent = 'Estimated date is today';
+    estimateStatus.className = 'text-[14px] font-bold mt-1 text-amber-600';
+    statusIcon.className = 'flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center bg-amber-100 text-amber-600';
     statusIcon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>';
-    consequenceText.innerHTML = "You are approaching the deadline. Ensure your reply is finalized and submitted promptly. Do not wait for the last minute due to potential portal glitches.";
   } else {
-    daysRemainingEl.textContent = `${daysDiff} Days Remaining`;
-    daysRemainingEl.className = "text-[14px] font-medium mt-1 text-green-600";
-    statusIcon.className = "flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center bg-green-100 text-green-600";
+    estimateStatus.textContent = difference + ' calendar days from today';
+    estimateStatus.className = 'text-[14px] font-medium mt-1 text-green-600';
+    statusIcon.className = 'flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center bg-green-100 text-green-600';
     statusIcon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>';
-    consequenceText.innerHTML = "You have sufficient time to prepare a strong factual and legal defense. If it is a DRC-01 SCN, it is advisable to consult a GST professional.";
   }
+
+  note.textContent = 'Simple calendar-day estimate only. Verify the legal starting point, counting rule, holidays, extensions, and filing instructions from the notice and current official sources.';
+  resultsSection.classList.remove('hidden');
 }
-form.addEventListener("input", calculate);
-form.addEventListener("change", calculate);
-calculate();
+
+form.addEventListener('input', calculateDateEstimate);
+form.addEventListener('change', calculateDateEstimate);
 </script>

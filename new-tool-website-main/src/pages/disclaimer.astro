@@ -1,0 +1,41 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'Tax and Tool Disclaimer | Taxzentic';
+const description = 'Understand the limits of Taxzentic tax calculators, reference content, and AI-assisted drafts.';
+const lastUpdated = '2026-09-24';
+const breadcrumb = [
+  { name: 'Home', href: '/' },
+  { name: 'Disclaimer', href: '/disclaimer' },
+];
+---
+
+<BaseLayout {title} {description} {breadcrumb} {lastUpdated}>
+  <article class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+    <h1 class="text-3xl sm:text-4xl font-bold text-base mb-4">Tax and Tool Disclaimer</h1>
+    <p class="text-muted leading-relaxed mb-8">Taxzentic is an independent website providing educational content and online tools. It is not affiliated with or endorsed by the Government of India, CBIC, GSTN, the GST Council, or the Income Tax Department.</p>
+
+    <div class="space-y-7 text-muted leading-relaxed">
+      <section>
+        <h2 class="text-xl font-semibold text-base mb-2">Estimates and reference information</h2>
+        <p>Calculator results depend on the inputs and assumptions you select. A result is an estimate for reference; it does not determine your tax classification, eligibility, filing position, or legal obligations. Tax rates, thresholds, procedures, and official data may change or depend on facts not captured by a tool.</p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-semibold text-base mb-2">Articles and tax guidance</h2>
+        <p>Articles and tool explanations are general educational information, not legal, tax, accounting, financial, or other professional advice. Check the primary sources linked on the relevant page and confirm that they apply to your facts and tax period. Consult a qualified tax professional for advice about a specific matter.</p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-semibold text-base mb-2">AI-assisted drafts</h2>
+        <p>The AI notice reply feature creates a draft from the details a user enters. It may produce inaccurate facts, legal references, or arguments. It does not verify a notice or determine the correct legal response. Check every statement and citation against current primary sources, adapt the draft to the complete record, and have a qualified professional review it before submission.</p>
+        <p class="mt-3">Using the AI feature sends the submitted notice fields to our service and Groq for processing. See the <a href="/privacy-policy" class="text-accent hover:underline">Privacy Policy</a> for details.</p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-semibold text-base mb-2">Official sources</h2>
+        <p>For current information, check the applicable official portal, including <a href="https://www.gst.gov.in" target="_blank" rel="noopener noreferrer" class="text-accent hover:underline">GST Portal</a>, <a href="https://www.cbic.gov.in" target="_blank" rel="noopener noreferrer" class="text-accent hover:underline">CBIC</a>, and the <a href="https://www.incometax.gov.in" target="_blank" rel="noopener noreferrer" class="text-accent hover:underline">Income Tax Department</a>.</p>
+      </section>
+    </div>
+  </article>
+</BaseLayout>

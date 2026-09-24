@@ -25,7 +25,9 @@ export default defineConfig({
   integrations: [
     sitemap({
       // Exclude legal/utility pages from sitemap if desired — adjust as needed
-      filter: (page) => !page.includes('/404'),
+      filter: (page) => !page.includes('/404')
+        && !page.includes('/refund-policy')
+        && !page.includes('/cancellation-policy'),
     }),
   ],
 

@@ -1,6 +1,8 @@
 ---
 interface SourceItem {
-  title: string;
+  title?: string;
+  act?: string;
+  section?: string;
   url?: string;
   description?: string;
 }
@@ -8,6 +10,7 @@ interface SourceItem {
 interface Props {
   sources?: SourceItem[];
   reviewedDate?: string;
+  lastReviewed?: string;
   councilRecommendation?: string;
   implementingNotification?: string;
   effectiveDate?: string;
@@ -16,12 +19,17 @@ interface Props {
 
 const {
   sources = [],
-  reviewedDate = '19 September 2026',
+  reviewedDate,
+  lastReviewed,
   councilRecommendation,
   implementingNotification,
   effectiveDate,
   class: className = '',
 } = Astro.props;
+const reviewDate = reviewedDate ?? lastReviewed;
+const reviewLabel = reviewDate && /^\d{4}-\d{2}-\d{2}$/.test(reviewDate)
+  ? new Intl.DateTimeFormat('en-IN', { dateStyle: 'long', timeZone: 'UTC' }).format(new Date(`${reviewDate}T00:00:00Z`))
+  : reviewDate;
 ---
 
 <aside class={`legal-sources rounded-xl border border-base bg-surface p-5 text-sm text-muted shadow-sm space-y-3 ${className}`} aria-label="Legal sources">
@@ -31,13 +39,16 @@ const {
     <ul class="space-y-1.5 list-disc pl-5">
       {sources.map((source) => (
         <li>
-          {source.url ? (
-            <a href={source.url} target="_blank" rel="noopener noreferrer" class="text-accent hover:underline font-medium">
-              {source.title}
-            </a>
-          ) : (
-            <span class="font-medium text-base">{source.title}</span>
-          )}
+          {(() => {
+            const label = source.title ?? [source.act, source.section].filter(Boolean).join(' — ');
+            return source.url ? (
+              <a href={source.url} target="_blank" rel="noopener noreferrer" class="text-accent hover:underline font-medium">
+                {label}
+              </a>
+            ) : (
+              <span class="font-medium text-base">{label}</span>
+            );
+          })()}
           {source.description && ` — supports ${source.description}.`}
         </li>
       ))}
@@ -58,5 +69,5 @@ const {
     </div>
   )}
 
-  <p class="text-xs text-muted pt-1">Law reviewed as of: {reviewedDate}.</p>
+  {reviewLabel && <p class="text-xs text-muted pt-1">Law reviewed as of: {reviewLabel}.</p>}
 </aside>

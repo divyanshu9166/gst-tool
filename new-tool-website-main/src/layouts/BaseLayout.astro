@@ -19,6 +19,7 @@ import '@fontsource/geist-sans/600.css';
 import '@fontsource/geist-mono/400.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import PrivacyConsent from '../components/PrivacyConsent.astro';
 import '../styles/global.css';
 
 interface BreadcrumbItem {
@@ -52,6 +53,10 @@ const siteName = 'Taxzentic';
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://taxzentic.com';
 const fullTitle = title.includes(siteName) ? title : `${title} | ${siteName}`;
 const fullOgImage = ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogImage.startsWith('/') ? '' : '/'}${ogImage}`;
+const formattedLastUpdated = lastUpdated && /^\d{4}-\d{2}-\d{2}$/.test(lastUpdated)
+  ? new Intl.DateTimeFormat('en-IN', { dateStyle: 'long', timeZone: 'UTC' }).format(new Date(`${lastUpdated}T00:00:00Z`))
+  : lastUpdated;
+const lastUpdatedDateTime = lastUpdated && /^\d{4}-\d{2}-\d{2}$/.test(lastUpdated) ? lastUpdated : undefined;
 
 // Fallback breadcrumb generation for sitewide BreadcrumbList schema
 const effectiveBreadcrumb = (breadcrumb && breadcrumb.length > 0)
@@ -156,16 +161,6 @@ const jsonLd = allStructuredData.length > 0 ? JSON.stringify(allStructuredData) 
     <!-- JSON-LD Structured Data -->
     {jsonLd && <script type="application/ld+json" set:html={jsonLd} />}
 
-    <!-- Google tag (gtag.js) — deferred to reduce LCP impact -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQHLMNL4M"></script>
-    <script is:inline>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-SNQHLMNL4M');
-    </script>
-
     <!-- Dark mode: read preference before paint to avoid flash -->
     <script is:inline>
       (function () {
@@ -190,6 +185,11 @@ const jsonLd = allStructuredData.length > 0 ? JSON.stringify(allStructuredData) 
     <Header />
 
     <main class="flex-1">
+      {formattedLastUpdated && (
+        <p class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-4 text-xs text-muted">
+          Page last updated: <time datetime={lastUpdatedDateTime}>{formattedLastUpdated}</time>
+        </p>
+      )}
       {/* Visible breadcrumb navigation */}
       {breadcrumb && breadcrumb.length > 1 && (
         <nav aria-label="Breadcrumb" class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-4 pb-0">
@@ -220,5 +220,6 @@ const jsonLd = allStructuredData.length > 0 ? JSON.stringify(allStructuredData) 
     </main>
 
     <Footer />
+    <PrivacyConsent />
   </body>
 </html>

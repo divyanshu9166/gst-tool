@@ -2,8 +2,8 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ToolIcon from '../components/ToolIcon.astro';
 
-const title = 'GST Notices Hub (2026) — Reply Formats, Deadlines & DRC-01/ASMT-10 Guides';
-const description = 'Resource center for GST notices in India: AI notice reply generator, deadline calculator, DRC-01, DRC-01A/B/C, ASMT-10, Section 73/74, and GSTAT appeals.';
+const title = 'GST Notices Resource Hub | Taxzentic';
+const description = 'Independent reference tools and guides for organizing GST notice information. Always confirm facts, deadlines, and filing instructions from the notice and current official sources.';
 
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://taxzentic.com';
 const canonical = `${siteUrl}/gst-notices`;
@@ -26,36 +26,6 @@ const structuredData = [
       { '@type': 'WebApplication', name: 'GSTR Mismatch Checker', url: `${siteUrl}/gstr-mismatch-checker` },
     ],
   },
-  {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: [
-      {
-        '@type': 'Question',
-        name: 'What is the difference between Section 73 and Section 74 notices?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Section 73 applies to non-fraud cases involving bona fide errors, inadvertent omissions, or technical interpretations, carrying a 10% penalty (minimum ₹10,000) and a 3-year limitation. Section 74 applies to cases of fraud, willful misstatement, or suppression of facts with intent to evade tax, carrying a 100% penalty and an extended 5-year limitation period.',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: 'What are DRC-01B and DRC-01C notices?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'DRC-01B is an automated intimation issued when outward liability declared in GSTR-1 exceeds GSTR-3B by more than 20% or ₹25 Lakhs. DRC-01C is an automated intimation issued when Input Tax Credit claimed in GSTR-3B exceeds available credit in GSTR-2B by more than 20% or ₹25 Lakhs. Both mandate a response within 7 days in Part B of the form.',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: 'What is the mandatory pre-deposit for filing an appeal before GSTAT?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Under Section 112 of the CGST Act, filing an appeal before the GST Appellate Tribunal (GSTAT) requires a mandatory pre-deposit of 100% of the admitted tax plus 10% of the remaining disputed tax amount (subject to a maximum cap of ₹20 Crores each under CGST and SGST).',
-        },
-      },
-    ],
-  },
 ];
 
 const breadcrumb = [
@@ -63,7 +33,7 @@ const breadcrumb = [
   { name: 'GST Notices Hub', href: '/gst-notices' },
 ];
 
-const lastUpdated = '2026-09-15';
+const lastUpdated = '2026-09-24';
 ---
 
 <BaseLayout {title} {description} {canonical} {structuredData} {breadcrumb} {lastUpdated}>
@@ -72,13 +42,13 @@ const lastUpdated = '2026-09-15';
     <div class="text-center mb-16">
       <div class="inline-flex items-center gap-2 rounded-full border border-rose-500/20 bg-rose-50/50 dark:bg-rose-950/40 px-4 py-1.5 text-[12px] font-mono uppercase tracking-wider text-rose-600 dark:text-rose-400 mb-4">
         <span class="h-2 w-2 rounded-full bg-rose-500 animate-pulse"></span>
-        Appeals & Litigation Suite · Updated 2026
+        Independent GST notice resources
       </div>
       <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-base mb-6">
         The <span class="text-accent">GST Notices</span> Resource Center
       </h1>
       <p class="text-[18px] text-muted max-w-2xl mx-auto leading-relaxed">
-        Everything you need to handle scrutiny notices, demand orders, and appeals. Free AI drafting tool, deadline calculators, and step-by-step defense playbooks.
+        Use these tools to organize notice details and explore general references. They do not verify the applicable legal response, deadline, or filing route for your case.
       </p>
     </div>
 
@@ -86,7 +56,7 @@ const lastUpdated = '2026-09-15';
     <div class="mb-16">
       <div class="flex items-center gap-3 mb-8 border-b border-base pb-4">
         <ToolIcon name="scale" class="w-6 h-6 text-accent" />
-        <h2 class="text-2xl font-bold text-base">Essential GST Notice Defense Tools</h2>
+        <h2 class="text-2xl font-bold text-base">GST Notice Preparation Tools</h2>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -97,7 +67,7 @@ const lastUpdated = '2026-09-15';
             <span class="text-[11px] font-bold bg-accent text-white px-2.5 py-0.5 rounded-full">AI Tool</span>
           </div>
           <p class="text-muted text-xs leading-relaxed mb-4 flex-1">
-            Instantly draft formal, legally cited reply letters for ASMT-10, DRC-01, and Section 73/74 notices with CBIC circular citations.
+            Create an editable starting outline from details you enter. Verify every fact and legal reference, then obtain qualified review before filing.
           </p>
           <div class="text-xs font-semibold text-accent flex items-center gap-1">
             Draft Reply Now →
@@ -111,7 +81,7 @@ const lastUpdated = '2026-09-15';
             <span class="text-[11px] font-semibold bg-subtle text-muted px-2 py-0.5 rounded">Timeline</span>
           </div>
           <p class="text-muted text-xs leading-relaxed mb-4 flex-1">
-            Calculate your exact deadline date to reply to ASMT-10 (30 days), DRC-01B/C (7 days), or DRC-01 (30 days) to avoid ex-parte orders.
+            Add the number of days stated on your notice to a date. The tool does not determine the legal deadline; confirm it from the notice and current rules.
           </p>
           <div class="text-xs font-semibold text-accent flex items-center gap-1">
             Calculate Deadlines →
@@ -125,7 +95,7 @@ const lastUpdated = '2026-09-15';
             <span class="text-[11px] font-bold bg-amber-500 text-white px-2 py-0.5 rounded-full">DRC-01B/C</span>
           </div>
           <p class="text-muted text-xs leading-relaxed mb-4 flex-1">
-            Compare GSTR-1 vs 3B outward liability and GSTR-2B vs 3B ITC. Warns if your variance exceeds the ₹25L / 20% notice threshold.
+            Compare selected return and ITC figures to identify differences for further review. A difference does not determine notice risk or tax liability.
           </p>
           <div class="text-xs font-semibold text-accent flex items-center gap-1">
             Check Mismatches →
@@ -136,61 +106,42 @@ const lastUpdated = '2026-09-15';
 
     <!-- Notice Types Master Table -->
     <div class="mb-16 rounded-2xl border border-base bg-surface p-8 shadow-sm overflow-x-auto">
-      <h2 class="text-2xl font-bold text-base mb-2">Common GST Notices at a Glance</h2>
-      <p class="text-sm text-muted mb-6">Understand the legal form, issuing section, reply timeline, and consequences.</p>
+      <h2 class="text-2xl font-bold text-base mb-2">Common GST Forms at a Glance</h2>
+      <p class="text-sm text-muted mb-6">This is a broad orientation only. A form name does not establish the correct legal response or its time limit; read the complete notice and check current official sources.</p>
 
       <table class="w-full text-left text-sm border-collapse">
         <thead>
           <tr class="border-b border-base bg-subtle text-xs font-mono uppercase text-muted">
             <th class="py-3.5 px-4">Form</th>
-            <th class="py-3.5 px-4">Notice Purpose</th>
-            <th class="py-3.5 px-4">Section / Rule</th>
-            <th class="py-3.5 px-4">Standard Reply Time</th>
-            <th class="py-3.5 px-4">Reply Form</th>
+            <th class="py-3.5 px-4">Broad purpose</th>
+            <th class="py-3.5 px-4">What to verify</th>
           </tr>
         </thead>
-        <tbody class="divide-y divide-base/50 text-xs font-mono">
+        <tbody class="divide-y divide-base/50 text-xs">
           <tr>
             <td class="py-3.5 px-4 font-bold text-accent">ASMT-10</td>
-            <td class="py-3.5 px-4 font-sans text-base">Scrutiny of return discrepancies</td>
-            <td class="py-3.5 px-4">Section 61 / Rule 99</td>
-            <td class="py-3.5 px-4">30 Days</td>
-            <td class="py-3.5 px-4 font-bold">ASMT-11</td>
+            <td class="py-3.5 px-4">Return-scrutiny communication</td>
+            <td class="py-3.5 px-4">Allegations, requested response, deadline, and filing route</td>
           </tr>
           <tr>
             <td class="py-3.5 px-4 font-bold text-accent">DRC-01A</td>
-            <td class="py-3.5 px-4 font-sans text-base">Intimation of tax ascertained prior to SCN</td>
-            <td class="py-3.5 px-4">Rule 142(1A)</td>
-            <td class="py-3.5 px-4">30 Days</td>
-            <td class="py-3.5 px-4 font-bold">DRC-01A (Part B)</td>
+            <td class="py-3.5 px-4">Tax-related pre-notice communication</td>
+            <td class="py-3.5 px-4">Facts, legal basis, requested response, and deadline</td>
           </tr>
           <tr>
             <td class="py-3.5 px-4 font-bold text-rose-600">DRC-01</td>
-            <td class="py-3.5 px-4 font-sans text-base">Show Cause Demand Notice</td>
-            <td class="py-3.5 px-4">Section 73 or 74</td>
-            <td class="py-3.5 px-4">30 Days</td>
-            <td class="py-3.5 px-4 font-bold">DRC-06</td>
+            <td class="py-3.5 px-4">Show-cause communication</td>
+            <td class="py-3.5 px-4">Provisions cited, period, allegations, deadline, and procedure</td>
           </tr>
           <tr>
-            <td class="py-3.5 px-4 font-bold text-amber-600">DRC-01B</td>
-            <td class="py-3.5 px-4 font-sans text-base">Automated GSTR-1 vs GSTR-3B liability mismatch</td>
-            <td class="py-3.5 px-4">Rule 88C</td>
-            <td class="py-3.5 px-4 text-rose-600 font-bold">7 Days</td>
-            <td class="py-3.5 px-4 font-bold">DRC-01B (Part B)</td>
-          </tr>
-          <tr>
-            <td class="py-3.5 px-4 font-bold text-amber-600">DRC-01C</td>
-            <td class="py-3.5 px-4 font-sans text-base">Automated GSTR-2B vs GSTR-3B ITC mismatch</td>
-            <td class="py-3.5 px-4">Rule 88D</td>
-            <td class="py-3.5 px-4 text-rose-600 font-bold">7 Days</td>
-            <td class="py-3.5 px-4 font-bold">DRC-01C (Part B)</td>
+            <td class="py-3.5 px-4 font-bold text-amber-600">DRC-01B / DRC-01C</td>
+            <td class="py-3.5 px-4">Return or ITC difference intimation</td>
+            <td class="py-3.5 px-4">Difference shown, records to reconcile, and instructions on the notice</td>
           </tr>
           <tr>
             <td class="py-3.5 px-4 font-bold text-base">DRC-07</td>
-            <td class="py-3.5 px-4 font-sans text-base">Summary of final demand order</td>
-            <td class="py-3.5 px-4">Section 73(9) / 74(9)</td>
-            <td class="py-3.5 px-4">90 Days for Appeal</td>
-            <td class="py-3.5 px-4 font-bold">APL-01 (Appeal)</td>
+            <td class="py-3.5 px-4">Summary of a demand order</td>
+            <td class="py-3.5 px-4">Order date, appeal route, applicable time limit, and professional advice</td>
           </tr>
         </tbody>
       </table>
@@ -206,19 +157,19 @@ const lastUpdated = '2026-09-15';
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <a href="/blog/asmt-10-vs-drc-01-gst-notice-reply-templates" class="p-5 rounded-xl border border-base bg-surface hover:border-accent transition-colors block">
           <h3 class="font-bold text-base mb-1 hover:text-accent">ASMT-10 vs DRC-01: Key Differences & Reply Formats</h3>
-          <p class="text-xs text-muted leading-relaxed">How scrutiny differs from demand proceedings, common drafting mistakes, and sample reply structures.</p>
+          <p class="text-xs text-muted leading-relaxed">An overview of form names and response-organization ideas. Check the notice and current official sources for procedure.</p>
         </a>
         <a href="/blog/gst-section-73-74-demand-notice-reply-guide" class="p-5 rounded-xl border border-base bg-surface hover:border-accent transition-colors block">
           <h3 class="font-bold text-base mb-1 hover:text-accent">Section 73 vs 74 Show Cause Notice Defense Playbook</h3>
-          <p class="text-xs text-muted leading-relaxed">How to challenge extended limitation periods, drop Section 74 fraud allegations, and invoke Section 75(4) hearings.</p>
+          <p class="text-xs text-muted leading-relaxed">General background on notices and response preparation. Legal arguments require review against the facts and current primary sources.</p>
         </a>
         <a href="/blog/gstat-appeal-process-deadlines-pre-deposit-2026" class="p-5 rounded-xl border border-base bg-surface hover:border-accent transition-colors block">
           <h3 class="font-bold text-base mb-1 hover:text-accent">GSTAT Appeal Guide 2026: Pre-Deposit Rules & Deadlines</h3>
-          <p class="text-xs text-muted leading-relaxed">Complete procedure for filing appeals before the newly operationalized GST Appellate Tribunal benches.</p>
+          <p class="text-xs text-muted leading-relaxed">Background on tribunal appeals; verify operational status, procedure, and current filing requirements from official sources.</p>
         </a>
         <a href="/blog/drc-07-notice-meaning-90-day-action-plan" class="p-5 rounded-xl border border-base bg-surface hover:border-accent transition-colors block">
           <h3 class="font-bold text-base mb-1 hover:text-accent">DRC-07 Order Received? Your 90-Day Action Plan</h3>
-          <p class="text-xs text-muted leading-relaxed">Step-by-step guidance on paying demand vs filing first appeal in Form GST APL-01 within 3 months.</p>
+          <p class="text-xs text-muted leading-relaxed">An overview of possible next steps. Confirm the applicable procedure and time limit from the order and current official sources.</p>
         </a>
       </div>
     </div>

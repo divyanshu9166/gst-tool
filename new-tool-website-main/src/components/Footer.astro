@@ -43,10 +43,9 @@ const companyAndLegal = [
   { href: '/authors/editorial-team', label: 'Editorial & Tax Team' },
   { href: '/blog', label: 'Tax Blog & Guides' },
   { href: '/contact', label: 'Contact & Support' },
+  { href: '/disclaimer', label: 'Disclaimer' },
   { href: '/privacy-policy', label: 'Privacy Policy' },
   { href: '/terms', label: 'Terms & Conditions' },
-  { href: '/refund-policy', label: 'Refund Policy' },
-  { href: '/cancellation-policy', label: 'Cancellation Policy' },
 ];
 ---
 
@@ -64,8 +63,8 @@ const companyAndLegal = [
             </svg>
           </div>
           <div>
-            <h4 class="text-sm font-semibold text-base">Client-Side Privacy</h4>
-            <p class="mt-1 text-xs text-muted leading-relaxed">All computations run locally inside your browser. No financial data or GSTIN records are ever sent to our servers.</p>
+            <h4 class="text-sm font-semibold text-base">Clear data practices</h4>
+            <p class="mt-1 text-xs text-muted leading-relaxed">Many tools process inputs in your browser. The AI notice tool sends submitted details to our server and Groq to prepare a draft.</p>
           </div>
         </div>
 
@@ -76,8 +75,8 @@ const companyAndLegal = [
             </svg>
           </div>
           <div>
-            <h4 class="text-sm font-semibold text-base">Statutory Accuracy</h4>
-            <p class="mt-1 text-xs text-muted leading-relaxed">Formulas and thresholds updated against official CBIC notifications, GST 2.0 slabs, and Union Budget provisions.</p>
+            <h4 class="text-sm font-semibold text-base">Sources and methods</h4>
+            <p class="mt-1 text-xs text-muted leading-relaxed">Tool pages explain their calculation method and list source references where available. Tax rules can change, so confirm current requirements.</p>
           </div>
         </div>
 
@@ -88,8 +87,8 @@ const companyAndLegal = [
             </svg>
           </div>
           <div>
-            <h4 class="text-sm font-semibold text-base">Free & Offline PWA</h4>
-            <p class="mt-1 text-xs text-muted leading-relaxed">Zero login, no paywalls, instant Excel/PDF export. Installable as a Progressive Web App for offline access.</p>
+            <h4 class="text-sm font-semibold text-base">Tools without an account</h4>
+            <p class="mt-1 text-xs text-muted leading-relaxed">Use the available calculators and references without creating an account. Check each tool for its scope and data handling.</p>
           </div>
         </div>
 
@@ -121,7 +120,7 @@ const companyAndLegal = [
         </a>
 
         <p class="text-xs text-muted max-w-sm leading-relaxed">
-          Fast, privacy-first tax compliance and calculation tools for Indian businesses, Chartered Accountants, and taxpayers. Calculate GST, reconcile ITC, verify GSTINs, and plan Income Tax offline.
+          Tax calculation and compliance reference tools for Indian businesses, accountants, and taxpayers. Some features make network requests; see each tool's scope and our Privacy Policy.
         </p>
 
         <!-- WhatsApp Channel Quick Card -->
@@ -218,6 +217,11 @@ const companyAndLegal = [
               </a>
             </li>
           ))}
+          <li>
+            <button id="open-cookie-preferences" type="button" class="text-muted hover:text-accent transition-colors block py-0.5 text-left">
+              Cookie preferences
+            </button>
+          </li>
         </ul>
       </div>
 
@@ -232,7 +236,7 @@ const companyAndLegal = [
       <div class="flex items-center gap-6 text-xs text-muted">
         <div class="inline-flex items-center gap-1.5 text-[11px] font-mono">
           <span class="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
-          <span>Aligned with CBIC & GSTN Portals</span>
+          <span>Independent reference tools</span>
         </div>
 
         <button
@@ -255,5 +259,8 @@ const companyAndLegal = [
 <script is:inline>
   document.getElementById('footer-back-to-top')?.addEventListener('click', () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+  document.getElementById('open-cookie-preferences')?.addEventListener('click', () => {
+    window.dispatchEvent(new Event('taxzentic:open-cookie-preferences'));
   });
 </script>

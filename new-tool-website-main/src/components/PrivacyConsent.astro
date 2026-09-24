@@ -1,0 +1,104 @@
+<aside
+  id="privacy-preferences"
+  class="hidden fixed inset-x-3 bottom-3 z-[100] mx-auto max-w-3xl rounded-2xl border border-base bg-surface p-5 shadow-2xl sm:inset-x-6 sm:bottom-6 sm:p-6"
+  role="region"
+  aria-label="Cookie and analytics preferences"
+  aria-live="polite"
+>
+  <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+    <div class="max-w-2xl">
+      <h2 class="text-base font-semibold text-base">Your privacy choices</h2>
+      <p id="analytics-preference-status" class="mt-1 text-sm text-muted">
+        We use optional Google Analytics to understand site visits. Choose whether to allow it. You can change this choice at any time using Cookie preferences in the footer. No advertising tags are active on this site right now.
+      </p>
+      <p class="mt-2 text-xs text-muted">
+        Read our <a href="/privacy-policy" class="text-accent underline hover:no-underline">Privacy Policy</a> for details.
+      </p>
+    </div>
+    <div class="flex shrink-0 flex-wrap gap-2 sm:justify-end">
+      <button id="analytics-reject" type="button" class="rounded-lg border border-base px-3 py-2 text-sm font-medium text-base hover:bg-subtle focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent">
+        Reject analytics
+      </button>
+      <button id="analytics-accept" type="button" class="rounded-lg bg-accent px-3 py-2 text-sm font-semibold text-white hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent">
+        Allow analytics
+      </button>
+      <button id="analytics-close" type="button" class="rounded-lg px-3 py-2 text-sm text-muted hover:bg-subtle focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent" aria-label="Close privacy preferences">
+        Close
+      </button>
+    </div>
+  </div>
+</aside>
+
+<script is:inline>
+  (() => {
+    const key = 'taxzentic-analytics-consent';
+    const measurementId = 'G-SNQHLMNL4M';
+    const panel = document.getElementById('privacy-preferences');
+    const status = document.getElementById('analytics-preference-status');
+    const show = () => panel?.classList.remove('hidden');
+    const hide = () => panel?.classList.add('hidden');
+    const getChoice = () => {
+      try { return localStorage.getItem(key); } catch { return null; }
+    };
+
+    function loadAnalytics() {
+      if (window.__taxzenticAnalyticsLoaded) return;
+      window.__taxzenticAnalyticsLoaded = true;
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function () { window.dataLayer.push(arguments); };
+      window.gtag('js', new Date());
+      window.gtag('config', measurementId);
+      const script = document.createElement('script');
+      script.async = true;
+      script.src = `https://www.googletagmanager.com/gtag/js?id=${measurementId}`;
+      document.head.appendChild(script);
+    }
+
+    function clearAnalyticsCookies() {
+      document.cookie.split(';').forEach((cookie) => {
+        const name = cookie.split('=')[0].trim();
+        if (!/^_(ga|gid|gat)/i.test(name)) return;
+        const expired = `${name}=; Max-Age=0; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; SameSite=Lax`;
+        document.cookie = expired;
+        if (location.hostname === 'taxzentic.com' || location.hostname.endsWith('.taxzentic.com')) {
+          document.cookie = `${expired}; domain=.taxzentic.com`;
+        }
+      });
+    }
+
+    function saveChoice(choice) {
+      try { localStorage.setItem(key, choice); } catch { /* Keep the current-page choice functional if storage is unavailable. */ }
+      if (choice === 'granted') {
+        window[`ga-disable-${measurementId}`] = false;
+        loadAnalytics();
+      } else {
+        window[`ga-disable-${measurementId}`] = true;
+        if (typeof window.gtag === 'function') {
+          window.gtag('consent', 'update', { analytics_storage: 'denied' });
+        }
+        clearAnalyticsCookies();
+      }
+      hide();
+    }
+
+    document.getElementById('analytics-accept')?.addEventListener('click', () => saveChoice('granted'));
+    document.getElementById('analytics-reject')?.addEventListener('click', () => saveChoice('denied'));
+    document.getElementById('analytics-close')?.addEventListener('click', hide);
+    window.addEventListener('taxzentic:open-cookie-preferences', () => {
+      const choice = getChoice();
+      if (status) {
+        status.textContent = choice === 'granted'
+          ? 'Analytics is currently allowed. You can keep this choice or reject analytics to withdraw consent and remove Google Analytics cookies.'
+          : choice === 'denied'
+            ? 'Analytics is currently rejected. You can keep this choice or allow optional Google Analytics.'
+            : 'We use optional Google Analytics to understand site visits. Choose whether to allow it. You can change this choice at any time using Cookie preferences in the footer. No advertising tags are active on this site right now.';
+      }
+      show();
+      document.getElementById('analytics-reject')?.focus();
+    });
+
+    const choice = getChoice();
+    if (choice === 'granted') loadAnalytics();
+    else if (choice !== 'denied') show();
+  })();
+</script>

@@ -17,7 +17,7 @@ const {
   formula,
   applicablePeriod,
   primarySource,
-  formulaLastReviewed = '19 September 2026',
+  formulaLastReviewed,
   class: className = '',
 } = Astro.props;
 ---
@@ -37,5 +37,5 @@ const {
 
   <p><strong class="text-base font-medium">Primary source:</strong> {primarySource}</p>
 
-  <p class="text-xs pt-1 border-t border-base"><strong class="text-base font-medium">Formula last reviewed:</strong> {formulaLastReviewed}</p>
+  {formulaLastReviewed && <p class="text-xs pt-1 border-t border-base"><strong class="text-base font-medium">Formula last reviewed:</strong> {formulaLastReviewed}</p>}
 </aside>

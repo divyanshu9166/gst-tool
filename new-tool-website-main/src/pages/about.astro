@@ -2,7 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const title = 'About Taxzentic — Free GST Tools for India';
-const description = 'Learn about Taxzentic, our mission, editorial process, and commitment to providing free, accurate GST tools for Indian businesses and tax professionals.';
+const description = 'Learn about Taxzentic, our tax tools, research process, editorial standards, and how to contact the team.';
 
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://taxzentic.com';
 
@@ -14,12 +14,8 @@ const structuredData = {
   logo: {
     '@type': 'ImageObject',
     url: `${siteUrl}/taxzentic-logo.png`,
-    width: 320,
-    height: 80,
   },
   description: 'Free, instant GST tools for Indian businesses and taxpayers.',
-  foundingDate: '2026',
-  sameAs: [],
 };
 
 const breadcrumb = [
@@ -33,7 +29,7 @@ const breadcrumb = [
     <div class="mb-12">
       <h1 class="text-3xl sm:text-4xl font-bold text-base mb-3 tracking-[-1.28px]">About Taxzentic</h1>
       <p class="text-muted text-lg leading-relaxed">
-        Making GST compliance simpler for every Indian business — free, instant, and always accurate.
+        Practical tax calculators and reference tools for Indian businesses, taxpayers, and professionals.
       </p>
     </div>
 
@@ -42,7 +38,7 @@ const breadcrumb = [
       <section>
         <h2 class="text-xl font-semibold text-base mb-3 tracking-[-0.6px]">Our Mission</h2>
         <p>
-          Taxzentic was built with a simple goal: to give every Indian business owner, accountant, and taxpayer access to <strong>free, accurate, and instant GST tools</strong> — without requiring a login, subscription, or internet connection for calculations.
+          Taxzentic provides online tools and educational references to help people work through common tax and compliance calculations. Most tools can be used without creating an account. Results depend on the information and assumptions entered, and should be checked against current official requirements.
         </p>
         <p class="mt-3">
           India's GST system, while transformative, can be complex. With multiple tax slabs, thousands of HSN/SAC codes, and strict GSTIN format requirements, even experienced professionals sometimes need a quick reference. We built these tools to be that reference.
@@ -58,7 +54,7 @@ const breadcrumb = [
           </a>
         </div>
         <p class="mb-4">
-          Every tool, calculator algorithm, and article on Taxzentic is editorially researched, verified against official CBIC/CBDT notifications, and cross-referenced with primary statutory sources:
+          We research our tools and educational pages using primary government materials where relevant. The method, scope, and references vary by page; pages with a dated legal review show that date alongside their sources.
         </p>
         <div class="space-y-4">
           <div class="flex gap-3">
@@ -71,15 +67,15 @@ const breadcrumb = [
           <div class="flex gap-3">
             <div class="flex-shrink-0 w-8 h-8 rounded-full bg-accent/10 flex items-center justify-center text-accent font-bold text-sm">2</div>
             <div>
-              <span class="font-medium text-base">Expert-Verified Content</span>
-              <p class="text-sm mt-0.5">Calculator formulas and compliance guidance are researched by our editorial team and verified against official CBIC/CBDT notifications and government circulars.</p>
+              <span class="font-medium text-base">Source-Led Research</span>
+              <p class="text-sm mt-0.5">We use official legislation, notifications, circulars, and department guidance as primary references where applicable. A source citation does not mean that a tool determines your legal position.</p>
             </div>
           </div>
           <div class="flex gap-3">
             <div class="flex-shrink-0 w-8 h-8 rounded-full bg-accent/10 flex items-center justify-center text-accent font-bold text-sm">3</div>
             <div>
-              <span class="font-medium text-base">Prompt Regulatory Updates</span>
-              <p class="text-sm mt-0.5">Content and formulas are updated following GST Council meetings, CBIC notifications, and Union Budget amendments. Each page displays a verified date for complete transparency.</p>
+              <span class="font-medium text-base">Review and Corrections</span>
+              <p class="text-sm mt-0.5">We review content when changes or reader reports come to our attention. A review date is shown only where one has been recorded for that page.</p>
             </div>
           </div>
         </div>
@@ -87,7 +83,7 @@ const breadcrumb = [
 
       <section>
         <h2 class="text-xl font-semibold text-base mb-3 tracking-[-0.6px]">What We Offer</h2>
-        <p class="mb-4">25+ free tools covering every aspect of GST compliance — from basic calculations to advanced reconciliation and validation.</p>
+        <p class="mb-4">The site includes a growing set of GST, income-tax, and business compliance tools, from basic calculations to reference and reconciliation utilities.</p>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4">
           {[
             {
@@ -97,12 +93,12 @@ const breadcrumb = [
             },
             {
               title: 'HSN Code Lookup',
-              desc: 'Search 100+ HSN and SAC codes with GST rates. Instant offline filtering.',
+              desc: 'Search the available HSN and SAC reference data. Confirm classification and rates against current official schedules.',
               href: '/hsn-code-lookup',
             },
             {
               title: 'GSTIN Validator',
-              desc: 'Validate GSTIN format and checksum. Decodes state and PAN offline.',
+              desc: 'Check GSTIN format and checksum and view encoded state and PAN portions. This does not check live registration status.',
               href: '/gstin-validator',
             },
           ].map((tool) => (
@@ -126,12 +122,12 @@ const breadcrumb = [
         <h2 class="text-xl font-semibold text-base mb-3 tracking-[-0.6px]">Our Principles</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {[
-            { title: 'Privacy First', desc: 'Standard calculators and file tools run locally in your browser. AI features process drafts ephemerally with zero data storage.' },
-            { title: 'Instant Performance', desc: 'Local computational engines deliver instantaneous results as you type without waiting for third-party databases.' },
-            { title: 'Mobile Friendly', desc: 'Fully responsive design optimized for thumb-friendly mobile use.' },
-            { title: 'Accessible', desc: 'Built with WCAG accessibility guidelines including screen reader support.' },
-            { title: 'Always Free', desc: 'No paywalls, no premium tiers, no "unlock" gates. All tools are free forever.' },
-            { title: 'Open & Transparent', desc: 'We show our formulas, cite our sources, and display update dates on every page.' },
+            { title: 'Clear Data Practices', desc: 'Many tools process inputs in your browser. The AI notice feature sends submitted fields to our server and Groq; see the Privacy Policy.' },
+            { title: 'Practical Tools', desc: 'Calculators are designed to show an estimate based on selected inputs; reference lookups may use local data files.' },
+            { title: 'Mobile Friendly', desc: 'The site is designed to adapt to phone, tablet, and desktop screens.' },
+            { title: 'Accessibility Improvements', desc: 'We aim for readable interfaces, keyboard support, and clear labels, and welcome reports about barriers.' },
+            { title: 'No Account Required', desc: 'The available tools can be used without creating a Taxzentic account.' },
+            { title: 'Open & Transparent', desc: 'Tool pages show methods, limitations, source references, and dated legal reviews where available.' },
           ].map(({ title, desc }) => (
             <div class="flex gap-3 p-4 rounded-lg border border-base bg-surface">
               <div class="flex-shrink-0 mt-0.5">
@@ -151,10 +147,10 @@ const breadcrumb = [
       <section>
         <h2 class="text-xl font-semibold text-base mb-3 tracking-[-0.6px]">Disclaimer</h2>
         <p>
-          Taxzentic is an independent informational website. We are not affiliated with, endorsed by, or connected to the Government of India, CBIC, or the GST Council. All GST rates and information are provided for reference only and may not reflect the latest government notifications.
+          Taxzentic is an independent informational website and is not affiliated with or endorsed by the Government of India, CBIC, GSTN, or the GST Council. Calculations and content are for reference only; rates and legal requirements may change.
         </p>
         <p class="mt-3">
-          For official GST information, always refer to <a href="https://www.gst.gov.in" target="_blank" rel="noopener noreferrer" class="text-accent hover:underline">gst.gov.in</a> and <a href="https://www.cbic.gov.in" target="_blank" rel="noopener noreferrer" class="text-accent hover:underline">cbic.gov.in</a>.
+          Read our full <a href="/disclaimer" class="text-accent hover:underline">tax and tool disclaimer</a>. For official GST information, refer to <a href="https://www.gst.gov.in" target="_blank" rel="noopener noreferrer" class="text-accent hover:underline">gst.gov.in</a> and <a href="https://www.cbic.gov.in" target="_blank" rel="noopener noreferrer" class="text-accent hover:underline">cbic.gov.in</a>.
         </p>
       </section>
 

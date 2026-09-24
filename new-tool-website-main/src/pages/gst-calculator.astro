@@ -7,13 +7,36 @@ import TaxDisclaimer from '../components/TaxDisclaimer.astro';
 const title = 'Free GST Calculator India — Add & Remove GST';
 const description = 'Estimate GST on an amount with add or remove mode, intra-state CGST/SGST or inter-state IGST breakdown, and a custom rate.';
 
+const gstCalculatorFaqs = [
+  {
+    q: 'How do I add GST to a price?',
+    a: 'Multiply the base price by the selected rate and divide by 100 to get the tax. Add the tax to the base price for the total. For example, ₹1,000 at 18% gives ₹180 GST and a total of ₹1,180.',
+  },
+  {
+    q: 'How do I remove GST from an inclusive price?',
+    a: 'Divide the GST-inclusive amount by 1 plus the selected rate divided by 100. For example, ₹1,180 ÷ 1.18 = ₹1,000 before tax, with ₹180 GST. This is an arithmetic extraction and is different from statutory reverse charge.',
+  },
+  {
+    q: 'How are CGST, SGST, and IGST displayed?',
+    a: 'For the intra-state option, the calculator splits the selected total rate equally into CGST and SGST. For the inter-state option, it displays the full selected rate as IGST. The tool does not determine the legally correct place-of-supply treatment for your transaction.',
+  },
+  {
+    q: 'Does the calculator tell me which GST rate applies?',
+    a: 'No. You choose the rate. Confirm the classification and current rate from the applicable official schedules and notifications; an HSN or SAC search result is only a reference.',
+  },
+  {
+    q: 'Can I use the result to file a return or invoice?',
+    a: 'Treat the result as an estimate based on the amount and rate you entered. Verify the underlying facts, rate, classification, and current requirements with official sources or a qualified tax professional before using it for compliance.',
+  },
+];
+
 const structuredData = [
   {
     '@context': 'https://schema.org',
     '@type': 'WebApplication',
     name: 'GST Calculator',
     url: `${Astro.site?.toString() ?? 'https://example.com'}/gst-calculator`,
-    description: 'Free online GST calculator — add or remove GST with CGST/SGST split for all Indian GST slabs.',
+    description: 'Calculator for GST arithmetic using a user-selected rate, with an intra-state or inter-state display option.',
     applicationCategory: 'FinanceApplication',
     operatingSystem: 'Any',
     offers: {
@@ -25,48 +48,11 @@ const structuredData = [
   {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    mainEntity: [
-      {
-        '@type': 'Question',
-        name: 'Total bill me se GST kaise alag karein (Formula)?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Total bill me se GST alag karne ka formula hai: Base Price = Total Bill / (1 + GST Rate / 100). Jaise ₹1,180 par 18% GST ho toh ₹1,180 / 1.18 = ₹1,000 base amount, aur ₹180 GST amount hoga. Is tool me "Remove GST" button click karke aap direct calculate kar sakte hain.',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: 'How to calculate GST?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'To calculate GST, multiply the base amount by the GST rate (e.g., 18%) and divide by 100. The result is the GST amount. Add this to the base amount to get the total inclusive price.',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: 'What is reverse charge mechanism GST calculator?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'A reverse charge mechanism GST calculator free tool helps you find the base price of an item when you only know the total GST-inclusive price. It converts a GST inclusive amount to an exclusive price.',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: 'How to convert gst inclusive to exclusive price formula?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'The convert gst inclusive to exclusive price formula is: Exclusive Price = Inclusive Price / (1 + (GST Rate / 100)). For example, to calculate 18 percent gst online backwards from 118, the exclusive price is 118 / 1.18 = 100.',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: 'How to split cgst and sgst in invoice calculator?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'To split cgst and sgst in an invoice calculator for an intra-state supply, simply divide the total GST amount by 2. For an 18% GST rate, 9% is CGST and 9% is SGST.',
-        },
-      }
-    ]
+    mainEntity: gstCalculatorFaqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.q,
+      acceptedAnswer: { '@type': 'Answer', text: faq.a },
+    })),
   },
   {
     '@context': 'https://schema.org',
@@ -87,13 +73,13 @@ const structuredData = [
       {
         '@type': 'HowToStep',
         name: 'Choose Rate',
-        text: 'Select the applicable GST rate (5%, 18%, or 40%) or enter a custom rate.'
+        text: 'Select a preset rate or enter a custom rate that you have independently confirmed.'
       }
     ]
   }
 ];
 
-const lastUpdated = '2026-07-25';
+const lastUpdated = '2026-09-24';
 ---
 
 <BaseLayout {title} {description} {structuredData} {lastUpdated}>
@@ -282,43 +268,28 @@ const lastUpdated = '2026-07-25';
       
       <div class="prose prose-neutral dark:prose-invert max-w-none text-[16px] leading-[24px]">
         <p>
-          Calculating Goods and Services Tax manually can be tedious and prone to errors. Our <strong>GST calculator for small business India</strong> is designed to provide instant, precise tax computations directly in your browser without requiring any login or data submission.
+          This calculator performs GST arithmetic in your browser using the amount and rate you enter. It does not identify the legally correct rate, classify a supply, or determine your filing position.
         </p>
 
         <h3 class="text-[20px] font-semibold text-base mt-8 mb-4 tracking-[-0.6px]">1. Adding GST to a Base Price</h3>
         <p>
-          If you are generating an invoice and need to apply tax to a product or service, select the <strong>"Add GST"</strong> mode. Enter the base price of the item, then select the appropriate tax slab (0%, 5%, 18%, or 40%). The calculator will instantly multiply the base amount by the rate to give you the GST component, and then sum them up to provide the Total Invoice Value.
+          To add a selected rate to an amount, choose <strong>"Add GST"</strong>, enter the base price, and choose a preset or custom rate. The calculator multiplies the amount by that rate to show the GST component and total.
         </p>
 
         <h3 class="text-[20px] font-semibold text-base mt-8 mb-4 tracking-[-0.6px]">2. Removing GST (Reverse Calculation)</h3>
         <p>
-          Often, businesses receive payments or deal with MRP products where the tax is already included in the final price. To find the original pre-tax value, you use a <strong>reverse GST calculation</strong> (removing GST from an inclusive price). Select the <strong>"Remove GST"</strong> mode, enter the total inclusive price, and pick the rate. The tool divides the total amount by <code>(1 + (GST Rate / 100))</code> to accurately extract the base price and the tax component. <em>(Note: Inclusive price arithmetic is a mathematical extraction and is not the Reverse Charge Mechanism under Section 9(3)/9(4), which is a separate tax liability framework.)</em>
+          To extract the pre-tax amount from a GST-inclusive total, select <strong>"Remove GST"</strong>, enter the total, and choose the rate. The tool divides the total by <code>(1 + (GST Rate / 100))</code>. This arithmetic extraction is different from statutory Reverse Charge Mechanism (RCM).
         </p>
 
         <h3 class="text-[20px] font-semibold text-base mt-8 mb-4 tracking-[-0.6px]">3. Understanding CGST, SGST, and IGST</h3>
         <p>
-          India follows a dual GST model. When you want to know how to split cgst and sgst in invoice calculator results, the final GST amount is split based on the nature of the transaction. Before calculating, always <a href="/gst-rate-finder/" class="text-accent hover:underline font-medium">check the applicable GST rate</a> and <a href="/hsn-code-lookup/" class="text-accent hover:underline font-medium">verify the HSN or SAC classification</a> against notified CBIC schedules:
+          The display option controls how the selected tax amount is presented. Confirm the correct supply treatment, applicable rate, and HSN or SAC classification from current official sources before relying on a result:
         </p>
         <ul class="list-disc pl-5 mt-2 space-y-1">
           <li><strong>Intra-State Supply (Within the same state):</strong> The total GST is divided equally into Central GST (CGST) and State GST (SGST). For example, an 18% rate becomes 9% CGST and 9% SGST.</li>
           <li><strong>Inter-State Supply (Between two different states):</strong> The entire tax amount is collected as Integrated GST (IGST) at the full rate.</li>
         </ul>
 
-        <h3 class="text-[20px] font-semibold text-base mt-8 mb-4 tracking-[-0.6px]">Frequently Asked Questions</h3>
-        <div class="space-y-4 mt-4">
-          <div>
-            <h4 class="font-medium text-base">Total bill me se GST kaise alag karein (Formula)?</h4>
-            <p class="text-[15px] mt-1 text-muted">Total bill me se GST alag karne ka formula hai: Base Price = Total Bill / (1 + GST Rate / 100). Jaise ₹1,180 par 18% GST ho toh ₹1,180 / 1.18 = ₹1,000 base amount, aur ₹180 GST amount hoga. "Remove GST" option select karke aap direct calculation kar sakte hain.</p>
-          </div>
-          <div>
-            <h4 class="font-medium text-base">How to convert gst inclusive to exclusive price formula?</h4>
-            <p class="text-[15px] mt-1 text-muted">The convert gst inclusive to exclusive price formula is simple: divide your inclusive price by (1 + (GST Rate / 100)). Use our reverse GST calculation tool above to do this instantly without confusing it with statutory reverse charge.</p>
-          </div>
-          <div>
-            <h4 class="font-medium text-base">How can I calculate 18 percent gst online?</h4>
-            <p class="text-[15px] mt-1 text-muted">Select the 18% button in the rate selector and type your amount. The tool will calculate 18 percent gst online and show the 9% CGST and 9% SGST split for you.</p>
-          </div>
-        </div>
       </div>
 
       <!-- Methodology & Legal Sources -->
@@ -335,9 +306,9 @@ const lastUpdated = '2026-07-25';
 
         <LegalSources
           sources={[
-            { title: "Section 9, CGST Act, 2017", description: "levy and collection of Central Goods and Services Tax" },
-            { title: "Section 15, CGST Act, 2017", description: "statutory value of taxable supply" },
-            { title: "CBIC Rate Notifications", url: "https://www.cbic.gov.in", description: "notified goods and services tax rate schedules" }
+            { title: "Section 9, CGST Act, 2017", url: "https://taxinformation.cbic.gov.in/content-page/explore-act/1000278/1000001", description: "levy and collection of Central Goods and Services Tax" },
+            { title: "Section 15, CGST Act, 2017", url: "https://taxinformation.cbic.gov.in/content-page/explore-act/1000284/1000001", description: "statutory value of taxable supply" },
+            { title: "CBIC GST goods and services rates", url: "https://cbic-gst.gov.in/hindi/gst-goods-services-rates.html", description: "official rate schedule reference" }
           ]}
           reviewedDate="19 September 2026"
         />
@@ -366,18 +337,7 @@ const lastUpdated = '2026-07-25';
       <h2 class="text-[28px] tracking-[-1px] font-semibold text-base mb-2">Frequently Asked Questions</h2>
       <p class="text-muted text-[15px] mb-8">Common questions about calculating GST in India.</p>
       <div class="space-y-3">
-        {[
-          { q: 'How do I calculate GST on a price?', a: 'To add GST to a base price, multiply the price by the GST rate and add it: Total = Base Price × (1 + Rate/100). For example, ₹1,000 at 18% GST = ₹1,000 × 1.18 = ₹1,180. To remove GST from an inclusive price, divide: Base = Inclusive Price ÷ (1 + Rate/100). So ₹1,180 ÷ 1.18 = ₹1,000.' },
-          { q: 'What are the GST slabs in 2026?', a: 'Under GST 2.0 (effective 22 September 2025), the main slabs are 0%, 5%, 18%, and 40%. The old 12% and 28% slabs have been largely restructured. Essentials like food grains are at 0%, daily-use items at 5%, most goods and services at 18%, and luxury/sin goods at 40%.' },
-          { q: 'What is CGST and SGST?', a: 'For intra-state transactions (within the same state), the total GST is split equally between Central GST (CGST) and State GST (SGST). So an 18% GST transaction = 9% CGST + 9% SGST. For inter-state transactions, the full 18% is charged as IGST (Integrated GST) instead.' },
-          { q: 'What is IGST and when does it apply?', a: 'IGST (Integrated GST) applies when goods or services are supplied from one state to another (inter-state supply) or when imported into India. The rate is the same as the combined CGST+SGST rate but it goes entirely to the central government, which then shares the state portion with the destination state.' },
-          { q: 'How do I calculate GST for a composition scheme dealer?', a: 'Composition dealers do not collect GST from customers. Instead, they pay a flat tax from their own pocket — 1% for traders, 2% for manufacturers, 5% for restaurants, and 6% for service providers — on their total turnover. They issue a Bill of Supply, not a Tax Invoice.' },
-          { q: 'Can I calculate reverse GST (remove tax from MRP)?', a: 'Yes. To remove GST from an MRP-inclusive price, use: Base Price = MRP ÷ (1 + GST Rate/100). Our calculator has a "Remove GST" mode that does this automatically. Just toggle to "Remove GST", enter the inclusive price, and select the rate.' },
-          { q: 'Which GST rate applies to professional services like consulting?', a: 'Most professional services — consulting, legal, accounting, IT, marketing — attract 18% GST. Some specified services like healthcare, education, and some financial services are exempt (0%). Always verify the SAC code for your specific service to confirm the correct rate.' },
-          { q: 'Is GST calculated on the price before or after discount?', a: 'GST is calculated on the discounted price if the discount is mentioned on the invoice. If a pre-sale discount is agreed upon before or at the time of supply and is reflected on the invoice, GST applies on the post-discount amount. Post-sale discounts with credit notes require ITC reversal from the buyer.' },
-          { q: 'Does GST apply to exports?', a: 'No. Exports are zero-rated under GST, meaning no GST is charged on the export invoice. Exporters can either claim a refund of input tax credit paid on raw materials or export under a Letter of Undertaking (LUT) without paying IGST upfront.' },
-          { q: 'What is the GST rate on gold and jewellery?', a: 'Gold (including bars, coins, and jewellery) attracts 3% GST. Making charges for jewellery are taxed separately at 5%. So a ₹1,00,000 gold purchase with ₹5,000 making charges would attract ₹3,000 GST on gold + ₹250 GST on making charges.' },
-        ].map((faq, i) => (
+        {gstCalculatorFaqs.map((faq, i) => (
           <details class="group rounded-[8px] border border-base bg-surface overflow-hidden" id={`faq-calc-${i}`}>
             <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
               <span class="text-[15px]">{faq.q}</span>
