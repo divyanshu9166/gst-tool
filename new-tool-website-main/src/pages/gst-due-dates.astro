@@ -10,15 +10,17 @@ const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://taxzentic.
 const canonical = `${siteUrl}/gst-due-dates`;
 
 const dueDatesFaqs = [
-  { q: 'What is the due date for GSTR-1 filing?', a: 'For monthly filers: 11th of the following month. For quarterly filers under QRMP: 13th of the month following the quarter.' },
-  { q: 'What is the due date for GSTR-3B filing?', a: 'For monthly filers: 20th of the following month. For QRMP taxpayers: 22nd or 24th of the month following the quarter depending on state category.' },
-  { q: 'What is the GSTR-9 Annual Return due date?', a: 'GSTR-9 and GSTR-9C for FY 2025-26 are due by 31st December 2026 for taxpayers crossing statutory turnover limits.' },
-  { q: 'What is the due date for GSTR-4 (Composition Scheme)?', a: 'Composition dealers file GSTR-4 annually by 30th April following the financial year end, and pay quarterly tax via CMP-08 by the 18th of the month succeeding each quarter.' },
-  { q: 'What is the TDS return due date under GST (GSTR-7)?', a: 'GSTR-7 is due by the 10th of the following month. Non-filing attracts a late fee of ₹200/day.' },
-  { q: 'What is the TCS return due date for e-commerce operators (GSTR-8)?', a: 'GSTR-8 is due by the 10th of the following month for all registered e-commerce operators.' },
-  { q: 'What happens if I miss the GSTR-1 due date?', a: 'Late filing attracts ₹50/day (₹20 for NIL returns) and blocks your buyers from claiming ITC in their GSTR-2B.' },
-  { q: 'Can GST due dates be extended by the government?', a: 'Yes. The CBIC periodically extends deadlines via official notifications issued under Section 168A during portal technical glitches or administrative emergencies.' },
-];
+          { q: 'What is the due date for GSTR-1 filing?', a: 'For monthly filers: 11th of the following month. For quarterly filers under the QRMP scheme: 13th of the month following the quarter. For example, GSTR-1 for January 2026 (monthly) is due by 11th February 2026. Quarterly filers for Q3 (Jan-Mar) are due by 13th April 2026.' },
+          { q: 'What is the due date for GSTR-3B filing?', a: 'For monthly filers: 20th of the following month. QRMP scheme users have staggered dates: 22nd for Category 1 states and 24th for Category 2 states. For example, GSTR-3B for January 2026 (monthly) is due by 20th February 2026.' },
+          { q: 'What is the GSTR-9 Annual Return due date?', a: 'GSTR-9 (Annual Return) is due by 31st December following the end of the financial year. So GSTR-9 for FY 2025-26 (April 2025 to March 2026) is due by 31st December 2026. GSTR-9C (Reconciliation Statement) for taxpayers above ₹5 Crore turnover has the same due date.' },
+          { q: 'What is the due date for GSTR-4 (Composition Scheme)?', a: 'Composition scheme dealers file GSTR-4 annually, due by 30th April following the end of the financial year. They also pay quarterly tax using Form CMP-08 by the 18th of the month following each quarter (i.e., 18th July, 18th October, 18th January, and 18th April).' },
+          { q: 'What is the TDS return due date under GST (GSTR-7)?', a: 'GSTR-7 (for TDS deductors) is due by the 10th of the following month. For example, TDS deducted in January must be reported by 10th February. Non-filing attracts a late fee of ₹200/day up to a maximum of the TDS amount.' },
+          { q: 'What is the TCS return due date for e-commerce operators (GSTR-8)?', a: 'GSTR-8 (for e-commerce operators collecting TCS) is due by the 10th of the following month. For example, TCS collected in January must be reported by 10th February. Non-filing attracts ₹200/day late fee.' },
+          { q: 'What happens if I miss the GSTR-1 due date?', a: 'Late filing of GSTR-1 attracts a late fee of ₹50/day (₹25 CGST + ₹25 SGST) for normal returns, or ₹20/day for NIL returns. Additionally, late GSTR-1 blocks your buyers from seeing your sales in their GSTR-2B, which can affect their ITC claims and harm your business relationships.' },
+          { q: 'Can GST due dates be extended by the government?', a: 'Yes. The CBIC can extend GST return due dates via notifications issued under Section 168A of the CGST Act. Extensions are common during technical glitches on the portal, natural disasters, or major policy transitions. Always check the official CBIC website or GST portal for the latest notifications.' },
+          { q: 'What is the due date for ISD (Input Service Distributor) return GSTR-6?', a: 'GSTR-6 (for Input Service Distributors) is due by the 13th of the following month. ISDs file this return to distribute the common ITC received for services used across multiple business units/branches.' },
+          { q: 'What is the CMP-08 due date for Composition dealers?', a: 'CMP-08 (quarterly tax payment for Composition dealers) is due by the 18th of the month following each quarter: 18th July (Q1: Apr-Jun), 18th October (Q2: Jul-Sep), 18th January (Q3: Oct-Dec), and 18th April (Q4: Jan-Mar).' },
+        ];;
 
 const structuredData = [
   {
@@ -196,18 +198,7 @@ const breadcrumb = [
       <h2 class="text-[28px] tracking-[-1px] font-semibold text-base mb-2">Frequently Asked Questions</h2>
       <p class="text-muted text-[15px] mb-8">Important questions about GST return filing due dates and deadlines.</p>
       <div class="space-y-3">
-        {[
-          { q: 'What is the due date for GSTR-1 filing?', a: 'For monthly filers: 11th of the following month. For quarterly filers under the QRMP scheme: 13th of the month following the quarter. For example, GSTR-1 for January 2026 (monthly) is due by 11th February 2026. Quarterly filers for Q3 (Jan-Mar) are due by 13th April 2026.' },
-          { q: 'What is the due date for GSTR-3B filing?', a: 'For monthly filers: 20th of the following month. QRMP scheme users have staggered dates: 22nd for Category 1 states and 24th for Category 2 states. For example, GSTR-3B for January 2026 (monthly) is due by 20th February 2026.' },
-          { q: 'What is the GSTR-9 Annual Return due date?', a: 'GSTR-9 (Annual Return) is due by 31st December following the end of the financial year. So GSTR-9 for FY 2025-26 (April 2025 to March 2026) is due by 31st December 2026. GSTR-9C (Reconciliation Statement) for taxpayers above ₹5 Crore turnover has the same due date.' },
-          { q: 'What is the due date for GSTR-4 (Composition Scheme)?', a: 'Composition scheme dealers file GSTR-4 annually, due by 30th April following the end of the financial year. They also pay quarterly tax using Form CMP-08 by the 18th of the month following each quarter (i.e., 18th July, 18th October, 18th January, and 18th April).' },
-          { q: 'What is the TDS return due date under GST (GSTR-7)?', a: 'GSTR-7 (for TDS deductors) is due by the 10th of the following month. For example, TDS deducted in January must be reported by 10th February. Non-filing attracts a late fee of ₹200/day up to a maximum of the TDS amount.' },
-          { q: 'What is the TCS return due date for e-commerce operators (GSTR-8)?', a: 'GSTR-8 (for e-commerce operators collecting TCS) is due by the 10th of the following month. For example, TCS collected in January must be reported by 10th February. Non-filing attracts ₹200/day late fee.' },
-          { q: 'What happens if I miss the GSTR-1 due date?', a: 'Late filing of GSTR-1 attracts a late fee of ₹50/day (₹25 CGST + ₹25 SGST) for normal returns, or ₹20/day for NIL returns. Additionally, late GSTR-1 blocks your buyers from seeing your sales in their GSTR-2B, which can affect their ITC claims and harm your business relationships.' },
-          { q: 'Can GST due dates be extended by the government?', a: 'Yes. The CBIC can extend GST return due dates via notifications issued under Section 168A of the CGST Act. Extensions are common during technical glitches on the portal, natural disasters, or major policy transitions. Always check the official CBIC website or GST portal for the latest notifications.' },
-          { q: 'What is the due date for ISD (Input Service Distributor) return GSTR-6?', a: 'GSTR-6 (for Input Service Distributors) is due by the 13th of the following month. ISDs file this return to distribute the common ITC received for services used across multiple business units/branches.' },
-          { q: 'What is the CMP-08 due date for Composition dealers?', a: 'CMP-08 (quarterly tax payment for Composition dealers) is due by the 18th of the month following each quarter: 18th July (Q1: Apr-Jun), 18th October (Q2: Jul-Sep), 18th January (Q3: Oct-Dec), and 18th April (Q4: Jan-Mar).' },
-        ].map((faq, i) => (
+        {dueDatesFaqs.map((faq, i) => (
           <details class="group rounded-[8px] border border-base bg-surface overflow-hidden" id={`faq-dates-${i}`}>
             <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
               <span class="text-[15px]">{faq.q}</span>

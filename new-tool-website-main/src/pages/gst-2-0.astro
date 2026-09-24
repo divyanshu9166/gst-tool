@@ -5,10 +5,53 @@ import LegalSources from '../components/LegalSources.astro';
 import TaxDisclaimer from '../components/TaxDisclaimer.astro';
 
 const title = 'GST 2.0 (2026) — Complete Guide, New Rates & Tools';
-const description = 'Everything about the GST 2.0 tax reform in India. Explore the 5%, 18%, and 40% slabs, check product rates, and use our free GST 2.0 calculators.';
+const description = 'Understand India’s GST rate rationalisation, including the broad 5%, 18% and special 40% rates. Check official references and use free GST calculators.';
 
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://taxzentic.com';
 const canonical = `${siteUrl}/gst-2-0`;
+
+const gst20Faqs = [
+  {
+    q: 'What does GST 2.0 mean?',
+    a: '“GST 2.0” is a commonly used label for the GST rate rationalisation recommended by the 56th GST Council. The broad structure uses 5% and 18% rates, with a special 40% rate for specified goods and services. The exact legal rate comes from the applicable notification and tariff entry.',
+  },
+  {
+    q: 'What are the GST 2.0 rates?',
+    a: 'The broad rate structure includes a 5% merit rate, an 18% standard rate and a special 40% rate for specified goods and services. Some supplies may be nil-rated, exempt or subject to other specific treatment, so do not assume every item fits one of these three rates.',
+  },
+  {
+    q: 'When did the GST 2.0 rate changes take effect?',
+    a: 'Most revised rates for goods and services took effect on 22 September 2025. The GST Council initially phased certain pan masala and tobacco-related products separately; related revised rates were notified from 1 February 2026. Check the current notification for the exact product and transaction date.',
+  },
+  {
+    q: 'How can I find the GST rate for a product?',
+    a: 'Identify the product’s correct HSN classification, then check the corresponding entry, description, conditions and effective date in the latest Central and applicable State rate notifications. A product name alone may not be enough to determine its classification or rate.',
+  },
+  {
+    q: 'Does the 40% rate apply to every luxury product?',
+    a: 'No. The 40% rate applies to goods and services specified in the relevant rate entries. A product being described as “luxury” in ordinary or marketing language does not by itself establish its GST rate; verify its classification and notification.',
+  },
+  {
+    q: 'Are 5%, 18% and 40% the only GST treatments?',
+    a: 'No. Depending on the supply, the schedule may provide nil rates, exemptions or specific conditions and other treatments. Check the current rate schedule for the exact HSN or service classification rather than relying only on a summary of the broad structure.',
+  },
+  {
+    q: 'Can the GST 2.0 calculator determine my product’s legal rate?',
+    a: 'The calculator helps with tax arithmetic after you enter a rate; it does not make a binding HSN classification or legal rate determination. Confirm the applicable rate from the current notification or with a qualified tax professional before invoicing.',
+  },
+  {
+    q: 'How do I compare an old GST rate with a revised rate?',
+    a: 'Use the rate comparison tool to compare the arithmetic using the old and revised rates that apply to your product. First verify both rates and their effective dates against the applicable notifications; the comparison is an estimate, not a classification decision.',
+  },
+  {
+    q: 'Which GST rate applies when supply, invoice and payment dates cross a rate change?',
+    a: 'The applicable rate in a transition case can depend on the time-of-supply rules, including when supply occurred and when the invoice or payment was made. Review section 14 of the CGST Act and the official guidance for your exact facts; a single date rule does not cover every transaction.',
+  },
+  {
+    q: 'Are Taxzentic’s GST 2.0 tools official government tools?',
+    a: 'No. Taxzentic provides independent calculators and educational references. They are intended to help with estimates and research, not replace GST notifications, portal records, professional advice or a determination by the tax authorities.',
+  },
+];
 
 const structuredData = [
   {
@@ -30,24 +73,14 @@ const structuredData = [
   {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    mainEntity: [
-      {
-        '@type': 'Question',
-        name: 'What is GST 2.0?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'GST 2.0 refers to the proposed simplification of India\'s GST structure from 4 slabs (5%, 12%, 18%, 28%) to 3 slabs (5%, 18%, and a new 40% luxury rate). It aims to reduce classification disputes and improve compliance.',
-        },
+    mainEntity: gst20Faqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.q,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.a,
       },
-      {
-        '@type': 'Question',
-        name: 'What are the new GST 2.0 rates?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Under GST 2.0, the proposed rates are: 5% for essentials, 18% for standard goods & services, and 40% for luxury items like premium automobiles and high-end electronics. The existing 12% and 28% slabs would be absorbed into these three.',
-        },
-      },
-    ],
+    })),
   },
 ];
 
@@ -56,7 +89,7 @@ const breadcrumb = [
   { name: 'GST 2.0 Hub', href: '/gst-2-0' },
 ];
 
-const lastUpdated = '2026-07-25';
+const lastUpdated = '2026-09-24';
 ---
 
 <BaseLayout {title} {description} {canonical} {structuredData} {breadcrumb} {lastUpdated}>
@@ -68,7 +101,7 @@ const lastUpdated = '2026-07-25';
         The <span class="text-accent">GST 2.0</span> Resource Center
       </h1>
       <p class="text-[18px] text-muted max-w-2xl mx-auto leading-relaxed mb-4">
-        India's transition to the simplified 3-slab GST structure (5%, 18%, 40%) brings major changes to compliance, invoicing, and ITC. Find all the tools and guides you need to adapt.
+        India’s GST rate rationalisation introduced broad 5% and 18% rates, plus a special 40% rate for specified goods and services. Find practical tools, official references and guides to understand the changes.
       </p>
       <div class="inline-block text-left rounded-xl border border-blue-500/20 bg-blue-50/50 dark:bg-blue-950/20 p-4 text-xs text-muted max-w-2xl mx-auto leading-relaxed">
         <strong class="text-base font-medium">Editorial Note:</strong> "GST 2.0" is an editorial term describing the rate rationalization recommendations of the GST Council. While Council recommendations establish policy direction, rate amendments take legal effect only upon publication of implementing statutory notifications by the Central Government and respective State Governments.
@@ -89,7 +122,7 @@ const lastUpdated = '2026-07-25';
             <h3 class="text-xl font-semibold text-base group-hover:text-accent transition-colors">GST 2.0 Calculator</h3>
             <span class="text-xs font-semibold bg-accent text-white px-2 py-1 rounded-full">Updated</span>
           </div>
-          <p class="text-muted text-[15px] leading-relaxed">Calculate exact tax amounts using the new 5%, 18%, and 40% slabs. Instantly split CGST/SGST or reverse-calculate from MRP.</p>
+          <p class="text-muted text-[15px] leading-relaxed">Estimate GST using a rate you have verified. Split CGST/SGST or reverse-calculate tax from an inclusive amount.</p>
         </a>
 
         <a href="/gst-rate-comparison" class="group relative rounded-2xl border border-base bg-surface p-6 overflow-hidden hover:border-accent transition-all shadow-sm">
@@ -97,7 +130,7 @@ const lastUpdated = '2026-07-25';
           <div class="flex items-center justify-between mb-4">
             <h3 class="text-xl font-semibold text-base group-hover:text-accent transition-colors">Old vs New Rate Checker</h3>
           </div>
-          <p class="text-muted text-[15px] leading-relaxed">Compare the tax impact on your products. See how the transition from 12% to 18% or 28% to 40% affects your working capital.</p>
+          <p class="text-muted text-[15px] leading-relaxed">Compare tax amounts using the old and revised rates that apply to your product, after checking their effective dates.</p>
         </a>
 
         <a href="/mrp-revision-calculator/" class="group relative rounded-2xl border border-base bg-surface p-6 overflow-hidden hover:border-accent transition-all shadow-sm">
@@ -157,24 +190,17 @@ const lastUpdated = '2026-07-25';
     <div class="mb-16 border-t border-base pt-12">
       <h2 class="text-2xl font-bold text-base mb-8">Frequently Asked Questions</h2>
       <div class="space-y-3">
-        <details class="group rounded-[8px] border border-base bg-surface overflow-hidden" open>
-          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
-            <span class="text-[15px]">What is GST 2.0?</span>
-            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
-          </summary>
-          <div class="px-6 pb-5 text-[14px] text-muted leading-relaxed border-t border-base pt-4">
-            GST 2.0 refers to the rationalisation of India's GST rate structure that came into effect on 22 September 2025. It consolidated the old 4 slabs (5%, 12%, 18%, 28%) down to 3 slabs: 5% for essentials, 18% for standard goods and services, and a new 40% slab for luxury items. The previous 12% and 28% slabs were merged into 18% or 40% respectively. This reduced classification disputes and improved overall compliance.
-          </div>
-        </details>
-        <details class="group rounded-[8px] border border-base bg-surface overflow-hidden">
-          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
-            <span class="text-[15px]">Which products will now fall under the 40% GST slab?</span>
-            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
-          </summary>
-          <div class="px-6 pb-5 text-[14px] text-muted leading-relaxed border-t border-base pt-4">
-            The 40% slab applies to luxury goods previously taxed at the highest rates. This includes premium and large-engine automobiles, aerated drinks (which carry a cess in addition), tobacco products, and high-end consumer electronics. The complete list was notified by the GST Council upon implementation in September 2025.
-          </div>
-        </details>
+        {gst20Faqs.map((faq, index) => (
+          <details class="group rounded-[8px] border border-base bg-surface overflow-hidden" open={index === 0}>
+            <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+              <span class="text-[15px]">{faq.q}</span>
+              <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+            </summary>
+            <div class="px-6 pb-5 text-[14px] text-muted leading-relaxed border-t border-base pt-4">
+              {faq.a}
+            </div>
+          </details>
+        ))}
       </div>
     </div>
 
@@ -182,12 +208,13 @@ const lastUpdated = '2026-07-25';
     <div class="mb-16 space-y-4">
       <LegalSources
         sources={[
-          { title: "GST Council Press Releases & Recommendations", url: "https://www.gstcouncil.gov.in", description: "policy rationalization roadmap across 5%, 18%, and luxury rate slabs" },
-          { title: "CBIC Central Tax (Rate) Notifications", url: "https://www.cbic.gov.in", description: "statutory instruments legally enforcing amended tariff rates and effective dates" }
+          { title: "GST Council: 56th Meeting Recommendations", url: "https://gstcouncil.gov.in/recommendations-56th-meeting-gst-council-held-new-delhi", description: "official rate tables and phased implementation recommendations" },
+          { title: "GST Council: Central Tax (Rate) Notifications", url: "https://gstcouncil.gov.in/cgst-rate-notification", description: "official Central rate notifications and amendments" },
+          { title: "GST Council: 56th Meeting FAQs", url: "https://gstcouncil.gov.in/frequently-asked-questions-faqs-decisions-56th-gst-council-held-new-delhi-0", description: "official clarifications, including effective dates and transition cases" }
         ]}
         councilRecommendation="GST Council Tariff Rationalization Recommendations"
         implementingNotification="Respective Implementing Central Tax (Rate) Notifications"
-        reviewedDate="19 September 2026"
+        reviewedDate="24 September 2026"
       />
 
       <TaxDisclaimer />

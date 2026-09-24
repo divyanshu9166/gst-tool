@@ -4,6 +4,19 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 const title = 'Place of Supply Calculator — GST India';
 const description = 'Instantly determine the place of supply under GST and find out whether to charge CGST+SGST or IGST on your invoice. Free, offline, updated for 2025-26.';
 
+const placeOfSupplyFaqs = [
+          { q: 'What is Place of Supply under GST?', a: 'Place of Supply (POS) is the location where a supply is deemed to have taken place for GST purposes. It determines whether a transaction is treated as intra-state (CGST+SGST applies) or inter-state (IGST applies). It is governed by Sections 10-13 of the IGST Act.' },
+          { q: 'How is Place of Supply determined for goods?', a: 'For supply of goods, POS is typically the location where goods are delivered to the buyer. If goods are sent to a different state, the POS is the delivery state, making it inter-state (IGST). If delivered within the same state as the supplier, CGST+SGST applies.' },
+          { q: 'How is Place of Supply determined for services?', a: 'For most services, POS is the location of the recipient. If the recipient is GST-registered (has a GSTIN), POS is their registration state. If unregistered, POS is their usual residence or address. For specific services (like immovable property, event-based, transportation), special rules override the default.' },
+          { q: 'What is the Place of Supply for restaurant services?', a: 'For restaurant, catering, and food delivery services, the Place of Supply is the location where the service is actually performed. So a restaurant in Mumbai serving a customer from Delhi would charge CGST+SGST (both Maharashtra rates), not IGST.' },
+          { q: 'What is the Place of Supply for online services?', a: 'For online information and database access services (OIDAR) provided to unregistered recipients, the POS is the location of the recipient. If provided to a registered business, it is the recipient\'s GSTIN location. This is how streaming services and SaaS platforms determine their GST.' },
+          { q: 'When does IGST apply instead of CGST+SGST?', a: 'IGST applies when the Place of Supply is in a different state from the Supplier\'s state. For example, a supplier in Karnataka selling to a buyer in Maharashtra: Karnataka is supplier state, Maharashtra is POS → IGST applies. If both states match, CGST+SGST applies.' },
+          { q: 'What is the Place of Supply for transportation services?', a: 'For passenger transportation: POS is the place where passengers embark (board the vehicle). For goods transportation: POS is the location of the recipient. However, if the recipient is unregistered, POS is the place of delivery of goods.' },
+          { q: 'What is the Place of Supply for immovable property services?', a: 'For services directly related to immovable property (like construction, real estate agent services, architects, interior designers), the POS is the location of the property itself, regardless of where the supplier or recipient are located.' },
+          { q: 'What is the Place of Supply for import of services?', a: 'For import of services into India (e.g., paying a foreign consultant), the POS is the location of the recipient in India. IGST applies and must be paid under Reverse Charge Mechanism (RCM). The recipient self-assesses and pays the IGST.' },
+          { q: 'What happens if I charge wrong GST (CGST/SGST instead of IGST)?', a: 'This is a common error. If you charge CGST+SGST on an inter-state supply (where IGST should have been charged), the error must be corrected via a revised invoice or credit note. The state where CGST+SGST was paid must refund you, and you re-pay as IGST. Failure to correct can attract interest and penalties.' },
+        ];
+
 const structuredData = [
   {
     '@context': 'https://schema.org',
@@ -17,11 +30,14 @@ const structuredData = [
   {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    mainEntity: [
-      { '@type': 'Question', name: 'What is place of supply under GST?', acceptedAnswer: { '@type': 'Answer', text: 'Place of supply (POS) under GST determines the location where a supply is deemed to occur. It is the key factor that decides whether a transaction attracts CGST+SGST (intra-state) or IGST (inter-state). The rules differ for goods and services.' } },
-      { '@type': 'Question', name: 'What happens if I charge wrong tax (CGST/SGST instead of IGST)?', acceptedAnswer: { '@type': 'Answer', text: 'If you incorrectly charge CGST+SGST on a transaction that should have attracted IGST (or vice versa), you must correct the error. You need to issue a credit note for the wrongly charged tax and raise a fresh invoice with the correct tax. The buyer cannot claim ITC on the wrongly-charged tax.' } },
-      { '@type': 'Question', name: 'For services, what is the default place of supply?', acceptedAnswer: { '@type': 'Answer', text: 'For B2B services (where the recipient has a GSTIN), the default place of supply is the location of the registered recipient. For B2C services (unregistered recipient), the default place of supply is the location of the service provider.' } }
-    ]
+    mainEntity: placeOfSupplyFaqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.q,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.a,
+      },
+    }))
   }
 ];
 
@@ -232,18 +248,7 @@ document.getElementById("calc-btn").addEventListener("click", () => {
       <h2 class="text-[28px] tracking-[-1px] font-semibold text-base mb-2">Frequently Asked Questions</h2>
       <p class="text-muted text-[15px] mb-8">Understanding Place of Supply rules for correct GST (IGST vs CGST/SGST) determination.</p>
       <div class="space-y-3">
-        {[
-          { q: 'What is Place of Supply under GST?', a: 'Place of Supply (POS) is the location where a supply is deemed to have taken place for GST purposes. It determines whether a transaction is treated as intra-state (CGST+SGST applies) or inter-state (IGST applies). It is governed by Sections 10-13 of the IGST Act.' },
-          { q: 'How is Place of Supply determined for goods?', a: 'For supply of goods, POS is typically the location where goods are delivered to the buyer. If goods are sent to a different state, the POS is the delivery state, making it inter-state (IGST). If delivered within the same state as the supplier, CGST+SGST applies.' },
-          { q: 'How is Place of Supply determined for services?', a: 'For most services, POS is the location of the recipient. If the recipient is GST-registered (has a GSTIN), POS is their registration state. If unregistered, POS is their usual residence or address. For specific services (like immovable property, event-based, transportation), special rules override the default.' },
-          { q: 'What is the Place of Supply for restaurant services?', a: 'For restaurant, catering, and food delivery services, the Place of Supply is the location where the service is actually performed. So a restaurant in Mumbai serving a customer from Delhi would charge CGST+SGST (both Maharashtra rates), not IGST.' },
-          { q: 'What is the Place of Supply for online services?', a: 'For online information and database access services (OIDAR) provided to unregistered recipients, the POS is the location of the recipient. If provided to a registered business, it is the recipient\'s GSTIN location. This is how streaming services and SaaS platforms determine their GST.' },
-          { q: 'When does IGST apply instead of CGST+SGST?', a: 'IGST applies when the Place of Supply is in a different state from the Supplier\'s state. For example, a supplier in Karnataka selling to a buyer in Maharashtra: Karnataka is supplier state, Maharashtra is POS → IGST applies. If both states match, CGST+SGST applies.' },
-          { q: 'What is the Place of Supply for transportation services?', a: 'For passenger transportation: POS is the place where passengers embark (board the vehicle). For goods transportation: POS is the location of the recipient. However, if the recipient is unregistered, POS is the place of delivery of goods.' },
-          { q: 'What is the Place of Supply for immovable property services?', a: 'For services directly related to immovable property (like construction, real estate agent services, architects, interior designers), the POS is the location of the property itself, regardless of where the supplier or recipient are located.' },
-          { q: 'What is the Place of Supply for import of services?', a: 'For import of services into India (e.g., paying a foreign consultant), the POS is the location of the recipient in India. IGST applies and must be paid under Reverse Charge Mechanism (RCM). The recipient self-assesses and pays the IGST.' },
-          { q: 'What happens if I charge wrong GST (CGST/SGST instead of IGST)?', a: 'This is a common error. If you charge CGST+SGST on an inter-state supply (where IGST should have been charged), the error must be corrected via a revised invoice or credit note. The state where CGST+SGST was paid must refund you, and you re-pay as IGST. Failure to correct can attract interest and penalties.' },
-        ].map((faq, i) => (
+        {placeOfSupplyFaqs.map((faq, i) => (
           <details class="group rounded-[8px] border border-base bg-surface overflow-hidden" id={`faq-pos-${i}`}>
             <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
               <span class="text-[15px]">{faq.q}</span>

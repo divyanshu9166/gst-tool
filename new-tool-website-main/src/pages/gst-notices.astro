@@ -8,6 +8,49 @@ const description = 'Independent reference tools and guides for organizing GST n
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://taxzentic.com';
 const canonical = `${siteUrl}/gst-notices`;
 
+const noticeFaqs = [
+  {
+    q: 'What can I find in the GST Notices Resource Center?',
+    a: 'The hub links to independent tools for organizing a notice timeline, drafting a reply outline and comparing selected return figures. It does not confirm which legal action applies to a particular notice.',
+  },
+  {
+    q: 'Does the notice deadline calculator determine my legal deadline?',
+    a: 'No. It performs date arithmetic using the date and number of days you enter. Confirm the actual time limit, starting date, service rules, filing route and any extension from the notice and current official sources.',
+  },
+  {
+    q: 'Can I file a reply created by the AI notice reply generator as-is?',
+    a: 'Treat the output only as an editable starting outline. Check every fact, document reference and legal point, and have a qualified professional review the reply before filing.',
+  },
+  {
+    q: 'What should I check first when I receive a GST notice?',
+    a: 'Read the full notice and verify the issuing authority, form or reference number, tax period, allegations or information requested, response deadline and filing instructions. Keep the notice and supporting records together.',
+  },
+  {
+    q: 'Are GST notice response deadlines the same for every form?',
+    a: 'No. The applicable time limit and procedure depend on the notice, the provision cited, how it was served and any later order or extension. Do not infer a deadline from the form name alone.',
+  },
+  {
+    q: 'What does the GSTR mismatch checker do?',
+    a: 'It compares the figures you enter to help surface differences for review. A mismatch is not, by itself, a finding of non-compliance, a notice prediction or a determination of tax liability.',
+  },
+  {
+    q: 'Does submitting a notice reply automatically pause other deadlines?',
+    a: 'Do not assume that it does. Any separate payment, appeal or follow-up time limit may depend on the notice and applicable law. Check the instructions and get qualified advice promptly if a deadline is approaching.',
+  },
+  {
+    q: 'Which documents should I gather before preparing a notice response?',
+    a: 'Use the notice to identify relevant records, which may include returns, invoices, ledgers, reconciliations, payment evidence and prior correspondence for the stated period. Share only information needed for your chosen workflow.',
+  },
+  {
+    q: 'Are the tools in this GST notice hub government services?',
+    a: 'No. These are independent Taxzentic resources. Use the GST portal and official notifications for filing instructions and legal requirements; the tools do not represent or replace the tax authorities.',
+  },
+  {
+    q: 'When should I consult a GST professional about a notice?',
+    a: 'Consider getting professional help when the notice raises a tax demand, alleges a contravention, concerns a complex reconciliation or has a short response or appeal timeline. A professional can assess your documents and the current law.',
+  },
+];
+
 const structuredData = [
   {
     '@context': 'https://schema.org',
@@ -25,6 +68,18 @@ const structuredData = [
       { '@type': 'WebApplication', name: 'GST Notice Deadline Calculator', url: `${siteUrl}/gst-notice-deadline-calculator` },
       { '@type': 'WebApplication', name: 'GSTR Mismatch Checker', url: `${siteUrl}/gstr-mismatch-checker` },
     ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: noticeFaqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.q,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.a,
+      },
+    })),
   },
 ];
 
@@ -171,6 +226,24 @@ const lastUpdated = '2026-09-24';
           <h3 class="font-bold text-base mb-1 hover:text-accent">DRC-07 Order Received? Your 90-Day Action Plan</h3>
           <p class="text-xs text-muted leading-relaxed">An overview of possible next steps. Confirm the applicable procedure and time limit from the order and current official sources.</p>
         </a>
+      </div>
+    </div>
+
+    <!-- FAQs -->
+    <div class="mb-16 border-t border-base pt-12">
+      <h2 class="text-2xl font-bold text-base mb-8">Frequently Asked Questions</h2>
+      <div class="space-y-3">
+        {noticeFaqs.map((faq, index) => (
+          <details class="group rounded-[8px] border border-base bg-surface overflow-hidden" open={index === 0}>
+            <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+              <span class="text-[15px]">{faq.q}</span>
+              <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+            </summary>
+            <div class="px-6 pb-5 text-[14px] text-muted leading-relaxed border-t border-base pt-4">
+              {faq.a}
+            </div>
+          </details>
+        ))}
       </div>
     </div>
   </div>

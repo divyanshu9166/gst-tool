@@ -48,6 +48,49 @@ export async function getStaticPaths() {
 
 const { product } = Astro.props;
 
+const productFaqs = [
+  {
+    q: `What GST rate does this page show for ${product.name}?`,
+    a: `This page lists ${product.rate} as a broad reference for ${product.desc}. The rate that applies to a particular supply depends on its exact classification and the current rate entry, so verify the applicable notification before invoicing.`,
+  },
+  {
+    q: `What HSN or SAC code is shown for ${product.name}?`,
+    a: `The reference code shown here is ${product.hsn}. It is associated with ${product.desc}; a more specific tariff item or service classification may be needed for an individual product or supply.`,
+  },
+  {
+    q: `Why might the GST rate vary within ${product.name}?`,
+    a: `A broad product or service category can cover multiple tariff entries and conditions. Product specifications, composition, intended use, transaction details or the applicable effective date can affect which entry applies.`,
+  },
+  {
+    q: `Does the HSN or SAC code on this page apply to every ${product.name} item?`,
+    a: `Not necessarily. The code is a category-level reference based on ${product.desc}. Compare the actual item or service with the full tariff description and any relevant notes before relying on it.`,
+  },
+  {
+    q: `Where can I verify the current GST rate for ${product.name}?`,
+    a: `Check the latest Central and applicable State rate notifications against the exact HSN or SAC entry, description, conditions and effective date. A search result or common product name alone is not a legal rate determination.`,
+  },
+  {
+    q: `How does the ${product.name} calculator work?`,
+    a: `It multiplies the entered base price by the first percentage displayed on this page and adds that tax to the price. If the page lists multiple possible rates, the calculator is only an illustration using the first one; it does not determine which rate applies to your item.`,
+  },
+  {
+    q: `When does a sale of ${product.name} use CGST and SGST or IGST?`,
+    a: `For an intra-State supply, GST is generally split into CGST and SGST; for an inter-State supply, IGST generally applies. The place-of-supply rules and the facts of the transaction determine which treatment to use.`,
+  },
+  {
+    q: `Can the GST rate for ${product.name} change?`,
+    a: `Yes. GST rate schedules can be amended by notifications, which specify the affected entries and effective dates. Recheck the current notification when preparing a new invoice or updating a price.`,
+  },
+  {
+    q: `Is a product name enough to identify the GST rate for ${product.name}?`,
+    a: `No. Similar names can describe items with different materials, specifications, uses or tariff classifications. Match the actual item or service to the detailed classification and rate entry rather than relying on a marketing name.`,
+  },
+  {
+    q: `Is this page an official GST rate confirmation for ${product.name}?`,
+    a: `No. Taxzentic is an independent reference and calculator, not a government portal or binding classification authority. Use official notifications and seek qualified tax advice for decisions that affect filing or invoicing.`,
+  },
+];
+
 const title = `GST Rate on ${product.name} (2026) | HSN Code ${product.hsn}`;
 const description = `Find the exact GST rate for ${product.name} in India (HSN ${product.hsn}). Check CGST/SGST split and calculate tax amount instantly with our free tool.`;
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://taxzentic.com';
@@ -57,24 +100,14 @@ const structuredData = [
   {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    mainEntity: [
-      {
-        '@type': 'Question',
-        name: `What is the GST rate on ${product.name}?`,
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: `The GST rate on ${product.name} is ${product.rate}. This falls under the classification for ${product.desc}.`,
-        },
+    mainEntity: productFaqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.q,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.a,
       },
-      {
-        '@type': 'Question',
-        name: `What is the HSN code for ${product.name}?`,
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: `The HSN/SAC code for ${product.name} is ${product.hsn}.`,
-        },
-      }
-    ],
+    })),
   },
   {
     '@context': 'https://schema.org',
@@ -175,25 +208,17 @@ const lastUpdated = '2026-07-25';
       <h3 class="text-[20px] font-semibold text-base mt-10 mb-4 tracking-[-0.6px]">Frequently Asked Questions</h3>
       
       <div class="space-y-3 not-prose">
-        <details class="group rounded-[8px] border border-base bg-surface overflow-hidden" open>
-          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
-            <span class="text-[15px]">What is the exact GST rate on {product.name}?</span>
-            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
-          </summary>
-          <div class="px-6 pb-5 text-[14px] text-muted leading-relaxed border-t border-base pt-4">
-            The applicable GST rate for {product.name} is {product.rate}.
-          </div>
-        </details>
-
-        <details class="group rounded-[8px] border border-base bg-surface overflow-hidden">
-          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
-            <span class="text-[15px]">What is the HSN code for {product.name}?</span>
-            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
-          </summary>
-          <div class="px-6 pb-5 text-[14px] text-muted leading-relaxed border-t border-base pt-4">
-            The harmonized system code (HSN/SAC) for {product.name} is {product.hsn}. It is mandatory to mention this code on tax invoices for B2B transactions.
-          </div>
-        </details>
+        {productFaqs.map((faq, i) => (
+          <details class="group rounded-[8px] border border-base bg-surface overflow-hidden" open={i === 0}>
+            <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
+              <span class="text-[15px]">{faq.q}</span>
+              <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+            </summary>
+            <div class="px-6 pb-5 text-[14px] text-muted leading-relaxed border-t border-base pt-4">
+              {faq.a}
+            </div>
+          </details>
+        ))}
       </div>
     </div>
 

@@ -7,6 +7,19 @@ import TaxDisclaimer from '../components/TaxDisclaimer.astro';
 const title = 'Advance Tax Calculator FY 2025-26 India';
 const description = 'Calculate your advance tax liability for FY 2025-26. Find installment due dates (Jun, Sep, Dec, Mar) and avoid Section 234B and 234C interest penalties.';
 
+const advanceTaxFaqs = [
+          { q: 'What is advance tax?', a: 'Advance tax is the income tax you pay before the end of the financial year, in instalments throughout the year, rather than as a lump sum at the end. It is also called "pay-as-you-earn" tax. If your total tax liability for the year exceeds ₹10,000, you are required to pay advance tax.' },
+          { q: 'Who is required to pay advance tax?', a: 'Anyone whose estimated total income tax liability for the year exceeds ₹10,000 must pay advance tax. This includes salaried employees (if TDS deducted is insufficient), business owners, freelancers, and investors. Senior citizens (60+) who have no business income are exempt from advance tax.' },
+          { q: 'What are the advance tax due dates for FY 2025-26?', a: '1st Instalment: 15th June — Pay 15% of estimated tax. 2nd Instalment: 15th September — Pay 45% (cumulative). 3rd Instalment: 15th December — Pay 75% (cumulative). 4th Instalment: 15th March — Pay 100% (cumulative). Missing these dates attracts interest under Section 234B and 234C.' },
+          { q: 'How do I calculate my advance tax?', a: 'Step 1: Estimate your total income for the year (salary + business + capital gains + other sources). Step 2: Calculate tax on this income as per the applicable slab rates. Step 3: Subtract TDS already deducted and any TCS credits. Step 4: If the result exceeds ₹10,000, pay advance tax in the installments mentioned above.' },
+          { q: 'What is Section 234C interest for short payment of advance tax?', a: 'Section 234C charges simple interest at 1% per month (or part of a month) if you pay less than the required cumulative percentage by each due date. Interest is charged on the shortfall for 3 months for each installment (except the last one, which is 1 month). This interest is mandatory and added to your final tax liability.' },
+          { q: 'What is Section 234B interest for non-payment of advance tax?', a: 'Section 234B charges 1% per month (simple interest) on the unpaid advance tax if you have paid less than 90% of the total tax liability as advance tax by 31st March. This interest is calculated from 1st April to the date of actual payment of tax.' },
+          { q: 'Does a freelancer or self-employed person need to pay advance tax?', a: 'Yes, absolutely. Freelancers, consultants, and self-employed professionals have no TDS deducted at source for most of their income. They must estimate their annual income and pay advance tax in the four instalments. Missing advance tax attracts interest under Sections 234B and 234C.' },
+          { q: 'Is advance tax applicable to capital gains income?', a: 'Yes, but with a concession. If you earn capital gains after the 3rd instalment (December 15th), you can pay the entire capital gains tax as the 4th instalment by March 15th without attracting 234C interest. However, Section 234B interest may still apply if less than 90% of total tax is paid by March 31st.' },
+          { q: 'What happens if I overpay advance tax?', a: 'If you pay more advance tax than your actual tax liability, the excess is refunded by the Income Tax Department after filing your ITR. Additionally, you are entitled to interest at 6% per annum on the refund amount under Section 244A from April 1st of the assessment year until the date of refund.' },
+          { q: 'Can I pay advance tax online?', a: 'Yes. Advance tax is paid online through the Income Tax Portal (incometax.gov.in) or via net banking using Challan 280. Select "Advance Tax" as the type of payment, and choose the correct Assessment Year (the year after the financial year you are computing tax for). Keep the payment receipt for your records.' },
+        ];
+
 const structuredData = [
   {
     '@context': 'https://schema.org',
@@ -20,23 +33,14 @@ const structuredData = [
   {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    mainEntity: [
-      {
-        '@type': 'Question',
-        name: 'What is advance tax?',
-        acceptedAnswer: { '@type': 'Answer', text: 'Advance tax is income tax paid in installments during the financial year rather than as a lump sum at the end. It is required when your estimated tax liability for the year (after TDS) exceeds ₹10,000.' }
+    mainEntity: advanceTaxFaqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.q,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.a,
       },
-      {
-        '@type': 'Question',
-        name: 'What are the advance tax due dates for FY 2025-26?',
-        acceptedAnswer: { '@type': 'Answer', text: 'For FY 2025-26: 1st installment (15%) by 15th June 2025, 2nd installment (45%) by 15th September 2025, 3rd installment (75%) by 15th December 2025, 4th installment (100%) by 15th March 2026.' }
-      },
-      {
-        '@type': 'Question',
-        name: 'Who is exempt from paying advance tax?',
-        acceptedAnswer: { '@type': 'Answer', text: 'Senior citizens (aged 60 years or above) who do NOT have any income from business or profession are exempt from paying advance tax. They can pay the entire tax as self-assessment tax after the year ends.' }
-      }
-    ]
+    }))
   }
 ];
 
@@ -396,18 +400,7 @@ document.getElementById("calc-btn").addEventListener("click", computeAdvanceTax)
       <h2 class="text-[28px] tracking-[-1px] font-semibold text-base mb-2">Frequently Asked Questions</h2>
       <p class="text-muted text-[15px] mb-8">All about advance tax calculation, due dates, and penalties in India.</p>
       <div class="space-y-3">
-        {[
-          { q: 'What is advance tax?', a: 'Advance tax is the income tax you pay before the end of the financial year, in instalments throughout the year, rather than as a lump sum at the end. It is also called "pay-as-you-earn" tax. If your total tax liability for the year exceeds ₹10,000, you are required to pay advance tax.' },
-          { q: 'Who is required to pay advance tax?', a: 'Anyone whose estimated total income tax liability for the year exceeds ₹10,000 must pay advance tax. This includes salaried employees (if TDS deducted is insufficient), business owners, freelancers, and investors. Senior citizens (60+) who have no business income are exempt from advance tax.' },
-          { q: 'What are the advance tax due dates for FY 2025-26?', a: '1st Instalment: 15th June — Pay 15% of estimated tax. 2nd Instalment: 15th September — Pay 45% (cumulative). 3rd Instalment: 15th December — Pay 75% (cumulative). 4th Instalment: 15th March — Pay 100% (cumulative). Missing these dates attracts interest under Section 234B and 234C.' },
-          { q: 'How do I calculate my advance tax?', a: 'Step 1: Estimate your total income for the year (salary + business + capital gains + other sources). Step 2: Calculate tax on this income as per the applicable slab rates. Step 3: Subtract TDS already deducted and any TCS credits. Step 4: If the result exceeds ₹10,000, pay advance tax in the installments mentioned above.' },
-          { q: 'What is Section 234C interest for short payment of advance tax?', a: 'Section 234C charges simple interest at 1% per month (or part of a month) if you pay less than the required cumulative percentage by each due date. Interest is charged on the shortfall for 3 months for each installment (except the last one, which is 1 month). This interest is mandatory and added to your final tax liability.' },
-          { q: 'What is Section 234B interest for non-payment of advance tax?', a: 'Section 234B charges 1% per month (simple interest) on the unpaid advance tax if you have paid less than 90% of the total tax liability as advance tax by 31st March. This interest is calculated from 1st April to the date of actual payment of tax.' },
-          { q: 'Does a freelancer or self-employed person need to pay advance tax?', a: 'Yes, absolutely. Freelancers, consultants, and self-employed professionals have no TDS deducted at source for most of their income. They must estimate their annual income and pay advance tax in the four instalments. Missing advance tax attracts interest under Sections 234B and 234C.' },
-          { q: 'Is advance tax applicable to capital gains income?', a: 'Yes, but with a concession. If you earn capital gains after the 3rd instalment (December 15th), you can pay the entire capital gains tax as the 4th instalment by March 15th without attracting 234C interest. However, Section 234B interest may still apply if less than 90% of total tax is paid by March 31st.' },
-          { q: 'What happens if I overpay advance tax?', a: 'If you pay more advance tax than your actual tax liability, the excess is refunded by the Income Tax Department after filing your ITR. Additionally, you are entitled to interest at 6% per annum on the refund amount under Section 244A from April 1st of the assessment year until the date of refund.' },
-          { q: 'Can I pay advance tax online?', a: 'Yes. Advance tax is paid online through the Income Tax Portal (incometax.gov.in) or via net banking using Challan 280. Select "Advance Tax" as the type of payment, and choose the correct Assessment Year (the year after the financial year you are computing tax for). Keep the payment receipt for your records.' },
-        ].map((faq, i) => (
+        {advanceTaxFaqs.map((faq, i) => (
           <details class="group rounded-[8px] border border-base bg-surface overflow-hidden" id={`faq-adv-${i}`}>
             <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
               <span class="text-[15px]">{faq.q}</span>
