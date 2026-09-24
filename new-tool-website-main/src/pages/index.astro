@@ -3,8 +3,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import ToolIcon from '../components/ToolIcon.astro';
 import QuickGstCalculator from '../components/QuickGstCalculator.astro';
 
-const title = 'Taxzentic — Free GST & Tax Tools Online';
-const description = 'Free online GST and income-tax calculators, GST rate and HSN lookups, and practical tax guides for India.';
+const title = 'Free GST & Income Tax Tools for India | Taxzentic';
+const description = 'Explore free GST and income-tax calculators, GST rate and HSN/SAC lookups, GSTIN validation and practical tax guides for India. Review methods and sources.';
 
 const homeFaqs = [
   {
@@ -19,6 +19,26 @@ const homeFaqs = [
     question: 'Where do formulas and tax references come from?',
     answer: 'Relevant tool pages show the calculation method and source references where available. Check the cited official material for the tax period, classification and facts that apply to your case.',
   },
+  {
+    question: 'What can I find on Taxzentic?',
+    answer: 'Explore GST and income-tax calculators, GST rate and HSN/SAC lookups, GSTIN checks, and explainers on common tax tasks. Use the search box or browse the tool catalogue to find a page for your question.',
+  },
+  {
+    question: 'Does the GST calculator choose the correct rate for my product?',
+    answer: 'No. The GST calculator applies the rate you select. A rate finder or code lookup can help with research, but confirm the product or service classification and current rate using applicable official schedules and notifications.',
+  },
+  {
+    question: 'Which financial year or tax year does a calculator cover?',
+    answer: 'Check the period, assumptions, and last-updated information on the individual tool page. Tax rules can differ by period, so match the calculator to the year and facts involved and confirm them with current official guidance.',
+  },
+  {
+    question: 'Are my details always processed only in my browser?',
+    answer: 'Data handling depends on the tool. Some calculations run in your browser, while optional AI features may send the fields you submit to a server and AI provider. Read the tool’s privacy note and the Privacy Policy before entering sensitive information.',
+  },
+  {
+    question: 'Do Taxzentic tools submit returns or payments for me?',
+    answer: 'No. The calculators and lookups provide estimates or reference information; they do not submit a GST or income-tax return or make a payment on your behalf.',
+  },
 ];
 
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://taxzentic.com';
@@ -30,7 +50,7 @@ const structuredData = [
     '@type': 'WebSite',
     name: 'Taxzentic',
     url: siteUrl,
-    description: 'Taxzentic — Free Tax & GST tools for India',
+    description: 'Free GST and income-tax calculators, rate and code lookups, and practical tax guides for India.',
     potentialAction: {
       '@type': 'SearchAction',
       target: {
@@ -136,9 +156,9 @@ const homeToolSearchIndex = tools.map(({ href, title, description }) => ({ href,
     <div class="hero-orb hero-orb-teal" aria-hidden="true"></div>
     <div class="relative mx-auto grid max-w-[1200px] items-center gap-5 px-4 py-7 sm:px-6 lg:grid-cols-[1fr_550px] lg:gap-10 lg:px-0 lg:py-[52px]">
       <div class="min-w-0">
-        <p class="inline-flex rounded-full bg-white/80 px-3 py-2 text-[10px] font-bold tracking-[0.08em] text-accent shadow-sm dark:bg-slate-900/80">FREE TAX TOOLS FOR INDIA</p>
-        <h1 id="home-title" class="mt-4 max-w-[610px] text-[36px] font-bold leading-[1.05] tracking-[-1.4px] text-[#10264a] dark:text-slate-100 sm:text-[44px] lg:text-[54px] lg:leading-[1.14]">Tax clarity.<br />Made simpler.</h1>
-        <p class="mt-4 max-w-[530px] text-[15px] leading-[22px] text-muted lg:mt-5 lg:text-[18px] lg:leading-[29px]">Free GST calculators, rate lookups and straightforward tax guides—built to make every next step feel clear.</p>
+        <p class="inline-flex rounded-full bg-white/80 px-3 py-2 text-[10px] font-bold tracking-[0.08em] text-accent shadow-sm dark:bg-slate-900/80">TAX CLARITY, MADE SIMPLER</p>
+        <h1 id="home-title" class="mt-4 max-w-[610px] text-[36px] font-bold leading-[1.05] tracking-[-1.4px] text-[#10264a] dark:text-slate-100 sm:text-[44px] lg:text-[54px] lg:leading-[1.14]">Free GST &amp; tax tools<br />for India</h1>
+        <p class="mt-4 max-w-[530px] text-[15px] leading-[22px] text-muted lg:mt-5 lg:text-[18px] lg:leading-[29px]">Explore GST and income-tax calculators, GST rate and HSN/SAC lookups, GSTIN checks, and practical guides for India.</p>
         <div class="relative mt-5 lg:mt-7">
           <label class="flex h-[56px] max-w-[584px] items-center gap-3 rounded-[14px] border border-[#e3eaf3] bg-white px-4 shadow-sm dark:border-slate-700 dark:bg-slate-900">
             <span class="text-[27px] leading-none text-accent" aria-hidden="true">⌕</span>
@@ -220,18 +240,21 @@ const homeToolSearchIndex = tools.map(({ href, title, description }) => ({ href,
 
   <section class="border-y border-base bg-[#f7f9fc] dark:bg-slate-950" aria-labelledby="next-step-heading">
     <div class="mx-auto max-w-[1200px] px-4 py-8 sm:px-6 lg:px-0 lg:py-10">
-      <h2 id="next-step-heading" class="text-[24px] font-bold tracking-[-0.6px] text-[#10264a] dark:text-slate-100 lg:text-[27px]">Find the right next step</h2>
-      <p class="mt-1 text-[13px] text-muted">Move from a quick calculation to the detail behind it.</p>
-      <div class="mt-5 grid grid-cols-1 gap-3 md:grid-cols-3 lg:gap-4">
+      <h2 id="next-step-heading" class="text-[24px] font-bold tracking-[-0.6px] text-[#10264a] dark:text-slate-100 lg:text-[27px]">Explore tax tools by task</h2>
+      <p class="mt-1 max-w-[760px] text-[13px] leading-[20px] text-muted">Start with the question you need to answer: estimate GST, look up a rate or code, check a GSTIN, compare income-tax options, or read a practical guide. The right result depends on the period and details you enter.</p>
+      <div class="mt-5 grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3 lg:gap-4">
         {[
-          { number: '01', title: 'Calculators', description: 'Get a clear estimate with inputs you control.', label: 'Explore calculators', href: '/gst-calculator/' },
-          { number: '02', title: 'Lookups', description: 'Find GST rates, HSN codes and references.', label: 'Explore lookups', href: '/gst-rate-finder/' },
-          { number: '03', title: 'Guides', description: 'Understand rules in straightforward language.', label: 'Explore guides', href: '/blog/' },
+          { number: '01', title: 'Calculate GST', description: 'Add GST to a base amount or remove it from an inclusive price, then review the tax split using your selected rate.', label: 'Open GST calculator', href: '/gst-calculator/' },
+          { number: '02', title: 'Find rates and HSN/SAC codes', description: 'Search rate and product or service code references. Confirm classification and current treatment with the applicable official source.', label: 'Search rates and codes', href: '/gst-rate-finder/' },
+          { number: '03', title: 'Check a GSTIN', description: 'Review a GSTIN’s structure and checksum as a first step; confirm live registration status through the official GST portal.', label: 'Open GSTIN validator', href: '/gstin-validator/' },
+          { number: '04', title: 'Explore income-tax tools', description: 'Compare regime estimates, review HRA inputs, find TDS sections, and explore advance-tax calculations for the period shown.', label: 'Browse income-tax tools', href: '/income-tax-tools/' },
+          { number: '05', title: 'Explore GST notice tools', description: 'Find tools for organizing notice details, reviewing selected return mismatches, and preparing a draft outline. Confirm deadlines and filing steps against the notice and official guidance.', label: 'Browse notice tools', href: '/gst-notices/' },
+          { number: '06', title: 'Read practical tax guides', description: 'Explore explainers on GST rates, returns, identifiers, and common business tax questions, with period and source context.', label: 'Browse tax guides', href: '/blog/' },
         ].map((item) => (
           <a href={item.href} class="group rounded-[14px] border border-[#e3eaf3] bg-white p-4 transition-colors hover:border-[#c6dcff] dark:border-slate-700 dark:bg-slate-900 lg:min-h-[174px] lg:p-5">
             <span class="inline-flex rounded-md bg-[#eef4ff] px-2 py-1 text-[10px] font-bold text-accent">{item.number}</span>
             <h3 class="mt-3 text-[17px] font-semibold text-[#10264a] group-hover:text-accent dark:text-slate-100">{item.title}</h3>
-            <p class="mt-1 text-[12px] text-muted">{item.description}</p>
+            <p class="mt-1 text-[12px] leading-[18px] text-muted">{item.description}</p>
             <span class="mt-4 inline-block text-[11px] font-semibold text-accent">{item.label} →</span>
           </a>
         ))}
@@ -244,14 +267,14 @@ const homeToolSearchIndex = tools.map(({ href, title, description }) => ({ href,
       <div class="grid gap-4 rounded-[18px] bg-[#f7f9fc] p-4 dark:bg-slate-950 md:grid-cols-2 md:gap-7 md:p-7 lg:gap-12 lg:p-8">
         <div class="py-2 lg:px-2">
           <p class="text-[10px] font-bold tracking-[0.09em] text-[#0f9f8c]">BUILT FOR CLARITY</p>
-          <h2 id="method-heading" class="mt-3 text-[27px] font-bold leading-[1.14] tracking-[-0.65px] text-[#10264a] dark:text-slate-100 lg:text-[31px]">Useful numbers start<br class="hidden lg:block" /> with clear math.</h2>
-          <p class="mt-3 max-w-[485px] text-[13px] leading-[20px] text-muted">Each tool should show its inputs, the formula behind the result and official material used—so you can understand the estimate and cross-check the details.</p>
+          <h2 id="method-heading" class="mt-3 text-[27px] font-bold leading-[1.14] tracking-[-0.65px] text-[#10264a] dark:text-slate-100 lg:text-[31px]">Clear estimates.<br class="hidden lg:block" /> Sources you can check.</h2>
+          <p class="mt-3 max-w-[485px] text-[13px] leading-[20px] text-muted">Taxzentic is an independent collection of calculators, lookups, and guides. Results are estimates based on details you enter. Use each tool’s method notes and linked references where provided; Taxzentic does not issue official tax determinations or submit returns. Check a primary source for the period and facts that apply to you.</p>
           <a href="/about/" class="mt-5 inline-flex text-[12px] font-semibold text-accent hover:underline">Read our methodology →</a>
         </div>
         <div class="rounded-[14px] border border-[#e3eaf3] bg-white p-4 dark:border-slate-700 dark:bg-slate-900 lg:p-5">
           <p class="text-[10px] font-bold tracking-[0.08em] text-[#0f9f8c]">SOURCES &amp; REVIEW</p>
           <h3 class="mt-2 text-[18px] font-semibold tracking-[-0.3px] text-[#10264a] dark:text-slate-100">Know where the answer comes from</h3>
-          <p class="mt-1 text-[12px] text-muted">Keep primary references close to the relevant explanation.</p>
+          <p class="mt-1 text-[12px] text-muted">Check current rules and notices with the official departments.</p>
           <div class="mt-4 divide-y divide-[#e3eaf3] dark:divide-slate-700">
             <a href="https://www.gst.gov.in/" target="_blank" rel="noopener noreferrer" class="flex min-h-10 items-center justify-between gap-3 text-[11px]">
               <span class="font-semibold text-[#10264a] dark:text-slate-100">GST portal</span><span class="text-right text-muted">Services and GST guidance ↗</span>
@@ -366,7 +389,7 @@ const homeToolSearchIndex = tools.map(({ href, title, description }) => ({ href,
     <div class="mb-5 flex flex-wrap items-end justify-between gap-3">
       <div>
         <p class="text-[10px] font-bold tracking-[0.09em] text-[#0f9f8c]">FAQ</p>
-        <h2 id="faq-preview-heading" class="mt-2 text-[24px] font-bold tracking-[-0.6px] text-[#10264a] dark:text-slate-100 lg:text-[27px]">A few useful answers</h2>
+        <h2 id="faq-preview-heading" class="mt-2 text-[24px] font-bold tracking-[-0.6px] text-[#10264a] dark:text-slate-100 lg:text-[27px]">Questions about our GST and tax tools</h2>
       </div>
       <a href="/faq/" class="text-[12px] font-semibold text-accent hover:underline">View all FAQs →</a>
     </div>

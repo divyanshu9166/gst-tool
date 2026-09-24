@@ -8,6 +8,53 @@ const description = 'Free Income Tax calculators for India: New vs Old Regime co
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://taxzentic.com';
 const canonical = `${siteUrl}/income-tax-tools`;
 
+const incomeTaxFaqs = [
+  {
+    q: 'What income-tax tools are available on this hub?',
+    a: 'The hub links to a new-versus-old regime comparison, an HRA estimate, a TDS section finder, a Section 44AD calculator, and an advance-tax calculator. Each tool has its own inputs and limitations; review the linked page before using a result.',
+  },
+  {
+    q: 'Should I use FY 2025–26, AY 2026–27, or Tax Year 2026–27?',
+    a: 'Income earned during FY 2025–26 is reported for AY 2026–27 under the Income-tax Act, 1961. Income earned from 1 April 2026 is Tax Year 2026–27 under the Income-tax Act, 2025. Match the period and Act shown in the relevant tool to your income; official transition guidance explains which framework applies.',
+    sourceHref: 'https://www.incometax.gov.in/iec/foportal/node/11678',
+  },
+  {
+    q: 'What is the new-regime rebate limit for AY 2026–27?',
+    a: 'For AY 2026–27, official Income Tax Department guidance says an eligible resident individual may receive a rebate of up to ₹60,000 under the new regime when total income does not exceed ₹12 lakh. Eligibility conditions, marginal relief, and income taxed at special rates can affect the result, so verify your circumstances before relying on an estimate.',
+    sourceHref: 'https://www.incometax.gov.in/iec/foportal/help/all-topics/e-filing-services/itr-2/itr-2-faqs?mobile-app=1',
+  },
+  {
+    q: 'What standard deduction applies to salary for AY 2026–27?',
+    a: 'For AY 2026–27, the Income Tax Department lists a standard deduction of up to ₹75,000 under the new regime and up to ₹50,000 under the old regime, limited to salary where that is lower. Confirm the applicable period and current official guidance before filing.',
+    sourceHref: 'https://wmstatic-prd.incometaxindia.gov.in/web/guest/w/employees-benefits-allowable',
+  },
+  {
+    q: 'How does the new-versus-old regime comparison work?',
+    a: 'Enter the same income and relevant deductions for each option so you can compare estimates on a like-for-like basis. The result depends on your inputs and may not represent every special-rate income, exemption, eligibility condition, or filing rule.',
+  },
+  {
+    q: 'Can a GST-registered business use Section 44AD?',
+    a: 'GST registration by itself does not establish eligibility. Section 44AD is available only to specified resident taxpayers carrying on an eligible business and subject to statutory conditions. The turnover threshold is generally ₹2 crore and can rise to ₹3 crore when cash receipts do not exceed 5% of turnover; verify all conditions for the relevant year.',
+    sourceHref: 'https://wmstatic-prd.incometaxindia.gov.in/web/guest/w/threshold-limits-under-income-tax-act',
+  },
+  {
+    q: 'Does Section 44AD cover professional income?',
+    a: 'Section 44AD is for eligible businesses, not a general presumptive scheme for professional receipts. Certain specified professions may fall under Section 44ADA if its conditions are met; other cases may follow regular computation rules. Confirm the classification and eligibility from current official material.',
+  },
+  {
+    q: 'What information does the HRA calculator use?',
+    a: 'The HRA calculator uses the salary, HRA received, and rent figures you enter to estimate an exemption under its displayed method. It does not verify rent records, employment details, tax-regime eligibility, or whether the entered figures are correct.',
+  },
+  {
+    q: 'What can the TDS section finder help me look up?',
+    a: 'It lets you search listed TDS sections by payment type or section code and review the rates and thresholds shown on the page. The correct provision depends on the payer, payee, payment, tax period, and other facts, so cross-check with current official guidance.',
+  },
+  {
+    q: 'Do these tools file an income-tax return or pay tax for me?',
+    a: 'No. They provide estimates and reference information only. They do not prepare or submit your return, make a tax payment, or confirm that a filing is complete.',
+  },
+];
+
 const structuredData = [
   {
     '@context': 'https://schema.org',
@@ -31,32 +78,11 @@ const structuredData = [
   {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    mainEntity: [
-      {
-        '@type': 'Question',
-        name: 'What is the standard deduction in the New Tax Regime for FY 2025-26 and FY 2026-27?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Under the New Tax Regime (Section 115BAC), the standard deduction for salaried individuals is ₹75,000 (increased from ₹50,000). Under the Old Tax Regime, it remains ₹50,000.',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: 'Up to what salary is income tax zero under the New Regime?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Under the New Tax Regime, total taxable income up to ₹7,00,000 receives a full tax rebate under Section 87A. With the ₹75,000 standard deduction, salaried taxpayers with gross income up to ₹7,75,000 pay zero income tax.',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: 'Can business owners with GST registration use Section 44AD presumptive taxation?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Yes. Eligible resident individuals, HUFs, and partnership firms with gross turnover up to ₹2 Crores (or up to ₹3 Crores if cash receipts do not exceed 5%) can declare 6% profits on digital turnover and 8% on cash turnover without maintaining detailed books of accounts.',
-        },
-      },
-    ],
+    mainEntity: incomeTaxFaqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.q,
+      acceptedAnswer: { '@type': 'Answer', text: faq.a },
+    })),
   },
 ];
 
@@ -65,7 +91,7 @@ const breadcrumb = [
   { name: 'Income Tax Tools', href: '/income-tax-tools' },
 ];
 
-const lastUpdated = '2026-09-15';
+const lastUpdated = '2026-09-24';
 ---
 
 <BaseLayout {title} {description} {canonical} {structuredData} {breadcrumb} {lastUpdated}>
@@ -284,24 +310,20 @@ const lastUpdated = '2026-09-15';
     <div class="border-t border-base pt-12">
       <h2 class="text-2xl font-bold text-base mb-8">Frequently Asked Questions</h2>
       <div class="space-y-4">
-        <details class="group rounded-xl border border-base bg-surface overflow-hidden" open>
-          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-semibold text-base hover:bg-subtle transition-colors list-none">
-            <span>Can I switch between the New and Old Tax Regime every year?</span>
-            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
-          </summary>
-          <div class="px-6 pb-5 text-sm text-muted leading-relaxed border-t border-base pt-4">
-            Salaried individuals without business income can freely switch between the New and Old Tax Regime every financial year at the time of filing their ITR. However, individuals with business or professional income (including Section 44AD/44ADA) can only opt out of the new regime once in a lifetime, and once opted out, they can only return to the new regime once.
-          </div>
-        </details>
-        <details class="group rounded-xl border border-base bg-surface overflow-hidden">
-          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-semibold text-base hover:bg-subtle transition-colors list-none">
-            <span>Is HRA exemption available under the New Tax Regime?</span>
-            <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
-          </summary>
-          <div class="px-6 pb-5 text-sm text-muted leading-relaxed border-t border-base pt-4">
-            No. HRA exemption under Section 10(13A) is only claimable if you choose the Old Tax Regime. Under the New Tax Regime (Section 115BAC), most personal exemptions (HRA, LTA, 80C, 80D) are foregone in exchange for significantly lower tax slab rates and an enhanced ₹75,000 standard deduction.
-          </div>
-        </details>
+        {incomeTaxFaqs.map((faq, i) => (
+          <details class="group rounded-xl border border-base bg-surface overflow-hidden" id={`income-tax-faq-${i}`}>
+            <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-semibold text-base hover:bg-subtle transition-colors list-none">
+              <span>{faq.q}</span>
+              <svg class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+            </summary>
+            <div class="px-6 pb-5 text-sm text-muted leading-relaxed border-t border-base pt-4">{faq.a}</div>
+            {faq.sourceHref && (
+              <a href={faq.sourceHref} target="_blank" rel="noopener noreferrer" class="mx-6 mb-5 inline-flex text-xs font-semibold text-accent hover:underline">
+                Check official Income Tax Department guidance ↗
+              </a>
+            )}
+          </details>
+        ))}
       </div>
     </div>
   </div>
