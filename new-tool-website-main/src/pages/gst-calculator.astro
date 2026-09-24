@@ -5,7 +5,7 @@ import CalculatorMethodology from '../components/CalculatorMethodology.astro';
 import TaxDisclaimer from '../components/TaxDisclaimer.astro';
 
 const title = 'Free GST Calculator India — Add & Remove GST';
-const description = 'Free online GST calculator for India. Add or remove GST with CGST/SGST split. Supports 5%, 12%, 18%, 28%, 40% slabs and custom rates. Instant results.';
+const description = 'Estimate GST on an amount with add or remove mode, intra-state CGST/SGST or inter-state IGST breakdown, and a custom rate.';
 
 const structuredData = [
   {
@@ -94,35 +94,39 @@ const structuredData = [
 ];
 
 const lastUpdated = '2026-07-25';
-const breadcrumb = [
-  { name: 'Home', href: '/' },
-  { name: 'Calculators', href: '/#tools-heading' },
-  { name: 'GST Calculator', href: '/gst-calculator' },
-];
 ---
 
-<BaseLayout {title} {description} {structuredData} {breadcrumb} {lastUpdated}>
-  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
+<BaseLayout {title} {description} {structuredData} {lastUpdated}>
+  <div class="mx-auto max-w-[1200px] px-4 py-7 sm:px-6 sm:py-10 lg:px-0">
     <!-- Page header -->
-    <div class="mb-10 text-center">
-      <h1 class="text-3xl sm:text-4xl font-bold text-base mb-3">GST Calculator Online — Free GST Calculator India</h1>
-      <p class="text-[16px] text-muted max-w-2xl mx-auto leading-relaxed">
-        <strong>What is it?</strong> Our inclusive vs exclusive gst calculator tool helps small businesses in India compute the exact Goods and Services Tax (GST) amount. Simply enter the base amount and select the GST rate (5%, 18%, or 40%) to instantly calculate 18 percent gst online and see the CGST and SGST split.
+    <div class="mb-6 sm:mb-8">
+      <nav aria-label="Breadcrumb" class="mb-5">
+        <ol class="flex flex-wrap items-center gap-2 text-[12px] text-muted">
+          <li><a href="/" class="hover:text-accent">Home</a></li>
+          <li aria-hidden="true">/</li>
+          <li><a href="/#tools-heading" class="hover:text-accent">Calculators</a></li>
+          <li aria-hidden="true">/</li>
+          <li class="font-medium text-base" aria-current="page">GST Calculator</li>
+        </ol>
+      </nav>
+      <p class="text-[10px] font-bold tracking-[0.1em] text-[#0f9f8c]">GST CALCULATOR</p>
+      <h1 class="mt-2 text-[30px] font-bold leading-tight tracking-[-1px] text-[#10264a] dark:text-slate-100 sm:text-[38px]">GST calculator for India</h1>
+      <p class="mt-3 max-w-[760px] text-[14px] leading-[22px] text-muted sm:text-[15px] sm:leading-[24px]">
+        Estimate tax on a base price or remove GST from an inclusive amount. Choose the supply type to view a CGST/SGST or IGST breakdown.
       </p>
     </div>
 
     <!-- Calculator container -->
-    <div class="mx-auto max-w-5xl">
-      <div class="flex flex-col lg:flex-row gap-8 rounded-2xl border border-base bg-surface p-6 sm:p-8 shadow-sm">
-        
+    <div class="overflow-hidden rounded-[20px] border border-[#e3eaf3] bg-white shadow-[0_12px_32px_rgba(10,41,87,0.08)] dark:border-slate-700 dark:bg-slate-900">
+      <div class="grid grid-cols-1 lg:grid-cols-[1fr_0.92fr]">
         <!-- Left Column: Inputs -->
-        <div class="flex-1 space-y-6">
+        <div class="space-y-5 p-5 sm:space-y-6 sm:p-7 lg:p-9">
           <!-- Mode toggle -->
-          <div class="flex rounded-lg border border-base overflow-hidden" role="group" aria-label="Calculation mode">
+          <div class="grid grid-cols-2 gap-1 rounded-xl bg-[#f2f5f9] p-1 dark:bg-slate-800" role="group" aria-label="Calculation mode">
             <button
               id="btn-add"
               type="button"
-              class="flex-1 py-3 text-[14px] font-medium transition-colors bg-accent text-white active:scale-95"
+              class="min-h-11 rounded-[9px] px-3 py-2.5 text-[13px] font-semibold transition-colors bg-accent text-white active:scale-[0.99]"
               aria-pressed="true"
             >
               Add GST
@@ -130,7 +134,7 @@ const breadcrumb = [
             <button
               id="btn-remove"
               type="button"
-              class="flex-1 py-3 text-[14px] font-medium transition-colors text-muted hover:text-base hover:bg-subtle active:scale-95"
+              class="min-h-11 rounded-[9px] px-3 py-2.5 text-[13px] font-medium transition-colors text-muted hover:text-base active:scale-[0.99]"
               aria-pressed="false"
             >
               Remove GST (Reverse)
@@ -151,7 +155,7 @@ const breadcrumb = [
                 min="0"
                 step="0.01"
                 placeholder="0.00"
-                class="w-full rounded-xl border border-base bg-subtle pl-9 pr-4 py-3.5 text-[16px] font-medium focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 transition-all shadow-inner"
+                class="w-full rounded-xl border border-[#dce4ef] bg-white pl-9 pr-4 py-3.5 text-[16px] font-medium shadow-sm focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 dark:border-slate-600 dark:bg-slate-950"
                 aria-describedby="amount-hint"
               />
             </div>
@@ -162,19 +166,19 @@ const breadcrumb = [
 
           <!-- GST Rate selector -->
           <div>
-            <div class="flex items-center justify-between mb-1.5">
+            <div class="mb-1.5 flex flex-wrap items-center justify-between gap-2">
               <label class="block text-sm font-medium text-base">GST Rate</label>
               <a href="/gst-rate-finder/" class="text-xs text-accent hover:underline font-medium">Find rate by product / service →</a>
             </div>
-            <p class="text-xs text-muted mb-3 leading-relaxed">
+            <p class="mb-3 text-[12px] leading-[19px] text-muted">
               The calculator performs arithmetic using the rate you select. It does not determine the correct GST classification or rate for a particular supply. Confirm the applicable HSN/SAC classification and notified rate before using the result for compliance.
             </p>
-            <div class="grid grid-cols-4 gap-2 mb-3" role="group" aria-label="GST rate selection">
+            <div class="mb-3 grid grid-cols-4 gap-2" role="group" aria-label="GST rate selection">
               {['0', '5', '18', '40'].map((rate) => (
                 <button
                   type="button"
                   data-rate={rate}
-                  class={`rate-btn rounded-lg border py-2.5 text-sm font-semibold transition-all active:scale-95 ${rate === '18' ? 'border-accent bg-accent text-white shadow-sm' : 'border-base bg-subtle text-muted hover:border-accent/50 hover:text-base'}`}
+                  class={`rate-btn min-h-11 rounded-[10px] border py-2.5 text-[13px] font-semibold transition-colors active:scale-[0.99] ${rate === '18' ? 'border-accent bg-accent text-white shadow-sm' : 'border-base bg-subtle text-muted hover:border-accent/50 hover:text-base'}`}
                   aria-pressed={rate === '18' ? 'true' : 'false'}
                 >
                   {rate}%
@@ -193,64 +197,82 @@ const breadcrumb = [
                   max="100"
                   step="0.01"
                   placeholder="e.g. 3"
-                  class="w-full rounded-lg border border-base bg-subtle px-4 py-2.5 text-[16px] focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 transition-colors shadow-inner"
+                  class="w-full rounded-lg border border-[#dce4ef] bg-white px-4 py-2.5 text-[16px] shadow-sm focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 dark:border-slate-600 dark:bg-slate-950"
                   aria-label="Custom GST rate percentage"
                 />
                 <span class="absolute right-4 top-1/2 -translate-y-1/2 text-muted text-sm select-none" aria-hidden="true">%</span>
               </div>
             </div>
           </div>
+
+          <div>
+            <p class="mb-2 text-sm font-medium text-base">Supply type</p>
+            <div class="grid grid-cols-2 gap-2" role="group" aria-label="Supply type">
+              <button id="btn-intra" type="button" class="min-h-11 rounded-[10px] border border-accent bg-[#eef4ff] px-3 py-2 text-[12px] font-semibold text-accent dark:bg-slate-800" aria-pressed="true">Intra-state</button>
+              <button id="btn-inter" type="button" class="min-h-11 rounded-[10px] border border-base bg-white px-3 py-2 text-[12px] font-medium text-muted hover:text-base dark:bg-slate-900" aria-pressed="false">Inter-state</button>
+            </div>
+            <p class="mt-2 text-[11px] leading-[16px] text-muted">Select based on the place of supply and location of the supplier.</p>
+          </div>
+
+          <button id="btn-calculate" type="button" class="min-h-12 w-full rounded-xl bg-[#10264a] px-5 py-3 text-[14px] font-semibold text-white transition-colors hover:bg-[#173762] focus-visible:outline-offset-4 dark:bg-blue-600 dark:hover:bg-blue-500">
+            Calculate GST <span class="ml-1" aria-hidden="true">→</span>
+          </button>
         </div>
 
-        <!-- Right Column: Results & Info -->
-        <div class="flex-1 flex flex-col gap-6">
+        <!-- Right Column: Results -->
+        <div class="flex flex-col gap-4 bg-[#10264a] p-5 text-white sm:gap-5 sm:p-7 lg:p-9">
+          <div>
+            <p class="text-[10px] font-bold tracking-[0.1em] text-[#75e0cc]">YOUR ESTIMATE</p>
+            <h2 class="mt-1 text-[20px] font-semibold tracking-[-0.4px] text-white">GST breakdown</h2>
+            <p id="result-supply-label" class="mt-1 text-[12px] text-blue-100">Intra-state supply · CGST + SGST</p>
+          </div>
           <div
             id="results"
-            class="flex-1 rounded-2xl border border-base bg-subtle p-6 space-y-4 shadow-sm"
+            class="space-y-4 rounded-[14px] border border-white/15 bg-white/[0.06] p-5 sm:p-6"
             aria-live="polite"
             aria-label="Calculation results"
           >
             <div class="flex justify-between items-center text-sm">
-              <span class="text-muted" id="label-base">Base Amount</span>
-              <span class="font-medium text-base text-lg" id="result-base">₹0.00</span>
+              <span class="text-blue-100" id="label-base">Base Amount</span>
+              <span class="text-[15px] font-medium text-white" id="result-base">₹0.00</span>
             </div>
             <div class="flex justify-between items-center text-sm">
-              <span class="text-muted">GST Amount (<span id="result-rate-label">18%</span>)</span>
-              <span class="font-medium text-base text-lg" id="result-gst">₹0.00</span>
+              <span class="text-blue-100">GST Amount (<span id="result-rate-label">18%</span>)</span>
+              <span class="text-[15px] font-medium text-white" id="result-gst">₹0.00</span>
             </div>
             <!-- CGST / SGST split -->
-            <div id="split-section" class="pl-4 space-y-2 border-l-2 border-base">
+            <div id="split-section" class="space-y-2 border-l-2 border-white/20 pl-4">
               <div class="flex justify-between items-center text-[13px]">
-                <span class="text-muted">CGST (<span id="result-cgst-rate">9%</span>)</span>
-                <span class="text-muted" id="result-cgst">₹0.00</span>
+                <span class="text-blue-100">CGST (<span id="result-cgst-rate">9%</span>)</span>
+                <span class="text-blue-50" id="result-cgst">₹0.00</span>
               </div>
               <div class="flex justify-between items-center text-[13px]">
-                <span class="text-muted">SGST (<span id="result-sgst-rate">9%</span>)</span>
-                <span class="text-muted" id="result-sgst">₹0.00</span>
+                <span class="text-blue-100">SGST (<span id="result-sgst-rate">9%</span>)</span>
+                <span class="text-blue-50" id="result-sgst">₹0.00</span>
               </div>
             </div>
-            <div class="border-t border-base pt-4 mt-2 flex justify-between items-center">
-              <span class="font-semibold text-base" id="label-total">Total Amount</span>
-              <span class="text-2xl font-bold text-accent tracking-tight" id="result-total">₹0.00</span>
+            <div id="igst-section" class="hidden border-l-2 border-white/20 pl-4">
+              <div class="flex items-center justify-between text-[13px]">
+                <span class="text-blue-100">IGST (<span id="result-igst-rate">18%</span>)</span>
+                <span class="text-blue-50" id="result-igst">₹0.00</span>
+              </div>
+            </div>
+            <div class="mt-2 flex items-center justify-between border-t border-white/15 pt-4">
+              <span class="font-semibold text-white" id="label-total">Total Amount</span>
+              <span class="text-[24px] font-bold tracking-tight text-white sm:text-[28px]" id="result-total">₹0.00</span>
             </div>
           </div>
 
-          <div class="rounded-xl border border-base bg-surface p-5 text-[13px] text-muted space-y-2 shadow-sm">
-            <h2 class="font-semibold text-base mb-1">How it works</h2>
-            <p><strong>Add GST:</strong> Base × Rate ÷ 100</p>
-            <p><strong>Remove GST:</strong> Total ÷ (1 + Rate ÷ 100)</p>
+          <div class="rounded-[13px] border border-white/15 bg-white/[0.04] p-4 text-[12px] leading-[19px] text-blue-100">
+            <h3 class="mb-2 font-semibold text-white">How it works</h3>
+            <p><strong class="text-white">Add GST:</strong> Base × Rate ÷ 100</p>
+            <p><strong class="text-white">Remove GST:</strong> Total ÷ (1 + Rate ÷ 100)</p>
           </div>
 
-          <!-- Reset button -->
-          <button
-            id="btn-reset"
-            type="button"
-            class="w-full rounded-xl border border-base py-3 text-[14px] font-medium text-muted hover:text-base hover:bg-subtle active:scale-95 transition-all"
-          >
-            Reset Calculation
+          <button id="btn-reset" type="button" class="self-start rounded-lg px-2 py-1 text-[12px] font-medium text-blue-100 underline decoration-white/30 underline-offset-4 hover:text-white">
+            Reset calculation
           </button>
         </div>
-
       </div>
     </div>
 
@@ -373,20 +395,29 @@ const breadcrumb = [
 <script>
 let mode = "add";
 let selectedRate = 18;
+let supplyType = "intra";
 const amountInput = document.getElementById("amount");
 const customRateInput = document.getElementById("custom-rate");
 const btnAdd = document.getElementById("btn-add");
 const btnRemove = document.getElementById("btn-remove");
+const btnIntra = document.getElementById("btn-intra");
+const btnInter = document.getElementById("btn-inter");
+const btnCalculate = document.getElementById("btn-calculate");
 const btnReset = document.getElementById("btn-reset");
 const rateBtns = document.querySelectorAll(".rate-btn");
 const resultBase = document.getElementById("result-base");
 const resultGst = document.getElementById("result-gst");
 const resultCgst = document.getElementById("result-cgst");
 const resultSgst = document.getElementById("result-sgst");
+const resultIgst = document.getElementById("result-igst");
 const resultTotal = document.getElementById("result-total");
 const resultRateLabel = document.getElementById("result-rate-label");
 const resultCgstRate = document.getElementById("result-cgst-rate");
 const resultSgstRate = document.getElementById("result-sgst-rate");
+const resultIgstRate = document.getElementById("result-igst-rate");
+const splitSection = document.getElementById("split-section");
+const igstSection = document.getElementById("igst-section");
+const resultSupplyLabel = document.getElementById("result-supply-label");
 const amountLabel = document.getElementById("amount-label");
 const amountHintText = document.getElementById("amount-hint-text");
 const labelBase = document.getElementById("label-base");
@@ -411,14 +442,20 @@ function calculate() {
   }
   const cgst = gstAmount / 2;
   const sgst = gstAmount / 2;
+  const isIntraState = supplyType === "intra";
   resultBase.textContent = formatINR(base);
   resultGst.textContent = formatINR(gstAmount);
   resultCgst.textContent = formatINR(cgst);
   resultSgst.textContent = formatINR(sgst);
+  resultIgst.textContent = formatINR(gstAmount);
   resultTotal.textContent = formatINR(total);
   resultRateLabel.textContent = `${rate}%`;
   resultCgstRate.textContent = `${halfRate}%`;
   resultSgstRate.textContent = `${halfRate}%`;
+  resultIgstRate.textContent = `${rate}%`;
+  splitSection.classList.toggle("hidden", !isIntraState);
+  igstSection.classList.toggle("hidden", isIntraState);
+  resultSupplyLabel.textContent = isIntraState ? "Intra-state supply · CGST + SGST" : "Inter-state supply · IGST";
 }
 function setMode(newMode) {
   mode = newMode;
@@ -461,8 +498,39 @@ function setRate(rate) {
   }
   calculate();
 }
+function setSupplyType(newSupplyType) {
+  supplyType = newSupplyType;
+  const isIntra = supplyType === "intra";
+  btnIntra.classList.toggle("border-accent", isIntra);
+  btnIntra.classList.toggle("bg-[#eef4ff]", isIntra);
+  btnIntra.classList.toggle("text-accent", isIntra);
+  btnIntra.classList.toggle("font-semibold", isIntra);
+  btnIntra.classList.toggle("border-base", !isIntra);
+  btnIntra.classList.toggle("bg-white", !isIntra);
+  btnIntra.classList.toggle("text-muted", !isIntra);
+  btnIntra.classList.toggle("dark:bg-slate-800", isIntra);
+  btnIntra.classList.toggle("dark:bg-slate-900", !isIntra);
+  btnInter.classList.toggle("border-accent", !isIntra);
+  btnInter.classList.toggle("bg-[#eef4ff]", !isIntra);
+  btnInter.classList.toggle("text-accent", !isIntra);
+  btnInter.classList.toggle("font-semibold", !isIntra);
+  btnInter.classList.toggle("border-base", isIntra);
+  btnInter.classList.toggle("bg-white", isIntra);
+  btnInter.classList.toggle("text-muted", isIntra);
+  btnInter.classList.toggle("dark:bg-slate-800", !isIntra);
+  btnInter.classList.toggle("dark:bg-slate-900", isIntra);
+  btnIntra.setAttribute("aria-pressed", String(isIntra));
+  btnInter.setAttribute("aria-pressed", String(!isIntra));
+  calculate();
+}
 btnAdd.addEventListener("click", () => setMode("add"));
 btnRemove.addEventListener("click", () => setMode("remove"));
+btnIntra.addEventListener("click", () => setSupplyType("intra"));
+btnInter.addEventListener("click", () => setSupplyType("inter"));
+btnCalculate.addEventListener("click", () => {
+  calculate();
+  document.getElementById("results").scrollIntoView({ behavior: "smooth", block: "nearest" });
+});
 rateBtns.forEach((btn) => {
   btn.addEventListener("click", () => {
     setRate(parseFloat(btn.dataset.rate ?? "18"));
@@ -485,6 +553,7 @@ btnReset.addEventListener("click", () => {
   amountInput.value = "";
   customRateInput.value = "";
   setMode("add");
+  setSupplyType("intra");
   setRate(18);
 });
 calculate();

@@ -1,10 +1,15 @@
 ---
 /**
- * Header — sticky top navigation with mobile hamburger menu and dark mode toggle.
+ * Shared Taxzentic navigation. Desktop groups use click, hover, and keyboard
+ * focus; mobile groups use native disclosure controls.
  */
 const navCategories = [
   {
+    id: 'income-tax',
     title: 'Income Tax',
+    eyebrow: 'INCOME TAX TOOLS',
+    heading: 'Plan and calculate with clarity',
+    description: 'Compare regimes, estimate tax and find the right section.',
     links: [
       { href: '/income-tax-tools', label: 'Income Tax Hub' },
       { href: '/income-tax-calculator', label: 'New vs Old Regime' },
@@ -13,10 +18,14 @@ const navCategories = [
       { href: '/section-44ad-calculator', label: 'Section 44AD Presumptive' },
       { href: '/advance-tax-calculator', label: 'Advance Tax Calculator' },
       { href: '/tds-rate-finder', label: 'TDS Rate Finder' },
-    ]
+    ],
   },
   {
+    id: 'calculators',
     title: 'Calculators',
+    eyebrow: 'EXPLORE CALCULATORS',
+    heading: 'Find the right calculator',
+    description: 'Start with a familiar task, then check the formula and sources.',
     links: [
       { href: '/gst-calculator', label: 'GST Calculator' },
       { href: '/gst-health-score', label: 'GST Health Score Quiz' },
@@ -30,10 +39,14 @@ const navCategories = [
       { href: '/credit-debit-note-generator', label: 'Credit/Debit Note' },
       { href: '/rcm-calculator', label: 'RCM Calculator' },
       { href: '/late-fee-calculator', label: 'Late Fee Calculator' },
-    ]
+    ],
   },
   {
+    id: 'lookups-tools',
     title: 'Lookups & Tools',
+    eyebrow: 'LOOKUPS & VALIDATORS',
+    heading: 'Verify a detail before you act',
+    description: 'Find rates, check identifiers and reconcile GST data.',
     links: [
       { href: '/bulk-gstin-validator', label: 'Bulk GSTIN Validator' },
       { href: '/gstin-validator', label: 'Single GSTIN Validator' },
@@ -46,10 +59,14 @@ const navCategories = [
       { href: '/pin-to-pin-distance-calculator', label: 'Pin to Pin Distance' },
       { href: '/multi-gstin-invoice-splitter', label: 'Multi-GSTIN Splitter' },
       { href: '/gstr-2b-reconciliation-tool', label: 'GSTR-2B Tool' },
-    ]
+    ],
   },
   {
+    id: 'hubs-guides',
     title: 'Hubs & Guides',
+    eyebrow: 'HUBS & GUIDES',
+    heading: 'Go deeper with practical guides',
+    description: 'Read the context, official sources and editorial guidance.',
     links: [
       { href: '/income-tax-tools', label: 'Income Tax Hub' },
       { href: '/gst-notices', label: 'GST Notices Hub' },
@@ -58,179 +75,343 @@ const navCategories = [
       { href: '/hsn-codes', label: 'HSN & SAC Codes' },
       { href: '/authors/editorial-team', label: 'Editorial Team' },
       { href: '/blog', label: 'All Articles' },
-    ]
-  }
+    ],
+  },
 ];
 
 const currentPath = Astro.url.pathname;
+const categoryHasCurrentPath = (category: (typeof navCategories)[number]) =>
+  category.links.some(({ href }) => currentPath === href || currentPath.startsWith(`${href}/`));
 ---
 
 <header
-  class="print:hidden sticky top-0 z-50 w-full bg-white/80 dark:bg-[#0a0a0a]/80 backdrop-blur-xl border-b border-base/50"
+  class="print:hidden sticky top-0 z-50 w-full border-b border-base/70 bg-white/95 backdrop-blur-xl dark:bg-[#0a0a0a]/90"
   role="banner"
-  style="box-shadow: 0 1px 0 0 rgba(37,99,235,0.08);"
 >
-  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-    <div class="flex h-[60px] items-center justify-between">
+  <div class="mx-auto flex h-[68px] max-w-[1240px] items-center justify-between px-4 sm:px-6 xl:h-[82px] xl:px-0">
+    <a href="/" class="flex shrink-0 items-center gap-2" aria-label="Taxzentic — Home">
+      <span class="flex h-[26px] w-[26px] items-center justify-center rounded-[8px] bg-[#2563eb] text-[14px] font-bold text-white" aria-hidden="true">T</span>
+      <span class="text-[18px] font-bold tracking-[-0.45px] text-[#10264a] dark:text-slate-100">Taxzentic</span>
+    </a>
 
-      <!-- Logo / Brand -->
+    <nav class="hidden items-center gap-1 xl:flex" aria-label="Main navigation">
       <a
         href="/"
-        class="flex items-center gap-2 font-semibold text-base hover:text-accent transition-colors shrink-0"
-        aria-label="Taxzentic — Home"
-      >
-        <img
-          src="/taxzentic-logo.png"
-          alt="Taxzentic Logo"
-          width="160"
-          height="40"
-          class="h-10 w-36 sm:w-40 object-cover object-center dark:hidden"
-          loading="eager"
-        />
-        <img
-          src="/taxzentic-logo-white.png"
-          alt="Taxzentic Logo"
-          width="160"
-          height="40"
-          class="h-10 w-36 sm:w-40 object-cover object-center hidden dark:block"
-          loading="eager"
-        />
-      </a>
+        class:list={[
+          'rounded-lg px-3 py-2 text-[13px] font-medium transition-colors',
+          currentPath === '/' ? 'bg-[#f2f7ff] text-accent' : 'text-muted hover:bg-subtle hover:text-base',
+        ]}
+        aria-current={currentPath === '/' ? 'page' : undefined}
+      >Home</a>
 
-      <!-- Desktop nav -->
-      <nav class="hidden md:flex items-center gap-2" aria-label="Main navigation">
-        <a href="/" class={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${currentPath === '/' ? 'bg-subtle text-accent' : 'text-muted hover:text-base hover:bg-subtle'}`}>Home</a>
-        
-        {navCategories.map(cat => (
-          <div class="relative group">
-            <button class="flex items-center gap-1 px-3 py-2 rounded-md text-sm font-medium text-muted hover:text-base hover:bg-subtle transition-colors">
-              {cat.title}
-              <svg class="w-4 h-4 text-muted group-hover:text-base transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
-            </button>
-            
-            <div class="absolute left-0 top-full hidden w-56 pt-2 group-hover:block z-50">
-              <div class="rounded-md bg-surface border border-base shadow-xl py-2">
-                {cat.links.map(link => (
-                  <a href={link.href} class={`block px-4 py-2 text-sm transition-colors ${currentPath === link.href ? 'text-accent bg-subtle font-medium' : 'text-muted hover:text-base hover:bg-subtle'}`}>
-                    {link.label}
-                  </a>
-                ))}
-              </div>
+      {navCategories.map((category, categoryIndex) => (
+        <div class:list={['nav-menu relative', categoryIndex === 3 && 'nav-menu-last']} data-nav-menu>
+          <button
+            type="button"
+            class:list={[
+              'nav-menu-trigger flex items-center gap-1 rounded-lg px-3 py-2 text-[13px] font-medium transition-colors',
+              categoryHasCurrentPath(category) ? 'text-accent' : 'text-muted hover:bg-subtle hover:text-base',
+            ]}
+            aria-expanded="false"
+            aria-controls={`nav-panel-${category.id}`}
+            data-nav-trigger
+          >
+            {category.title}
+            <svg class="h-4 w-4 transition-transform" data-chevron fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m6 9 6 6 6-6" />
+            </svg>
+          </button>
+          <div
+            id={`nav-panel-${category.id}`}
+            class="nav-panel absolute left-0 top-full z-50 mt-2 w-[min(666px,calc(100vw-32px))] rounded-[18px] border border-[#e3eaf3] bg-white p-6 shadow-[0_18px_40px_rgba(15,38,74,0.16)] dark:border-slate-700 dark:bg-slate-900"
+            aria-hidden="true"
+            data-nav-panel
+          >
+            <p class="text-[11px] font-bold tracking-[0.08em] text-[#0f9f8c]">{category.eyebrow}</p>
+            <h2 class="mt-2 text-[22px] font-bold tracking-[-0.6px] text-[#10264a] dark:text-slate-100">{category.heading}</h2>
+            <p class="mt-1 text-[13px] text-muted">{category.description}</p>
+            <div class="mt-5 grid max-h-[min(60vh,420px)] grid-cols-2 gap-2 overflow-y-auto pr-1">
+              {category.links.map((link, index) => (
+                <a
+                  href={link.href}
+                  class:list={[
+                    'group flex min-h-11 items-center gap-3 rounded-[10px] border px-2.5 py-2 text-[13px] transition-colors',
+                    index === 0 ? 'border-[#d7e7ff] bg-[#f2f7ff] text-accent' : 'border-transparent text-[#10264a] hover:border-[#e3eaf3] hover:bg-[#f7f9fc] dark:text-slate-200 dark:hover:border-slate-700 dark:hover:bg-slate-800',
+                  ]}
+                  data-nav-link
+                >
+                  <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-[7px] bg-[#eef4ff] text-[12px] font-semibold text-[#0f9f8c]" aria-hidden="true">{index === 0 ? '₹' : '→'}</span>
+                  <span class="font-medium">{link.label}</span>
+                </a>
+              ))}
             </div>
-          </div>
-        ))}
-
-        <a href="/blog" class={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${currentPath.startsWith('/blog') ? 'bg-subtle text-accent' : 'text-muted hover:text-base hover:bg-subtle'}`}>Blog</a>
-      </nav>
-
-      <!-- Right side: dark mode toggle + mobile menu button -->
-      <div class="flex items-center gap-2 shrink-0">
-        <!-- Dark mode toggle -->
-        <button
-          id="theme-toggle"
-          type="button"
-          aria-label="Toggle dark mode"
-          class="rounded-md p-2 text-muted hover:text-base hover:bg-subtle transition-colors"
-        >
-          <!-- Sun icon (shown in dark mode) -->
-          <svg id="icon-sun" class="hidden h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707M17.657 17.657l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8z" />
-          </svg>
-          <!-- Moon icon (shown in light mode) -->
-          <svg id="icon-moon" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-          </svg>
-        </button>
-
-        <!-- Mobile hamburger -->
-        <button
-          id="mobile-menu-btn"
-          type="button"
-          aria-label="Open navigation menu"
-          aria-expanded="false"
-          aria-controls="mobile-menu"
-          class="md:hidden rounded-md p-2 text-muted hover:text-base hover:bg-subtle transition-colors"
-        >
-          <svg id="icon-menu" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
-          <svg id="icon-close" class="hidden h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Mobile menu (hidden by default) -->
-  <div
-    id="mobile-menu"
-    class="hidden md:hidden border-b border-base bg-white/95 dark:bg-[#0a0a0a]/95 backdrop-blur-xl absolute w-full shadow-xl z-50 max-h-[calc(100vh-4rem)] overflow-y-auto"
-    role="navigation"
-    aria-label="Mobile navigation"
-  >
-    <div class="px-4 py-4 space-y-4">
-      <a href="/" class={`block px-4 py-3 rounded-md text-[16px] font-medium transition-colors ${currentPath === '/' ? 'bg-subtle text-accent' : 'text-muted hover:text-base hover:bg-subtle'}`}>Home</a>
-      
-      {navCategories.map(cat => (
-        <div>
-          <div class="px-4 py-2 text-xs font-semibold text-base uppercase tracking-wider">{cat.title}</div>
-          <div class="space-y-1 mt-1">
-            {cat.links.map(link => (
-              <a href={link.href} class={`block px-4 py-2.5 rounded-md text-[15px] font-medium transition-colors ${currentPath === link.href ? 'bg-subtle text-accent' : 'text-muted hover:text-base hover:bg-subtle'}`}>
-                {link.label}
-              </a>
-            ))}
           </div>
         </div>
       ))}
-      
-      <a href="/blog" class={`block px-4 py-3 rounded-md text-[16px] font-medium transition-colors ${currentPath.startsWith('/blog') ? 'bg-subtle text-accent' : 'text-muted hover:text-base hover:bg-subtle'}`}>Blog</a>
+
+      <a
+        href="/blog"
+        class:list={[
+          'rounded-lg px-3 py-2 text-[13px] font-medium transition-colors',
+          currentPath.startsWith('/blog') ? 'bg-[#f2f7ff] text-accent' : 'text-muted hover:bg-subtle hover:text-base',
+        ]}
+        data-nav-link
+      >Blog</a>
+    </nav>
+
+    <div class="flex shrink-0 items-center gap-2">
+      <button
+        id="theme-toggle"
+        type="button"
+        aria-label="Toggle dark mode"
+        class="hidden h-10 w-10 items-center justify-center rounded-xl text-muted transition-colors hover:bg-subtle hover:text-base xl:flex"
+      >
+        <svg id="icon-sun" class="hidden h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707M17.657 17.657l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8z" />
+        </svg>
+        <svg id="icon-moon" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+        </svg>
+      </button>
+      <a href="/#tools-heading" class="hidden h-[46px] items-center justify-center rounded-xl bg-[#10264a] px-5 text-[13px] font-semibold text-white transition-colors hover:bg-[#173762] xl:flex">
+        Explore tools
+      </a>
+      <button
+        id="mobile-menu-btn"
+        type="button"
+        aria-label="Open navigation menu"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        class="flex h-11 w-[100px] items-center justify-center gap-2 rounded-xl border border-[#e3eaf3] bg-[#f2f7ff] text-[13px] font-semibold text-[#10264a] transition-colors hover:border-[#c6dcff] xl:hidden"
+      >
+        <span data-menu-label>Menu</span>
+        <svg id="icon-menu" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+        <svg id="icon-close" class="hidden h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="m6 6 12 12M18 6 6 18" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div
+    id="mobile-menu"
+    class="mobile-menu-panel hidden absolute left-0 top-full z-50 max-h-[calc(100dvh-68px)] w-full overflow-y-auto border-b border-[#e3eaf3] bg-white/95 shadow-[0_18px_40px_rgba(15,38,74,0.16)] backdrop-blur-xl dark:border-slate-700 dark:bg-slate-950/95 xl:hidden"
+    role="navigation"
+    aria-label="Mobile navigation"
+  >
+    <div class="mx-auto max-w-[600px] space-y-5 px-4 py-5 sm:px-6">
+      <label class="flex h-12 items-center gap-3 rounded-xl border border-[#e3eaf3] bg-white px-4 dark:border-slate-700 dark:bg-slate-900">
+        <span class="text-[23px] leading-none text-muted" aria-hidden="true">⌕</span>
+        <span class="sr-only">Search navigation links</span>
+        <input
+          type="search"
+          placeholder="Search tools, topics or rates"
+          class="min-w-0 flex-1 bg-transparent text-[14px] text-base outline-none placeholder:text-muted/80"
+          autocomplete="off"
+          data-nav-search
+        />
+      </label>
+
+      <div data-menu-shortcuts>
+        <p class="mb-2 text-[10px] font-bold tracking-[0.09em] text-[#0f9f8c]">POPULAR STARTING POINTS</p>
+        <div class="flex flex-wrap gap-2">
+          <a href="/gst-calculator" class="rounded-full border border-[#d7e7ff] bg-[#f2f7ff] px-3 py-2 text-[12px] font-medium text-accent">GST calculator</a>
+          <a href="/hsn-code-lookup" class="rounded-full border border-[#e3eaf3] bg-white px-3 py-2 text-[12px] font-medium text-[#10264a] dark:bg-slate-900 dark:text-slate-200">HSN lookup</a>
+          <a href="/income-tax-calculator" class="rounded-full border border-[#e3eaf3] bg-white px-3 py-2 text-[12px] font-medium text-[#10264a] dark:bg-slate-900 dark:text-slate-200">Income tax</a>
+        </div>
+      </div>
+
+      <a
+        href="/"
+        class:list={[
+          'block rounded-xl border border-[#e3eaf3] px-4 py-3 text-[15px] font-semibold dark:border-slate-700',
+          currentPath === '/' ? 'bg-[#f2f7ff] text-accent dark:bg-slate-900' : 'bg-white text-[#10264a] dark:bg-slate-900 dark:text-slate-200',
+        ]}
+        data-mobile-nav-link
+      >Home</a>
+
+      <div class="space-y-2">
+        {navCategories.map((category) => (
+          <details class="mobile-nav-group overflow-hidden rounded-xl border border-[#e3eaf3] bg-white dark:border-slate-700 dark:bg-slate-900" data-mobile-nav-group>
+            <summary class="flex min-h-[50px] cursor-pointer list-none items-center justify-between px-4 text-[15px] font-semibold text-[#10264a] marker:hidden dark:text-slate-100">
+              <span>{category.title}</span>
+              <svg class="h-4 w-4 text-muted transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m6 9 6 6 6-6" />
+              </svg>
+            </summary>
+            <div class="border-t border-[#e3eaf3] px-2 py-2 dark:border-slate-700" data-mobile-nav-links>
+              {category.links.map((link, index) => (
+                <a
+                  href={link.href}
+                  class:list={[
+                    'flex min-h-11 items-center gap-3 rounded-lg px-3 py-2 text-[14px] font-medium',
+                    currentPath === link.href ? 'bg-[#f2f7ff] text-accent dark:bg-slate-800' : 'text-muted hover:bg-subtle hover:text-base',
+                  ]}
+                  data-mobile-nav-link
+                  data-nav-search-text={link.label.toLowerCase()}
+                >
+                  <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-[#eef4ff] text-[11px] font-semibold text-[#0f9f8c]" aria-hidden="true">{index === 0 ? '₹' : '→'}</span>
+                  {link.label}
+                </a>
+              ))}
+            </div>
+          </details>
+        ))}
+      </div>
+
+      <a
+        href="/blog"
+        class="block rounded-xl border border-[#e3eaf3] bg-white px-4 py-3 text-[15px] font-semibold text-[#10264a] dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
+        data-mobile-nav-link
+        data-nav-search-text="blog articles"
+      >Blog</a>
     </div>
   </div>
 </header>
 
 <script>
-  // ── Dark mode toggle ──────────────────────────────────────────────────────
   const html = document.documentElement;
   const themeBtn = document.getElementById('theme-toggle');
   const iconSun = document.getElementById('icon-sun');
   const iconMoon = document.getElementById('icon-moon');
 
-  function applyTheme(dark) {
+  function applyTheme(dark: boolean) {
     html.classList.toggle('dark', dark);
     iconSun?.classList.toggle('hidden', !dark);
     iconMoon?.classList.toggle('hidden', dark);
     localStorage.setItem('theme', dark ? 'dark' : 'light');
   }
 
-  // Initialise icons based on current state
   applyTheme(html.classList.contains('dark'));
+  themeBtn?.addEventListener('click', () => applyTheme(!html.classList.contains('dark')));
 
-  themeBtn?.addEventListener('click', () => {
-    applyTheme(!html.classList.contains('dark'));
-  });
+  const desktopMenus = [...document.querySelectorAll<HTMLElement>('[data-nav-menu]')];
+  const closeDesktopMenus = (except?: HTMLElement) => {
+    desktopMenus.forEach((menu) => {
+      if (menu === except) return;
+      menu.classList.remove('is-open');
+      menu.querySelector('[data-nav-trigger]')?.setAttribute('aria-expanded', 'false');
+      menu.querySelector('[data-nav-panel]')?.setAttribute('aria-hidden', 'true');
+      menu.querySelector('[data-chevron]')?.classList.remove('rotate-180');
+    });
+  };
 
-  // ── Mobile menu toggle ────────────────────────────────────────────────────
-  const mobileBtn = document.getElementById('mobile-menu-btn');
-  const mobileMenu = document.getElementById('mobile-menu');
-  const iconMenuEl = document.getElementById('icon-menu');
-  const iconCloseEl = document.getElementById('icon-close');
+  desktopMenus.forEach((menu) => {
+    const trigger = menu.querySelector<HTMLButtonElement>('[data-nav-trigger]');
+    const panel = menu.querySelector<HTMLElement>('[data-nav-panel]');
+    const setOpen = (open: boolean) => {
+      menu.classList.toggle('is-open', open);
+      trigger?.setAttribute('aria-expanded', String(open));
+      panel?.setAttribute('aria-hidden', String(!open));
+      menu.querySelector('[data-chevron]')?.classList.toggle('rotate-180', open);
+      if (open) closeDesktopMenus(menu);
+    };
 
-  mobileBtn?.addEventListener('click', () => {
-    const isOpen = mobileMenu?.classList.toggle('hidden') === false;
-    mobileBtn.setAttribute('aria-expanded', String(isOpen));
-    iconMenuEl?.classList.toggle('hidden', isOpen);
-    iconCloseEl?.classList.toggle('hidden', !isOpen);
-  });
-
-  // Close mobile menu on nav link click
-  mobileMenu?.querySelectorAll('a').forEach((link) => {
-    link.addEventListener('click', () => {
-      mobileMenu.classList.add('hidden');
-      mobileBtn?.setAttribute('aria-expanded', 'false');
-      iconMenuEl?.classList.remove('hidden');
-      iconCloseEl?.classList.add('hidden');
+    trigger?.addEventListener('click', () => setOpen(true));
+    menu.addEventListener('pointerenter', () => {
+      if (window.matchMedia('(min-width: 1280px)').matches) setOpen(true);
+    });
+    menu.addEventListener('pointerleave', () => {
+      if (!menu.contains(document.activeElement)) setOpen(false);
+    });
+    menu.addEventListener('focusout', (event) => {
+      if (!menu.contains(event.relatedTarget as Node | null)) setOpen(false);
     });
   });
+
+  document.addEventListener('click', (event) => {
+    if (!(event.target instanceof Element) || !event.target.closest('[data-nav-menu]')) closeDesktopMenus();
+  });
+
+  const mobileBtn = document.getElementById('mobile-menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const iconMenu = document.getElementById('icon-menu');
+  const iconClose = document.getElementById('icon-close');
+  const menuLabel = document.querySelector<HTMLElement>('[data-menu-label]');
+
+  function setMobileMenu(open: boolean) {
+    mobileMenu?.classList.toggle('hidden', !open);
+    mobileBtn?.setAttribute('aria-expanded', String(open));
+    mobileBtn?.setAttribute('aria-label', open ? 'Close navigation menu' : 'Open navigation menu');
+    iconMenu?.classList.toggle('hidden', open);
+    iconClose?.classList.toggle('hidden', !open);
+    if (menuLabel) menuLabel.textContent = open ? 'Close' : 'Menu';
+  }
+
+  mobileBtn?.addEventListener('click', () => {
+    setMobileMenu(mobileBtn.getAttribute('aria-expanded') !== 'true');
+    closeDesktopMenus();
+  });
+
+  mobileMenu?.querySelectorAll<HTMLAnchorElement>('a[data-mobile-nav-link]').forEach((link) => {
+    link.addEventListener('click', () => setMobileMenu(false));
+  });
+
+  const navSearch = mobileMenu?.querySelector<HTMLInputElement>('[data-nav-search]');
+  navSearch?.addEventListener('input', () => {
+    const query = navSearch.value.trim().toLocaleLowerCase();
+    mobileMenu?.querySelector<HTMLElement>('[data-menu-shortcuts]')?.classList.toggle('hidden', Boolean(query));
+
+    mobileMenu?.querySelectorAll<HTMLDetailsElement>('[data-mobile-nav-group]').forEach((group) => {
+      const links = [...group.querySelectorAll<HTMLAnchorElement>('[data-nav-search-text]')];
+      let visible = 0;
+      links.forEach((link) => {
+        const matches = !query || (link.dataset.navSearchText ?? link.textContent ?? '').toLocaleLowerCase().includes(query);
+        link.classList.toggle('hidden', !matches);
+        if (matches) visible++;
+      });
+      group.classList.toggle('hidden', Boolean(query) && visible === 0);
+      if (query && visible) group.open = true;
+      if (!query) group.open = false;
+    });
+
+    mobileMenu?.querySelectorAll<HTMLAnchorElement>('a[data-nav-search-text]').forEach((link) => {
+      const matches = !query || (link.dataset.navSearchText ?? '').includes(query);
+      link.classList.toggle('hidden', !matches);
+    });
+    const homeLink = mobileMenu?.querySelector<HTMLAnchorElement>('a[data-mobile-nav-link][href="/"]');
+    homeLink?.classList.toggle('hidden', Boolean(query) && !'home'.includes(query));
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      closeDesktopMenus();
+      setMobileMenu(false);
+    }
+  });
 </script>
+
+<style>
+  .nav-panel {
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(8px);
+    transition: opacity 150ms ease, transform 150ms ease, visibility 150ms ease;
+  }
+  .nav-menu:hover .nav-panel,
+  .nav-menu:focus-within .nav-panel,
+  .nav-menu.is-open .nav-panel {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+  .nav-menu-last .nav-panel {
+    left: auto;
+    right: -100px;
+  }
+  .mobile-nav-group summary::-webkit-details-marker {
+    display: none;
+  }
+  .mobile-nav-group[open] summary svg {
+    transform: rotate(180deg);
+  }
+  @media (max-width: 1279px) {
+    .nav-panel {
+      display: none;
+    }
+  }
+</style>

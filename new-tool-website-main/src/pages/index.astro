@@ -1,14 +1,29 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ToolIcon from '../components/ToolIcon.astro';
-import { faqs } from '../data/faqs';
+import QuickGstCalculator from '../components/QuickGstCalculator.astro';
 
 const title = 'Taxzentic — Free GST & Tax Tools Online';
-const description = 'Taxzentic is the ultimate free tax and GST platform for India. Use our tools online or offline to calculate taxes, validate GSTINs, and manage compliance.';
+const description = 'Free online GST and income-tax calculators, GST rate and HSN lookups, and practical tax guides for India.';
+
+const homeFaqs = [
+  {
+    question: 'Are Taxzentic tools free to use?',
+    answer: 'Yes. Taxzentic provides free GST and income-tax calculators, lookups and guides that you can open directly from the site.',
+  },
+  {
+    question: 'Can I use a calculator result to file a return?',
+    answer: 'Treat a calculator result as an estimate based on the details you enter. Review the tool’s method and sources, confirm the rule applies to your facts and tax period, and verify filing details through the official portal or a qualified tax professional.',
+  },
+  {
+    question: 'Where do formulas and tax references come from?',
+    answer: 'Relevant tool pages show the calculation method and source references where available. Check the cited official material for the tax period, classification and facts that apply to your case.',
+  },
+];
 
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://taxzentic.com';
 
-// JSON-LD: WebSite + Organization + FAQPage
+// JSON-LD: WebSite + Organization + visible FAQPage
 const structuredData = [
   {
     '@context': 'https://schema.org',
@@ -42,12 +57,12 @@ const structuredData = [
   {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    mainEntity: faqs.map((faq) => ({
+    mainEntity: homeFaqs.map((faq) => ({
       '@type': 'Question',
       name: faq.question,
       acceptedAnswer: {
         '@type': 'Answer',
-        text: `<p>${faq.answerText}</p>`,
+        text: faq.answer,
       },
     })),
   },
@@ -106,341 +121,268 @@ const tools = [
   { href: '/multi-gstin-invoice-splitter', icon: 'building', title: 'Multi-GSTIN Splitter', description: 'Allocate values and determine IGST/CGST across multiple state branches.', badge: null },
   { href: '/pin-to-pin-distance-calculator', icon: 'road', title: 'Pin to Pin Distance Calculator', description: 'Check transport distance between source and delivery pincodes for E-way bill generation.', badge: null },
 ];
+
+const featuredTools = [
+  { href: '/gst-calculator/', monogram: 'GST', title: 'GST Calculator', description: 'Add or remove GST and see the breakdown.', detail: 'ADD · REMOVE GST' },
+  { href: '/income-tax-calculator/', monogram: 'IT', title: 'Income Tax Calculator', description: 'Compare an estimated tax by regime.', detail: 'TAX ESTIMATE' },
+  { href: '/hsn-code-lookup/', monogram: 'HSN', title: 'HSN Code Finder', description: 'Search product and service codes.', detail: 'PRODUCT LOOKUP' },
+  { href: '/gst-rate-finder/', monogram: '%', title: 'GST Rate Finder', description: 'Explore common rates by category.', detail: 'RATE LOOKUP' },
+];
+
+const homeToolSearchIndex = tools.map(({ href, title, description }) => ({ href, title, description }));
 ---
 
 <BaseLayout {title} {description} {structuredData}>
-  <!-- ── Hero ──────────────────────────────────────────────────────────────── -->
-  <section class="relative overflow-hidden border-b border-base bg-surface hero-section">
-    <!-- Animated Mesh Gradient Backdrop -->
-    <div class="absolute inset-0 z-0 pointer-events-none hero-gradient"></div>
-    
-    <!-- Floating decoration shapes -->
-    <div class="absolute top-20 left-[10%] w-72 h-72 bg-blue-500/10 rounded-full blur-3xl animate-float-slow pointer-events-none"></div>
-    <div class="absolute bottom-10 right-[10%] w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl animate-float-delayed pointer-events-none"></div>
-    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-violet-500/5 rounded-full blur-3xl pointer-events-none"></div>
-    
-    <!-- Grid pattern overlay -->
-    <div class="absolute inset-0 z-0 pointer-events-none opacity-[0.03] dark:opacity-[0.05]" style="background-image: url('data:image/svg+xml,%3Csvg width=%2260%22 height=%2260%22 viewBox=%220 0 60 60%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cg fill=%22none%22 fill-rule=%22evenodd%22%3E%3Cg fill=%22%23000%22 fill-opacity=%221%22%3E%3Cpath d=%22M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
-    
-    <div class="relative z-10 mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8 py-28 sm:py-36 text-center">
-      <div class="inline-flex items-center gap-2 rounded-full border border-base/50 bg-white/60 dark:bg-white/5 backdrop-blur-sm px-5 py-2 text-[12px] font-mono uppercase tracking-wider text-muted mb-8 shadow-sm hero-badge">
-        <span class="relative flex h-2 w-2">
-          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-          <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-        </span>
-        Free · Client-Side Tools · No Login Required
+  <!-- Figma home hero and live GST estimate -->
+  <section class="taxzentic-hero relative overflow-hidden border-b border-base" aria-labelledby="home-title">
+    <div class="hero-orb hero-orb-blue" aria-hidden="true"></div>
+    <div class="hero-orb hero-orb-teal" aria-hidden="true"></div>
+    <div class="relative mx-auto grid max-w-[1200px] items-center gap-5 px-4 py-7 sm:px-6 lg:grid-cols-[1fr_550px] lg:gap-10 lg:px-0 lg:py-[52px]">
+      <div class="min-w-0">
+        <p class="inline-flex rounded-full bg-white/80 px-3 py-2 text-[10px] font-bold tracking-[0.08em] text-accent shadow-sm dark:bg-slate-900/80">FREE TAX TOOLS FOR INDIA</p>
+        <h1 id="home-title" class="mt-4 max-w-[610px] text-[36px] font-bold leading-[1.05] tracking-[-1.4px] text-[#10264a] dark:text-slate-100 sm:text-[44px] lg:text-[54px] lg:leading-[1.14]">Tax clarity.<br />Made simpler.</h1>
+        <p class="mt-4 max-w-[530px] text-[15px] leading-[22px] text-muted lg:mt-5 lg:text-[18px] lg:leading-[29px]">Free GST calculators, rate lookups and straightforward tax guides—built to make every next step feel clear.</p>
+        <div class="relative mt-5 lg:mt-7">
+          <label class="flex h-[56px] max-w-[584px] items-center gap-3 rounded-[14px] border border-[#e3eaf3] bg-white px-4 shadow-sm dark:border-slate-700 dark:bg-slate-900">
+            <span class="text-[27px] leading-none text-accent" aria-hidden="true">⌕</span>
+            <span class="sr-only">Search tax tools and guides</span>
+            <input type="search" class="min-w-0 flex-1 bg-transparent text-[14px] text-[#10264a] outline-none placeholder:text-[#8795a8] dark:text-slate-100" placeholder="Search 50+ tax tools and guides" autocomplete="off" aria-controls="home-search-results" aria-expanded="false" data-home-tool-search />
+            <button type="button" class="flex h-10 w-11 shrink-0 items-center justify-center rounded-[10px] bg-accent text-[22px] text-white transition-colors hover:bg-blue-700" aria-label="Show matching tools" data-home-search-submit>→</button>
+          </label>
+          <ul id="home-search-results" class="absolute left-0 right-0 top-[62px] z-20 hidden max-w-[584px] overflow-hidden rounded-xl border border-[#e3eaf3] bg-white p-2 shadow-xl dark:border-slate-700 dark:bg-slate-900" aria-label="Matching tools" data-home-search-results></ul>
+        </div>
+        <div class="mt-3 flex flex-wrap gap-2 text-[11px] font-medium text-accent">
+          <span class="self-center text-muted">Popular:</span>
+          <a class="rounded-full bg-white/75 px-2.5 py-1.5 hover:bg-white dark:bg-slate-900/70" href="/gst-calculator/">GST calculator</a>
+          <a class="rounded-full bg-white/75 px-2.5 py-1.5 hover:bg-white dark:bg-slate-900/70" href="/hsn-code-lookup/">HSN lookup</a>
+          <a class="rounded-full bg-white/75 px-2.5 py-1.5 hover:bg-white dark:bg-slate-900/70" href="/income-tax-calculator/">Income tax</a>
+        </div>
+        <p class="mt-3 text-[11px] font-medium text-muted">Free to use · See the method and sources</p>
       </div>
-      <h1 class="text-4xl sm:text-6xl lg:text-[72px] font-extrabold tracking-[-2px] leading-[1.08] mb-6">
-        <span class="text-base">The Ultimate Free</span><br />
-        <span class="hero-gradient-text">Tax Platform</span>
-        <span class="text-base"> for India</span>
-      </h1>
-      <p class="mt-6 text-[18px] text-muted max-w-2xl mx-auto leading-relaxed">
-        Use <strong class="text-base">Taxzentic</strong> to instantly compute taxes. Whether you need a <strong class="text-base">GST tool for e-commerce</strong>, a quick <strong class="text-base">GST number search</strong>, or a fast <strong class="text-base">client-side tax tool</strong> alternative to the portal—we have you covered.
-      </p>
-      <div class="mt-10 flex flex-col sm:flex-row gap-4 justify-center items-center">
-        <a
-          href="/gst-calculator"
-          class="group inline-flex items-center justify-center rounded-full bg-gradient-to-r from-blue-600 to-cyan-500 px-8 py-3.5 text-[16px] font-semibold text-white shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/30 hover:-translate-y-0.5 active:scale-95 transition-all w-full sm:w-auto"
-        >
-          Open GST Calculator
-          <svg class="ml-2 h-4 w-4 group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-        </a>
-        <a
-          href="/hsn-code-lookup"
-          class="inline-flex items-center justify-center rounded-full border border-base bg-white/70 dark:bg-white/5 backdrop-blur-sm px-8 py-3.5 text-[16px] font-semibold text-base hover:bg-white dark:hover:bg-white/10 active:scale-95 transition-all w-full sm:w-auto shadow-sm"
-        >
-          Search HSN Codes
-        </a>
-      </div>
-
-      <!-- Trust indicators -->
-      <div class="mt-14 flex flex-wrap items-center justify-center gap-6 sm:gap-10 text-[13px] text-muted">
-        <div class="flex items-center gap-2">
-          <svg class="h-4 w-4 text-emerald-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
-          <span>35+ Free Tools</span>
-        </div>
-        <div class="flex items-center gap-2">
-          <svg class="h-4 w-4 text-emerald-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
-          <span>GST 2.0 Ready</span>
-        </div>
-        <div class="flex items-center gap-2">
-          <svg class="h-4 w-4 text-emerald-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
-          <span>Client-Side Privacy</span>
-        </div>
-        <div class="flex items-center gap-2">
-          <svg class="h-4 w-4 text-emerald-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
-          <span>No Sign-up</span>
-        </div>
-      </div>
+      <QuickGstCalculator />
     </div>
   </section>
 
-  <!-- ── Tool Cards ─────────────────────────────────────────────────────────── -->
-  <section class="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8 py-24" aria-labelledby="tools-heading">
-    <div class="text-center mb-16">
-      <span class="inline-block text-[13px] font-semibold uppercase tracking-widest text-accent mb-3">All-in-One Platform</span>
-      <h2 id="tools-heading" class="text-[36px] sm:text-[42px] tracking-[-1.5px] font-bold text-base mb-4">
-        The complete GST toolkit.
-      </h2>
-      <p class="text-[18px] text-muted max-w-2xl mx-auto leading-relaxed">
-        Everything you need for GST compliance — fast, offline, and completely free.
-      </p>
-    </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-      {tools.map((tool, index) => (
-        <a
-          href={tool.href}
-          class={`tool-card group relative flex flex-col rounded-2xl border bg-surface p-6 transition-all duration-300 hover:shadow-xl hover:-translate-y-1.5 ${
-            tool.badge === 'Most Popular' ? 'border-accent/30 ring-1 ring-accent/10' :
-            tool.badge === 'Trending' ? 'border-amber-300/40 dark:border-amber-700/40' :
-            'border-base hover:border-accent/40'
-          }`}
-          style={`animation-delay: ${Math.min(index * 50, 500)}ms`}
-        >
-          {/* Hover gradient overlay */}
-          <div class="absolute inset-0 rounded-2xl bg-gradient-to-br from-accent/[0.03] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
-          
-          {tool.badge && (
-            <span class={`absolute top-5 right-5 rounded-full px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide ${
-              tool.badge === 'Most Popular' ? 'bg-gradient-to-r from-blue-600 to-cyan-500 text-white shadow-sm' :
-              tool.badge === 'Trending' ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-sm' :
-              'bg-accent/8 text-accent border border-accent/15'
-            }`}>
-              {tool.badge === 'Most Popular' ? '★ Popular' : tool.badge === 'Trending' ? '🔥 Trending' : tool.badge}
-            </span>
-          )}
-          <div class="mb-5 relative">
-            <div class="tool-icon-wrap">
-              <ToolIcon name={tool.icon} size={44} />
-            </div>
-          </div>
-          <h3 class="relative text-[18px] tracking-[-0.4px] font-bold text-base mb-2 group-hover:text-accent transition-colors duration-200">
-            {tool.title}
-          </h3>
-          <p class="relative text-[13px] text-muted leading-relaxed flex-1">{tool.description}</p>
-          <div class="relative mt-5 flex items-center gap-1.5 text-[13px] font-semibold text-accent opacity-0 group-hover:opacity-100 translate-y-1 group-hover:translate-y-0 transition-all duration-200">
-            Open tool
-            <svg class="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-            </svg>
-          </div>
-        </a>
+  <section class="border-b border-[#e3eaf3] bg-white dark:border-slate-700 dark:bg-slate-900" aria-label="How Taxzentic tools are built">
+    <div class="mx-auto grid max-w-[1200px] grid-cols-1 gap-2 px-4 py-3 sm:grid-cols-3 sm:px-6 lg:px-0 lg:py-0">
+      {[
+        { icon: '✓', title: 'Clear formulas', description: 'See how each estimate is worked out.' },
+        { icon: '↗', title: 'Official references', description: 'Follow links to primary sources.' },
+        { icon: '₹', title: 'Made for India', description: 'Built around Indian tax questions.' },
+      ].map((item) => (
+        <div class="flex min-h-[46px] items-center gap-3 py-1.5 sm:min-h-[102px] lg:py-0">
+          <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#eaf8f3] text-[17px] font-bold text-[#0f9f8c]" aria-hidden="true">{item.icon}</span>
+          <span>
+            <span class="block text-[13px] font-semibold text-[#10264a] dark:text-slate-100">{item.title}</span>
+            <span class="mt-0.5 block text-[11px] leading-[16px] text-muted">{item.description}</span>
+          </span>
+        </div>
       ))}
     </div>
   </section>
 
-  <!-- ── Hubs & Guides ─────────────────────────────────────────────── -->
-  <section class="border-t border-base" aria-labelledby="hubs-heading">
-    <div class="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8 py-20">
-      <div class="text-center mb-12">
-        <span class="inline-block text-[13px] font-semibold uppercase tracking-widest text-accent mb-3">Deep Dives</span>
-        <h2 id="hubs-heading" class="text-[32px] sm:text-[36px] tracking-[-1.28px] font-bold text-base mb-3">
-          Hubs & Expert Guides
-        </h2>
-        <p class="text-muted text-[16px] max-w-xl mx-auto">
-          In-depth resources to master GST compliance — tools, rate charts, code guides, and more.
-        </p>
+  <section class="mx-auto max-w-[1200px] px-4 py-8 sm:px-6 lg:px-0 lg:py-10" aria-labelledby="tools-heading">
+    <div class="mb-5 flex items-end justify-between gap-4 lg:mb-6">
+      <div>
+        <h2 id="tools-heading" class="text-[24px] font-bold tracking-[-0.7px] text-[#10264a] dark:text-slate-100 lg:text-[27px]">Popular tools</h2>
+        <p class="mt-1 text-[13px] text-muted">Everyday starting points, all in one place.</p>
       </div>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <!-- Income Tax Hub -->
-        <a href="/income-tax-tools" class="group relative overflow-hidden rounded-2xl border border-base bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-950/30 dark:to-orange-950/30 p-7 hover:border-accent hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-          <div class="mb-4 inline-flex items-center justify-center w-12 h-12 rounded-xl bg-amber-100 dark:bg-amber-900/50 text-amber-700 dark:text-amber-300">
-            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-          </div>
-          <span class="inline-block text-[11px] font-bold uppercase tracking-wide text-amber-700 dark:text-amber-400 mb-2">FY 2025-26 / 2026-27</span>
-          <h3 class="text-[19px] font-bold text-base group-hover:text-accent transition-colors mb-2">Income Tax Hub</h3>
-          <p class="text-[13px] text-muted leading-relaxed">New vs Old Regime comparison (₹75k std deduction), HRA exemption calculator, TDS section finder, and 44AD presumptive tax.</p>
-          <div class="mt-4 flex items-center gap-1.5 text-[13px] font-semibold text-accent">
-            Explore Income Tax <svg class="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-          </div>
-        </a>
-
-        <!-- GST Notices Hub -->
-        <a href="/gst-notices" class="group relative overflow-hidden rounded-2xl border border-base bg-gradient-to-br from-rose-50 to-pink-50 dark:from-rose-950/30 dark:to-pink-950/30 p-7 hover:border-accent hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-          <div class="mb-4 inline-flex items-center justify-center w-12 h-12 rounded-xl bg-rose-100 dark:bg-rose-900/50 text-rose-700 dark:text-rose-400">
-            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" /></svg>
-          </div>
-          <span class="inline-block text-[11px] font-bold uppercase tracking-wide text-rose-700 dark:text-rose-400 mb-2">AI Reply Engine</span>
-          <h3 class="text-[19px] font-bold text-base group-hover:text-accent transition-colors mb-2">GST Notices Hub</h3>
-          <p class="text-[13px] text-muted leading-relaxed">Defense playbooks for ASMT-10, DRC-01, DRC-01A/B/C, Section 73/74 demands, and GSTAT appeal procedures.</p>
-          <div class="mt-4 flex items-center gap-1.5 text-[13px] font-semibold text-accent">
-            Defend GST Notices <svg class="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-          </div>
-        </a>
-
-        <!-- GST 2.0 Hub -->
-        <a href="/gst-2-0" class="group relative overflow-hidden rounded-2xl border border-base bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-950/30 dark:to-cyan-950/30 p-7 hover:border-accent hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-          <div class="mb-4 inline-flex items-center justify-center w-12 h-12 rounded-xl bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400">
-            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
-          </div>
-          <span class="inline-block text-[11px] font-bold uppercase tracking-wide text-blue-600 dark:text-blue-400 mb-2">New Rates</span>
-          <h3 class="text-[19px] font-bold text-base group-hover:text-accent transition-colors mb-2">GST 2.0 Hub</h3>
-          <p class="text-[13px] text-muted leading-relaxed">Complete guide to India's 3-slab GST structure (5%, 18%, 40%). Rate comparison calculators and product-wise transition tools.</p>
-          <div class="mt-4 flex items-center gap-1.5 text-[13px] font-semibold text-accent">
-            Explore GST 2.0 <svg class="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-          </div>
-        </a>
-
-        <!-- HSN & SAC Codes -->
-        <a href="/hsn-codes" class="group relative overflow-hidden rounded-2xl border border-base bg-gradient-to-br from-violet-50 to-indigo-50 dark:from-violet-950/30 dark:to-indigo-950/30 p-7 hover:border-accent hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-          <div class="mb-4 inline-flex items-center justify-center w-12 h-12 rounded-xl bg-violet-100 dark:bg-violet-900/50 text-violet-600 dark:text-violet-400">
-            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-          </div>
-          <span class="inline-block text-[11px] font-bold uppercase tracking-wide text-violet-600 dark:text-violet-400 mb-2">3,800+ Codes</span>
-          <h3 class="text-[19px] font-bold text-base group-hover:text-accent transition-colors mb-2">HSN & SAC Codes</h3>
-          <p class="text-[13px] text-muted leading-relaxed">Search HSN codes for goods and SAC codes for services. 4-digit vs 6-digit requirements and full offline lookup directory.</p>
-          <div class="mt-4 flex items-center gap-1.5 text-[13px] font-semibold text-accent">
-            Browse HSN Codes <svg class="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-          </div>
-        </a>
-      </div>
+      <a href="#all-tools" class="hidden shrink-0 text-[12px] font-semibold text-accent hover:underline sm:inline-flex" data-open-tool-catalog>Browse all tools →</a>
     </div>
-  </section>
-
-  <!-- ── WhatsApp Channel Engagement Card ────────────────────────── -->
-  <section class="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8 py-10">
-    <div class="rounded-3xl border border-emerald-500/20 bg-gradient-to-r from-emerald-50/80 via-teal-50/70 to-emerald-50/80 dark:from-emerald-950/20 dark:via-teal-950/20 dark:to-emerald-950/20 p-8 sm:p-10 flex flex-col md:flex-row items-center justify-between gap-8 shadow-sm">
-      <div class="space-y-2 text-center md:text-left">
-        <div class="inline-flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400">
-          <span class="h-2 w-2 rounded-full bg-emerald-500 animate-ping"></span>
-          Direct Updates Channel
-        </div>
-        <h2 class="text-2xl sm:text-3xl font-extrabold text-base tracking-tight">
-          Never Miss a GST Council or Income Tax Alert
-        </h2>
-        <p class="text-sm text-muted max-w-xl">
-          Join CAs, tax advocates, and business founders on Taxzentic's free WhatsApp Channel. Instant notifications on GST notifications, rate changes, and filing deadline extensions.
-        </p>
-      </div>
-
-      <a
-        href="https://whatsapp.com/channel/taxzentic"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="shrink-0 inline-flex items-center gap-2.5 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-8 py-3.5 text-sm shadow-md hover:shadow-lg transition-all active:scale-95"
-      >
-        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
-        Join Free WhatsApp Channel
-      </a>
-    </div>
-  </section>
-
-  <!-- ── SEO Content Section (~600 words) ────────────────────────────── -->
-  <section class="border-t border-base bg-subtle" aria-labelledby="about-gst-heading">
-    <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-24">
-      <div class="text-center mb-12">
-        <span class="inline-block text-[13px] font-semibold uppercase tracking-widest text-accent mb-3">Learn GST & Tax</span>
-        <h2 id="about-gst-heading" class="text-[32px] sm:text-[36px] tracking-[-1.28px] font-bold text-base">
-          Understanding GST & Income Tax in India
-        </h2>
-      </div>
-
-      <div class="prose prose-neutral dark:prose-invert max-w-none space-y-6 text-[16px] leading-[24px] pl-6 border-l-4 border-l-transparent bg-gradient-to-r from-accent/5 to-transparent py-4 pr-4 rounded-r-2xl">
-        <p>
-          <strong>Taxzentic</strong> is an independent educational and calculation utility suite, offering instant offline tools for both <strong>indirect taxes (GST)</strong> and <strong>direct taxes (Income Tax)</strong>. From using our <a href="/gst-calculator/" class="text-accent hover:underline font-medium">general GST calculator</a> to compute tax splits, looking up classifications in our <a href="/hsn-codes/" class="text-accent hover:underline font-medium">HSN and SAC resource hub</a>, searching notified slabs with our <a href="/gst-rate-finder/" class="text-accent hover:underline font-medium">GST rate finder</a>, to tracking statutory deadlines with our <a href="/gst-due-dates/" class="text-accent hover:underline font-medium">GST due dates calendar</a>—we help Indian businesses understand tax math clearly.
-        </p>
-
-        <p>
-          Whether you need a <strong>restaurant GST calculator</strong>, a <strong>real estate property tax calculator</strong>, or an <strong>E-Invoice eligibility checker</strong>, our tools run locally in your browser. All formulas are prepared using primary government sources, including applicable CBIC circulars, RBI guidelines, and statutory Council recommendations.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── FAQ Preview (first 6 questions) ───────────────────────── -->
-  <section class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-20" aria-labelledby="faq-preview-heading">
-    <div class="text-center mb-12">
-      <span class="inline-block text-[13px] font-semibold uppercase tracking-widest text-accent mb-3">Got Questions?</span>
-      <h2 id="faq-preview-heading" class="text-[32px] sm:text-[36px] tracking-[-1.28px] font-bold text-base mb-3">
-        Frequently Asked Questions
-      </h2>
-      <p class="text-muted text-[16px]">
-        Quick answers to common GST & Tax queries ·
-        <a href="/faq" class="text-accent hover:underline font-medium">View all FAQs →</a>
-      </p>
-    </div>
-
-    <div class="space-y-4">
-      {faqs.slice(0, 6).map((faq, i) => (
-        <details
-          class="group rounded-xl border border-base bg-surface overflow-hidden"
-          id={`faq-home-${i}`}
-        >
-          <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 font-medium text-base hover:bg-subtle transition-colors list-none">
-            <span>{faq.question}</span>
-            <svg
-              class="h-5 w-5 flex-shrink-0 text-muted group-open:rotate-180 transition-transform duration-200"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              stroke-width="2"
-              aria-hidden="true"
-            >
-              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-            </svg>
-          </summary>
-          <div class="px-6 pb-5 text-sm text-muted leading-relaxed border-t border-base pt-4">
-            <Fragment set:html={faq.answerHtml} />
-          </div>
-        </details>
+    <div class="grid grid-cols-2 gap-3 lg:grid-cols-4 lg:gap-4">
+      {featuredTools.map((tool) => (
+        <a href={tool.href} class="group flex min-h-[190px] flex-col rounded-[14px] border border-[#e3eaf3] bg-white p-4 transition-all hover:-translate-y-0.5 hover:border-[#c6dcff] hover:shadow-[0_12px_24px_rgba(10,41,87,0.08)] dark:border-slate-700 dark:bg-slate-900 dark:hover:border-blue-800 lg:p-5">
+          <span class="flex h-8 min-w-9 items-center justify-center self-start rounded-lg bg-[#eef4ff] px-2 text-[10px] font-bold text-accent">{tool.monogram}</span>
+          <h3 class="mt-4 text-[15px] font-semibold leading-[20px] tracking-[-0.2px] text-[#10264a] group-hover:text-accent dark:text-slate-100">{tool.title}</h3>
+          <p class="mt-1.5 text-[11px] leading-[16px] text-muted">{tool.description}</p>
+          <span class="mt-auto flex items-center justify-between pt-4 text-[9px] font-bold tracking-[0.06em] text-[#0f9f8c]">{tool.detail}<span class="text-[16px] text-accent" aria-hidden="true">↗</span></span>
+        </a>
       ))}
     </div>
 
-    <div class="mt-6 text-center sm:hidden">
-      <a href="/faq" class="text-sm font-medium text-accent hover:underline">
-        View all FAQs →
-      </a>
-    </div>
+    <details id="all-tools" class="mt-5 rounded-2xl border border-[#e3eaf3] bg-white dark:border-slate-700 dark:bg-slate-900" data-tool-catalog>
+      <summary class="flex min-h-14 cursor-pointer list-none items-center justify-between gap-4 rounded-2xl px-5 py-4 text-[14px] font-semibold text-[#10264a] hover:bg-subtle dark:text-slate-100">
+        <span>Browse all 50+ tax tools and calculators</span>
+        <svg class="h-4 w-4 shrink-0 text-muted transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m6 9 6 6 6-6" /></svg>
+      </summary>
+      <div class="border-t border-[#e3eaf3] p-4 dark:border-slate-700 sm:p-5">
+        <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {tools.map((tool) => (
+            <a href={tool.href} class="tool-card group relative flex flex-col rounded-2xl border border-base bg-surface p-6 transition-all duration-300 hover:-translate-y-1.5 hover:border-accent/40 hover:shadow-xl">
+              {tool.badge && <span class="absolute right-5 top-5 rounded-full border border-accent/15 bg-accent/8 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-accent">{tool.badge}</span>}
+              <div class="relative mb-5"><div class="tool-icon-wrap"><ToolIcon name={tool.icon} size={44} /></div></div>
+              <h3 class="relative mb-2 text-[18px] font-bold tracking-[-0.4px] text-base group-hover:text-accent">{tool.title}</h3>
+              <p class="relative flex-1 text-[13px] leading-relaxed text-muted">{tool.description}</p>
+              <span class="relative mt-5 text-[13px] font-semibold text-accent">Open tool →</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </details>
   </section>
 
-  <!-- ── Stats / Trust bar ──────────────────────────────────────────────────── -->
-  <section class="border-t border-base relative overflow-hidden">
-    <!-- Subtle gradient background -->
-    <div class="absolute inset-0 opacity-30 dark:opacity-10" style="background: linear-gradient(135deg, rgba(37,99,235,0.08) 0%, transparent 40%, rgba(6,182,212,0.08) 100%);"></div>
-    <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
-      <div class="grid grid-cols-2 md:grid-cols-5 gap-8 text-center" id="stats-bar">
+  <section class="border-y border-base bg-[#f7f9fc] dark:bg-slate-950" aria-labelledby="next-step-heading">
+    <div class="mx-auto max-w-[1200px] px-4 py-8 sm:px-6 lg:px-0 lg:py-10">
+      <h2 id="next-step-heading" class="text-[24px] font-bold tracking-[-0.6px] text-[#10264a] dark:text-slate-100 lg:text-[27px]">Find the right next step</h2>
+      <p class="mt-1 text-[13px] text-muted">Move from a quick calculation to the detail behind it.</p>
+      <div class="mt-5 grid grid-cols-1 gap-3 md:grid-cols-3 lg:gap-4">
         {[
-          { value: '50+', label: 'Free Online Tools' },
-          { value: '85+', label: 'Source-Backed Guides' },
-          { value: 'GST 2.0', label: 'Ready & Updated' },
-          { value: 'Privacy', label: 'Client-Side Calculators' },
-          { value: 'Statutory', label: 'CBIC & RBI Sourced' },
-        ].map(({ value, label }) => (
-          <div class="stat-item">
-            <div class="text-2xl sm:text-3xl font-bold text-accent stat-value">{value}</div>
-            <div class="mt-1 text-sm text-muted">{label}</div>
-          </div>
+          { number: '01', title: 'Calculators', description: 'Get a clear estimate with inputs you control.', label: 'Explore calculators', href: '/gst-calculator/' },
+          { number: '02', title: 'Lookups', description: 'Find GST rates, HSN codes and references.', label: 'Explore lookups', href: '/gst-rate-finder/' },
+          { number: '03', title: 'Guides', description: 'Understand rules in straightforward language.', label: 'Explore guides', href: '/blog/' },
+        ].map((item) => (
+          <a href={item.href} class="group rounded-[14px] border border-[#e3eaf3] bg-white p-4 transition-colors hover:border-[#c6dcff] dark:border-slate-700 dark:bg-slate-900 lg:min-h-[174px] lg:p-5">
+            <span class="inline-flex rounded-md bg-[#eef4ff] px-2 py-1 text-[10px] font-bold text-accent">{item.number}</span>
+            <h3 class="mt-3 text-[17px] font-semibold text-[#10264a] group-hover:text-accent dark:text-slate-100">{item.title}</h3>
+            <p class="mt-1 text-[12px] text-muted">{item.description}</p>
+            <span class="mt-4 inline-block text-[11px] font-semibold text-accent">{item.label} →</span>
+          </a>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- Stats animation -->
-  <style>
-    .stat-item {
-      opacity: 0;
-      transform: translateY(16px);
-      transition: opacity 0.5s ease, transform 0.5s ease;
-    }
-    .stat-item.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  </style>
+  <section class="bg-white dark:bg-slate-900" aria-labelledby="method-heading">
+    <div class="mx-auto max-w-[1200px] px-4 py-8 sm:px-6 lg:px-0 lg:py-10">
+      <div class="grid gap-4 rounded-[18px] bg-[#f7f9fc] p-4 dark:bg-slate-950 md:grid-cols-2 md:gap-7 md:p-7 lg:gap-12 lg:p-8">
+        <div class="py-2 lg:px-2">
+          <p class="text-[10px] font-bold tracking-[0.09em] text-[#0f9f8c]">BUILT FOR CLARITY</p>
+          <h2 id="method-heading" class="mt-3 text-[27px] font-bold leading-[1.14] tracking-[-0.65px] text-[#10264a] dark:text-slate-100 lg:text-[31px]">Useful numbers start<br class="hidden lg:block" /> with clear math.</h2>
+          <p class="mt-3 max-w-[485px] text-[13px] leading-[20px] text-muted">Each tool should show its inputs, the formula behind the result and official material used—so you can understand the estimate and cross-check the details.</p>
+          <a href="/about/" class="mt-5 inline-flex text-[12px] font-semibold text-accent hover:underline">Read our methodology →</a>
+        </div>
+        <div class="rounded-[14px] border border-[#e3eaf3] bg-white p-4 dark:border-slate-700 dark:bg-slate-900 lg:p-5">
+          <p class="text-[10px] font-bold tracking-[0.08em] text-[#0f9f8c]">SOURCES &amp; REVIEW</p>
+          <h3 class="mt-2 text-[18px] font-semibold tracking-[-0.3px] text-[#10264a] dark:text-slate-100">Know where the answer comes from</h3>
+          <p class="mt-1 text-[12px] text-muted">Keep primary references close to the relevant explanation.</p>
+          <div class="mt-4 divide-y divide-[#e3eaf3] dark:divide-slate-700">
+            <a href="https://www.gst.gov.in/" target="_blank" rel="noopener noreferrer" class="flex min-h-10 items-center justify-between gap-3 text-[11px]">
+              <span class="font-semibold text-[#10264a] dark:text-slate-100">GST portal</span><span class="text-right text-muted">Services and GST guidance ↗</span>
+            </a>
+            <a href="https://www.cbic.gov.in/" target="_blank" rel="noopener noreferrer" class="flex min-h-10 items-center justify-between gap-3 text-[11px]">
+              <span class="font-semibold text-[#10264a] dark:text-slate-100">CBIC / GST Council</span><span class="text-right text-muted">Notifications and rate schedules ↗</span>
+            </a>
+            <a href="https://www.incometax.gov.in/" target="_blank" rel="noopener noreferrer" class="flex min-h-10 items-center justify-between gap-3 text-[11px]">
+              <span class="font-semibold text-[#10264a] dark:text-slate-100">CBDT</span><span class="text-right text-muted">Income-tax acts and circulars ↗</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script type="application/json" id="home-tool-search-index" set:html={JSON.stringify(homeToolSearchIndex).replace(/</g, '\\u003c')}></script>
+
   <script>
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const items = entry.target.querySelectorAll('.stat-item');
-          items.forEach((item, i) => {
-            setTimeout(() => item.classList.add('visible'), i * 100);
-          });
-          observer.unobserve(entry.target);
+    type ToolSearchEntry = { href: string; title: string; description: string };
+    const searchInput = document.querySelector<HTMLInputElement>('[data-home-tool-search]');
+    const searchResults = document.querySelector<HTMLUListElement>('[data-home-search-results]');
+    const searchSubmit = document.querySelector<HTMLButtonElement>('[data-home-search-submit]');
+    const searchIndexNode = document.getElementById('home-tool-search-index');
+    const catalog = document.querySelector<HTMLDetailsElement>('[data-tool-catalog]');
+    let searchIndex: ToolSearchEntry[] = [];
+    try {
+      searchIndex = JSON.parse(searchIndexNode?.textContent ?? '[]') as ToolSearchEntry[];
+    } catch {
+      searchIndex = [];
+    }
+
+    const closeSearchResults = () => {
+      searchResults?.classList.add('hidden');
+      searchInput?.setAttribute('aria-expanded', 'false');
+    };
+    const showToolCatalog = () => {
+      if (!catalog) return;
+      catalog.open = true;
+      catalog.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
+    const renderSearchResults = () => {
+      if (!searchInput || !searchResults) return [] as ToolSearchEntry[];
+      const query = searchInput.value.trim().toLocaleLowerCase();
+      searchResults.replaceChildren();
+      if (!query) {
+        closeSearchResults();
+        return [];
+      }
+
+      const matches = searchIndex
+        .filter((tool) => `${tool.title} ${tool.description}`.toLocaleLowerCase().includes(query))
+        .slice(0, 6);
+      if (matches.length === 0) {
+        const empty = document.createElement('li');
+        empty.className = 'px-3 py-3 text-[13px] text-muted';
+        empty.textContent = 'No matching tools. Try “GST”, “income tax” or “HSN”.';
+        searchResults.append(empty);
+      } else {
+        matches.forEach((tool) => {
+          const item = document.createElement('li');
+          const link = document.createElement('a');
+          link.href = tool.href;
+          link.className = 'block rounded-lg px-3 py-2.5 hover:bg-[#f2f7ff] focus-visible:bg-[#f2f7ff] dark:hover:bg-slate-800 dark:focus-visible:bg-slate-800';
+          const title = document.createElement('span');
+          title.className = 'block text-[13px] font-semibold text-[#10264a] dark:text-slate-100';
+          title.textContent = tool.title;
+          const description = document.createElement('span');
+          description.className = 'mt-0.5 block text-[11px] leading-[16px] text-muted';
+          description.textContent = tool.description;
+          link.append(title, description);
+          item.append(link);
+          searchResults.append(item);
+        });
+      }
+      searchResults.classList.remove('hidden');
+      searchInput.setAttribute('aria-expanded', 'true');
+      return matches;
+    };
+
+    searchInput?.addEventListener('input', renderSearchResults);
+    searchInput?.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') closeSearchResults();
+      if (event.key === 'Enter') {
+        const firstResult = searchResults?.querySelector<HTMLAnchorElement>('a');
+        if (firstResult) {
+          event.preventDefault();
+          window.location.assign(firstResult.href);
         }
+      }
+    });
+    searchSubmit?.addEventListener('click', () => {
+      const matches = renderSearchResults();
+      const firstResult = searchResults?.querySelector<HTMLAnchorElement>('a');
+      if (firstResult) window.location.assign(firstResult.href);
+      else if (!searchInput?.value.trim()) showToolCatalog();
+      else if (matches.length === 0) searchInput?.focus();
+    });
+    document.addEventListener('pointerdown', (event) => {
+      if (event.target instanceof Node && !searchResults?.contains(event.target) && !searchInput?.contains(event.target)) {
+        closeSearchResults();
+      }
+    });
+    document.querySelectorAll<HTMLAnchorElement>('[data-open-tool-catalog]').forEach((link) => {
+      link.addEventListener('click', () => {
+        if (catalog) catalog.open = true;
       });
-    }, { threshold: 0.3 });
-    const statsBar = document.getElementById('stats-bar');
-    if (statsBar) observer.observe(statsBar);
+    });
   </script>
+
+  <section class="mx-auto max-w-[860px] px-4 py-9 sm:px-6 sm:py-12 lg:px-0" aria-labelledby="faq-preview-heading">
+    <div class="mb-5 flex flex-wrap items-end justify-between gap-3">
+      <div>
+        <p class="text-[10px] font-bold tracking-[0.09em] text-[#0f9f8c]">FAQ</p>
+        <h2 id="faq-preview-heading" class="mt-2 text-[24px] font-bold tracking-[-0.6px] text-[#10264a] dark:text-slate-100 lg:text-[27px]">A few useful answers</h2>
+      </div>
+      <a href="/faq/" class="text-[12px] font-semibold text-accent hover:underline">View all FAQs →</a>
+    </div>
+    <div class="space-y-2.5">
+      {homeFaqs.map((faq, index) => (
+        <details class="group overflow-hidden rounded-[12px] border border-[#e3eaf3] bg-white dark:border-slate-700 dark:bg-slate-900" id={`faq-home-${index}`}>
+          <summary class="flex min-h-[54px] cursor-pointer list-none items-center justify-between gap-4 px-4 py-3 text-[13px] font-semibold text-[#10264a] hover:bg-[#f7f9fc] dark:text-slate-100 dark:hover:bg-slate-800 sm:px-5">
+            <span>{faq.question}</span>
+            <svg class="h-4 w-4 shrink-0 text-muted transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m6 9 6 6 6-6" /></svg>
+          </summary>
+          <p class="border-t border-[#e3eaf3] px-4 py-4 text-[12px] leading-[19px] text-muted dark:border-slate-700 sm:px-5">{faq.answer}</p>
+        </details>
+      ))}
+    </div>
+  </section>
 </BaseLayout>

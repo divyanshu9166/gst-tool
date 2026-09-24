@@ -95,6 +95,40 @@
 }
 
 /* ─── Hero Gradient & Animations ──────────────────────────────────────────── */
+.taxzentic-hero {
+  isolation: isolate;
+  background: linear-gradient(116deg, #f1f6ff 0%, #f8fbff 55%, #edf9f7 100%);
+}
+.dark .taxzentic-hero {
+  background: linear-gradient(116deg, #101c32 0%, #111827 58%, #0d242a 100%);
+}
+.hero-orb {
+  position: absolute;
+  z-index: 0;
+  width: 290px;
+  height: 290px;
+  border-radius: 9999px;
+  filter: blur(2px);
+  pointer-events: none;
+}
+.hero-orb-blue {
+  top: -170px;
+  left: 28%;
+  background: radial-gradient(circle, rgba(37, 99, 235, 0.12), transparent 70%);
+}
+.hero-orb-teal {
+  right: -175px;
+  bottom: -210px;
+  background: radial-gradient(circle, rgba(15, 159, 140, 0.11), transparent 70%);
+}
+.dark .hero-orb-blue { background: radial-gradient(circle, rgba(37, 99, 235, 0.2), transparent 70%); }
+.dark .hero-orb-teal { background: radial-gradient(circle, rgba(15, 159, 140, 0.16), transparent 70%); }
+.taxzentic-hero h1 { text-wrap: balance; }
+.taxzentic-hero > div.relative { z-index: 1; }
+[data-tool-catalog] { scroll-margin-top: 104px; }
+[data-tool-catalog] > summary::-webkit-details-marker { display: none; }
+[data-tool-catalog][open] > summary svg { transform: rotate(180deg); }
+
 .hero-gradient {
   background: 
     radial-gradient(ellipse 80% 60% at 20% 0%, rgba(37,99,235,0.35) 0%, transparent 60%),
@@ -176,4 +210,3 @@
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
-

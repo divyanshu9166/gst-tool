@@ -1,0 +1,120 @@
+---
+const rates = [0, 5, 18, 40];
+---
+
+<section class="quick-gst-card rounded-[18px] border border-[#e3eaf3] bg-white p-[18px] shadow-[0_12px_28px_rgba(10,41,87,0.08)] dark:border-slate-700 dark:bg-slate-900" aria-labelledby="quick-gst-title" data-quick-gst>
+  <p class="text-[10px] font-bold tracking-[0.08em] text-accent">QUICK ESTIMATE</p>
+  <h2 id="quick-gst-title" class="mt-2 text-[21px] font-semibold tracking-[-0.5px] text-[#10264a] dark:text-slate-100">GST calculator</h2>
+
+  <div class="mt-3 grid grid-cols-2 rounded-xl bg-[#f7f9fc] p-[3px] dark:bg-slate-800" role="group" aria-label="Quick calculation mode">
+    <button type="button" class="quick-gst-mode rounded-[9px] bg-white py-2 text-[13px] font-semibold text-accent shadow-sm dark:bg-slate-700" data-quick-mode="add" aria-pressed="true">Add GST</button>
+    <button type="button" class="quick-gst-mode rounded-[9px] py-2 text-[13px] font-medium text-muted" data-quick-mode="remove" aria-pressed="false">Remove GST</button>
+  </div>
+
+  <label for="quick-gst-amount" class="mt-3 block text-[11px] font-medium text-muted" data-quick-label>Amount before GST</label>
+  <div class="mt-2 flex h-12 items-center rounded-[11px] border border-[#e3eaf3] bg-white px-3 dark:border-slate-700 dark:bg-slate-950">
+    <span class="mr-2 text-[17px] font-semibold text-[#10264a] dark:text-slate-100" aria-hidden="true">₹</span>
+    <input
+      id="quick-gst-amount"
+      class="min-w-0 flex-1 bg-transparent text-[16px] font-semibold text-[#10264a] outline-none dark:text-slate-100"
+      type="number"
+      inputmode="decimal"
+      min="0"
+      step="0.01"
+      value="100000"
+      aria-describedby="quick-gst-note"
+      data-quick-amount
+    />
+  </div>
+
+  <div class="mt-3">
+    <div class="mb-2 flex items-center justify-between">
+      <span class="text-[11px] font-medium text-muted">GST rate</span>
+      <a href="/gst-rate-finder/" class="text-[11px] font-medium text-accent hover:underline">Find a rate →</a>
+    </div>
+    <div class="grid grid-cols-4 gap-2" role="group" aria-label="Quick GST rate">
+      {rates.map((rate) => (
+        <button
+          type="button"
+          class:list={[
+            'quick-gst-rate min-h-10 rounded-[10px] border text-[12px] font-semibold transition-colors',
+            rate === 18
+              ? 'border-accent bg-accent text-white'
+              : 'border-[#e3eaf3] bg-[#f7f9fc] text-[#10264a] hover:border-accent/40 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200',
+          ]}
+          data-quick-rate={rate}
+          aria-pressed={rate === 18 ? 'true' : 'false'}
+        >{rate}%</button>
+      ))}
+    </div>
+  </div>
+
+  <div class="mt-3 grid grid-cols-[1fr_auto] items-center gap-x-3 gap-y-1 rounded-[13px] bg-[#eef4ff] px-3 py-2.5 dark:bg-slate-800" aria-live="polite" aria-label="Quick GST result">
+    <span class="text-[10px] font-bold tracking-[0.06em] text-accent" data-quick-total-label>TOTAL INCLUDING GST</span>
+    <span class="row-span-2 text-right text-[18px] font-bold tracking-[-0.35px] text-[#10264a] dark:text-slate-100" data-quick-total>₹1,18,000</span>
+    <span class="text-[11px] text-muted">GST <span data-quick-gst>₹18,000</span></span>
+  </div>
+  <p id="quick-gst-note" class="mt-2 text-[10px] leading-[15px] text-muted">Estimate only · confirm the applicable rate before filing.</p>
+</section>
+
+<script>
+  const formatQuickINR = (value: number) =>
+    '₹' + value.toLocaleString('en-IN', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+
+  document.querySelectorAll<HTMLElement>('[data-quick-gst]').forEach((widget) => {
+    const amountInput = widget.querySelector<HTMLInputElement>('[data-quick-amount]');
+    const amountLabel = widget.querySelector<HTMLElement>('[data-quick-label]');
+    const totalLabel = widget.querySelector<HTMLElement>('[data-quick-total-label]');
+    const totalOutput = widget.querySelector<HTMLElement>('[data-quick-total]');
+    const gstOutput = widget.querySelector<HTMLElement>('[data-quick-gst]');
+    const modeButtons = [...widget.querySelectorAll<HTMLButtonElement>('[data-quick-mode]')];
+    const rateButtons = [...widget.querySelectorAll<HTMLButtonElement>('[data-quick-rate]')];
+    let mode: 'add' | 'remove' = 'add';
+    let rate = 18;
+
+    const calculate = () => {
+      const raw = Number(amountInput?.value ?? 0);
+      const amount = Number.isFinite(raw) && raw >= 0 ? raw : 0;
+      const gst = mode === 'add' ? amount * rate / 100 : amount - amount / (1 + rate / 100);
+      const total = mode === 'add' ? amount + gst : amount;
+      if (totalOutput) totalOutput.textContent = formatQuickINR(total);
+      if (gstOutput) gstOutput.textContent = formatQuickINR(gst);
+      if (amountLabel) amountLabel.textContent = mode === 'add' ? 'Amount before GST' : 'Amount including GST';
+      if (totalLabel) totalLabel.textContent = mode === 'add' ? 'TOTAL INCLUDING GST' : 'TOTAL BEFORE GST';
+    };
+
+    modeButtons.forEach((button) => button.addEventListener('click', () => {
+      mode = button.dataset.quickMode === 'remove' ? 'remove' : 'add';
+      modeButtons.forEach((option) => {
+        const selected = option === button;
+        option.setAttribute('aria-pressed', String(selected));
+        option.classList.toggle('bg-white', selected);
+        option.classList.toggle('text-accent', selected);
+        option.classList.toggle('shadow-sm', selected);
+        option.classList.toggle('font-semibold', selected);
+        option.classList.toggle('text-muted', !selected);
+        option.classList.toggle('font-medium', !selected);
+        option.classList.toggle('dark:bg-slate-700', selected);
+      });
+      calculate();
+    }));
+
+    rateButtons.forEach((button) => button.addEventListener('click', () => {
+      rate = Number(button.dataset.quickRate ?? 18);
+      rateButtons.forEach((option) => {
+        const selected = option === button;
+        option.setAttribute('aria-pressed', String(selected));
+        option.classList.toggle('bg-accent', selected);
+        option.classList.toggle('text-white', selected);
+        option.classList.toggle('border-accent', selected);
+        option.classList.toggle('bg-[#f7f9fc]', !selected);
+        option.classList.toggle('text-[#10264a]', !selected);
+        option.classList.toggle('dark:bg-slate-800', !selected);
+        option.classList.toggle('dark:text-slate-200', !selected);
+      });
+      calculate();
+    }));
+    amountInput?.addEventListener('input', calculate);
+    calculate();
+  });
+</script>
