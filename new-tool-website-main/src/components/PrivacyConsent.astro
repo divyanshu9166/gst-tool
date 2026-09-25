@@ -9,7 +9,7 @@
     <div class="max-w-2xl">
       <h2 class="text-base font-semibold text-base">Your privacy choices</h2>
       <p id="analytics-preference-status" class="mt-1 text-sm text-muted">
-        We use optional Google Analytics to understand site visits. Choose whether to allow it. You can change this choice at any time using Cookie preferences in the footer. No advertising tags are active on this site right now.
+        We use optional Google Analytics to understand site visits. Choose whether to allow it. You can change this choice at any time using Cookie preferences in the footer. This choice controls analytics only; some content pages include a separate Google AdSense script.
       </p>
       <p class="mt-2 text-xs text-muted">
         Read our <a href="/privacy-policy" class="text-accent underline hover:no-underline">Privacy Policy</a> for details.
@@ -40,12 +40,19 @@
     const getChoice = () => {
       try { return localStorage.getItem(key); } catch { return null; }
     };
+    let currentChoice = getChoice();
 
     function loadAnalytics() {
       if (window.__taxzenticAnalyticsLoaded) return;
       window.__taxzenticAnalyticsLoaded = true;
       window.dataLayer = window.dataLayer || [];
       window.gtag = function () { window.dataLayer.push(arguments); };
+      window.gtag('consent', 'default', {
+        analytics_storage: 'granted',
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied',
+      });
       window.gtag('js', new Date());
       window.gtag('config', measurementId);
       const script = document.createElement('script');
@@ -67,10 +74,17 @@
     }
 
     function saveChoice(choice) {
+      const previousChoice = currentChoice;
       try { localStorage.setItem(key, choice); } catch { /* Keep the current-page choice functional if storage is unavailable. */ }
       if (choice === 'granted') {
         window[`ga-disable-${measurementId}`] = false;
-        loadAnalytics();
+        if (window.__taxzenticAnalyticsLoaded) {
+          // Re-enable collection after a same-page withdrawal, then count this visit.
+          window.gtag('consent', 'update', { analytics_storage: 'granted' });
+          if (previousChoice !== 'granted') window.gtag('event', 'page_view');
+        } else {
+          loadAnalytics();
+        }
       } else {
         window[`ga-disable-${measurementId}`] = true;
         if (typeof window.gtag === 'function') {
@@ -78,6 +92,7 @@
         }
         clearAnalyticsCookies();
       }
+      currentChoice = choice;
       hide();
     }
 
@@ -85,20 +100,19 @@
     document.getElementById('analytics-reject')?.addEventListener('click', () => saveChoice('denied'));
     document.getElementById('analytics-close')?.addEventListener('click', hide);
     window.addEventListener('taxzentic:open-cookie-preferences', () => {
-      const choice = getChoice();
+      const choice = currentChoice;
       if (status) {
         status.textContent = choice === 'granted'
           ? 'Analytics is currently allowed. You can keep this choice or reject analytics to withdraw consent and remove Google Analytics cookies.'
           : choice === 'denied'
             ? 'Analytics is currently rejected. You can keep this choice or allow optional Google Analytics.'
-            : 'We use optional Google Analytics to understand site visits. Choose whether to allow it. You can change this choice at any time using Cookie preferences in the footer. No advertising tags are active on this site right now.';
+            : 'We use optional Google Analytics to understand site visits. Choose whether to allow it. You can change this choice at any time using Cookie preferences in the footer. This choice controls analytics only; some content pages include a separate Google AdSense script.';
       }
       show();
       document.getElementById('analytics-reject')?.focus();
     });
 
-    const choice = getChoice();
-    if (choice === 'granted') loadAnalytics();
-    else if (choice !== 'denied') show();
+    if (currentChoice === 'granted') loadAnalytics();
+    else if (currentChoice !== 'denied') show();
   })();
 </script>

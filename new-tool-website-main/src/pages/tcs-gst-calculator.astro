@@ -2,7 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const title = 'TCS under GST Calculator — E-Commerce';
-const description = 'Calculate the 1% Tax Collected at Source (TCS) on e-commerce transactions under Section 52 of the CGST Act. Accurate offline calculator for sellers and ECOs.';
+const description = 'Estimate GST Tax Collected at Source on e-commerce supplies under Section 52 using the current notified 0.5% total rate.';
 
 const structuredData = [
   {
@@ -10,7 +10,7 @@ const structuredData = [
     '@type': 'WebApplication',
     name: 'TCS under GST Calculator',
     url: Astro.site?.toString() ? `${Astro.site}tcs-gst-calculator` : 'https://example.com/tcs-gst-calculator',
-    description: 'Calculate 1% TCS on e-commerce sales.',
+    description: 'Estimate GST TCS on e-commerce sales at the current notified 0.5% total rate.',
     applicationCategory: 'FinanceApplication',
     operatingSystem: 'Any',
   },
@@ -18,14 +18,14 @@ const structuredData = [
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
     mainEntity: [
-      { '@type': 'Question', name: "What is the TCS rate under GST in 2026?", acceptedAnswer: { '@type': 'Answer', text: "E-commerce operators are required to collect TCS at the rate of 1% (0.5% CGST + 0.5% SGST, or 1% IGST) on the net value of taxable supplies made through their platform." } },
+      { '@type': 'Question', name: "What is the current TCS rate under GST?", acceptedAnswer: { '@type': 'Answer', text: "The notified GST TCS rate is 0.5% in total: 0.25% CGST plus 0.25% SGST or UTGST on intra-state supplies, and 0.5% IGST on inter-state supplies. It applies to the net value of taxable supplies covered by Section 52." } },
       { '@type': 'Question', name: "Who is liable to collect TCS under GST?", acceptedAnswer: { '@type': 'Answer', text: "Only specific e-commerce operators who facilitate the supply of goods or services (like Amazon, Flipkart, or Swiggy) are liable to collect TCS." } },
       {
         '@type': 'Question',
         name: 'What is TCS under GST?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Tax Collected at Source (TCS) under GST is a mechanism where E-Commerce Operators (like Amazon or Flipkart) are required to collect 1% tax on the net value of taxable supplies made through their platform by other suppliers.',
+          text: 'Tax Collected at Source (TCS) under GST is collected by a covered e-commerce operator on the net value of taxable supplies made through its platform by other suppliers. The currently notified total rate is 0.5%.',
         }
       },
       {
@@ -33,7 +33,7 @@ const structuredData = [
         name: 'What is the rate of TCS?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'The statutory rate of TCS under Section 52 is 1%. For intra-state supplies, it is 0.5% CGST and 0.5% SGST. For inter-state supplies, it is 1% IGST.',
+          text: 'The currently notified TCS rate is 0.5% in total: 0.25% CGST and 0.25% SGST or UTGST for intra-state supplies, and 0.5% IGST for inter-state supplies.',
         }
       },
       {
@@ -49,7 +49,7 @@ const structuredData = [
         name: 'Do e-commerce operators have to pay TCS out of pocket?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'No. The ECO collects this 1% from the amount payable to the supplier (seller). They then deposit it with the government while filing their GSTR-8 return.',
+          text: 'No. The ECO collects the notified TCS amount from the amount payable to the supplier and deposits it with the government through its GSTR-8 return.',
         }
       },
       {
@@ -65,7 +65,7 @@ const structuredData = [
         name: 'Is TCS applicable on exempt supplies?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'No. TCS is only collected on "taxable supplies". It is not collected on exempted supplies, zero-rated supplies, or supplies where the ECO pays tax under reverse charge (Section 9(5)).',
+          text: 'TCS under Section 52 is collected on the net value of taxable supplies covered by the section. Exempt or non-taxable supplies are not included; check the applicable rules and official return treatment for zero-rated or Section 9(5) supplies.',
         }
       },
       {
@@ -88,7 +88,7 @@ const structuredData = [
   }
 ];
 
-const lastUpdated = '2026-07-25';
+const lastUpdated = '2026-09-25';
 const breadcrumb = [
   { name: 'Home', href: '/' },
   { name: 'Calculators', href: '/#tools-heading' },
@@ -108,7 +108,7 @@ const breadcrumb = [
         TCS under GST Calculator
       </h1>
       <p class="text-[16px] text-muted max-w-xl mx-auto leading-relaxed">
-        Calculate the 1% Tax Collected at Source (TCS) on your e-commerce sales. Instantly compute the net taxable value and exact TCS deduction.
+        Estimate the 0.5% GST Tax Collected at Source (TCS) on covered e-commerce supplies. Enter taxable sales and returns to calculate the net value and estimated deduction.
       </p>
     </div>
 
@@ -171,17 +171,17 @@ const breadcrumb = [
               </div>
 
               <div id="res-cgst-box" class="flex justify-between items-center text-muted">
-                <span>TCS - CGST (0.5%):</span>
+                <span>TCS - CGST (0.25%):</span>
                 <span class="text-lg font-mono text-accent" id="res-cgst">₹0</span>
               </div>
               
               <div id="res-sgst-box" class="flex justify-between items-center text-muted">
-                <span>TCS - SGST (0.5%):</span>
+                <span>TCS - SGST (0.25%):</span>
                 <span class="text-lg font-mono text-accent" id="res-sgst">₹0</span>
               </div>
 
               <div id="res-igst-box" class="hidden justify-between items-center text-muted">
-                <span>TCS - IGST (1.0%):</span>
+                <span>TCS - IGST (0.5%):</span>
                 <span class="text-lg font-mono text-accent" id="res-igst">₹0</span>
               </div>
 
@@ -222,7 +222,7 @@ const breadcrumb = [
         The rapid rise of e-commerce revolutionized business in India, but it also created a massive loophole for tax evasion. Many sellers were registering on platforms like Amazon, Flipkart, and Swiggy, making significant sales, but "forgetting" to declare this income to the government. To plug this revenue leak, the government introduced the concept of <strong>Tax Collected at Source (TCS)</strong> under Section 52 of the CGST Act.
       </p>
       <p>
-        Under the TCS mechanism, the government shifted the burden of tracking sales from individual sellers to the giant tech platforms. Every E-Commerce Operator (ECO) is now legally mandated to collect a 1% tax on the net sales value before paying the seller. Our <strong>TCS under GST Calculator</strong> helps sellers accurately predict this deduction and manage their cash flows.
+        Under Section 52, an e-commerce operator that is required to collect TCS collects the notified amount on the net value of covered taxable supplies made through its platform. The currently notified total rate is 0.5%. This calculator gives an estimate from the sales and returns you enter; check the operator's statement and current GST guidance for the actual amount.
       </p>
       
       <h3>Who is an E-Commerce Operator (ECO)?</h3>
@@ -238,13 +238,13 @@ const breadcrumb = [
         If you sell your own products on your own website (e.g., using Shopify to build a direct-to-consumer brand), you are NOT an ECO for the purpose of Section 52, and no TCS is required to be collected on your own sales.
       </p>
 
-      <h3>How is the 1% TCS Calculated?</h3>
+      <h3>How is GST TCS Calculated?</h3>
       <p>
-        The statutory rate of TCS is 1%. The split depends on the location of the supplier and the customer:
+        The currently notified total rate is 0.5% of the net value of taxable supplies covered by Section 52. The split depends on whether the supply is intra-state or inter-state:
       </p>
       <ul>
-        <li><strong>Intra-State (Same State):</strong> The ECO collects 0.5% CGST and 0.5% SGST.</li>
-        <li><strong>Inter-State (Different States):</strong> The ECO collects 1.0% IGST.</li>
+        <li><strong>Intra-State (Same State):</strong> 0.25% CGST and 0.25% SGST or UTGST.</li>
+        <li><strong>Inter-State (Different States):</strong> 0.5% IGST.</li>
       </ul>
       <p>
         <strong>Crucial Rule:</strong> TCS is calculated strictly on the "Net Value of Taxable Supplies".
@@ -253,7 +253,7 @@ const breadcrumb = [
         <code>Net Value = Gross Taxable Sales - Sales Returns</code>
       </p>
       <p>
-        If an ECO facilitated ₹5,00,000 worth of taxable sales for a seller in August, but customers returned ₹50,000 worth of goods in the same month, the Net Value is ₹4,50,000. The ECO will collect 1% of ₹4,50,000 = ₹4,500 as TCS. Furthermore, TCS is not calculated on exempt supplies (like fresh fruits or unbranded grains) or on the GST tax component itself.
+        If an ECO facilitated ₹5,00,000 worth of covered taxable supplies and customers returned ₹50,000 worth during the same month, the net value is ₹4,50,000. At 0.5%, the estimated TCS is ₹2,250. TCS is based on the net value of taxable supplies as defined under Section 52; check the operator statement for the applicable month and adjustments.
       </p>
 
       <h3>Impact on E-Commerce Sellers</h3>
@@ -271,6 +271,14 @@ const breadcrumb = [
       <p>
         However, recent notifications have provided relief: Unregistered suppliers and composition taxpayers are now allowed to make intra-state (within the same state) supply of goods through ECOs, subject to certain conditions like generating an enrollment number. But for inter-state sales through an ECO, regular GST registration remains compulsory regardless of turnover.
       </p>
+
+      <section class="mt-8 rounded-xl border border-base bg-subtle p-5 not-prose" aria-labelledby="official-references-heading">
+        <h3 id="official-references-heading" class="text-base font-semibold text-base mb-2">Official references</h3>
+        <ul class="list-disc pl-5 space-y-1 text-sm text-muted">
+          <li><a class="text-accent hover:underline" href="https://gstcouncil.gov.in/node/5015" target="_blank" rel="noopener noreferrer">Notification 15/2024-Central Tax</a> (intra-state TCS rate amendment).</li>
+          <li><a class="text-accent hover:underline" href="https://gstcouncil.gov.in/node/5511" target="_blank" rel="noopener noreferrer">54th GST Council meeting materials</a> (TCS rate reduction and related amendments).</li>
+        </ul>
+      </section>
     </article>
 
     
@@ -281,6 +289,7 @@ const breadcrumb = [
       <ul class="list-disc pl-5 space-y-2">
         <li><a href="/blog/hsn-code-importance" class="text-primary hover:underline">Why HSN Codes are Essential for GST Invoices in India</a></li>
         <li><a href="/blog/gstin-validation-check" class="text-primary hover:underline">How to Spot a Fake GST Bill Using a GSTIN Validator</a></li>
+        <li><a href="/blog/marketplace-tds-gst-tds-tcs-ecommerce-2026" class="text-primary hover:underline">Marketplace TDS vs GST TDS and TCS in 2026</a></li>
       </ul>
     </div>
   </div>
@@ -320,7 +329,7 @@ function calculate() {
     statusNegative.classList.add("hidden");
     statusTcs.classList.remove("hidden");
     resNet.textContent = formatCur(netValue);
-    const totalTcs = netValue * 0.01;
+    const totalTcs = netValue * 0.005;
     resTotal.textContent = formatCur(totalTcs);
     resTcsNote.textContent = totalTcs.toLocaleString("en-IN", { maximumFractionDigits: 2 });
     if (type === "intra") {

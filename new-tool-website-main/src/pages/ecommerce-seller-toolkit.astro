@@ -3,18 +3,18 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import ToolIcon from '../components/ToolIcon.astro';
 
 const title = 'E-commerce Seller Toolkit — Amazon/Flipkart Net Payout Calculator';
-const description = 'Calculate net payout after marketplace commission, shipping, 18% GST, 1% GST TCS, and 1% TDS. Built for Amazon, Flipkart, and Meesho sellers in India.';
+const description = 'Estimate marketplace payout after fees, 0.5% GST TCS, and 0.1% e-commerce income-tax TDS under Section 194-O or its 2026 successor.';
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://taxzentic.com';
 const canonical = `${siteUrl}/ecommerce-seller-toolkit`;
 
 const faqs = [
   {
     q: 'How is GST calculated for Amazon, Flipkart, and Meesho sellers?',
-    a: 'Sellers must distinguish between product GST (collected from buyers on the merchandise and remitted via GSTR-3B) and marketplace fees (commissions, shipping, advertising) on which the e-commerce platform charges 18% GST.',
+    a: 'Sellers should separate GST charged on the product from GST shown on marketplace fee invoices. This estimate assumes 18% GST on the commission, fixed fee, and shipping fee entered here; confirm each actual fee and tax rate against the operator invoice.',
   },
   {
     q: 'What is GST TCS under Section 52 for e-commerce operators?',
-    a: 'Under Section 52 of the CGST Act, e-commerce platforms like Amazon and Flipkart must collect Tax Collected at Source (TCS) on the net value of taxable supplies made through their marketplace.',
+    a: 'Where Section 52 applies, an e-commerce operator collects GST TCS on the net value of taxable supplies made through it. The operator statement and applicable statutory conditions determine the amount.',
   },
   {
     q: 'What is the current notified rate of GST TCS for e-commerce?',
@@ -22,7 +22,7 @@ const faqs = [
   },
   {
     q: 'What is the difference between GST TCS and Income Tax TDS under Section 194-O?',
-    a: 'GST TCS (Section 52) is collected on net taxable supplies and credited to your GST Electronic Cash Ledger. Income Tax TDS (Section 194-O) is deducted at 0.1% on gross sales consideration and credited to Form 26AS/AIS for annual income tax filing.',
+    a: 'GST TCS (Section 52) is collected on the net value of taxable supplies and credited to your GST Electronic Cash Ledger. Income-tax TDS is 0.1% on the gross sale amount under Section 194-O for periods governed by the Income-tax Act, 1961; for Tax Year 2026-27 onwards, the corresponding provision is Section 393(1), Table Sl. No. 8(v) of the Income-tax Act, 2025. The TDS treatment of separately stated GST depends on the applicable law, guidance, and timing of deduction.',
   },
   {
     q: 'How do customer returns and refunds affect GST TCS calculation?',
@@ -30,23 +30,23 @@ const faqs = [
   },
   {
     q: 'Can e-commerce sellers claim Input Tax Credit (ITC) on marketplace fees?',
-    a: 'Yes. The 18% GST charged by the marketplace on commission, fixed closing fees, and logistics is fully eligible for ITC. The platform issues a monthly B2B invoice that auto-populates in your GSTR-2B.',
+    a: 'GST on marketplace fees may qualify for ITC if the seller is registered and the applicable Section 16 conditions are met, subject to any blocked-credit rule. Check the operator tax invoice and GSTR-2B; the fee deduction alone does not establish eligibility.',
   },
   {
     q: 'Do all online marketplace sellers need mandatory GST registration?',
-    a: 'Sellers making inter-state supplies require mandatory GST registration regardless of turnover under Section 24(ix). Small sellers making exclusively intra-state supplies with turnover under ₹40 Lakhs may operate without registration under the notification scheme by generating an Enrolment ID.',
+    a: 'Notification 34/2023-Central Tax waives compulsory registration for eligible goods suppliers through e-commerce operators when turnover stays below the applicable registration threshold in the preceding and current financial years and its other conditions are met. The exemption excludes inter-State goods supplies and requires PAN declaration and portal enrolment.',
   },
   {
     q: 'Why is net bank settlement payout lower than the product selling price?',
-    a: 'Net payout equals Gross Selling Price minus marketplace commission, closing fees, shipping fees, 18% GST on marketplace fees, 0.5% GST TCS, and Section 194-O TDS.',
+    a: 'This estimate subtracts the marketplace fees and shipping you enter, GST on those fees, estimated 0.5% GST TCS, and estimated 0.1% e-commerce income-tax TDS. The TDS base can depend on how GST is shown and when tax is deducted; check the marketplace statement.',
   },
   {
     q: 'How do sellers claim the deducted GST TCS on the GST portal?',
-    a: 'File the monthly "TDS and TCS Credit Received" return on the GST portal (gst.gov.in) under Services > Returns. Once accepted, the credit transfers directly to your Electronic Cash Ledger to pay tax or claim refund.',
+    a: 'After the operator files GSTR-8, review the TCS entries in the TDS/TCS Credit Received facility on the GST portal and accept eligible entries according to the current portal workflow. Accepted credit is reflected in the electronic cash ledger; reconcile it with the operator statement.',
   },
   {
     q: 'Which financial reports must be reconciled before filing monthly GST returns?',
-    a: 'Reconcile the marketplace Merchant Tax Report (MTR) with your billing books, ensuring state-wise place of supply (POS) summaries match GSTR-1 Table 7 (B2C) and GSTR-3B Table 3.1.',
+    a: 'Compare marketplace settlement and tax reports with sales invoices, returns, credit notes, GSTR-1 and GSTR-3B. Check the relevant tables for your actual B2B/B2C supplies and place of supply; no single table fits every transaction.',
   },
 ];
 
@@ -81,7 +81,7 @@ const breadcrumb = [
   { name: 'E-commerce Seller Toolkit', href: '/ecommerce-seller-toolkit' },
 ];
 
-const lastUpdated = '2026-07-25';
+const lastUpdated = '2026-09-25';
 ---
 
 <BaseLayout {title} {description} {canonical} {structuredData} {breadcrumb} {lastUpdated}>
@@ -95,7 +95,7 @@ const lastUpdated = '2026-07-25';
         E-commerce <span class="text-accent">Seller Toolkit</span>
       </h1>
       <p class="text-[18px] text-muted max-w-2xl mx-auto leading-relaxed">
-        Instantly calculate your true net payout for Amazon, Flipkart, and Meesho sales. Automatically deducts commission, shipping, GST on fees, 1% GST TCS, and 1% Income Tax TDS.
+        Estimate your net payout for Amazon, Flipkart, and Meesho sales after commission, shipping, GST on fees, 0.5% GST TCS, and 0.1% Income Tax TDS.
       </p>
     </div>
 
@@ -138,7 +138,16 @@ const lastUpdated = '2026-07-25';
                 <option value="40">40%</option>
               </select>
             </div>
-            <p class="text-[12px] text-muted mt-2">Needed to calculate the exclusive price for 1% TCS deduction.</p>
+            <p class="text-[12px] text-muted mt-2">Needed to estimate GST TCS on the product value before GST.</p>
+          </div>
+
+          <div>
+            <label for="tds-gst-treatment" class="block text-sm font-medium text-base mb-2">Income-tax TDS basis</label>
+            <select id="tds-gst-treatment" class="w-full rounded-lg border border-base bg-white dark:bg-[#111] px-3 py-2.5 text-sm outline-none">
+              <option value="gross" selected>Full order value, including GST</option>
+              <option value="excluding-gst">Exclude separately shown GST when deducted at credit</option>
+            </select>
+            <p class="text-[12px] text-muted mt-2">Choose the basis that matches your marketplace statement. Applicable annual exclusions are not assessed by this order-level estimate.</p>
           </div>
         </div>
       </div>
@@ -164,17 +173,17 @@ const lastUpdated = '2026-07-25';
           </div>
 
           <div class="flex justify-between items-center text-red-500/80 pb-3 border-b border-accent/10">
-            <span>GST on Fees (18%) <span class="text-[11px] text-muted">(ITC claimable)</span></span>
+            <span>GST on Fees (18%) <span class="text-[11px] text-muted">(check ITC eligibility)</span></span>
             <span id="out-fee-gst">- ₹0.00</span>
           </div>
 
           <div class="flex justify-between items-center text-amber-600 dark:text-amber-500/90 pt-1">
-            <span>1% GST TCS <span class="text-[11px] text-muted">(on base price)</span></span>
+            <span>0.5% GST TCS <span class="text-[11px] text-muted">(on base price)</span></span>
             <span id="out-tcs">- ₹0.00</span>
           </div>
 
           <div class="flex justify-between items-center text-amber-600 dark:text-amber-500/90 pt-1">
-            <span>1% Income Tax TDS <span class="text-[11px] text-muted">(on gross)</span></span>
+            <span>0.1% Income Tax TDS <span class="text-[11px] text-muted" id="out-tds-basis">(on full order value)</span></span>
             <span id="out-tds">- ₹0.00</span>
           </div>
         </div>
@@ -195,15 +204,17 @@ const lastUpdated = '2026-07-25';
     <div class="prose prose-neutral dark:prose-invert max-w-none text-[15px] leading-[1.7] border-t border-base pt-12">
       <h2 class="text-[24px] font-semibold text-base mb-6 tracking-[-0.6px]">Understanding Amazon & Flipkart Seller Taxes</h2>
       
-      <p>Selling on e-commerce platforms like Amazon, Flipkart, or Meesho in India involves multiple layers of deductions before the money reaches your bank account. As a seller, you must account for marketplace fees, 18% GST charged by the platform on those fees, and two statutory tax deductions: 1% GST TCS and 1% Income Tax TDS.</p>
+      <p>Selling on e-commerce platforms like Amazon, Flipkart, or Meesho in India involves multiple layers of deductions before the money reaches your bank account. This estimate models GST TCS under Section 52 and e-commerce income-tax TDS: Section 194-O for periods governed by the Income-tax Act, 1961, and the corresponding Section 393(1), Table Sl. No. 8(v), under the Income-tax Act, 2025 from Tax Year 2026-27.</p>
 
       <h3 class="text-[20px] font-semibold text-base mt-10 mb-4 tracking-[-0.6px]">TCS (GST) vs TDS (Income Tax)</h3>
-      <p>E-commerce sellers face two simultaneous 1% deductions:</p>
+      <p>For supplies to which both provisions apply, the current rates used in this estimate are:</p>
       <ul>
-        <li><strong>1% GST TCS (Section 52):</strong> Calculated at 1% on the <em>net taxable value</em> of the goods (exclusive of GST). This can be claimed as cash balance on the GST portal.</li>
-        <li><strong>1% Income Tax TDS (Section 194-O):</strong> Calculated at 1% on the <em>gross amount of sales</em> (inclusive of GST). This reflects in your Form 26AS and can be claimed while filing your Income Tax Return.</li>
+        <li><strong>0.5% GST TCS (Section 52):</strong> Calculated on the <em>net value of taxable supplies</em> made through the operator, excluding the GST amount. The credit is reflected in the seller's GST electronic cash ledger.</li>
+        <li><strong>0.1% e-commerce income-tax TDS:</strong> The gross sale amount is the starting point. For applicable periods, CBDT guidance says separately shown GST may be excluded when tax is deducted at credit; if deduction is made at payment before credit, the whole amount may be used. The corresponding Income-tax Act, 2025 provision is Section 393(1), Table Sl. No. 8(v), from Tax Year 2026-27.</li>
       </ul>
-      <p><em>Example:</em> If you sell an 18% GST product for ₹1,180 (Gross), the taxable value is ₹1,000 (Base). The platform will deduct ₹10 for GST TCS (1% of 1,000) and ₹11.80 for Income Tax TDS (1% of 1,180).</p>
+      <p><em>Illustration:</em> If a marketplace sale is ₹1,180 including 18% GST, the base taxable value is ₹1,000. Estimated GST TCS is ₹5 (0.5% of ₹1,000). Estimated e-commerce TDS is ₹1.18 on the full order value, or ₹1 when separately shown GST is excluded on the selected basis. This tool does not check the annual ₹5 lakh exclusion available to qualifying individuals/HUFs who provide PAN or Aadhaar. Marketplace statements, deduction timing, and applicable law determine the actual settlement.</p>
+      <p>For a focused calculation of GST TCS on net taxable sales and returns, use the <a href="/tcs-gst-calculator" class="text-accent hover:underline">GST TCS calculator</a>.</p>
+      <p class="text-sm text-muted">Official references: <a href="https://gstcouncil.gov.in/node/5015" target="_blank" rel="noopener noreferrer" class="text-accent hover:underline">GST Notification 15/2024-Central Tax</a> for the Section 52 CGST rate; <a href="https://www.incometaxindia.gov.in/w/section-194-o-6" target="_blank" rel="noopener noreferrer" class="text-accent hover:underline">Section 194-O</a> for periods under the Income-tax Act, 1961; <a href="https://www.incometaxindia.gov.in/w/section-393-5" target="_blank" rel="noopener noreferrer" class="text-accent hover:underline">Section 393(1), Table Sl. No. 8(v)</a> for the successor provision; and <a href="https://incometaxindia.gov.in/news/ciruclar-20-2023.pdf" target="_blank" rel="noopener noreferrer" class="text-accent hover:underline">CBDT Circular No. 20/2023</a> on GST treatment under Section 194-O.</p>
 
       <h3 class="text-[20px] font-semibold text-base mt-10 mb-4 tracking-[-0.6px]">Frequently Asked Questions</h3>
       
@@ -239,12 +250,15 @@ const lastUpdated = '2026-07-25';
     // 2. GST on Fees (18%)
     const gstOnFees = (totalMarketplaceFees + shipping) * 0.18;
 
-    // 3. GST TCS Calculation (1% on net exclusive value)
+    // 3. GST TCS estimate (0.5% on the product value before GST)
     const exclusivePrice = sp / (1 + (prodGst / 100));
-    const tcs = exclusivePrice * 0.01;
+    const tcs = exclusivePrice * 0.005;
 
-    // 4. Income Tax TDS (1% on gross value under Sec 194-O)
-    const tds = sp * 0.01;
+    // 4. Income-tax TDS estimate. GST treatment depends on the applicable
+    // guidance and deduction timing; let sellers match their marketplace basis.
+    const tdsBasis = document.getElementById('tds-gst-treatment')?.value || 'gross';
+    const tdsBase = tdsBasis === 'excluding-gst' ? exclusivePrice : sp;
+    const tds = tdsBase * 0.001;
 
     // 5. Net Payout
     const netPayout = sp - totalMarketplaceFees - shipping - gstOnFees - tcs - tds;
@@ -257,6 +271,7 @@ const lastUpdated = '2026-07-25';
     document.getElementById('out-fee-gst').textContent = '- \u20b9' + gstOnFees.toFixed(2);
     document.getElementById('out-tcs').textContent = '- \u20b9' + tcs.toFixed(2);
     document.getElementById('out-tds').textContent = '- \u20b9' + tds.toFixed(2);
+    document.getElementById('out-tds-basis').textContent = tdsBasis === 'excluding-gst' ? '(excluding separately shown GST)' : '(on full order value)';
     
     const payoutEl = document.getElementById('out-net-payout');
     payoutEl.textContent = '\u20b9' + netPayout.toFixed(2);
@@ -282,7 +297,7 @@ const lastUpdated = '2026-07-25';
   }
 
   // Attach listeners
-  const inputs = ['selling-price', 'commission-rate', 'fixed-fee', 'shipping-fee', 'product-gst-rate'];
+  const inputs = ['selling-price', 'commission-rate', 'fixed-fee', 'shipping-fee', 'product-gst-rate', 'tds-gst-treatment'];
   inputs.forEach(id => {
     document.getElementById(id)?.addEventListener('input', updateCalc);
   });

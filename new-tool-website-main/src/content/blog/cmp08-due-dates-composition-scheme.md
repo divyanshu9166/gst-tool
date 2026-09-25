@@ -3,7 +3,7 @@ title: "CMP-08 Due Dates and Penalties for Composition Taxpayers"
 description: "Check CMP-08 due dates, quarterly deadlines (18th of the month), 18% late payment interest rules, and GSTR-4 annual return compliance for composition dealers."
 heroImage: "/images/blog/cmp08-due-dates-composition-scheme.webp"
 pubDate: "2026-06-18"
-updatedDate: "2026-09-15"
+updatedDate: "2026-09-25"
 tags: ["Due Dates Calendar", "Returns", "Composition Scheme"]
 ---
 
@@ -85,7 +85,7 @@ You can estimate this interest utilizing our [GST Interest Calculator](/gst-inte
 
 Remember, as a composition dealer:
 1. You cannot make inter-state sales of goods (you can only sell within your state).
-2. You cannot supply goods through an e-commerce operator who collects TCS.
+2. You may supply goods through an e-commerce operator under the special procedure in [Notification No. 36/2023-Central Tax](https://www.gstcouncil.gov.in/node/4391). The operator must block inter-state supplies, collect TCS, and report the sales; check the marketplace's current onboarding requirements.
 3. You must mention "Composition taxable person, not eligible to collect tax on supplies" on every Bill of Supply.
 
 Always perform a [GSTIN Validator](/gstin-validator) check on your suppliers, even though you can't claim ITC, to ensure you are dealing with legitimate businesses. Keeping track of your [GST Due Dates](/gst-due-dates) ensures you enjoy the benefits of the composition scheme without the headache of notices.

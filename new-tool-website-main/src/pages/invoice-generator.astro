@@ -2,7 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const title = 'Free GST Invoice Generator — PDF Download';
-const description = 'Free online GST invoice generator to create formatted tax invoices. Auto-calculates CGST, SGST, IGST. Download PDF instantly. 100% free and offline.';
+const description = 'Create a GST invoice draft in your browser, calculate CGST/SGST or IGST from the selected states, and use your browser to print or save it as a PDF. Review required invoice fields before issuing.';
 
 const structuredData = [
   {
@@ -10,7 +10,7 @@ const structuredData = [
     '@type': 'WebApplication',
     name: 'Free GST Invoice Generator',
     url: Astro.site?.toString() ? `${Astro.site}invoice-generator` : 'https://example.com/invoice-generator',
-    description: 'Free online GST invoice generator to create tax compliant invoices in seconds. Download as PDF instantly.',
+    description: 'Browser-based GST invoice draft with tax calculation and print-to-PDF output.',
     applicationCategory: 'BusinessApplication',
     operatingSystem: 'Any',
   },
@@ -19,11 +19,11 @@ const structuredData = [
     '@type': 'FAQPage',
     mainEntity: [
       { '@type': 'Question', name: "Is this GST invoice generator free to use?", acceptedAnswer: { '@type': 'Answer', text: "Yes, our GST invoice generator is 100% free. You can generate unlimited invoices without any watermarks or hidden charges." } },
-      { '@type': 'Question', name: "Can I add my own company logo to the invoice?", acceptedAnswer: { '@type': 'Answer', text: "Yes, you can upload your company logo directly in the tool, and it will be beautifully formatted on the final PDF invoice." } },
-      { '@type': 'Question', name: "Does the invoice format comply with 2026 GST rules?", acceptedAnswer: { '@type': 'Answer', text: "Absolutely. Our invoice template includes all mandatory fields required by the CGST Act, including HSN/SAC codes, GSTINs, Place of Supply, and tax breakdown." } },
+      { '@type': 'Question', name: "Can I add my own company logo to the invoice?", acceptedAnswer: { '@type': 'Answer', text: "The current form does not provide a logo upload field. You can enter business and buyer details, line items, and notes." } },
+      { '@type': 'Question', name: "Does the invoice format comply with current GST rules?", acceptedAnswer: { '@type': 'Answer', text: "This is a draft template, not a compliance check. The form does not capture every field that may be required, such as HSN/SAC. Add any missing details and verify the final invoice against current requirements before issuing it." } },
       { '@type': 'Question', name: "Are my invoice details saved online?", acceptedAnswer: { '@type': 'Answer', text: "No. For your privacy and security, all invoice generation happens locally in your browser. We do not store your client or pricing data on any database." } },
       { '@type': 'Question', name: "How do I add IGST or CGST/SGST?", acceptedAnswer: { '@type': 'Answer', text: "Simply select the 'Place of Supply' state. If it matches your business state, the tool automatically splits the tax into CGST and SGST. If it differs, it applies IGST." } },
-      { '@type': 'Question', name: "Can I download the invoice as a PDF?", acceptedAnswer: { '@type': 'Answer', text: "Yes, once you fill in the details, click 'Download PDF' to instantly save a professional, print-ready PDF invoice to your device." } },
+      { '@type': 'Question', name: "Can I save the invoice as a PDF?", acceptedAnswer: { '@type': 'Answer', text: "Yes. Use the print button and select Save as PDF in your browser's print dialog, if your browser supports it." } },
       {
         '@type': 'Question',
         name: 'Is this GST invoice generator completely free?',
@@ -45,7 +45,7 @@ const structuredData = [
         name: 'Is my financial data secure?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Absolutely. This tool runs entirely in your web browser (offline). No invoice data, client details, or pricing information is ever sent to our servers. Your privacy is 100% guaranteed.',
+          text: 'Invoice fields and the printable preview are processed in your browser. The tool does not submit invoice details to a Taxzentic server, but the website loads other services described in our Privacy Policy. Avoid entering details you do not need.',
         }
       },
       {
@@ -53,7 +53,7 @@ const structuredData = [
         name: 'How do I save the invoice as a PDF?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Simply fill out the form and click the "Download PDF" button. This will trigger your browser\'s native print dialog. Select "Save as PDF" as the destination, and your perfectly formatted A4 invoice will be downloaded.',
+          text: 'Fill out the form and click the print button. In the browser print dialog, select Save as PDF if available, then review the saved document before sending it.',
         }
       }
     ]
@@ -99,13 +99,13 @@ const breadcrumb = [
     <div id="header-section" class="print:hidden mb-10 text-center">
       <div class="inline-flex items-center gap-2 rounded-full border border-base bg-surface px-4 py-1.5 text-[12px] font-mono uppercase tracking-wider text-muted mb-4 shadow-[0_1px_1px_#00000005]">
         <span class="h-1.5 w-1.5 rounded-full bg-accent"></span>
-        100% Free • Offline Tool
+        Free browser-based draft
       </div>
       <h1 class="text-4xl sm:text-5xl font-bold tracking-tight text-base mb-4">
-        Best Free GST Billing Software & Invoice Generator
+        Free GST Invoice Draft Generator
       </h1>
       <p class="text-[16px] text-muted max-w-xl mx-auto leading-relaxed">
-        Looking for the best free gst billing software for small business in india? Use our free gst invoice generator without watermark to create professional, tax-compliant GST invoices instantly. Auto-calculates CGST, SGST, and IGST. Download as a PDF in seconds.
+        Create a printable GST invoice draft with basic business, buyer, and item details. The tool estimates CGST/SGST or IGST from the states you select. Review all required fields and the final tax treatment before issuing an invoice.
       </p>
     </div>
 
@@ -187,7 +187,7 @@ const breadcrumb = [
         <div class="flex justify-end no-print">
           <button id="print-btn" class="bg-accent text-white px-6 py-2.5 rounded-full shadow hover:-translate-y-0.5 transition-transform font-medium flex items-center gap-2">
             <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" /></svg>
-            Download PDF
+            Print / Save PDF
           </button>
         </div>
 
@@ -199,7 +199,7 @@ const breadcrumb = [
             <!-- Header Row -->
             <div class="flex justify-between items-start border-b border-gray-200 pb-6 mb-6">
               <div>
-                <h1 class="text-3xl font-bold text-gray-800 tracking-tight" id="prev-biller-name">Business Name</h1>
+                <div class="text-3xl font-bold text-gray-800 tracking-tight" id="prev-biller-name">Business Name</div>
                 <p class="text-gray-500 mt-1 whitespace-pre-wrap" id="prev-biller-address">Address Line 1&#10;City, State Pincode</p>
                 <p class="text-gray-600 mt-2 font-medium">GSTIN: <span class="font-mono text-gray-800" id="prev-biller-gstin"></span></p>
                 <p class="text-gray-600 font-medium">State: <span class="text-gray-800" id="prev-biller-state"></span></p>
@@ -300,34 +300,33 @@ const breadcrumb = [
     <article id="seo-section" class="print:hidden prose prose-neutral dark:prose-invert max-w-none text-[15px] leading-relaxed mt-24 pt-12 border-t border-base">
       <h2 class="text-2xl font-semibold mb-4">Why Use an Online GST Invoice Generator?</h2>
       <p>
-        Creating a tax invoice manually using Excel templates or Word documents is time-consuming and prone to mathematical errors. As a small business owner in India, compliance with the Goods and Services Tax (GST) framework requires you to issue a perfectly formatted invoice containing specific details like HSN/SAC codes, GSTINs, and an accurate split of CGST, SGST, or IGST. 
+        Creating an invoice manually can take time and make arithmetic errors easier. GST invoice requirements depend on the transaction and current rules. This editor helps draft basic details and tax amounts, but it does not validate every required field.
       </p>
       <p>
-        Our <strong>free gst invoice generator</strong> solves this problem instantly. By automatically detecting the State of the supplier and the State of the buyer, the tool intelligently decides whether to apply intra-state tax (CGST + SGST) or inter-state tax (IGST). It performs all complex percentage calculations for you in real time.
+        The editor uses the supplier and buyer states you select to estimate an intra-state CGST/SGST split or inter-state IGST. Confirm the place of supply and applicable rate for your transaction before issuing the invoice.
       </p>
 
-      <h3>100% Free and Offline</h3>
+      <h3>Free to use in your browser</h3>
       <p>
-        Most <strong>online gst invoice generator free</strong> tools available today are lead-generation traps. They force you to create an account, hide features behind paywalls, or store your sensitive client data on their servers. 
+        You can use this editor without an account or payment.
       </p>
       <p>
-        We built this tool differently. If you are searching for a <strong>free gst invoice generator without watermark</strong> or a <strong>gst billing app free</strong> of confusing subscriptions, you are in the right place. Our <strong>gst invoice generator online</strong> runs entirely within your web browser. When you click "Download PDF", your browser generates the PDF locally. No data is ever sent to a database. This guarantees 100% privacy, maximum security, and lightning-fast performance even on slow internet connections, making it the <strong>best free gst billing software for small business in india</strong>.
+        The invoice editor and preview run in your browser. Use the print button and your browser's Save as PDF option to make a local copy. The form does not send invoice fields to a Taxzentic database. Review the output, including any fields that your transaction requires but the form does not collect, before using it as a tax invoice.
       </p>
 
-      <h3>Mandatory Fields on a Tax Invoice</h3>
-      <p>Under GST rules, a valid tax invoice must contain:</p>
+      <h3>Invoice details to review</h3>
+      <p>Check the current GST invoicing rules for your transaction. Depending on the case, details to review include:</p>
       <ul>
-        <li>A unique, sequential Invoice Number (max 16 characters).</li>
-        <li>Date of issue.</li>
+        <li>Invoice number and date of issue.</li>
         <li>Name, address, and GSTIN of the supplier.</li>
         <li>Name, address, and GSTIN of the recipient (if registered).</li>
         <li>HSN Code for goods or SAC for services.</li>
         <li>Item description, quantity, and value.</li>
-        <li>Applicable rate of GST (0%, 5%, 12%, 18%, or 28%).</li>
+        <li>The applicable GST rate and place of supply.</li>
         <li>Total tax amount broken down into CGST, SGST, and IGST.</li>
         <li>Signature or digital signature of the authorized supplier.</li>
       </ul>
-      <p>Our generator automatically structures your data to meet every single one of these CBIC requirements.</p>
+      <p>The form does not collect every item above. Add and verify missing details in the final document before issuing it.</p>
     </article>
 
     

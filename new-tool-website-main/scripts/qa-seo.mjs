@@ -6,36 +6,16 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const pagesDir = path.resolve(__dirname, '../src/pages');
 
-// List of interactive tools requiring the 10-FAQ quality floor and SEO schema
-const targetTools = [
-  'pin-to-pin-distance-calculator.astro',
-  'gst-notice-reply-generator.astro',
-  'msme-delayed-payment-calculator.astro',
-  'gstr1-json-to-excel.astro',
-  'bulk-gstin-validator.astro',
-  'freelancer-invoice-generator.astro',
-  'msme-registration-checker.astro',
-  'saas-export-lut-calculator.astro',
-  'tds-rate-finder.astro',
-  'e-invoice-eligibility-checker.astro',
-  'ecommerce-seller-toolkit.astro',
-  'gst-amnesty-tracker.astro',
-  'gst-health-score.astro',
-  'gst-refund-calculator.astro',
-  'gst-refund-tracker.astro',
-  'gstr-mismatch-checker.astro',
-  'hra-exemption-calculator.astro',
-  'income-tax-calculator.astro',
-  'real-estate-gst-calculator.astro',
-  'restaurant-gst-calculator.astro',
-  'section-44ad-calculator.astro',
-  'tds-section-finder.astro',
-  'credit-debit-note-generator.astro',
-  'gst-rate-finder.astro',
-  'qrmp-eligibility-checker.astro',
-  'gst-rate-comparison.astro',
-  'mrp-revision-calculator.astro',
-];
+// Audit every tool route that declares app or downloadable-document schema, rather than keeping a
+// partial hand-maintained list that can miss newly added tools.
+const targetTools = fs.readdirSync(pagesDir)
+  .filter((file) => file.endsWith('.astro'))
+  .filter((file) => {
+    const content = fs.readFileSync(path.join(pagesDir, file), 'utf8');
+    return /['"]@type['"]\s*:\s*(?:['"]WebApplication['"]|['"]SoftwareApplication['"]|['"]DigitalDocument['"]|\[)/.test(content)
+      && /WebApplication|SoftwareApplication|DigitalDocument/.test(content);
+  })
+  .sort();
 
 const forbiddenPhrases = [
   { pattern: /100%\s+offline/i, file: 'gst-notice-reply-generator.astro', reason: 'GST notice generator uses AI generation and must not claim 100% offline' },
@@ -69,9 +49,10 @@ for (const toolFile of targetTools) {
     fileErrors.push('Missing "description" constant definition in frontmatter');
   }
 
-  // 2. Check canonical tag
-  if (!content.includes('canonical') || !/<BaseLayout[^>]*canonical/s.test(content)) {
-    fileErrors.push('Missing "canonical" prop passed to BaseLayout');
+  // BaseLayout emits a canonical URL from Astro.url.href unless a page
+  // explicitly overrides it, so verify the page uses the shared layout.
+  if (!/<BaseLayout(?:\s|>)/.test(content)) {
+    fileErrors.push('Page does not use BaseLayout, so the canonical fallback is not guaranteed');
   }
 
   // 3. Check Single H1
@@ -82,9 +63,9 @@ for (const toolFile of targetTools) {
     fileErrors.push(`Multiple <h1> tags found (${h1Matches.length})`);
   }
 
-  // 4. Check WebApplication / SoftwareApplication schema
-  if (!content.includes('WebApplication') && !content.includes('SoftwareApplication')) {
-    fileErrors.push('Missing WebApplication or SoftwareApplication schema in structuredData');
+  // 4. Check the schema matches an interactive tool or downloadable document
+  if (!content.includes('WebApplication') && !content.includes('SoftwareApplication') && !content.includes('DigitalDocument')) {
+    fileErrors.push('Missing WebApplication, SoftwareApplication, or DigitalDocument schema in structuredData');
   }
 
   // 5. Check FAQPage schema
@@ -92,16 +73,15 @@ for (const toolFile of targetTools) {
     fileErrors.push('Missing FAQPage schema in structuredData');
   }
 
-  // 6. Check 10-FAQ quality floor
-  // Count items in faqs array
-  const faqsArrayMatch = content.match(/const\s+faqs\s*=\s*\[([\s\S]*?)\];/);
-  let faqCount = 0;
-  if (faqsArrayMatch) {
-    const questions = faqsArrayMatch[1].match(/q:\s*['"`]/g);
-    faqCount = questions ? questions.length : 0;
-  } else {
-    // If not in faqs array, check structuredData mainEntity questions
-    const qMatches = content.match(/'@type':\s*'Question'/g) || content.match(/"@type":\s*"Question"/g);
+  // 6. Check the 10-FAQ quality floor. FAQ arrays are named differently
+  // across older tool pages (for example gstCalculatorFaqs or dueDatesFaqs).
+  const faqArrays = [...content.matchAll(/const\s+([\w$]*faq[\w$]*)\s*=\s*\[([\s\S]*?)\];/gi)];
+  let faqCount = faqArrays.reduce((sum, match) => {
+    const questions = match[2].match(/\b(?:q|question)\s*:\s*['"`]/gi);
+    return sum + (questions?.length ?? 0);
+  }, 0);
+  if (faqCount === 0) {
+    const qMatches = content.match(/['"]@type['"]\s*:\s*['"]Question['"]/g);
     faqCount = qMatches ? qMatches.length : 0;
   }
 
@@ -128,7 +108,7 @@ for (const toolFile of targetTools) {
     }
     totalErrors += fileErrors.length;
   } else {
-    console.log(`✅ ${toolFile} (${faqCount} FAQs, WebApp + FAQPage Schema, H1, Canonical)`);
+    console.log(`✅ ${toolFile} (${faqCount} FAQs, App/Document + FAQPage Schema, H1, BaseLayout canonical)`);
   }
 }
 

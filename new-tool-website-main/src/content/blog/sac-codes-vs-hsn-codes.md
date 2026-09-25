@@ -8,15 +8,15 @@ tags: ["HSN Code", "Invoicing"]
 
 While the terms HSN and SAC are often used interchangeably in GST discussions, they serve distinctly different purposes. If you run a business in India, knowing which classification system applies to you is vital for generating compliant invoices and avoiding filing errors.
 
-Whether you need an HSN or a SAC, our [HSN Code Lookup](/hsn-code-lookup) tool is equipped to search both databases instantly.
+Whether you need an HSN or a SAC, our [HSN Code Lookup](/hsn-code-lookup) searches both code systems. You can use the [Invoice Generator](/invoice-generator) to lay out the invoice after verifying the classification and tax treatment.
 
 ## What is an HSN Code?
 
 **HSN** stands for **Harmonized System of Nomenclature**. It is an internationally recognized system used to classify **Goods**. 
 - It was developed by the World Customs Organization (WCO).
 - It is used globally for customs and trade, ensuring uniformity in product classification.
-- Under GST, HSN codes dictate the tax slab (5%, 12%, 18%, or 28%) for physical items like electronics, clothing, machinery, and food products.
-- Example: The HSN code for a Laptop is `84713010` (taxed at 18%).
+- Under GST, HSN supports goods classification. The applicable rate comes from the current rate notification and depends on the exact description, tariff entry and conditions; the code alone does not decide it.
+- Example: A laptop is classified within the relevant computer tariff entries, but verify the precise tariff item and current rate notification for the product being invoiced.
 
 ## What is a SAC Code?
 
@@ -37,8 +37,8 @@ Whether you need an HSN or a SAC, our [HSN Code Lookup](/hsn-code-lookup) tool i
 ## Invoicing Rules for SAC Codes
 
 Just like HSN codes for goods, the government has mandated the use of SAC codes on tax invoices for service providers.
-- If your aggregate turnover in the preceding financial year was up to ₹5 Crore, mentioning the SAC code on B2B invoices is mandatory.
-- If your turnover exceeds ₹5 Crore, mentioning the 6-digit SAC code is mandatory on *all* invoices (B2B and B2C).
+- If your aggregate turnover in the preceding financial year was up to ₹5 crore, the usual minimum is 4 digits on B2B invoices; the notification permits omission on invoices to unregistered persons.
+- If your turnover exceeds ₹5 crore, the usual minimum is 6 digits on invoices. See our [4-digit vs 6-digit HSN/SAC guide](/blog/4-digit-vs-6-digit-hsn-codes) and verify any applicable special requirement.
 
 ## How to Handle Mixed Supplies
 

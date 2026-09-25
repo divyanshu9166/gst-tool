@@ -1,57 +1,55 @@
 ---
 title: "IMS is Now Mandatory: Invoice Management System 2026 Guide"
-description: "The GST Invoice Management System (IMS) is fully mandatory in 2026. Learn how to Accept, Reject, or Keep Pending your vendor invoices to secure your ITC."
+description: "Understand the GST portal's Invoice Management System, Accept/Reject/Pending actions, deemed acceptance, and when to recompute GSTR-2B."
 pubDate: "2026-06-19"
+updatedDate: "2026-09-25"
 heroImage: "/images/blog/gst-invoice-management-system-ims-guide.webp"
-tags: ["IMS", "E-Invoicing", "GST Updates", "Input Tax Credit"]
+tags: ["IMS", "GST Updates", "Input Tax Credit"]
 ---
 
-For years, GST taxpayers have struggled with the rigid, read-only nature of GSTR-2B. If a vendor uploaded an incorrect invoice, the buyer had no direct mechanism on the portal to reject it; they had to call the vendor, argue over the phone, and wait weeks for a credit note.
+The GST portal's Invoice Management System (IMS) helps recipients review invoice records reported by suppliers. It offers **Accept**, **Reject**, and, for eligible records, **Pending** actions. GSTN's published guidance describes IMS as an optional facility; this guide does not treat clicking an action for every invoice as a universal filing requirement. Check current portal instructions for the period you are filing.
 
-To solve this massive friction, the GST Network (GSTN) introduced the **Invoice Management System (IMS)**. 
+An IMS action affects how a record appears in GSTR-2B. It does **not**, by itself, prove that input tax credit (ITC) is legally available. You still need to verify the invoice, receipt of goods or services, and other applicable conditions.
 
-Initially launched as an optional utility, **the IMS is officially mandatory for all regular taxpayers in 2026**. This system fundamentally changes how Input Tax Credit (ITC) flows into your GSTR-3B. If you do not actively interact with the IMS dashboard, you risk losing thousands of rupees in eligible credit.
+## How IMS relates to GSTR-2B
 
-## What is the Invoice Management System (IMS)?
+Suppliers report invoice details through the relevant return or invoice furnishing facility. Those records can appear in the recipient's IMS dashboard. GSTN uses the available records and eligible IMS actions when generating GSTR-2B. If a recipient takes no action on a record that is eligible for the default workflow, GSTN's guidance says it is **deemed accepted** for this purpose. Deemed acceptance is a portal status, not a substitute for checking ITC eligibility.
 
-The IMS is an interactive dashboard on the GST portal that sits *between* your vendor's GSTR-1 and your final GSTR-2B. 
+The [GST Council's IMS advisory](https://gstcouncil.gov.in/sites/default/files/2025-01/november_2024_newsletter_0.pdf) explains the original workflow. GSTN's [FAQ on changes from the October 2025 tax period](https://tutorial.gst.gov.in/downloads/news/creative_faq_on_gstr9_for_24_25_dt_15_oct_25_v6_final.pdf) describes later changes, including pending options for certain document types. Use the current portal guidance if the workflow changes again.
 
-When your supplier saves an invoice in their GSTR-1 or IFF, it instantly reflects in your IMS dashboard (in near real-time, unlike GSTR-2B which generates only on the 14th). 
+## Choose an action after checking the record
 
-You, as the buyer, must now review these incoming invoices and take one of three specific actions: **Accept, Reject, or Keep Pending.**
+### Accept
 
-## The 3 IMS Actions Explained
+Use Accept when the supplier-reported details match the records you intend to retain for review. Check supplier GSTIN, invoice number, date, taxable value and tax amounts. An accepted record can flow into GSTR-2B, subject to the portal rules for that document. It still needs a separate legal ITC check.
 
-### 1. Accept
-- **When to use:** The invoice matches your purchase register perfectly, the goods were received, and you are eligible to claim the ITC.
-- **The Result:** The invoice flows seamlessly into your GSTR-2B on the 14th of the month, and the ITC populates into Table 4 of your GSTR-3B.
-- *Note:* If you take no action at all, the system will *Deemed Accept* the invoice by default.
+### Reject
 
-### 2. Reject
-- **When to use:** The vendor uploaded a fake invoice, entered the wrong GSTIN (billed it to you by mistake), or inflated the invoice value erroneously.
-- **The Result:** The invoice is blocked from entering your GSTR-2B. The vendor receives a real-time notification on their dashboard that you rejected the invoice, forcing them to amend their GSTR-1 before filing. This completely protects you from ASMT-10 notices for claiming fraudulent ITC.
+Use Reject when a record was incorrectly attributed to you or contains a material error that requires correction. Before rejecting, compare it with the original invoice and contact the supplier where appropriate. Rejection is not a guarantee against notices or disputes; keep evidence of the mismatch and any correction.
 
-### 3. Keep Pending
-- **When to use:** The vendor raised the invoice on the 28th of the month, but the truck carrying the goods is still in transit and hasn't reached your factory by the month-end. Under Section 16, you cannot claim ITC until goods are physically received.
-- **The Result:** The invoice does *not* flow into the current month's GSTR-2B. Instead, it rolls over to the next month's IMS dashboard. Once the truck arrives, you can "Accept" it in the subsequent month.
+### Keep Pending
 
-## Why IMS is a Game Changer for 2026
+Where the portal permits it for that document and period, Pending defers an action while you verify the transaction. Not every document has always supported Pending, and the available options have changed over time. Check the current GSTN instructions and the applicable time limits for ITC.
 
-Before IMS, if you wanted to defer an ITC claim (due to goods in transit), you had to manually reverse the ITC in Table 4(B)(2) of your GSTR-3B and meticulously track it in an Excel sheet to reclaim it months later in Table 4(A)(5). This caused massive reconciliation nightmares during GSTR-9 annual audits.
+## Example: an invoice difference
 
-With IMS, you simply click "Keep Pending." The GST portal handles the math, completely eliminating the need for manual, temporary ITC reversals.
+Suppose your purchase register shows invoice **INV-104** from a supplier, but the IMS record shows a different taxable value. Compare the supplier's invoice, any debit or credit note, and the record on the portal. Document the difference and ask the supplier to correct its reporting if needed. Do not accept or reject solely because a single amount differs without checking the supporting documents.
 
-## Best Practices for IMS Compliance
+If you change an IMS action after GSTR-2B has been generated, GSTN guidance says you may need to use the **recompute GSTR-2B** option before filing the corresponding GSTR-3B. Verify the portal's current deadline and available actions for your return period.
 
-1. **Daily Review:** Do not wait for the 13th of the month to review the IMS. Make it a daily habit for your accounts payable team to log in and accept/reject invoices as soon as suppliers upload them.
-2. **Never Let Fakes Slide:** If you see a high-value invoice from an unknown vendor, **Reject it immediately**. Allowing it to be "Deemed Accepted" pollutes your GSTR-2B and makes you a target for DGGI investigations. 
-3. **Automate:** For large enterprises with thousands of invoices, manual clicking is impossible. Utilize ASP/GSP software that integrates directly with the IMS APIs to auto-accept invoices that perfectly match your ERP data.
+## A practical review routine
 
-## Conclusion
+1. Export or open your purchase register for the tax period.
+2. Check supplier GSTIN, invoice number, date, taxable value and tax amount against the IMS record.
+3. Investigate missing records, amendments and credit notes with the supplier.
+4. Record the reason for any Reject or Pending decision and keep supporting documents.
+5. Review the resulting GSTR-2B and the statutory ITC conditions before filing GSTR-3B.
 
-The Invoice Management System transfers the power of ITC control from the supplier back to the buyer. By actively using the Accept/Reject/Pending workflow, you ensure your GSTR-2B is 100% accurate, dramatically reducing your chances of facing departmental audits in 2026. If you need to quickly verify your final tax payouts after accepting your ITC, rely on our [Free GST Calculator](/gst-calculator).
+For a manual comparison layout, download our [GSTR-2B CSV template](/gstr-2b-reconciliation-tool). The CSV is an illustrative sample; it does not connect to the GST portal or match invoices automatically.
 
+## Official references
 
-## Related Tools
-- [GST Notice Reply Deadline Calculator | Section 73, 74 & DRC-01](/gst-notice-deadline-calculator)
-- [GST LUT Renewal Date Calculator & Reminder | Exporters](/lut-renewal-reminder)
+- [GST Council advisory on IMS and supplier view](https://gstcouncil.gov.in/sites/default/files/2025-01/november_2024_newsletter_0.pdf)
+- [GSTN FAQ on IMS changes from October 2025](https://tutorial.gst.gov.in/downloads/news/creative_faq_on_gstr9_for_24_25_dt_15_oct_25_v6_final.pdf)
+
+This article is general information. Confirm current law, portal behavior, and your particular ITC position with official sources and a qualified tax professional before filing.

@@ -5,7 +5,7 @@ import CalculatorMethodology from '../components/CalculatorMethodology.astro';
 import TaxDisclaimer from '../components/TaxDisclaimer.astro';
 
 const title = 'RCM Calculator India — Reverse Charge 2026';
-const description = 'Free Reverse Charge Mechanism Calculator to compute GST liability for GTA, legal services, security, and sponsorship under Indian GST laws.';
+const description = 'Estimate GST under reverse charge for common notified supplies. Check GTA, legal-service, security and conditional sponsorship rules before relying on an estimate.';
 
 const structuredData = [
   {
@@ -22,7 +22,7 @@ const structuredData = [
     '@type': 'FAQPage',
     mainEntity: [
       { '@type': 'Question', name: "What is the Reverse Charge Mechanism (RCM)?", acceptedAnswer: { '@type': 'Answer', text: "Under normal circumstances, the supplier pays GST. Under RCM, the liability to pay GST falls on the recipient of the goods or services." } },
-      { '@type': 'Question', name: "Can I claim ITC on tax paid under RCM?", acceptedAnswer: { '@type': 'Answer', text: "Yes. You must first pay the RCM liability in cash, and then you can claim it back as Input Tax Credit in the same month's GSTR-3B, provided it's used for business." } },
+      { '@type': 'Question', name: "Can I claim ITC on tax paid under RCM?", acceptedAnswer: { '@type': 'Answer', text: "You may claim eligible ITC after paying RCM tax, subject to Section 16, business use, blocked-credit and apportionment rules. RCM payment does not guarantee a full or same-return ITC claim." } },
       {
         '@type': 'Question',
         name: 'What is Reverse Charge Mechanism (RCM) under GST?',
@@ -36,7 +36,7 @@ const structuredData = [
         name: 'Which services fall under RCM?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Common services under RCM include Goods Transport Agency (GTA) services (5%), Legal services by advocates (18%), Sponsorship services (18%), Security services (18%), and Renting of Motor Vehicles (5%).',
+          text: 'RCM can apply to notified supplies such as qualifying GTA and legal services, and certain security or sponsorship services. Supplier, recipient, supply and tax-option conditions matter; rates must be checked separately.',
         }
       },
       {
@@ -68,7 +68,7 @@ const structuredData = [
         name: 'Are unregistered dealers liable for RCM?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'If a person is required to pay tax under RCM, they must compulsorily register for GST, regardless of their turnover. The normal threshold limit of ₹20 Lakhs / ₹40 Lakhs does not apply to them.',
+          text: 'A person liable under RCM may be required to register under Section 24(iii), regardless of turnover, unless a specific exemption applies. Check the person’s full activities and current registration notifications.',
         }
       },
       {
@@ -76,7 +76,7 @@ const structuredData = [
         name: 'What is the RCM rate for Goods Transport Agency (GTA)?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'If the GTA does not opt to pay forward charge at 12%, the recipient of the GTA services must pay RCM at the rate of 5% (2.5% CGST + 2.5% SGST or 5% IGST).',
+          text: 'GTA tax treatment depends on the recipient category and the GTA’s tax option. RCM may apply where the notified conditions are met; verify the GTA declaration, applicable rate notification and transaction facts.',
         }
       },
       {
@@ -94,7 +94,7 @@ const structuredData = [
 const rcmServices = [
   { name: 'Goods Transport Agency (GTA)', rate: 5 },
   { name: 'Legal Services by Advocates/Firm', rate: 18 },
-  { name: 'Sponsorship Services', rate: 18 },
+  { name: 'Sponsorship (eligible non-body-corporate supplier)', rate: 18 },
   { name: 'Security Services', rate: 18 },
   { name: 'Renting of Motor Vehicle', rate: 5 },
   { name: 'Import of Service', rate: 18 },
@@ -102,7 +102,7 @@ const rcmServices = [
   { name: 'Custom (Enter own rate)', rate: 0 }
 ];
 
-const lastUpdated = '2026-07-25';
+const lastUpdated = '2026-09-25';
 const breadcrumb = [
   { name: 'Home', href: '/' },
   { name: 'Calculators', href: '/#tools-heading' },
@@ -253,10 +253,10 @@ const breadcrumb = [
         While our calculator automates the math, verify that your inward supply falls under the statutory categories notified under Notification No. 13/2017-Central Tax (Rate):
       </p>
       <ul>
-        <li><strong>Goods Transport Agency (GTA):</strong> If the GTA does not opt to pay GST under forward charge (12% or 5%), the registered recipient must pay 5% under reverse charge.</li>
+        <li><strong>Goods Transport Agency (GTA):</strong> RCM may apply where the notified recipient category and GTA tax-option conditions are met. Check the supplier's declaration and current rate notification; the recipient is not liable in every GTA transaction.</li>
         <li><strong>Legal Services:</strong> Services provided by an individual advocate or firm of advocates to a business entity (18% RCM).</li>
-        <li><strong>Sponsorship Services:</strong> Provided to a body corporate or partnership firm (18% RCM).</li>
-        <li><strong>Security Services:</strong> Personnel provided by any person other than a body corporate to a registered person (18% RCM).</li>
+        <li><strong>Sponsorship Services:</strong> The notified RCM entry covers sponsorship supplied by a person other than a body corporate to a body corporate or partnership firm in the taxable territory. A body corporate supplier is excluded from this RCM entry under Notification No. 07/2025-Central Tax (Rate). Confirm the applicable rate separately.</li>
+        <li><strong>Security Services:</strong> RCM may apply to security personnel supplied by a person other than a body corporate to a registered recipient, subject to the notification and recipient conditions, including the composition-levy exclusion.</li>
         <li><strong>Renting of Motor Vehicle:</strong> Where cost of fuel is included, provided to a body corporate by a non-body corporate (5% RCM).</li>
         <li><strong>Import of Services:</strong> Services received from outside India for business purposes (18% RCM).</li>
         <li><strong>Director Services:</strong> Remuneration/fees paid to independent or non-executive directors (18% RCM).</li>
@@ -273,7 +273,7 @@ const breadcrumb = [
       <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6 not-prose">
         <CalculatorMethodology
           calculates="Statutory reverse charge tax liability on notified goods and services under Section 9(3) of CGST Act and Notification No. 13/2017-Central Tax (Rate)."
-          doesNotDetermine="Whether supplier has opted for forward charge (e.g. GTA under 12% forward charge), recipient exemption status, or statutory ITC admissibility."
+          doesNotDetermine="Whether the GTA has opted for forward charge, whether a sponsorship supplier is a body corporate, the recipient's notified category or composition status, or statutory ITC admissibility."
           inputs="Transaction Value (₹), Supply Category, Transaction Type (Intra-State vs Inter-State)"
           formula="Intra-State RCM = Value × (Rate ÷ 2) CGST + Value × (Rate ÷ 2) SGST | Inter-State RCM = Value × Rate IGST"
           applicablePeriod="FY 2025-26 &amp; FY 2026-27"
@@ -285,6 +285,7 @@ const breadcrumb = [
           sources={[
             { title: "Section 9(3), CGST Act, 2017", description: "statutory power to notify categories of supplies liable to reverse charge" },
             { title: "Notification No. 13/2017-Central Tax (Rate)", url: "https://www.cbic.gov.in", description: "notified categories of services subject to reverse charge mechanism" },
+            { title: "Notification No. 07/2025-Central Tax (Rate)", url: "https://gstcouncil.gov.in/sites/default/files/2025-01/ctr07-2025.pdf", description: "amends the sponsorship entry and excludes a body corporate supplier from this RCM entry" },
             { title: "Section 24(iii), CGST Act, 2017", description: "mandatory GST registration for persons liable to pay tax under reverse charge" },
             { title: "Section 31(3)(f) & (g), CGST Act, 2017", description: "statutory mandate for self-invoicing and payment vouchers" }
           ]}
@@ -305,6 +306,8 @@ const breadcrumb = [
       <ul class="list-disc pl-5 space-y-2">
         <li><a href="/blog/gstr9-annual-return-due-date" class="text-primary hover:underline">GSTR-9 Annual Return: Due Dates and Applicability Explained</a></li>
         <li><a href="/blog/never-miss-gst-due-dates" class="text-primary hover:underline">The Complete Guide to GST Return Due Dates for 2026</a></li>
+        <li><a href="/blog/gst-reverse-charge-legal-services-2026" class="text-primary hover:underline">GST Reverse Charge on Legal Services in 2026</a></li>
+        <li><a href="/gst-notices/" class="text-primary hover:underline">GST notices and how to review a demand</a></li>
       </ul>
     </div>
   </div>

@@ -3,6 +3,7 @@ title: "GST Composition Scheme 2026: Eligibility, Rates (1%/5%/6%) & How to Opt 
 description: "Everything you need to know about the GST composition scheme rate in 2026. Check the composition scheme limit, who can opt in, and how to file gst cmp-08."
 slug: "gst-composition-scheme-2026"
 pubDate: 2026-06-26
+updatedDate: 2026-09-25
 author: "GST Expert"
 heroImage: "/images/blog/gst-composition-scheme-2026.svg"
 ---
@@ -26,8 +27,7 @@ Not everyone can opt into the scheme. The government restricts it to micro and s
 2. **Service Providers:** Your aggregate annual turnover must be below **₹50 Lakhs**.
 
 **Who CANNOT opt for the scheme?**
-- Businesses making inter-state (out of state) sales.
-- Businesses selling through e-commerce portals (like Amazon or Flipkart) that collect TCS.
+- Businesses making inter-state outward supplies. Composition taxpayers may supply goods through an e-commerce operator under the special procedure, which blocks inter-state supplies and requires the operator to collect TCS and report those sales. See [Notification No. 36/2023-Central Tax](https://www.gstcouncil.gov.in/node/4391).
 - Manufacturers of ice cream, pan masala, tobacco, or aerated water.
 - Casual taxable persons or non-resident taxable persons.
 
@@ -41,6 +41,17 @@ Here are the rates for 2026:
 - **Service Providers / Mixed Suppliers:** **6%** of turnover (3% CGST + 3% SGST).
 
 👉 Try it yourself: Wondering if the flat rate is cheaper than paying standard 18% GST? Use our [Composition Scheme tool](/composition-scheme-calculator) to compare your exact margins and see if switching will save you money.
+
+### Example: eligible trader with ₹10 lakh turnover
+
+Assume an eligible trader makes ₹10 lakh of taxable sales in a quarter, all of which would otherwise attract 18% GST, and ignore other adjustments for illustration:
+
+| Regime | Illustrative output levy before input credits |
+| --- | ---: |
+| Composition at 1% of turnover | ₹10,000, payable by the composition taxpayer; GST cannot be separately collected from the buyer |
+| Regular scheme at 18% on the assumed taxable value | ₹1,80,000 output GST before eligible ITC |
+
+This is not a like-for-like estimate of final business cost. A regular taxpayer may claim eligible ITC, while a composition taxpayer cannot; pricing, purchases, product rates and eligibility can change the result. The example does not show that composition is always cheaper or available to a particular business. Use the calculator with your actual turnover and purchase profile, then confirm the scheme conditions.
 
 <div class="bg-amber-50 dark:bg-amber-950/20 border-l-4 border-amber-500 p-4 my-6">
   <strong>Can Composition Dealers Claim Input Tax Credit (ITC)?</strong> No. Under Section 10(2)(c) of the CGST Act, composition dealers cannot claim any ITC on business purchases, capital goods, or raw materials. The GST paid to suppliers becomes a direct business expense.
@@ -66,7 +77,7 @@ Before you log into the portal and hit the "Opt-in" button, you must understand 
 **The Disadvantages (Cons):**
 - **No Input Tax Credit (ITC):** This is the biggest drawback. Any GST you pay on your raw materials, rent, or business purchases cannot be claimed back. It becomes a permanent cost to your business. 
 - **No B2B Competitiveness:** Because you issue a Bill of Supply instead of a Tax Invoice, your corporate buyers cannot claim ITC on purchases from you. They will likely choose to buy from a regular GST-registered supplier instead.
-- **Geographical and E-Commerce Restrictions:** You cannot make inter-state outward sales. Regarding online platforms, while inter-state supply through marketplaces remains restricted, **Notification No. 36/2023-Central Tax** permits composition dealers to make intra-state supplies of goods through e-commerce operators (ECOs) subject to portal enrollment conditions.
+- **Geographical and E-Commerce Restrictions:** You cannot make inter-state outward sales. Under [Notification No. 36/2023-Central Tax](https://www.gstcouncil.gov.in/node/4391), composition taxpayers may supply goods through e-commerce operators under a special procedure: the operator must block inter-state goods supplies, collect TCS, and report those sales. Check the marketplace's current onboarding requirements before opting in.
 
 ## How to File GST CMP-08
 
@@ -112,6 +123,6 @@ Before making a final choice, use our [Composition Scheme Calculator](/compositi
 > - Section 10, Central Goods and Services Tax (CGST) Act, 2017 (Composition levy for goods and restaurants)
 > - Notification No. 2/2019-Central Tax (Rate) (6% presumptive scheme for service suppliers up to ₹50 Lakh)
 > - Notification No. 36/2023-Central Tax (Conditions for intra-state supply of goods through e-commerce operators)
-> - Law reviewed as of: 19 September 2026. 
+> - Law reviewed as of: 25 September 2026.
 
 *(Related post: [Reverse Charge Mechanism (RCM) Under GST: Full List](/blog/reverse-charge-mechanism-gst-list))*

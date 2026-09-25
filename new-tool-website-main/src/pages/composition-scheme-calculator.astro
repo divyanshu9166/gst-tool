@@ -68,7 +68,7 @@ const structuredData = [
         name: 'Can I sell on Amazon/Flipkart under the Composition Scheme?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'No. Businesses that supply goods through an e-commerce operator who is required to collect Tax Collected at Source (TCS) cannot opt for the Composition Scheme.',
+          text: 'Yes, a composition taxpayer may supply goods through an e-commerce operator under the notified procedure. The operator must block inter-state supplies, collect TCS, and report the supplies. Confirm that your marketplace supports composition sellers and check the current GST portal requirements before onboarding.',
         }
       },
       {
@@ -98,7 +98,7 @@ const businessTypes = [
   { id: 'service', name: 'Service Provider / Freelancer', rate: 6, limit: 5000000, splLimit: 5000000 },
 ];
 
-const lastUpdated = '2026-07-25';
+const lastUpdated = '2026-09-25';
 const breadcrumb = [
   { name: 'Home', href: '/' },
   { name: 'Calculators', href: '/#tools-heading' },
@@ -247,7 +247,7 @@ const breadcrumb = [
         <li><strong>No Input Tax Credit (ITC):</strong> You cannot claim ITC on purchases or capital goods. Any tax paid to your suppliers becomes an operational cost.</li>
         <li><strong>No Tax Collection:</strong> You cannot charge GST on customer invoices. You must issue a "Bill of Supply" endorsed with the words <em>"Composition taxable person, not eligible to collect tax on supplies"</em>.</li>
         <li><strong>No Inter-State Outward Sales:</strong> You are restricted to making intra-state outward supplies of goods and services. Inter-state inward purchases are permitted.</li>
-        <li><strong>E-Commerce Supplies (Notification 36/2023):</strong> Composition dealers cannot make inter-state supplies through e-commerce operators. However, under <strong>Notification No. 36/2023-Central Tax</strong>, composition dealers are permitted to make intra-state supplies of goods through e-commerce operators (ECOs) subject to obtaining an enrollment number on the GST portal and meeting specified inventory conditions.</li>
+        <li><strong>E-Commerce Supplies (Notification 36/2023):</strong> Composition dealers may supply goods through e-commerce operators under the notified procedure, but the operator must block inter-state supplies, collect TCS, and report the supplies. Check the marketplace's current onboarding requirements and the official notification before selling.</li>
         <li><strong>Non-Taxable &amp; Excluded Goods:</strong> You cannot supply goods outside GST (such as motor spirits or alcohol). Furthermore, manufacturers of notified products (such as pan masala, tobacco, ice cream, and aerated waters) are ineligible for the scheme.</li>
       </ol>
 
@@ -272,7 +272,7 @@ const breadcrumb = [
           sources={[
             { title: "Section 10, CGST Act, 2017", description: "composition levy framework for goods and restaurants" },
             { title: "Notification No. 2/2019-Central Tax (Rate)", url: "https://www.cbic.gov.in", description: "6% presumptive scheme for service suppliers up to ₹50 Lakh" },
-            { title: "Notification No. 36/2023-Central Tax", url: "https://www.cbic.gov.in", description: "conditions for intra-state supply of goods through ECOs" },
+            { title: "Notification No. 36/2023-Central Tax", url: "https://www.gstcouncil.gov.in/node/4391", description: "special procedure for goods supplied through ECOs by composition taxpayers" },
             { title: "Rule 3 to 7, CGST Rules, 2017", description: "intimation, validity, and conditions for composition levy" }
           ]}
           reviewedDate="19 September 2026"

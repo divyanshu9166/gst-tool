@@ -2,22 +2,22 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const title = 'Pin to Pin Distance Calculator (Instant & Free) — E-Way Bill';
-const description = 'Estimate route distance for planning and calculate e-way bill validity; verify statutory distance in the official NIC system.';
+const description = 'Get a rough PIN-to-PIN distance estimate for planning. Use the distance shown by the official NIC portal for an e-way bill.';
 
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://taxzentic.com';
 const canonical = `${siteUrl}/pin-to-pin-distance-calculator`;
 
 const faqs = [
-  { q: 'Why is pincode-to-pincode distance important for GST?', a: 'Distance between supplier and recipient pincodes determines the validity period of an E-Way Bill. Shorter distances get shorter validity (1 day for up to 200 km), while longer distances allow more time. Knowing the exact distance helps you plan your logistics to avoid e-way bill expiry during transit.' },
-  { q: 'E-way bill me pin to pin distance galat ho jaye toh kya kare?', a: 'Agar E-way bill me distance actual se kam ya jyada generate ho gaya hai, to GST rules ke mutabik ±10% variation allowed hai. Agar discrepancy 10% se jyada hai aur transport abhi start nahi hua, to 24 ghante ke andar E-way bill cancel karke naya generate karein. Transit start ho chuka hai toh Part-B me vehicle details update karein aur actual route record maintain karein.' },
+  { q: 'Why is pincode-to-pincode distance important for GST?', a: 'The distance recorded for a consignment affects the e-way bill validity period under Rule 138(10). This page gives only a rough estimate; use the distance shown by the official NIC portal when generating an e-way bill.' },
+  { q: 'E-way bill me portal aur is estimate ki distance alag ho toh kya karein?', a: 'E-way bill banate waqt official portal ki distance aur current validation messages follow karein. Portal ki published help material apni estimate ke upar up to 10% input limit describe karti hai; yeh general statutory tolerance nahi hai. Taxzentic ka estimate NIC database se nahi aata aur us limit ko check nahi karta.' },
   { q: 'How is e-way bill validity calculated based on distance?', a: 'Under GST Rule 138(10): For normal cargo, 1 day for every 200 km or part thereof. For Over-Dimensional Cargo (ODC) or multimodal shipments involving ship, 1 day for every 20 km or part thereof.' },
-  { q: 'What is the 10% distance variation rule on the NIC E-Way Bill portal?', a: 'Taxpayers are permitted to increase the distance auto-populated by the NIC portal by up to +10% to account for highway bypasses, ring roads, and alternative transit routes without attracting scrutiny.' },
+  { q: 'Does this calculator show the distance stored by the NIC portal?', a: 'No. It uses a rough PIN-circle heuristic and does not access the NIC portal database or a live road-routing service. Use the official portal value for e-way bill generation.' },
   { q: 'Is an e-way bill required for distances under 50 km?', a: 'Yes. If the consignment value exceeds ₹50,000 (or state-specific intra-state threshold), generating an E-Way Bill (Part A) is mandatory regardless of distance—even for 1 km. The 50-km rule under Rule 138(3) and Rule 138(5) is strictly an exemption from updating Part B (conveyance/vehicle details) when goods are moved intra-state between the consignor/consignee and the transporter\'s premises for further transit.' },
   { q: 'Can I extend an e-way bill if my vehicle is delayed?', a: 'Yes. You can extend the validity of an e-way bill on the NIC portal within 8 hours before or 8 hours after the exact time of expiry by updating Part-B with the current vehicle location and reason for delay.' },
-  { q: 'What happens if goods are transported after e-way bill expiry?', a: 'Transporting goods with an expired e-way bill is treated as movement without documents, attracting detention under Section 129 and mandatory penalties equal to 200% of the applicable tax.' },
-  { q: 'How accurate are pincode distance calculations?', a: 'This tool provides a road-route transit estimate based on postal district centroids and standard highway circuity factors. While close to standard highway routes, it is an estimate for logistics planning. Official E-Way Bill generation uses NIC\'s proprietary PIN-to-PIN database, which allows a ±10% variance for actual route selection.' },
-  { q: 'What should I do if distance shows 0 km on the E-Way Bill portal?', a: 'If distance shows 0 km, the PIN code pair is unmapped in the NIC database. You are legally allowed to manually enter the actual road distance from Google Maps or our calculator.' },
-  { q: 'Should I use Taxzentic distance directly as the official legal number on an E-Way Bill?', a: 'Taxzentic provides an estimated highway transit distance based on postal centroid coordinates for logistics planning and validity calculation. The official E-Way Bill portal (NIC) generates its own system distance when you enter both PIN codes. Always verify and rely on the official NIC distance or allowed ±10% tolerance during official E-Way Bill generation.' },
+  { q: 'What happens if goods are transported after e-way bill expiry?', a: 'An expired e-way bill can lead to enforcement action under the GST law. The outcome depends on the facts and applicable provisions, so check current official guidance and get professional advice for a specific case.' },
+  { q: 'How accurate are PIN-to-PIN distance calculations here?', a: 'This is a rough estimate based on PIN-circle approximations, not a mapped driving route. The actual route distance can differ substantially; do not use this estimate to generate an e-way bill.' },
+  { q: 'What should I do if the E-Way Bill portal shows 0 km?', a: 'Follow the current instructions shown on the official portal or contact its helpdesk. This estimator does not verify portal records, and its output should not be used as a substitute for the portal value.' },
+  { q: 'Should I use Taxzentic distance as the official number on an E-Way Bill?', a: 'No. This is a rough planning estimate, not the official NIC distance. Use the distance and instructions provided by the official E-Way Bill portal when preparing the bill.' },
 ];
 
 const structuredData = [
@@ -49,7 +49,7 @@ const structuredData = [
   },
 ];
 
-const lastUpdated = '2026-09-16';
+const lastUpdated = '2026-09-25';
 const breadcrumb = [
   { name: 'Home', href: '/' },
   { name: 'Calculators', href: '/#tools-heading' },
@@ -68,7 +68,7 @@ const breadcrumb = [
         Pin to Pin Distance Calculator
       </h1>
       <p class="text-[16px] text-muted max-w-xl mx-auto leading-relaxed">
-        Estimate the distance between two pin codes to accurately generate your E-way bill and calculate validity.
+        Get a rough PIN-to-PIN estimate for preliminary planning. This page does not access the NIC distance database or calculate an official e-way bill distance.
       </p>
     </div>
 
@@ -113,14 +113,14 @@ const breadcrumb = [
       <!-- Loading State -->
       <div id="loading" class="hidden py-8 text-center">
         <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-subtle border-t-accent mb-4"></div>
-        <p class="font-medium text-muted">Estimating motorable transit distance...</p>
+        <p class="font-medium text-muted">Preparing a rough PIN-distance estimate...</p>
       </div>
 
       <!-- Result Card -->
       <div id="result-card" class="mt-8 hidden overflow-hidden rounded-xl border border-base bg-surface transition-all duration-300 shadow-sm">
         <div class="p-6 text-center">
           <div class="inline-flex items-center gap-1.5 rounded-full border border-base bg-subtle px-3 py-1 text-[11px] font-mono text-muted uppercase tracking-wider mb-2">
-            Centroid Highway Distance Model
+            Rough PIN-Circle Estimate
           </div>
           <div class="text-4xl sm:text-5xl font-mono font-bold text-accent my-3" id="res-distance">0 <span class="text-2xl text-muted">KM</span></div>
           <p class="text-[14px] text-muted">Between PIN <strong id="res-from" class="text-base font-mono"></strong> and PIN <strong id="res-to" class="text-base font-mono"></strong></p>
@@ -128,14 +128,14 @@ const breadcrumb = [
           <!-- Key Compliance Metrics -->
           <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3 text-left">
             <div class="p-3.5 rounded-lg border border-base bg-subtle">
-              <div class="text-[11px] font-mono uppercase text-muted">E-Way Bill Validity</div>
+              <div class="text-[11px] font-mono uppercase text-muted">Illustrative Validity (Normal Cargo)</div>
               <div class="text-sm font-semibold text-base mt-0.5" id="res-validity">—</div>
-              <div class="text-[11px] text-muted mt-1">Rule 138(10): 1 day per 200 km (normal cargo)</div>
+              <div class="text-[11px] text-muted mt-1">Illustration from the estimated distance and Rule 138(10).</div>
             </div>
             <div class="p-3.5 rounded-lg border border-base bg-subtle">
-              <div class="text-[11px] font-mono uppercase text-muted">NIC +10% Tolerance Window</div>
-              <div class="text-sm font-semibold text-base mt-0.5" id="res-tolerance">—</div>
-              <div class="text-[11px] text-muted mt-1">Legally tolerated range on official portal</div>
+              <div class="text-[11px] font-mono uppercase text-muted">For an Official E-Way Bill</div>
+              <div class="text-sm font-semibold text-base mt-0.5">Use the NIC portal distance</div>
+              <div class="text-[11px] text-muted mt-1">This estimate is not an official route or validity result.</div>
             </div>
           </div>
 
@@ -155,7 +155,7 @@ const breadcrumb = [
           </div>
 
           <p class="text-[11px] text-muted mt-4 max-w-lg mx-auto">
-            *Note: This estimation computes highway transit distance via postal sub-region centroids with standard highway routing circuity factors. Official E-Way Bill generation uses the NIC proprietary distance engine. Always verify final values on the official portal.
+            This is a heuristic estimate, not a live road route or NIC result. It can be substantially inaccurate. Do not use the estimated distance or days to prepare an e-way bill; verify the distance on the official portal.
           </p>
         </div>
       </div>
@@ -166,11 +166,11 @@ const breadcrumb = [
       <h2 class="text-3xl font-bold mb-6">Complete Guide to Pin-to-Pin Distance for E-Way Bills in India</h2>
       
       <p>
-        The Goods and Services Tax (GST) framework in India has revolutionized the movement of goods across state borders. At the heart of this system is the <strong>E-Way Bill (Electronic Way Bill)</strong>, a mandatory compliance document required for the transportation of goods valued over ₹50,000 (or the specific threshold set by your state). However, merely generating an E-way bill is not enough. The legal validity of this document is intrinsically tied to the exact transport distance between the dispatch location and the delivery location.
+        An <strong>E-Way Bill</strong> is generally required for the movement of goods above the applicable consignment-value threshold, subject to statutory and state-specific exemptions. Its validity is determined under the applicable GST rules using the distance recorded for the consignment. This page provides a rough estimate only and does not determine the official distance.
       </p>
 
       <p>
-        To ensure accuracy and prevent tax evasion, the official National Informatics Centre (NIC) portal relies on a highly regulated <strong>pin to pin distance calculator</strong>. This system maps the shortest motorable distance between every postal PIN code in India. If you are a transporter, consignor, or consignee, understanding how this system works is absolutely critical to avoid catastrophic penalties, vehicle seizures, and supply chain delays.
+        The official E-Way Bill portal provides its own PIN-to-PIN distance for bill generation. This Taxzentic tool does not query that database or a road-routing service; it uses approximate PIN-circle calculations for preliminary planning. Always use the official portal's value and instructions for compliance.
       </p>
 
       <h3 class="text-2xl font-semibold mt-8 mb-4">Why is Pin-to-Pin Distance So Critical?</h3>
@@ -180,42 +180,42 @@ const breadcrumb = [
       </p>
 
       <p>
-        Prior to January 1, 2021, the rule was fairly lenient: transporters were granted 1 day of validity for every 100 kilometers. However, acknowledging the massive improvements in Indian highway infrastructure (such as the Bharatmala project and widespread FASTag adoption), the CBIC amended the rules. Today, the requirement is much faster. For normal cargo, the E-way bill is valid for <strong>1 day for the first 200 kilometers</strong>, and an additional 1 day for every subsequent 200 kilometers or part thereof.
+        Under Rule 138(10), an e-way bill for normal cargo is generally valid for <strong>one day for every 200 kilometres or part thereof</strong>. Special rules apply to over-dimensional cargo and specified multimodal transport. Check the current rule and the validity shown in the official portal for the consignment.
       </p>
 
       <p>
-        Because the validity is entirely dependent on distance, entering the wrong distance can be disastrous. If you enter a distance that is too short, your E-way bill will expire prematurely while the truck is still on the highway. If intercepted by a GST Flying Squad with an expired E-way bill, it is legally treated exactly the same as transporting goods <em>without any E-way bill at all</em>. Under Section 129 of the CGST Act, this results in the immediate detention of the vehicle and a penalty equivalent to 200% of the tax payable.
+        The distance entered affects the validity calculated for an e-way bill. An expired bill may lead to enforcement action, but the consequences depend on the facts and applicable law. Do not rely on this estimate to determine an official distance or expiry.
       </p>
 
       <p>
-        Conversely, if you deliberately inflate the distance to gain extra validity days, the NIC portal will flag the transaction. The portal's built-in <strong>pin to pin distance calculator for eway bill free</strong> system automatically checks your entered distance against its proprietary mapping database. If your entered distance is more than 10% higher than the official database distance, the system will throw an alert and may restrict you from generating the bill. This forces taxpayers to be highly accurate.
+        Use the distance and validation messages shown by the official E-Way Bill portal. Its <a href="https://docs.ewaybillgst.gov.in/html/ewb_qna.html" target="_blank" rel="noopener noreferrer" class="text-accent hover:underline">published PIN-to-PIN guidance</a> describes an input limit of up to 10% above its own estimate. That is a portal validation check, not a general statutory tolerance. This page does not access the portal's PIN database or reproduce its checks, so its estimate cannot justify an adjustment.
       </p>
 
-      <h3 class="text-2xl font-semibold mt-8 mb-4">How Does the NIC Distance Database Work?</h3>
+      <h3 class="text-2xl font-semibold mt-8 mb-4">Why Can PIN-to-PIN Distance Results Differ?</h3>
 
       <p>
-        The NIC portal does not use standard consumer mapping services like Google Maps or Apple Maps, which often calculate distance based on current traffic conditions or alternate scenic routes. Instead, the NIC has built a robust, proprietary database mapping the distances between over 19,000 PIN codes across India.
-      </p>
-
-      <p>
-        This database calculates the <strong>shortest motorable distance</strong> suitable for commercial heavy vehicles. It takes into account commercial vehicle restrictions, toll roads, and state highways. When you type in a dispatch PIN (e.g., 400001 in Mumbai) and a delivery PIN (e.g., 110001 in New Delhi), the portal immediately fetches the mapped distance from its backend.
+        The official portal uses its own PIN-to-PIN lookup. Taxzentic does not have access to that database; the estimate on this page comes from approximate postal-region calculations.
       </p>
 
       <p>
-        However, the NIC understands that a single PIN code can cover a large geographic area (sometimes spanning 10-20 kilometers). Furthermore, road diversions, bridge collapses, or local municipal restrictions might force a truck to take a slightly longer route. Therefore, the portal provides a <strong>10% buffer</strong>. You are allowed to manually edit the auto-populated distance by up to 10%. If the actual physical route your truck must take is significantly longer than the NIC's mapped route, you must rely on this buffer or face compliance hurdles.
+        Postal PIN codes can cover areas of different sizes, and a PIN-centre approximation cannot account for the actual addresses, road network, diversions, vehicle restrictions, or route selected. That is why the estimate may differ substantially from the distance shown by the official portal.
+      </p>
+
+      <p>
+        Do not treat this estimate as an allowed adjustment to the NIC portal's result. If the official portal offers an edit or reports a validation issue, follow its current instructions and consult the relevant GST guidance.
       </p>
 
       <h3 class="text-2xl font-semibold mt-8 mb-4">How to Use Our Distance Calculator</h3>
 
       <p>
-        Before logging into the official GST portal, it is highly recommended to use our <strong>pin to pin distance calculator for eway bill free</strong> tool to estimate your required distance. Knowing <strong>how to check eway bill distance between two pin codes</strong> in advance allows your logistics team to plan the journey, schedule drivers, and anticipate the exact expiry time of the E-way bill.
+        You can use this page to get a rough indication for early planning, then check the official portal for the distance used in an e-way bill. The estimate cannot determine an exact route or expiry time.
       </p>
 
       <ol class="list-decimal pl-6 space-y-3 mt-4">
         <li><strong>Enter the Dispatch PIN:</strong> Enter the exact 6-digit postal code of the warehouse, factory, or shop where the goods are being loaded onto the truck. Do not use the registered office PIN if the goods are not dispatched from there.</li>
         <li><strong>Enter the Delivery PIN:</strong> Enter the 6-digit postal code of the final destination where the goods will be unloaded.</li>
-        <li><strong>Calculate:</strong> Click the calculate button. Our system will generate a highly accurate, deterministic estimate of the motorable route between these two geographical points.</li>
-        <li><strong>Plan Validity:</strong> Once you have the estimated distance, use our <a href="/eway-bill-validity" class="text-accent hover:underline">E-Way Bill Validity Calculator</a> to determine exactly how many days your transporter has to complete the journey.</li>
+        <li><strong>Calculate:</strong> Click the calculate button to see a rough PIN-circle estimate. It is not based on a live route.</li>
+        <li><strong>Check official distance:</strong> Use the distance and validity provided by the official E-Way Bill portal. Our <a href="/eway-bill-validity" class="text-accent hover:underline">E-Way Bill Validity Calculator</a> can illustrate the general rule when you enter an official distance.</li>
       </ol>
 
       <h3 class="text-2xl font-semibold mt-8 mb-4">Handling Edge Cases: Multimodal Transport and ODC</h3>
@@ -242,7 +242,7 @@ const breadcrumb = [
         <li>Within 8 hours <em>after</em> the exact time of expiry.</li>
       </ul>
       <p>
-        If you miss this 16-hour window, the E-way bill cannot be extended under any circumstances. You must generate a fresh E-way bill, which requires linking to the original invoice and providing a valid reason for the delay.
+        If you miss the portal's extension window, do not assume an expired e-way bill can be used or that a replacement bill automatically resolves the issue. Check the current portal procedure and the facts of the shipment before moving the goods further.
       </p>
 
       <h3 class="text-2xl font-semibold mt-8 mb-4">The 50-Kilometre Rule: Part-B Conveyance Exemption vs. Consignment Value</h3>
@@ -281,7 +281,7 @@ const breadcrumb = [
 
       <div class="mt-10 rounded-[12px] bg-subtle border border-base p-6 text-[15px] text-muted">
         <h4 class="text-lg font-semibold text-base mb-2">Legal Disclaimer</h4>
-        <p>This pin-to-pin distance estimator is provided as a free utility to assist businesses, CAs, and logistics managers in preliminary route planning. While we utilize advanced geographical mapping approximations, the final arbiter of distance for GST compliance is exclusively the NIC's proprietary database. Minor discrepancies of a few kilometers may occur due to municipal route variations. Always review the auto-populated distance on the official ewaybillgst.gov.in portal before final submission. We are not liable for any penalties incurred due to data mismatch or expired validity periods.</p>
+        <p>This PIN-to-PIN tool provides a rough estimate from postal-region heuristics. It does not use live road routing or access the NIC database, and its result can differ substantially from the official distance. Do not use its distance or illustrative validity to prepare an e-way bill. Check the official E-Way Bill portal and current GST rules. The tool is for general information and planning only.</p>
       </div>
     </article>
   </div>
@@ -371,7 +371,7 @@ const breadcrumb = [
     return R * c;
   }
 
-  function estimateMotorableDistance(pin1: string, pin2: string): number {
+  function estimatePinDistance(pin1: string, pin2: string): number {
     if (pin1 === pin2) return 5;
 
     const prefix1 = pin1.substring(0, 2);
@@ -392,7 +392,7 @@ const breadcrumb = [
 
     if (c1 && c2) {
       const greatCircleKm = calculateHaversineKm(c1.lat, c1.lon, c2.lat, c2.lon);
-      // NHAI motorable road tortuosity factor: roads wind 22% - 28% longer than straight lines
+      // Heuristic multiplier only; this is not calculated from a road network.
       const highwayFactor = greatCircleKm > 800 ? 1.22 : 1.25;
       return Math.round(greatCircleKm * highwayFactor);
     }
@@ -413,7 +413,6 @@ const breadcrumb = [
   const resFrom = document.getElementById("res-from") as HTMLElement;
   const resTo = document.getElementById("res-to") as HTMLElement;
   const resValidity = document.getElementById("res-validity") as HTMLElement;
-  const resTolerance = document.getElementById("res-tolerance") as HTMLElement;
 
   form?.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -430,15 +429,13 @@ const breadcrumb = [
 
     setTimeout(() => {
       loading.classList.add("hidden");
-      const dist = estimateMotorableDistance(p1, p2);
+      const dist = estimatePinDistance(p1, p2);
       const validityDays = Math.max(1, Math.ceil(dist / 200));
-      const toleranceMax = Math.round(dist * 1.10);
 
       resFrom.textContent = p1;
       resTo.textContent = p2;
       resDistance.innerHTML = `~${dist} <span class="text-2xl text-muted">KM</span>`;
-      resValidity.textContent = `${validityDays} Day${validityDays > 1 ? 's' : ''} (${validityDays * 200} km limit)`;
-      resTolerance.textContent = `${dist} km to ${toleranceMax} km`;
+      resValidity.textContent = `${validityDays} day${validityDays > 1 ? 's' : ''} from this estimate`;
 
       resultCard.classList.remove("hidden");
       resultCard.scrollIntoView({ behavior: "smooth", block: "nearest" });
@@ -457,7 +454,7 @@ const breadcrumb = [
             <span class="font-semibold text-base group-hover:text-accent flex items-center gap-1.5">
               Pin-to-Pin Distance Guide →
             </span>
-            <span class="text-xs text-muted mt-1 block">Learn NIC rules, 10% tolerance allowance, and transit penalty rules.</span>
+            <span class="text-xs text-muted mt-1 block">Learn about PIN-distance estimates, official portal checks, and transit validity.</span>
           </a>
         </li>
         <li>
@@ -465,7 +462,7 @@ const breadcrumb = [
             <span class="font-semibold text-base group-hover:text-accent flex items-center gap-1.5">
               E-Way Bill Validity Calculator →
             </span>
-            <span class="text-xs text-muted mt-1 block">Calculate exact days and expiry hours for normal and ODC cargo.</span>
+            <span class="text-xs text-muted mt-1 block">Calculate indicative validity from an entered distance for normal and ODC cargo.</span>
           </a>
         </li>
         <li>
@@ -506,4 +503,3 @@ const breadcrumb = [
     </div>
   </div>
 </BaseLayout>
-

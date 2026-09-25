@@ -2,7 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const title = 'Merge Excel Files Online — Free Tool';
-const description = 'Free tool to easily combine and merge multiple Excel (.xlsx, .xls) files into one single Excel document. Secure, offline merge right in your browser.';
+const description = 'Combine selected Excel or CSV files into one workbook in your browser. Review sheet names and formatting in the downloaded result.';
 
 const structuredData = [
   {
@@ -18,20 +18,20 @@ const structuredData = [
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
     mainEntity: [
-      { '@type': 'Question', name: "How do I merge multiple Excel files online safely?", acceptedAnswer: { '@type': 'Answer', text: "You can drag and drop multiple Excel files into our tool. It merges them into a single workbook offline in your browser, guaranteeing your data privacy." } },
+      { '@type': 'Question', name: "How do I merge multiple Excel files?", acceptedAnswer: { '@type': 'Answer', text: "Select at least two supported files, then click Merge Files & Download. The selected files are read and combined in your browser; the page needs a network connection to load its spreadsheet library." } },
       { '@type': 'Question', name: "Why merge Excel files for GST filing?", acceptedAnswer: { '@type': 'Answer', text: "Businesses often download multiple GSTR-2B, error reports, or branch-wise sales data. Merging them into one master Excel file makes reconciliation and filtering much easier." } },
-      { '@type': 'Question', name: "Does the tool preserve Excel sheets during merging?", acceptedAnswer: { '@type': 'Answer', text: "Yes. Our tool can either append data from identically named sheets together or combine different files into separate sheets within the master workbook." } },
+      { '@type': 'Question', name: "Does the tool preserve Excel sheets during merging?", acceptedAnswer: { '@type': 'Answer', text: "It copies each source sheet into the output workbook. If sheet names conflict, it renames a sheet; it does not append rows from identically named sheets." } },
       { '@type': 'Question', name: "Is there a limit to how many files I can merge?", acceptedAnswer: { '@type': 'Answer', text: "There is no hard limit on the number of files, but merging dozens of massive files may consume significant browser memory." } },
-      { '@type': 'Question', name: "Do I need to install any software to merge files?", acceptedAnswer: { '@type': 'Answer', text: "No installation is required. The merging process uses WebAssembly and JavaScript directly in your web browser." } },
+      { '@type': 'Question', name: "Do I need to install any software to merge files?", acceptedAnswer: { '@type': 'Answer', text: "No installation is required. The page loads a JavaScript spreadsheet library and processes selected files in your browser." } },
       { '@type': 'Question', name: "Does it support .csv and .xlsx formats?", acceptedAnswer: { '@type': 'Answer', text: "Yes, our tool supports both modern .xlsx files and standard .csv files, converting them seamlessly into one output format." } },
-      { '@type': 'Question', name: "Will the formatting of my Excel files be lost?", acceptedAnswer: { '@type': 'Answer', text: "Basic data and structure are perfectly preserved. However, complex macros, charts, or advanced conditional formatting may not carry over during the merge." } },
+      { '@type': 'Question', name: "Will the formatting of my Excel files be lost?", acceptedAnswer: { '@type': 'Answer', text: "Formatting and advanced features may change or be lost. Check formulas, charts, macros, and conditional formatting in the downloaded workbook before using it." } },
       { '@type': 'Question', name: "Are my merged files stored on your servers?", acceptedAnswer: { '@type': 'Answer', text: "Absolutely not. The entire file reading, merging, and downloading process happens on your local device." } },
       {
         '@type': 'Question',
         name: 'Is the Excel merge process secure?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Yes, the merge process is 100% secure. Everything happens locally within your web browser. Your confidential data is never uploaded to our servers.'
+          text: 'The selected files are processed in your browser and are not intentionally uploaded to Taxzentic. The page loads a third-party JavaScript library, so review our Privacy Policy before using sensitive files.'
         }
       },
       {
@@ -39,7 +39,7 @@ const structuredData = [
         name: 'Is there a limit on how many Excel files I can merge?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Since processing is done by your browser, it largely depends on your system memory. Typically, merging up to 50-100 files of moderate size works seamlessly.'
+          text: 'The practical limit depends on your browser, device memory, and file sizes. Try a small batch first and verify the downloaded workbook.'
         }
       }
     ]

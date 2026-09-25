@@ -24,10 +24,8 @@ export default defineConfig({
 
   integrations: [
     sitemap({
-      // Exclude legal/utility pages from sitemap if desired — adjust as needed
-      filter: (page) => !page.includes('/404')
-        && !page.includes('/refund-policy')
-        && !page.includes('/cancellation-policy'),
+      // Keep noindex placeholders and error pages out of the public sitemap.
+      filter: (page) => !/\/(?:404|pricing|referral-program|refund-policy|cancellation-policy|your-account)\/?$/.test(new URL(page).pathname),
     }),
   ],
 

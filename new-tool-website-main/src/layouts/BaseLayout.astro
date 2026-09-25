@@ -57,6 +57,17 @@ const formattedLastUpdated = lastUpdated && /^\d{4}-\d{2}-\d{2}$/.test(lastUpdat
   ? new Intl.DateTimeFormat('en-IN', { dateStyle: 'long', timeZone: 'UTC' }).format(new Date(`${lastUpdated}T00:00:00Z`))
   : lastUpdated;
 const lastUpdatedDateTime = lastUpdated && /^\d{4}-\d{2}-\d{2}$/.test(lastUpdated) ? lastUpdated : undefined;
+const nonContentPaths = new Set([
+  '/about',
+  '/authors/editorial-team',
+  '/contact',
+  '/disclaimer',
+  '/help-center',
+  '/privacy-policy',
+  '/terms',
+]);
+const pagePath = Astro.url.pathname.replace(/\/$/, '') || '/';
+const canLoadAdSense = !noindex && !nonContentPaths.has(pagePath);
 
 // Fallback breadcrumb generation for sitewide BreadcrumbList schema
 const effectiveBreadcrumb = (breadcrumb && breadcrumb.length > 0)
@@ -164,17 +175,23 @@ const jsonLd = allStructuredData.length > 0 ? JSON.stringify(allStructuredData) 
     <!-- Dark mode: read preference before paint to avoid flash -->
     <script is:inline>
       (function () {
-        const stored = localStorage.getItem('theme');
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        let stored = null;
+        try {
+          stored = localStorage.getItem('theme');
+        } catch {
+          // Theme storage can be unavailable in private or restricted browsers.
+        }
+        const prefersDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches ?? false;
         if (stored === 'dark' || (!stored && prefersDark)) {
           document.documentElement.classList.add('dark');
         }
       })();
     </script>
 
-    <!-- Google AdSense -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3935117838942189"
-     crossorigin="anonymous"></script>
+    {canLoadAdSense && (
+      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3935117838942189"
+        crossorigin="anonymous"></script>
+    )}
   </head>
 
   <body class="min-h-screen flex flex-col bg-surface text-base antialiased relative">

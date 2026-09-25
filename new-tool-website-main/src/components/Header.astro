@@ -58,7 +58,7 @@ const navCategories = [
       { href: '/hsn-code-lookup', label: 'HSN Lookup' },
       { href: '/pin-to-pin-distance-calculator', label: 'Pin to Pin Distance' },
       { href: '/multi-gstin-invoice-splitter', label: 'Multi-GSTIN Splitter' },
-      { href: '/gstr-2b-reconciliation-tool', label: 'GSTR-2B Tool' },
+      { href: '/gstr-2b-reconciliation-tool', label: 'GSTR-2B CSV Template' },
     ],
   },
   {
@@ -287,7 +287,12 @@ const categoryHasCurrentPath = (category: (typeof navCategories)[number]) =>
     const nextThemeLabel = dark ? 'Switch to light mode' : 'Switch to dark mode';
     themeBtn?.setAttribute('aria-label', nextThemeLabel);
     themeBtn?.setAttribute('title', nextThemeLabel);
-    localStorage.setItem('theme', dark ? 'dark' : 'light');
+    // Theme persistence is optional; blocked storage must not stop navigation setup.
+    try {
+      localStorage.setItem('theme', dark ? 'dark' : 'light');
+    } catch {
+      // Keep the theme toggle and mobile navigation usable for this page view.
+    }
   }
 
   applyTheme(html.classList.contains('dark'));
